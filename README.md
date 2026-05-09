@@ -52,7 +52,20 @@ cp .env.example .env
 #   https://elevenlabs.io/app/voice-library
 ```
 
-### 4. (optional) Install the wrapper on `$PATH`
+### 4. LaTeX (required by Manim's `MathTex`)
+
+Without LaTeX, Manim falls back to Unicode and the default font shows broken yellow `[20 9C]` boxes for subscripts and Greek letters. Use **TinyTeX** (user-space, no sudo):
+
+```bash
+curl -sL "https://yihui.org/tinytex/install-bin-unix.sh" | sh
+~/Library/TinyTeX/bin/universal-darwin/tlmgr install \
+  standalone preview dvisvgm xcolor amsmath amsfonts \
+  physics mathtools wasysym jknapltx fontspec babel-english
+```
+
+`src/tools/render-manim.ts` auto-prepends `~/Library/TinyTeX/bin/universal-darwin` to `PATH`, so `npm run render-manim` finds it without further configuration.
+
+### 5. (optional) Install the wrapper on `$PATH`
 
 ```bash
 ln -s "$PWD/bin/claude-paper-videos" ~/.local/bin/claude-paper-videos
@@ -114,3 +127,12 @@ videos/<slug>/    # One folder per video
 - **Audio drives time**: visual `<Sequence>` ranges are derived from ElevenLabs word-level timestamps.
 - **Voice config is layered**: repo defaults in `references/usage/elevenlabs/voices.yaml`, per-video override in `config.yaml`, optional per-segment override in `script.md` front-matter.
 - **Stateless tools**: every script in `src/tools/` is idempotent, takes args, writes JSON the agent can read back.
+- **Manifest v2 (M:N voice ↔ visual)**: `voice[]` (TTS clips) and `visualBlocks[]` (visual spans with multi-step `description` metadata) live on independent timelines. One block can span many voice beats; a Manim mp4 plays once and **holds its final frame** for the rest of the block — never loops. See `CLAUDE.md` hard rule #12 and `references/usage/visualization/best-practices.md` § 8.
+
+## Contributing
+
+PRs welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) for setup + ground rules and [CLAUDE.md](CLAUDE.md) for the operating doctrine. By participating you agree to our [Code of Conduct](CODE_OF_CONDUCT.md). Security issues: see [SECURITY.md](SECURITY.md).
+
+## License
+
+[MIT](LICENSE) © 2026 Lucas Tonon
