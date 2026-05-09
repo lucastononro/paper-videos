@@ -1,0 +1,49 @@
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Node
+node_modules/
+dist/
+.npm/
+*.log
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.uv/
+.python-version
+
+# Remotion
+.remotion/
+out/
+
+# Per-video build artifacts (paper.pdf and config.yaml are tracked; everything else is generated)
+videos/*/paper.md
+videos/*/equations.json
+videos/*/highlights.json
+videos/*/timeline.json
+videos/*/manifest.json
+videos/*/pages/
+videos/*/narration/
+videos/*/manim/
+videos/*/public/
+videos/*/output.*
+videos/*/.cache/
+
+# Manim caches anywhere
+media/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Claude Code runtime artifacts
+.claude/scheduled_tasks.lock

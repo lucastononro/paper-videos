@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+# claude-paper-videos — launch Claude Code inside the paper-videos repo with a directive.
+#
+# Usage:
+#   claude-paper-videos new <arxiv_id_or_url_or_path>
+#   claude-paper-videos render <slug>
+#   claude-paper-videos script <slug>
+#   claude-paper-videos list
+#   claude-paper-videos                     # interactive: just open Claude in the repo
+#
+# Authentication: uses your Claude Pro/Max subscription via the `claude` CLI's own OAuth flow.
+# Run `claude /login` once if you haven't.
+
+set -euo pipefail
+
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$REPO_ROOT"
+
+if ! command -v claude >/dev/null 2>&1; then
+  echo "error: 'claude' CLI not found on PATH. Install Claude Code: https://claude.com/code" >&2
+  exit 1
+fi
+
+if [[ $# -eq 0 ]]; then
+  exec claude
+fi
+
+SUBCOMMAND="$1"
+shift
+
+case "$SUBCOMMAND" in
+  new|render|script|list)
+    DIRECTIVE="Invoke the /paper-video skill with subcommand: $SUBCOMMAND $*"
+    exec claude "$DIRECTIVE"
+    ;;
+  -h|--help|help)
+    sed -n '2,12p' "$0" | sed 's/^# \{0,1\}//'
+    ;;
+  *)
+    echo "error: unknown subcommand '$SUBCOMMAND'. Use one of: new, render, script, list." >&2
+    exit 2
+    ;;
+esac

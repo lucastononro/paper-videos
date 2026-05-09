@@ -1,0 +1,49 @@
+{
+  "name": "paper-videos",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Claude-Code-driven framework that turns academic papers into 3Blue1Brown-style explainer videos using Remotion + Manim + ElevenLabs.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "tool": "tsx",
+    "fetch-paper": "tsx src/tools/fetch-paper.ts",
+    "extract-paper": "tsx src/tools/extract-paper.ts",
+    "render-pages": "tsx src/tools/render-pages.ts",
+    "arxiv-search": "tsx src/tools/arxiv-search.ts",
+    "narrate": "tsx src/tools/narrate.ts",
+    "render-manim": "tsx src/tools/render-manim.ts",
+    "render-remotion": "tsx src/tools/render-remotion.ts",
+    "migrate-manifest-v2": "tsx src/tools/migrate-manifest-v2.ts",
+    "remotion:studio": "remotion studio src/remotion/index.ts",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\""
+  },
+  "dependencies": {
+    "@elevenlabs/elevenlabs-js": "^2.0.0",
+    "@napi-rs/canvas": "^0.1.60",
+    "@remotion/bundler": "^4.0.0",
+    "@remotion/cli": "^4.0.0",
+    "@remotion/media": "^4.0.0",
+    "@remotion/media-utils": "^4.0.0",
+    "@remotion/renderer": "^4.0.0",
+    "commander": "^12.1.0",
+    "dotenv": "^16.4.5",
+    "pdfjs-dist": "^4.7.76",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "^4.0.0",
+    "yaml": "^2.5.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.4",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.0",
+    "prettier": "^3.3.3",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.2"
+  }
+}

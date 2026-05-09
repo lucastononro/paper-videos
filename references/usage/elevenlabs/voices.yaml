@@ -1,0 +1,39 @@
+# ElevenLabs voice catalog for paper-videos.
+#
+# Edit this file to register voices. Find ids at https://elevenlabs.io/app/voice-library
+# Each `voices.<alias>` entry is dereferenced by per-video config.yaml.
+#
+# Default model in 2026 is eleven_v3 — supports audio tags like [curious], [pause],
+# [emphasized] in the narration text for natural personality. See
+# references/usage/elevenlabs/README.md "Audio tags" section for the full catalog
+# and rules.
+#
+# Settings rationale (see references/usage/elevenlabs/README.md):
+#   - stability 0.50  → "Natural" mode equivalent for v3: balanced expressiveness
+#                       and accuracy. Lower (0.3-0.4) = "Creative" (more tag-
+#                       responsive but risk of drift); higher (0.7+) = "Robust"
+#                       (more consistent but tags muted).
+#   - similarity_boost 0.75 → preserves voice identity, default safe
+#   - style 0.10  → mild warmth; v3 emotional range comes from tags, not style
+#   - use_speaker_boost false → no latency benefit needed for offline render
+
+default_voice: pharaoh
+
+voices:
+  pharaoh:
+    voice_id: "J2FGlQG8Gd7x8uEDt2H8"
+    model_id: eleven_v3
+    stability: 0.50
+    similarity_boost: 0.75
+    style: 0.10
+    use_speaker_boost: false
+    output_format: mp3_44100_128
+
+  custom-lucas-tonon-voice:
+    voice_id: "32jO0BAEWf7zY38kWVoV"
+    model_id: eleven_v3
+    stability: 0.50
+    similarity_boost: 0.75
+    style: 0.10
+    use_speaker_boost: false
+    output_format: mp3_44100_128

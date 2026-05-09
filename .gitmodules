@@ -1,0 +1,11 @@
+[submodule "references/raw-packages/manim"]
+	path = references/raw-packages/manim
+	url = https://github.com/ManimCommunity/manim.git
+	shallow = true
+[submodule "references/raw-packages/remotion"]
+	path = references/raw-packages/remotion
+	url = https://github.com/remotion-dev/remotion.git
+	shallow = true
+[submodule "references/raw-packages/3b1b-videos"]
+	path = references/raw-packages/3b1b-videos
+	url = https://github.com/3b1b/videos.git

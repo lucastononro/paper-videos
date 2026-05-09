@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet">
+  <!-- Background -->
+  <rect width="1920" height="1080" fill="#0e1117"/>
+
+  <!-- Title -->
+  <text x="960" y="110" font-family="Helvetica, Arial, sans-serif" font-size="56" font-weight="700" fill="#e6edf3" text-anchor="middle">
+    Function evaluations per sample (NFE)
+  </text>
+  <text x="960" y="160" font-family="Helvetica, Arial, sans-serif" font-size="30" fill="#8b949e" text-anchor="middle">
+    ImageNet 64×64, dopri5 adaptive solver, tolerance 1e-5  ·  Table 1 of the paper
+  </text>
+
+  <!-- Y-axis baseline -->
+  <line x1="380" y1="900" x2="1820" y2="900" stroke="#30363d" stroke-width="3"/>
+
+  <!-- Y-axis ticks (0, 200, 400, 600) -->
+  <!-- Chart area: y=900 (bottom) to y=260 (top), spans 640px for 700 NFE max => 0.914 px / NFE; use scale 1 px = 1.1 NFE simpler: pick 640px = 700 NFE => factor 640/700 = 0.9143 -->
+  <!-- gridline 0 -->
+  <line x1="380" y1="900" x2="1820" y2="900" stroke="#30363d" stroke-width="1" stroke-dasharray="4 6"/>
+  <text x="350" y="912" font-family="Helvetica, Arial, sans-serif" font-size="26" fill="#8b949e" text-anchor="end">0</text>
+  <!-- 200 -->
+  <line x1="380" y1="717" x2="1820" y2="717" stroke="#30363d" stroke-width="1" stroke-dasharray="4 6"/>
+  <text x="350" y="729" font-family="Helvetica, Arial, sans-serif" font-size="26" fill="#8b949e" text-anchor="end">200</text>
+  <!-- 400 -->
+  <line x1="380" y1="534" x2="1820" y2="534" stroke="#30363d" stroke-width="1" stroke-dasharray="4 6"/>
+  <text x="350" y="546" font-family="Helvetica, Arial, sans-serif" font-size="26" fill="#8b949e" text-anchor="end">400</text>
+  <!-- 600 -->
+  <line x1="380" y1="351" x2="1820" y2="351" stroke="#30363d" stroke-width="1" stroke-dasharray="4 6"/>
+  <text x="350" y="363" font-family="Helvetica, Arial, sans-serif" font-size="26" fill="#8b949e" text-anchor="end">600</text>
+
+  <!-- Bars: 5 bars across 380..1820 (1440px). Bar width 200, gap 88 -->
+  <!-- Heights at 0.9143 px / NFE: ScoreFlow 601 -> 549, SM 441 -> 403, DDPM 264 -> 241, FM-Diff 187 -> 171, FM-OT 138 -> 126 -->
+
+  <!-- ScoreFlow: x=420 -->
+  <rect x="420" y="351" width="200" height="549" rx="8" ry="8" fill="#f97583"/>
+  <text x="520" y="335" font-family="Helvetica, Arial, sans-serif" font-size="42" font-weight="700" fill="#f97583" text-anchor="middle">601</text>
+  <text x="520" y="960" font-family="Helvetica, Arial, sans-serif" font-size="30" font-weight="600" fill="#e6edf3" text-anchor="middle">ScoreFlow</text>
+  <text x="520" y="998" font-family="Helvetica, Arial, sans-serif" font-size="24" fill="#8b949e" text-anchor="middle">(diffusion)</text>
+
+  <!-- Score Matching: x=708 -->
+  <rect x="708" y="497" width="200" height="403" rx="8" ry="8" fill="#f97583"/>
+  <text x="808" y="481" font-family="Helvetica, Arial, sans-serif" font-size="42" font-weight="700" fill="#f97583" text-anchor="middle">441</text>
+  <text x="808" y="960" font-family="Helvetica, Arial, sans-serif" font-size="30" font-weight="600" fill="#e6edf3" text-anchor="middle">Score Matching</text>
+  <text x="808" y="998" font-family="Helvetica, Arial, sans-serif" font-size="24" fill="#8b949e" text-anchor="middle">(diffusion)</text>
+
+  <!-- DDPM: x=996 -->
+  <rect x="996" y="659" width="200" height="241" rx="8" ry="8" fill="#f97583"/>
+  <text x="1096" y="643" font-family="Helvetica, Arial, sans-serif" font-size="42" font-weight="700" fill="#f97583" text-anchor="middle">264</text>
+  <text x="1096" y="960" font-family="Helvetica, Arial, sans-serif" font-size="30" font-weight="600" fill="#e6edf3" text-anchor="middle">DDPM</text>
+  <text x="1096" y="998" font-family="Helvetica, Arial, sans-serif" font-size="24" fill="#8b949e" text-anchor="middle">(diffusion)</text>
+
+  <!-- FM w/ Diffusion: x=1284 -->
+  <rect x="1284" y="729" width="200" height="171" rx="8" ry="8" fill="#58c4dd"/>
+  <text x="1384" y="713" font-family="Helvetica, Arial, sans-serif" font-size="42" font-weight="700" fill="#58c4dd" text-anchor="middle">187</text>
+  <text x="1384" y="960" font-family="Helvetica, Arial, sans-serif" font-size="30" font-weight="600" fill="#e6edf3" text-anchor="middle">FM w/ Diffusion</text>
+  <text x="1384" y="998" font-family="Helvetica, Arial, sans-serif" font-size="24" fill="#8b949e" text-anchor="middle">(this paper)</text>
+
+  <!-- FM w/ OT: x=1572  highlight in yellow -->
+  <rect x="1572" y="774" width="200" height="126" rx="8" ry="8" fill="#ffeb3b"/>
+  <text x="1672" y="758" font-family="Helvetica, Arial, sans-serif" font-size="42" font-weight="700" fill="#ffeb3b" text-anchor="middle">138</text>
+  <text x="1672" y="960" font-family="Helvetica, Arial, sans-serif" font-size="30" font-weight="700" fill="#ffeb3b" text-anchor="middle">FM w/ OT</text>
+  <text x="1672" y="998" font-family="Helvetica, Arial, sans-serif" font-size="24" fill="#8b949e" text-anchor="middle">(this paper)</text>
+
+  <!-- Footer caption -->
+  <text x="960" y="1050" font-family="Helvetica, Arial, sans-serif" font-size="22" fill="#6e7681" text-anchor="middle" font-style="italic">
+    Lower is better — fewer ODE steps to draw a sample. Values from Lipman et al. 2023, Table 1.
+  </text>
+</svg>

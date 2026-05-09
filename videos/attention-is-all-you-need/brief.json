@@ -1,0 +1,85 @@
+{
+  "thesisInOneSentence": "You can replace recurrence in sequence models with a single, simple mechanism — attention as a soft, parallel lookup — and get better results, faster.",
+  "audience": "Anyone who's heard of neural networks but hasn't internalized self-attention. Assumes basic linear algebra and softmax familiarity.",
+  "hook": "In 2017, eight researchers at Google quietly threw away the recurrence — and rebuilt sequence modeling around one idea.",
+  "narrativeArc": [
+    { "actId": "act-1", "name": "Why care?",     "estSeconds": 35,  "purpose": "Hook: claim, paper title, the audacity of the idea." },
+    { "actId": "act-2", "name": "The setup",     "estSeconds": 55,  "purpose": "What existed before (RNNs/LSTMs), why they were limiting, what we mean by Q, K, V." },
+    { "actId": "act-3", "name": "The core idea", "estSeconds": 110, "purpose": "Build scaled dot-product attention from scratch, step by step." },
+    { "actId": "act-4", "name": "Why it works",  "estSeconds": 65,  "purpose": "Why divide by sqrt(d_k); why softmax; intuition for parallel lookup." },
+    { "actId": "act-5", "name": "Implications",  "estSeconds": 35,  "purpose": "What this paper unlocked. Closing card." }
+  ],
+  "conceptsToVisualize": [
+    {
+      "id": "c-001",
+      "concept": "the recurrence bottleneck",
+      "whyItMatters": "Frames the central problem: sequential computation prevents parallelism and degrades long-range coupling.",
+      "visualSuggestion": "manim — chain of dots passing a token left-to-right; highlight the long path from position 1 to position 100",
+      "associatedEquationIds": []
+    },
+    {
+      "id": "c-002",
+      "concept": "Q, K, V as soft database lookup",
+      "whyItMatters": "Most viewers haven't internalized that attention is just a parametric lookup — once they have, the formula reads itself.",
+      "visualSuggestion": "manim — show a query vector Q reaching toward keys K, the dot products as similarity scores, softmax normalizing, V values being mixed",
+      "associatedEquationIds": ["eq-001"]
+    },
+    {
+      "id": "c-003",
+      "concept": "scaled dot-product attention formula",
+      "whyItMatters": "The headline equation. Must land cleanly.",
+      "visualSuggestion": "equation card with stepwise reveal; Manim breakdown of each operation",
+      "associatedEquationIds": ["eq-001"]
+    },
+    {
+      "id": "c-004",
+      "concept": "why divide by sqrt(d_k)",
+      "whyItMatters": "Paper hand-waves this. We must clarify: as d_k grows, dot-product variance grows; softmax saturates; gradients vanish. Scaling fixes it.",
+      "visualSuggestion": "manim — bar chart of softmax outputs with and without scaling, showing one bar going to ~1.0 in the unscaled case",
+      "associatedEquationIds": ["eq-001"]
+    },
+    {
+      "id": "c-005",
+      "concept": "all positions attend to all positions, in parallel",
+      "whyItMatters": "Direct contrast to the recurrence bottleneck.",
+      "visualSuggestion": "manim — fully-connected attention pattern animated as a square heatmap",
+      "associatedEquationIds": []
+    }
+  ],
+  "questionsToAnswerOnScreen": [
+    "Why does this work without any recurrence at all?",
+    "Where do Q, K, and V actually come from?",
+    "What does the softmax actually compute here?",
+    "Why divide by the square root of d sub k?"
+  ],
+  "thingsToCutOrSkip": [
+    "Multi-head attention (mention in passing only — out of 5-min scope).",
+    "Positional encoding details (mention as a one-line afterthought).",
+    "Position-wise feed-forward layers, layer norm, residuals (skip entirely).",
+    "Training details, BLEU scores, hyperparameters."
+  ],
+  "priorWork": [
+    {
+      "title": "Sequence to Sequence Learning with Neural Networks",
+      "arxivId": "1409.3215",
+      "year": 2014,
+      "whyRelevant": "Set the encoder-decoder template that the Transformer disrupts."
+    },
+    {
+      "title": "Neural Machine Translation by Jointly Learning to Align and Translate",
+      "arxivId": "1409.0473",
+      "year": 2014,
+      "whyRelevant": "Introduced attention as a complement to RNNs — Transformer keeps the attention, drops the RNN."
+    }
+  ],
+  "supportingMaterial": [],
+  "narrativeAngles": [
+    "Frame as: 'a soft, differentiable database lookup'.",
+    "Frame as: 'all positions can talk to all positions, at once' — the parallelism story."
+  ],
+  "criticisms": [
+    "The paper hand-waves over why scaling is necessary — we MUST explain it (variance grows with d_k, softmax saturates).",
+    "Paper introduces multi-head before viewers grok single-head — we explain single-head only and mention multi-head as a one-line generalization."
+  ],
+  "openQuestionsForUser": []
+}

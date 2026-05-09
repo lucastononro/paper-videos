@@ -1,0 +1,26 @@
+{
+  "imagenet-128-samples": {
+    "kind": "image",
+    "file": "images/imagenet-128-samples.png",
+    "source": "paper Figure 1, page 1 — extracted by Marker as paper-md-assets/_page_0_Figure_11.jpeg",
+    "caption": "Unconditional ImageNet-128 samples of a CNF trained using Flow Matching with Optimal Transport probability paths.",
+    "license": "publication-fair-use",
+    "attribution": "Lipman, Chen, Ben-Hamu, Nickel, Le. Flow Matching for Generative Modeling. ICLR 2023 (arXiv:2210.02747)."
+  },
+  "ot-vs-diffusion-trajectories": {
+    "kind": "image",
+    "file": "images/ot-vs-diffusion-trajectories.png",
+    "source": "paper Figure 6, page 8 — extracted by Marker as paper-md-assets/_page_7_Figure_4.jpeg; upscaled to 1920px wide via sips for caption-bar friendly aspect.",
+    "caption": "Sample paths from the same initial noise with models trained on ImageNet 64x64. Left: Score Matching w/ Diffusion. Middle: Flow Matching w/ Diffusion. Right: Flow Matching w/ OT. The OT path reduces noise roughly linearly, while diffusion paths visibly remove noise only towards the end.",
+    "license": "publication-fair-use",
+    "attribution": "Lipman, Chen, Ben-Hamu, Nickel, Le. Flow Matching for Generative Modeling. ICLR 2023 (arXiv:2210.02747)."
+  },
+  "nfe-bar-chart": {
+    "kind": "diagram",
+    "file": "diagrams/nfe-bar-chart.svg",
+    "source": "generated",
+    "method": "hand-coded SVG, 1920x1080, dark navy bg #0e1117, 3b1b palette (#58c4dd blue, #ffeb3b yellow, #f97583 red).",
+    "data_source": "NFE values pulled from Table 1 of the paper (ImageNet 64x64 column, dopri5 adaptive solver, tolerance 1e-5, averaged over 50k samples): ScoreFlow=601, Score Matching=441, DDPM=264, FM w/ Diffusion=187, FM w/ OT=138.",
+    "license": "generated"
+  }
+}

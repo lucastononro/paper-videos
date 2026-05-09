@@ -1,0 +1,267 @@
+{
+  "thesisInOneSentence": "You can train a continuous normalizing flow without ever simulating an ODE: just regress your neural network on a per-sample target velocity, and the magic is that this conditional objective has the same gradient as the (intractable) marginal one — so picking the simplest per-sample path, the straight line from noise to data, gives you a generator whose particles glide on near-straight trajectories.",
+  "audience": "Viewers comfortable with undergrad calculus, basic linear algebra, and the idea that a neural network can output a vector. We assume rough familiarity with diffusion models as cultural background but explain nothing about SDEs, score matching, or VAEs from inside. ODEs are introduced from scratch as 'wind that pushes a particle.'",
+  "hook": "Imagine a cloud of pure noise, a million tiny dots scattered at random — and then a wind starts to blow. Each dot follows the wind, and after one second the cloud has rearranged itself into a photograph of a golden retriever. That is what a flow-matching model does. The trick is teaching the wind.",
+  "narrativeArc": [
+    {
+      "actId": "act-1",
+      "name": "Cold open: the wind that paints",
+      "estSeconds": 35,
+      "purpose": "Hook with a particle cloud morphing from Gaussian noise to a recognizable image under a velocity field. Pose the question: what if generation were just a smooth flow, and we could train it directly?",
+      "keyEquations": [],
+      "visualHook": "Manim — 2D field of ~2000 particles starting as a standard Gaussian blob; arrows of a (pre-baked) vector field push them along curved-then-straight trajectories until they form a recognizable shape (a dog silhouette or the digit 8). Trail lines fade from blue to gold."
+    },
+    {
+      "actId": "act-2",
+      "name": "What we have, what we want",
+      "estSeconds": 45,
+      "purpose": "Introduce the two distributions: p_0 = Gaussian noise (we can sample), q = data (we have samples but no formula). Goal: a transport that turns one into the other. Frame the whole video as 'building this transport, then training it.'",
+      "keyEquations": [],
+      "visualHook": "Two side-by-side particle clouds. Left: a tidy unit Gaussian. Right: a swarm of dots arranged to spell out a face / MNIST '7' / a checkerboard. An arrow labeled phi connects them, with a question mark on it."
+    },
+    {
+      "actId": "act-3",
+      "name": "Vector fields and flows: a one-minute crash course",
+      "estSeconds": 70,
+      "purpose": "Define a time-dependent vector field v_t(x) as 'an arrow at every point in space, that may change with time.' Define the flow phi_t as the trajectory you trace if you start at x and always go where the arrow points. Arrive at the ODE eq-001 by literally describing what the picture means. End with eq-002 as the initial condition.",
+      "keyEquations": ["eq-001", "eq-002"],
+      "visualHook": "Manim — pan over a 2D plane covered in arrows (a static vector field first), then drop a single particle and integrate it forward. Overlay the equation d/dt phi_t(x) = v_t(phi_t(x)) and visually highlight: tangent vector at the particle equals arrow at its current location."
+    },
+    {
+      "actId": "act-4",
+      "name": "A flow carries a distribution: push-forward",
+      "estSeconds": 55,
+      "purpose": "Show that a flow doesn't just move one particle — it moves an entire density. Introduce p_t = [phi_t]_* p_0 (eq-003) as 'the histogram of where all the particles are at time t.' Mention the change-of-variables formula eq-004 in passing as 'the bookkeeping that makes this rigorous,' but do not derive it. State the goal: find a v_t whose flow turns p_0 into something approximating q at t=1. This is a Continuous Normalizing Flow.",
+      "keyEquations": ["eq-003", "eq-004"],
+      "visualHook": "Manim — start with the Gaussian particle cloud; let the vector field flow it forward; underneath, in a panel, show the corresponding density p_t evolving as a heatmap. The dots and the heatmap stay in lockstep. Highlight: 'distribution = histogram of particles.'"
+    },
+    {
+      "actId": "act-5",
+      "name": "The naive dream and why it crashes",
+      "estSeconds": 55,
+      "purpose": "State the Flow Matching objective in its dreamiest form (eq-005): if we knew the target velocity field u_t that produces a path connecting noise to data, we could just regress on it. Then deliver the punch: we don't know u_t, and we don't even know p_t — q is only given by samples. [SLOW] this is the central confusion to surface clearly.",
+      "keyEquations": ["eq-005"],
+      "visualHook": "Show eq-005 typed out in big LaTeX. Cross out u_t in red, then cross out p_t in red. Cut to a frustrated stick figure or a literal '?' over a black box."
+    },
+    {
+      "actId": "act-6",
+      "name": "The trick: condition on a single data point",
+      "estSeconds": 75,
+      "purpose": "Pivot to the per-sample view. For each data point x_1, design a tiny path p_t(x|x_1) that goes from standard noise at t=0 to a tight bump around x_1 at t=1 — that is easy. The marginal path is just the average over data: eq-006. Crucially, the marginal velocity is also an average — but a *probability-weighted* average — eq-008. Acknowledge eq-008 looks ugly; the visual should make it intuitive (a bunch of per-sample arrows, blended by how likely each x_1 is given x).",
+      "keyEquations": ["eq-006", "eq-008"],
+      "visualHook": "Manim — pick three data samples x_1^(a), x_1^(b), x_1^(c) on a 2D plane. For each, draw a thin Gaussian tube from the origin to that point evolving in time, plus its private vector field as colored arrows. Then fade them all together: the resulting overlap is the marginal p_t, and the marginal arrow at any point x is the convex blend of the three colored arrows weighted by the colored densities at x."
+    },
+    {
+      "actId": "act-7",
+      "name": "The CFM miracle: same gradient, tractable loss",
+      "estSeconds": 70,
+      "purpose": "State Conditional Flow Matching, eq-009. Then deliver the headline result of the paper: gradient of L_FM equals gradient of L_CFM (Theorem 2). Sketch the *why* in one sentence — the cross term in the squared norm rearranges via Bayes' rule, and the difference between the two losses is a constant in theta. Do not prove it in full; promise a reference. [SLOW] this is the second key confusion: emphasize that we minimize a loss that has nothing to do with the marginal field and still recover it.",
+      "keyEquations": ["eq-009"],
+      "visualHook": "Side-by-side: L_FM (with red strikethroughs over 'unknown u_t' and 'unknown p_t') and L_CFM (everything in green: sample t, sample x_1, sample x|x_1, evaluate u_t(x|x_1)). An animated equality sign with 'gradients' written on it pulses between them."
+    },
+    {
+      "actId": "act-8",
+      "name": "Building the per-sample path: Gaussians",
+      "estSeconds": 55,
+      "purpose": "Specialize to Gaussian conditional paths (eq-010): p_t(x|x_1) is a Gaussian with time-varying mean mu_t(x_1) and std sigma_t(x_1). The flow that realizes it is the affine map psi_t (eq-011). Solve in closed form for the velocity (eq-015). The viewer leaves with: pick mu_t and sigma_t, get u_t(x|x_1) for free.",
+      "keyEquations": ["eq-010", "eq-011", "eq-015"],
+      "visualHook": "Animate a Gaussian blob whose center slides from 0 toward x_1 while its width shrinks. Below, the affine formula psi_t(x) = sigma_t x + mu_t is built piece by piece. Then the velocity expression u_t = sigma'/sigma (x - mu) + mu' assembles next to it."
+    },
+    {
+      "actId": "act-9",
+      "name": "Diffusion is a special case (60-second detour)",
+      "estSeconds": 35,
+      "purpose": "Note that the famous variance-preserving diffusion path is just one specific (mu_t, sigma_t) curve plugged into our family. We get the diffusion velocity field eq-019 by direct substitution. Frame: 'so flow matching is a strict generalization, not a competitor.' Keep this short — it is a bridge for viewers who came in thinking about diffusion.",
+      "keyEquations": ["eq-019"],
+      "visualHook": "A parameter dial on screen: as we sweep through values of (mu_t, sigma_t), the on-screen curve morphs from VE → VP → linear. Caption: 'one knob, many models.'"
+    },
+    {
+      "actId": "act-10",
+      "name": "The punch line: optimal transport paths are straight lines",
+      "estSeconds": 75,
+      "purpose": "The simplest choice of all: let mu_t(x_1) = t x_1 and sigma_t = 1 - (1 - sigma_min) t, both linear in t (eq-020). The flow eq-022 is then literally the straight line interpolation between a noise sample x_0 and a data sample x_1. The velocity (eq-021) collapses to a constant (in t), and the CFM loss eq-023 reduces to: 'predict x_1 - x_0.' This is the moment of awe. Note that this choice is the optimal-transport displacement between the two endpoint Gaussians.",
+      "keyEquations": ["eq-020", "eq-021", "eq-022", "eq-023"],
+      "visualHook": "Side-by-side Manim: left panel, diffusion sampling — particles wiggle along curved, overshooting paths from noise to a target image. Right panel, OT — particles glide on perfectly straight lines, arriving simultaneously. Both start from the exact same noise seed. Then collapse to the headline equation eq-023 with 'predict (x_1 - x_0)' written above it in plain English."
+    },
+    {
+      "actId": "act-11",
+      "name": "Does it actually work? (Two Minute Papers mode)",
+      "estSeconds": 55,
+      "purpose": "Switch energy. Show one ImageNet-128 sample sheet from Figure 1 of the paper. Cite headline numbers from Table 1 (FM with OT beats diffusion baselines on FID and NFE — fewer ODE steps for the same quality). Mention faster training. Keep numbers minimal — one or two FID values, one NFE comparison.",
+      "keyEquations": [],
+      "visualHook": "Ken-Burns slow zoom over the ImageNet-128 grid (Figure 1). Then a clean two-row bar chart: 'sampling steps to good FID' — FM-OT bar visibly shorter than diffusion baselines. Two Minute Papers cadence: 'And here is the kicker.'"
+    },
+    {
+      "actId": "act-12",
+      "name": "Outro and citation",
+      "estSeconds": 25,
+      "purpose": "Recap in one sentence: regress on a per-sample velocity, choose straight-line paths, get a fast and stable generator. Show paper title, authors, arXiv link as a closing card.",
+      "keyEquations": [],
+      "visualHook": "Closing title card: 'Flow Matching for Generative Modeling — Lipman, Chen, Ben-Hamu, Nickel, Le (2022) — arXiv:2210.02747' over a faint slow-moving particle field continuing in the background."
+    }
+  ],
+  "totalEstSeconds": 650,
+  "conceptsToVisualize": [
+    {
+      "id": "c-001",
+      "concept": "time-dependent vector field as 'wind' on R^d",
+      "actIds": ["act-3", "act-1"],
+      "whyItMatters": "Everything in the paper is built on this single mental image. If viewers don't internalize 'arrow at every point, possibly changing with time,' nothing afterwards lands.",
+      "currentConfusion": "Most ML viewers know gradient fields but have never seen a non-conservative time-varying field. They will conflate v_t with a gradient of some scalar.",
+      "visualSuggestion": "Manim — 2D plane tiled with arrows that subtly rotate as t advances; a slider for t at the bottom. Drop a few particles and integrate them forward live.",
+      "associatedEquationIds": ["eq-001", "eq-002"]
+    },
+    {
+      "id": "c-002",
+      "concept": "push-forward: a flow carries a density",
+      "actIds": ["act-4"],
+      "whyItMatters": "Bridges 'one particle' to 'a whole distribution.' Without it, the leap from ODE to generative model is opaque.",
+      "currentConfusion": "Viewers confuse push-forward with conditioning, or think the density needs to be evaluated to evolve it. The Jacobian determinant in eq-004 looks intimidating and irrelevant.",
+      "visualSuggestion": "Manim — 2D particle cloud + simultaneous heatmap of its empirical density. As particles flow, the heatmap morphs in lockstep. Briefly flash eq-004 as 'just the bookkeeping' but do not dwell on the determinant.",
+      "associatedEquationIds": ["eq-003", "eq-004"]
+    },
+    {
+      "id": "c-003",
+      "concept": "the marginal velocity field is an average of conditional ones, weighted by posterior over x_1",
+      "actIds": ["act-6"],
+      "whyItMatters": "This is the structural insight that lets you replace an unknown u_t with knowable u_t(x|x_1). It is the conceptual fulcrum of the paper.",
+      "currentConfusion": "Equation eq-008 looks like word salad. Why is the weight p_t(x|x_1) q(x_1) / p_t(x)? Viewers will read it as 'just an integral' without seeing it as a posterior-weighted blend.",
+      "visualSuggestion": "Manim — three colored Gaussian tubes (one per data sample) drawn in 2D. At a query point x, draw three colored arrows; their lengths shrink/grow in real time according to which colored tube has the most density at x. The blended black arrow is the marginal u_t(x).",
+      "associatedEquationIds": ["eq-006", "eq-008"]
+    },
+    {
+      "id": "c-004",
+      "concept": "conditional FM has the same gradient as marginal FM",
+      "actIds": ["act-7"],
+      "whyItMatters": "This is THE theorem of the paper — the reason flow matching is trainable at all.",
+      "currentConfusion": "Viewers will accept it as magic unless we draw the cancellation. The danger is hand-waving and losing the mathematically honest viewer; the equal danger is over-deriving and losing the casual viewer.",
+      "visualSuggestion": "Manim — write L_FM and L_CFM stacked. Expand both squared norms. Highlight (in matching colors) the term ||v_t||^2 in both — show by Bayes rule that its expectation is the same under both samplings. Then highlight the cross term and show the same identity. Conclude: the two losses differ only in a theta-independent constant.",
+      "associatedEquationIds": ["eq-005", "eq-009"]
+    },
+    {
+      "id": "c-005",
+      "concept": "the affine flow psi_t for Gaussian paths",
+      "actIds": ["act-8"],
+      "whyItMatters": "Concrete machinery. Lets viewers see how an abstract probability path becomes a one-line piece of code.",
+      "currentConfusion": "The map psi_t(x) = sigma_t x + mu_t looks too simple to do anything; viewers may not see why it constitutes 'a flow.'",
+      "visualSuggestion": "Manim — sample 100 points from N(0,I), apply psi_t pointwise as t sweeps from 0 to 1, watch the cloud slide and shrink onto x_1. Overlay eq-011 building up term by term.",
+      "associatedEquationIds": ["eq-010", "eq-011", "eq-015"]
+    },
+    {
+      "id": "c-006",
+      "concept": "OT path = straight-line interpolation between x_0 and x_1",
+      "actIds": ["act-10"],
+      "whyItMatters": "This is the punchline. The simplest possible mu_t and sigma_t turn out to be optimal transport, and the loss reduces to predicting (x_1 - x_0).",
+      "currentConfusion": "Viewers may not believe 'just regress on x_1 - x_0' is enough. Side-by-side with diffusion's curved sampling paths is essential.",
+      "visualSuggestion": "Split-screen Manim — same noise seed, same target image. Left: diffusion path, particles overshoot and curve. Right: OT path, particles glide straight. Both annotated with current t and the equation governing them. End on eq-023 with the English gloss 'predict the displacement.'",
+      "associatedEquationIds": ["eq-020", "eq-021", "eq-022", "eq-023"]
+    },
+    {
+      "id": "c-007",
+      "concept": "particle-cloud-to-image as the visual leitmotif",
+      "actIds": ["act-1", "act-2", "act-12"],
+      "whyItMatters": "Anchors the abstract math to the practical claim 'this generates images.' Used in opening and closing for cohesion.",
+      "currentConfusion": "Without it the video can feel like pure analysis. With it, viewers see why anyone cares.",
+      "visualSuggestion": "Manim — large particle cloud; final frame uses ~10000 particles colored by an underlying image at the data endpoint, so when they settle they form a pixelated face / dog / digit. Reuse asset across acts 1, 2, 12.",
+      "associatedEquationIds": []
+    }
+  ],
+  "questionsToAnswerOnScreen": [
+    "What is a vector field, geometrically?",
+    "What does it mean for a flow to 'transport' a distribution?",
+    "Why can't we just minimize the original Flow Matching loss directly?",
+    "Why does conditioning on a single data point x_1 make the loss tractable?",
+    "Why do the FM and CFM losses have identical gradients (in one sentence)?",
+    "Where does diffusion fit into this picture?",
+    "Why do straight-line (OT) paths beat curved diffusion paths empirically?",
+    "What does the trained network actually predict, in plain English? (Answer: the displacement x_1 - x_0.)"
+  ],
+  "thingsToCutOrSkip": [
+    "The full proof of Theorem 1 (continuity equation derivation, eq-025 onward) — show the statement, point at Appendix B, move on.",
+    "The full proof of Theorem 2 (loss equivalence, eq-026 through eq-033) — sketch the cross-term identity in 15 seconds; do not derive line by line.",
+    "The score-matching equivalence and Stratonovich-Ito digressions in Appendix D — out of scope for a 10-minute first explanation.",
+    "Variance-Exploding diffusion path (eq-016, eq-017) — VP alone is enough as a representative; mentioning both costs 30 seconds for no extra insight.",
+    "Conditional super-resolution experiments (Section 6.3, Table 2) — orthogonal to the core idea.",
+    "All CIFAR-10 / ImageNet-32 ablation rows — keep one ImageNet-128 sample image and one or two FM-OT vs diffusion comparisons from Table 1.",
+    "Discussion of sigma_min as a numerical safety parameter — wave hands; viewers will not miss it.",
+    "The push-forward Jacobian determinant (eq-004) — show it for one second labeled 'change of variables, the bookkeeping' and do not unpack.",
+    "The general 'continuity equation' framing — implicit in the visual, never written on screen.",
+    "Comparison to concurrent works (Liu et al. 2022 stochastic interpolants, Albergo Vanden-Eijnden) — at most a sentence in the outro, otherwise cut."
+  ],
+  "priorWork": [
+    {
+      "title": "Neural Ordinary Differential Equations",
+      "arxivId": "1806.07366",
+      "year": 2018,
+      "whyRelevant": "Introduces continuous normalizing flows by parameterizing v_t with a neural network and integrating the ODE. Flow Matching is an alternative *training* recipe for the same model class."
+    },
+    {
+      "title": "Denoising Diffusion Probabilistic Models",
+      "arxivId": "2006.11239",
+      "year": 2020,
+      "whyRelevant": "The dominant pre-2022 generative-modeling paradigm. FM with VP-diffusion paths recovers (a deterministic version of) DDPM as a special case, and the paper benchmarks against it."
+    },
+    {
+      "title": "Score-Based Generative Modeling through Stochastic Differential Equations",
+      "arxivId": "2011.13456",
+      "year": 2020,
+      "whyRelevant": "Establishes the SDE-and-probability-flow-ODE view of diffusion. Flow Matching reuses the deterministic ODE perspective but trains it with a much simpler objective."
+    },
+    {
+      "title": "Moser Flow: Divergence-based Generative Modeling on Manifolds",
+      "arxivId": "2108.08052",
+      "year": 2021,
+      "whyRelevant": "Earlier simulation-free CNF training; cited as the work whose 'intractable integrals' Flow Matching avoids."
+    }
+  ],
+  "supportingMaterial": [
+    {
+      "kind": "image",
+      "needsToFind": "ImageNet-128 unconditional samples grid (Figure 1 of the paper)",
+      "preferredSource": "videos/flow-matching/paper-md-assets/ — extracted figure from page 1"
+    },
+    {
+      "kind": "image",
+      "needsToFind": "Side-by-side diffusion vs OT sampling trajectories (Figure 3 / Figure 6)",
+      "preferredSource": "videos/flow-matching/paper-md-assets/ — extracted figures; can be referenced briefly during act-10 if the Manim re-render is delayed"
+    },
+    {
+      "kind": "image",
+      "needsToFind": "ImageNet-64 sample sheet showing OT vs diffusion sampling progress at the same noise seed (Figure 6)",
+      "preferredSource": "videos/flow-matching/paper-md-assets/"
+    },
+    {
+      "kind": "diagram",
+      "needsToGenerate": "A clean Manim re-draw of Figure 3: two horizontal sampling trajectories, the top labeled 'Diffusion' (curving and overshooting), the bottom labeled 'OT' (straight). 1920x1080, dark navy bg."
+    },
+    {
+      "kind": "diagram",
+      "needsToGenerate": "Schematic of the marginal-as-mixture identity: three small Gaussian tubes (one per x_1 sample) summing to the marginal p_t cloud, with an arrow labeled eq-006."
+    },
+    {
+      "kind": "diagram",
+      "needsToGenerate": "L_FM (red strikethroughs over the unknown u_t and intractable expectation under p_t) next to L_CFM (everything green and easy to sample), connected by an equality of gradients."
+    },
+    {
+      "kind": "diagram",
+      "needsToGenerate": "Particle-cloud opener — Gaussian noise blob morphing into a recognizable image (digit '7' or simple silhouette), with semi-transparent flow lines."
+    }
+  ],
+  "narrativeAngles": [
+    "Frame as: 'a CNF without the C in CNF is too hard to train; here is the trick that makes it easy.' Emphasize the historical pain — Neural ODEs were beautiful but didn't scale.",
+    "Frame as: 'diffusion is one path through the noise-to-data manifold; flow matching lets you pick any path, and the simplest one happens to be the best.'",
+    "Frame as: 'the network is just learning to point from a noise sample toward a data sample — that is it.' Reduce the algorithm to a single English sentence at the climax.",
+    "Tone arc: sober and 3b1b-deliberate during acts 3-8 (math construction), then a hard pivot to Two Minute Papers excitement at act 10 (the OT punchline) and act 11 (results)."
+  ],
+  "criticisms": [
+    "The paper writes eq-008 (the marginal vector field) almost as if it falls out of the algebra; it is the central conceptual move and deserves a full visual unpacking, not a one-line 'interestingly we can also define...' We MUST slow down here.",
+    "The paper introduces the push-forward eq-004 with the Jacobian determinant front and center, which intimidates viewers who don't yet care about exact densities. We should defer the determinant to one passing reference and lean on the particle picture instead.",
+    "Theorem 2 is stated and proved in the appendix, but the gradient-equivalence is the entire reason the method works. Acknowledge that we are skipping the proof — but show, in 15 seconds, the structural reason (cross term reorders by Bayes rule).",
+    "The OT framing in the paper is presented as 'an interesting alternative to diffusion paths,' which undersells it. Empirically it is the headline. We should present OT as the punchline, with diffusion as the contrast that shows why OT is special.",
+    "Figure 2 in the paper (diffusion score field vs OT vector field) is iconic but visually noisy and uses a color scheme that won't survive a downscale. Re-render it cleanly in Manim with our palette, or skip it.",
+    "The paper barely visualizes the marginal/conditional decomposition. This is the most important visual the video can add over what the paper itself shows."
+  ],
+  "openQuestionsForUser": [
+    "The user said 'all the math deductions plausible' — I am committing to: derive eq-001 visually, derive eq-015 in closed form on screen, sketch the gradient-equivalence argument in ~15s without a full proof, and skip the Theorem 1 continuity-equation proof. If you want a fully derived gradient-equivalence (adds ~40s and pushes total length to ~11min), say so and I'll have the storyteller expand act-7."
+  ]
+}

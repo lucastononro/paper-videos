@@ -1,0 +1,15 @@
+slug: attention-is-all-you-need
+paperSource:
+  kind: arxiv
+  value: "1706.03762"
+  arxivId: "1706.03762"
+paperTitle: "Attention Is All You Need"
+voice: pharaoh
+targetLengthMinutes: 5
+focusAreas:
+  - scaled dot-product attention
+  - why drop recurrence
+resolution:
+  width: 1920
+  height: 1080
+fps: 30

@@ -1,0 +1,13 @@
+[project]
+name = "paper-videos-py"
+version = "0.1.0"
+description = "Python tooling (Manim, Marker, PyMuPDF) used by the paper-videos framework. Invoked via subprocess from TS tools."
+requires-python = ">=3.11"
+dependencies = [
+  "manim>=0.18.1",
+  "marker-pdf>=1.0.0",
+  "pymupdf>=1.24.0",
+]
+
+[tool.uv]
+package = false
