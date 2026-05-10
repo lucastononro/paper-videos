@@ -1,0 +1,427 @@
+{
+  "thesisInOneSentence": "Flash sintering is a regime in which a tiny ceramic powder, held below its normal sintering temperature inside a furnace, suddenly absorbs a runaway flood of electrical power and densifies (and, in the reactive case, chemically transforms) in seconds — and the Yoon 2019 NSLS-II experiment is the first to watch densification and the spinel reaction unfold in the same second-scale event.",
+  "audience": "Curious undergraduates with first-year materials/physics: comfortable with Arrhenius behaviour, basic thermodynamics, Ohm's law and Joule heating; no ceramics or solid-state-chemistry background assumed. Will accept hand-waved diffusion arguments if the picture is right.",
+  "voiceAlias": "custom-lucas-tonon-voice",
+  "hook": "A potter holds a clay cup at 1450 degrees for hours so the grains can fuse. In 2010 a four-page note in the Journal of the American Ceramic Society reported that with two electrodes and a small electric field, a ceramic powder densifies in five seconds at 850 degrees. The kiln barely warmed up. The sample went white-hot.",
+  "narrativeArc": [
+    {
+      "actId": "act-1",
+      "name": "Hook and history",
+      "estSeconds": 95,
+      "purpose": "Open with the visceral cost of conventional sintering (hours, 1450 C, energy heating the kiln). Drop the Cologna-Rashkova-Raj 2010 headline number (5 s, 850 C, 120 V/cm). Sketch the field-assisted lineage in one breath: Bloxam 1906 -> Duval d'Adrian / Taylor 1922-33 -> Spark Plasma Sintering 1980s -> flash 2010. Establish stakes: solid oxide fuel cells, energy ceramics, things people build."
+    },
+    {
+      "actId": "act-2",
+      "name": "What flash sintering actually is",
+      "estSeconds": 210,
+      "purpose": "Show the canonical setup: dog-bone specimen, two Pt-wire electrodes, hot-stage furnace, DC field. Build particle-level intuition: green compact -> stage I incubation -> flash event -> dense polycrystal. Walk the three-stage V-I curve as it unfolds in time. Land the Yoon 2019 anchor by revealing its current-density-vs-time and synchrotron diffraction figures from the actual paper pages."
+    },
+    {
+      "actId": "act-3",
+      "name": "The physics and the equations",
+      "estSeconds": 235,
+      "purpose": "Build the runaway from first principles. Arrhenius conductivity (sigma = sigma0 exp(-Q/kT)) makes sigma scream up with T. Joule power density P_J = sigma E^2 grows super-exponentially. Radiative loss P_loss = epsilon sigma_SB (T^4 - T_furn^4) is only quartic. The two curves cross -> sample temperature decouples from furnace -> flash. Then layer in synchronicity: in Yoon 2019, the chemistry MgO + Al2O3 -> MgAl2O4 finishes inside the same 60-second window as densification. Briefly acknowledge two competing mechanism hypotheses (Frenkel-pair athermal, electrochemical reduction) and the 2024-25 consensus that Joule runaway is necessary and largely sufficient."
+    },
+    {
+      "actId": "act-4",
+      "name": "State of the art and closing",
+      "estSeconds": 130,
+      "purpose": "Materials zoo: BaTiO3, TiO2 hyperdoping, SiC/AlN, high-entropy oxides. SOFC co-firing and Lucideon's industrial scale-up. Frontier: plasma-electrode contactless flash (Saunders 2016), bilayer flash of insulators, in-operando synchrotron (which closes the loop back to the anchor paper). Close on the punchline: a four-page note in 2010 made every ceramic engineer rethink how hot a powder has to get to fuse."
+    }
+  ],
+  "conceptsToVisualize": [
+    {
+      "id": "c-001",
+      "concept": "Conventional sintering as particle coalescence",
+      "whyItMatters": "Viewers who have never thought about ceramics need to see what 'sintering' actually is before any of the rest can register: spheres of powder slowly necking and merging into a solid, driven by surface-energy minimization at high T.",
+      "currentConfusion": "Most people conflate sintering with melting. It is not melting. The grains stay solid; atoms diffuse along grain boundaries.",
+      "visualSuggestion": "manim - a cluster of disks in a green compact, slowly growing necks at contact points, eventually fusing into a polycrystal with visible grain boundaries; clock label ticks 'hours at 1450 C'.",
+      "associatedActIds": ["act-1"],
+      "associatedEquationIds": []
+    },
+    {
+      "id": "c-002",
+      "concept": "Flash setup: dog-bone, Pt electrodes, hot-stage furnace, DC field",
+      "whyItMatters": "The whole regime is defined by this geometry. Without seeing it, viewers cannot picture where the field is applied or why current flows through the part itself.",
+      "currentConfusion": "People assume there is a die under pressure (like SPS). There isn't. The sample hangs free in a furnace.",
+      "visualSuggestion": "manim - cross-section of tube furnace with a dog-bone specimen suspended on two Pt-wire hooks; DC source rendered as a labelled symbol; arrows show current path through the gage section.",
+      "associatedActIds": ["act-2"],
+      "associatedEquationIds": []
+    },
+    {
+      "id": "c-003",
+      "concept": "Three-stage V-I curve (incubation, flash, steady-state)",
+      "whyItMatters": "This is THE experimental signature of flash. Every paper in the field opens with this plot. Once viewers see the cliff in current and the runaway in shrinkage, the whole regime makes sense.",
+      "currentConfusion": "The curve is usually drawn statically. The drama is that current is held nearly flat for tens of seconds and then jumps an order of magnitude in 1-2 s. Show it unfolding in time.",
+      "visualSuggestion": "manim - twin axes (V on left, I on right) drawn live; a shrinkage trace overlaid on a third axis spikes during stage II; stages labelled with dim background bands.",
+      "associatedActIds": ["act-2"],
+      "associatedEquationIds": []
+    },
+    {
+      "id": "c-004",
+      "concept": "Arrhenius conductivity and the runaway cliff",
+      "whyItMatters": "exp(-Q/kT) is the mechanical heart of why flash exists at all. A small bump in T near the cliff is a huge bump in sigma, which is more power, which is more T. This is the positive feedback.",
+      "currentConfusion": "Students see Arrhenius all the time but rarely see what it implies for power dissipation when E is held fixed. Make the feedback loop explicit.",
+      "visualSuggestion": "manim - sigma vs 1/T plotted on a log axis; a slider drags T upward; sigma rockets; then switch to sigma vs T linear with a vertical 'cliff' annotation.",
+      "associatedActIds": ["act-3"],
+      "associatedEquationIds": ["eq-arrhenius"]
+    },
+    {
+      "id": "c-005",
+      "concept": "Joule heating vs radiative loss crossover",
+      "whyItMatters": "This is the closed-form criterion for the onset of flash: P_J overtakes P_loss. The whole 'thermal runaway' picture is one diagram of two curves crossing.",
+      "currentConfusion": "Students often assume the sample is in steady state with the furnace. It is not. Once the curves cross, no steady state exists at the original T.",
+      "visualSuggestion": "manim - log P vs T axes; P_J = sigma(T) E^2 drawn as a steeply rising curve; P_loss = epsilon sigma_SB (T^4 - T_furn^4) drawn as a milder T^4 curve; intersection annotated as 'flash onset'; ball rolls past the intersection and accelerates upward.",
+      "associatedActIds": ["act-3"],
+      "associatedEquationIds": ["eq-joule", "eq-radiation"]
+    },
+    {
+      "id": "c-006",
+      "concept": "Sample-temperature overshoot above furnace",
+      "whyItMatters": "Yoon 2019 measures specimen T directly via the Pt standard and finds it 200-400 C above furnace T during flash. This is the experimental confirmation that the sample, not the furnace, is doing the work.",
+      "currentConfusion": "Naive view: 'the furnace is at 900, so the sample is at 900'. Wrong during flash. The sample is well above its container.",
+      "visualSuggestion": "manim - twin thermometers (furnace fixed at 900 C, sample sweeping up to 1300 C in seconds), with a glow gradient on the sample.",
+      "associatedActIds": ["act-3"],
+      "associatedEquationIds": []
+    },
+    {
+      "id": "c-007",
+      "concept": "Particle/grain coalescence under flash",
+      "whyItMatters": "Bridge from the macroscopic V-I picture to the microscopic densification picture. The viewer should see grains fusing in seconds where conventionally they would take hours.",
+      "currentConfusion": "Viewers may not connect 'sample shrank by 16%' (Yoon 2019: rho_0 = 0.50 -> rho ~ 0.97) to the actual grain-boundary kinetics.",
+      "visualSuggestion": "manim - same particle cluster as c-001 but driven by an electric-field arrow; necks grow visibly in seconds; final frame holds a dense polycrystal next to a clock that has barely advanced.",
+      "associatedActIds": ["act-2", "act-3"],
+      "associatedEquationIds": ["eq-strain", "eq-density"]
+    },
+    {
+      "id": "c-008",
+      "concept": "Reactive flash sintering and synchronicity",
+      "whyItMatters": "This is Yoon 2019's specific contribution: the spinel reaction MgO + Al2O3 -> MgAl2O4 finishes in 45 s while densification finishes in 60 s. Chemistry and densification overlap inside the same flash event. It is not 'first react, then sinter'. It is one regime.",
+      "currentConfusion": "Most flash-sintering coverage talks only about densification of a single phase. Reactive flash is a generalization that often gets lost.",
+      "visualSuggestion": "manim - two progress bars side by side: 'phase transformation' (MgO + Al2O3 -> spinel) vs 'densification', both filling during the 60-s flash window; phase bar finishes ~45 s, density bar finishes ~60 s; gap shaded.",
+      "associatedActIds": ["act-3"],
+      "associatedEquationIds": ["eq-001"]
+    },
+    {
+      "id": "c-009",
+      "concept": "Frenkel-pair athermal contribution (cartoon)",
+      "whyItMatters": "Honest framing: thermal runaway is necessary and largely sufficient, but the field nucleating Frenkel pairs (cation interstitial + vacancy) is still in play and may explain energy that goes missing from the BBR balance in Yoon 2019's Figure 5.",
+      "currentConfusion": "Students hearing 'Frenkel defect' for the first time picture a chemical reaction. It is a lattice-displacement event.",
+      "visualSuggestion": "manim - a 2D ionic lattice; one cation hops out into an interstitial site, leaving a vacancy; pair labelled; energy-bar caption 'extra channel for input power'.",
+      "associatedActIds": ["act-3"],
+      "associatedEquationIds": []
+    },
+    {
+      "id": "c-010",
+      "concept": "Materials zoo and SOFC application",
+      "whyItMatters": "Closes the 'why care' loop: flash is not a curiosity, it is being scaled up by Lucideon and applied to solid-oxide fuel cells, where co-sintering anode + electrolyte at sub-1000 C avoids cracking that the conventional process cannot.",
+      "currentConfusion": "Without a payoff in real devices the whole video reads as a lab trick.",
+      "visualSuggestion": "image collage - SOFC stack diagram (CC-BY) plus a row of material-name chips (BaTiO3, TiO2, SiC, AlN, high-entropy oxides); fade to a sentence about Lucideon scaling.",
+      "associatedActIds": ["act-4"],
+      "associatedEquationIds": []
+    }
+  ],
+  "questionsToAnswerOnScreen": [
+    "What does 'sintering' actually do to a powder?",
+    "What is different about the flash setup from a normal furnace?",
+    "Why does conductivity blow up with temperature?",
+    "Why does the sample suddenly draw enormous current?",
+    "Once flash starts, what stops it?",
+    "Is the sample hotter than the furnace? By how much?",
+    "Does flash only densify, or can it also drive a chemical reaction?",
+    "Which finishes first in Yoon 2019: the chemistry, or the shrinkage?",
+    "Is this a real industrial process or a lab curiosity?"
+  ],
+  "thingsToCutOrSkip": [
+    "Marker / OCR weirdness - the strain epsilon = ln(l/l_0) and density rho = rho_0 e^(-3 epsilon) appear inline as Unicode mathvariant glyphs in the extracted markdown, but we will re-render them via Manim MathTex from the values quoted in section 2.2; never show the broken Unicode on screen.",
+    "Spark Plasma Sintering equipment minutiae (graphite die geometry, pulse waveforms, Sumitomo commercialization timeline). Mention SPS only as a one-line ancestor in act 1.",
+    "The single-author flame wars on athermal vs Joule mechanism (Raj vs Todd vs Sglavo). One beat acknowledging both hypotheses, one beat naming the 2024-25 consensus, then move on.",
+    "The full BBR / emissivity calculation in Yoon 2019 section 2.5 - mention only that sample T was measured both by Pt standard and BBR model, and that the gap is suspicious (Frenkel-pair hint).",
+    "Detailed multi-head extension of the materials zoo (do not enumerate every doped composition); name 5-7 representative systems and stop.",
+    "The 8YSZ-as-catalyst trick in Yoon 2019 (50 vol% 8YSZ added so the powder can flash within the lab's power supply) - mention in one beat only; not load-bearing for the story.",
+    "Current-rate vs voltage-to-current control distinction - mention once as 'Yoon 2019 used current-rate control to stretch the flash to 60 s so the synchrotron detector could keep up'; do not derive."
+  ],
+  "priorWork": [
+    {
+      "title": "Flash sintering of nanograin zirconia in <5 s at 850 C",
+      "authors": "Cologna, Rashkova, Raj",
+      "journal": "J. Am. Ceram. Soc.",
+      "year": 2010,
+      "doi": "10.1111/j.1551-2916.2010.04089.x",
+      "whyRelevant": "The seminal paper. Without this 4-page note the whole field does not exist. Quote the headline number (5 s, 850 C, 120 V/cm) at the top of act 1."
+    },
+    {
+      "title": "Joule heating during flash-sintering",
+      "authors": "Raj",
+      "journal": "J. Eur. Ceram. Soc.",
+      "year": 2012,
+      "doi": "10.1016/j.jeurceramsoc.2012.02.030",
+      "whyRelevant": "First analytical treatment of the runaway and BBR temperature model. Yoon 2019 cites it as ref 13. Used as backbone for the act-3 derivation."
+    },
+    {
+      "title": "The onset of the electrical event in flash sintering of zirconia (Joule runaway model)",
+      "authors": "Todd, Zapata-Solvas, Bonilla, Sneddon, Wilshaw",
+      "journal": "J. Eur. Ceram. Soc.",
+      "year": 2015,
+      "doi": "10.1016/j.jeurceramsoc.2014.11.012",
+      "whyRelevant": "Quantitative thermal-runaway model that matches the flash event in 3YSZ. Use as the modern Joule-heating consensus citation."
+    },
+    {
+      "title": "Generation of Frenkel defects above the Debye temperature by proliferation of phonons near the Brillouin zone edge",
+      "authors": "Jongmanns, Raj, Wolf",
+      "journal": "New J. Phys.",
+      "year": 2018,
+      "doi": "10.1088/1367-2630/aae07c",
+      "whyRelevant": "MD model that Yoon 2019 invokes (ref 20) to explain the gap between platinum-standard T and BBR T. Used as the Frenkel-pair beat."
+    },
+    {
+      "title": "alpha-Alumina and spinel react into single phase high-alumina spinel in <3 seconds during flash sintering",
+      "authors": "Kok, Yadav, Sortino et al.",
+      "journal": "J. Am. Ceram. Soc.",
+      "year": 2019,
+      "doi": "10.1111/jace.16143",
+      "whyRelevant": "Companion paper from the same group (Yoon 2019 ref 4) showing the spinel reaction in flash. Sets up why the synchronicity question even matters."
+    },
+    {
+      "title": "Ultrafast contactless flash sintering using plasma electrodes",
+      "authors": "Saunders, Grasso, Reece",
+      "journal": "Sci. Rep.",
+      "year": 2016,
+      "doi": "10.1038/srep27222",
+      "whyRelevant": "Frontier setup; CC-BY 4.0; source for the canonical 'sample glowing' photograph in act 4."
+    },
+    {
+      "title": "Sintering Under High Heating Rates (Annual Review)",
+      "authors": "Annual Reviews of Materials Research",
+      "journal": "Annu. Rev. Mater. Res.",
+      "year": 2025,
+      "doi": "10.1146/annurev-matsci-080323-042441",
+      "whyRelevant": "Modern consensus review; cite as 'state of the art 2025' in act 4."
+    }
+  ],
+  "supportingMaterial": [
+    {
+      "kind": "image",
+      "needsToFind": "photograph of a ceramic specimen glowing white-hot during flash",
+      "preferredSource": "Saunders, Grasso, Reece 2016 - https://www.nature.com/articles/srep27222 (CC-BY 4.0). Pull the most visually striking 'sample lit up' photo and credit on screen."
+    },
+    {
+      "kind": "image",
+      "needsToFind": "before/after SEM micrographs of flash-sintered grain microstructure",
+      "preferredSource": "MDPI Materials 16(4):1544 - https://www.mdpi.com/1996-1944/16/4/1544 (CC-BY). Use one green-body micrograph and one fully-dense micrograph as a side-by-side."
+    },
+    {
+      "kind": "image",
+      "needsToFind": "SOFC stack architecture diagram (cathode/electrolyte/anode trilayer)",
+      "preferredSource": "Open-access MDPI or Frontiers SOFC review (CC-BY). Used briefly in act 4 to frame why fast co-sintering matters."
+    },
+    {
+      "kind": "diagram",
+      "needsToGenerate": "Dog-bone specimen with Pt-wire electrodes inside a tube furnace; DC source on the outside; arrow showing current path through the gage."
+    },
+    {
+      "kind": "diagram",
+      "needsToGenerate": "Three-stage V-I curve (incubation, flash, steady-state) with a shrinkage curve overlaid; build live in Manim."
+    },
+    {
+      "kind": "diagram",
+      "needsToGenerate": "P_Joule(T) vs P_loss(T) crossover plot, with a ball rolling past the intersection."
+    },
+    {
+      "kind": "diagram",
+      "needsToGenerate": "Frenkel-pair cartoon on a 2D ionic lattice."
+    },
+    {
+      "kind": "diagram",
+      "needsToGenerate": "Two progress bars: phase transformation finishing at 45 s, densification finishing at 60 s, illustrating Yoon 2019 synchronicity."
+    }
+  ],
+  "spotlights": [
+    {
+      "label": "Yoon 2019 abstract - reactive flash + 45 s vs 60 s",
+      "pageIdx": 0,
+      "bboxApprox": "0.10,0.42,0.80,0.18",
+      "whyItMatters": "The headline finding lives here. Spotlight while the narrator first drops the 'phase finishes in 45 s, densification in 60 s' line."
+    },
+    {
+      "label": "The spinel reaction equation MgO + Al2O3 -> MgAl2O4",
+      "pageIdx": 0,
+      "bboxApprox": "0.30,0.74,0.40,0.06",
+      "whyItMatters": "The single equation Marker captured (eq-001). Spotlight in act 3 to anchor the reactive-flash framing in the paper itself."
+    },
+    {
+      "label": "Current-density vs time figure (Figure 1)",
+      "pageIdx": 5,
+      "bboxApprox": "0.10,0.10,0.80,0.45",
+      "whyItMatters": "Yoon 2019's own current-rate ramp. Spotlight while explaining current-rate control and the 60-s window."
+    },
+    {
+      "label": "Figure 2A - electric field, current, power vs time during flash",
+      "pageIdx": 7,
+      "bboxApprox": "0.10,0.10,0.80,0.40",
+      "whyItMatters": "The voltage-peak signature of flash onset (around 10 s) and the power-density trace. Spotlight as the V-I-curve climax of act 2."
+    },
+    {
+      "label": "Figure 2B - in-situ X-ray diffraction time series",
+      "pageIdx": 7,
+      "bboxApprox": "0.10,0.55,0.80,0.35",
+      "whyItMatters": "The synchrotron evidence that alumina peaks weaken and spinel peaks grow during flash. Spotlight in act 3, synchronicity beat."
+    },
+    {
+      "label": "Figure 3 - synchronicity plot (sintering vs phase transformation)",
+      "pageIdx": 8,
+      "bboxApprox": "0.10,0.10,0.80,0.50",
+      "whyItMatters": "The single most important plot in the paper - phase finishes in 45 s, density finishes in 60 s. Spotlight at the synchronicity climax."
+    },
+    {
+      "label": "Figure 4 - SEM microstructure across the gage section",
+      "pageIdx": 9,
+      "bboxApprox": "0.10,0.15,0.80,0.55",
+      "whyItMatters": "Visual proof that grain size is uniform across the specimen, not a flash artifact. Spotlight at the densification beat in act 2."
+    },
+    {
+      "label": "Figure 5 - Pt-standard T vs BBR-model T (Frenkel-pair gap)",
+      "pageIdx": 10,
+      "bboxApprox": "0.10,0.20,0.80,0.55",
+      "whyItMatters": "The temperature gap that hints at energy going into Frenkel pairs - the bridge to the athermal-mechanism beat."
+    }
+  ],
+  "derivationsToBuild": [
+    {
+      "concept": "Why flash exists - thermal runaway",
+      "openingQuestion": "Why does a sample inside a furnace held at 900 C suddenly surge to 1300 C and densify in seconds?",
+      "stepsToShow": [
+        "Start with Arrhenius conductivity sigma(T) = sigma_0 exp(-Q/kT) and sketch sigma vs T.",
+        "Apply a constant electric field E. Volumetric Joule power is P_J = sigma(T) E^2.",
+        "Substitute Arrhenius - P_J grows super-exponentially with T.",
+        "Heat is lost only by radiation: P_loss = epsilon sigma_SB (T^4 - T_furn^4). Quartic, not exponential.",
+        "Plot both P_J(T) and P_loss(T) on the same axes. They cross at a critical temperature T*.",
+        "Below T*, P_loss wins, system is stable. Above T*, P_J wins; small dT increases P_J more than it increases P_loss; positive feedback.",
+        "Animate a ball at T < T*: a tiny T fluctuation pushes it past T*; it accelerates up the runaway slope.",
+        "Land the closing line: 'the sample temperature decouples from the furnace, and that is flash.'"
+      ],
+      "estBeats": 12,
+      "associatedEquationIds": ["eq-arrhenius", "eq-joule", "eq-radiation"]
+    },
+    {
+      "concept": "How densification is measured in Yoon 2019 - strain to density",
+      "openingQuestion": "If we only watch the gage length shrink in a side-view camera, how do we get density?",
+      "stepsToShow": [
+        "Define linear strain epsilon = ln(l/l_0) (true strain).",
+        "Assume isotropic shrinkage: each linear dimension shrinks by exp(epsilon).",
+        "Volume scales as exp(3 epsilon).",
+        "Conservation of mass - density follows rho = rho_0 e^(-3 epsilon) (note sign: epsilon < 0 in shrinkage, so rho > rho_0).",
+        "Plug in Yoon 2019 numbers: rho_0 = 0.50 of theoretical, final rho = 0.97.",
+        "Bridge to the synchronicity story: this is the blue 'sintering' curve in Figure 3."
+      ],
+      "estBeats": 6,
+      "associatedEquationIds": ["eq-strain", "eq-density"]
+    },
+    {
+      "concept": "Synchronicity - the headline of Yoon 2019",
+      "openingQuestion": "If chemistry (MgO + Al2O3 -> spinel) and densification both happen during flash, which one finishes first?",
+      "stepsToShow": [
+        "Show a clean axis with time 0 to 60 s.",
+        "Overlay phase-transformation progress (from area under the (111) alumina peak): rises from 0 at t=10 s to ~1 at t=45 s.",
+        "Overlay densification progress (from rho/rho_th): rises from 0.50 to 0.97 by t=60 s.",
+        "Mark the gap: chemistry finishes ~15 s before densification.",
+        "Reasoning beat: chemistry needs only the fastest diffusing species; densification waits on the slowest.",
+        "Land the synchronicity claim: both happen inside one flash event. This regime is reactive flash sintering."
+      ],
+      "estBeats": 7,
+      "associatedEquationIds": ["eq-001"]
+    }
+  ],
+  "equations": [
+    {
+      "id": "eq-001",
+      "source": "equations.json",
+      "latex": "MgO + Al_2O_3 \\rightarrow MgAl_2O_4",
+      "renderAs": "equationCard",
+      "useIn": "act-3 synchronicity beat"
+    },
+    {
+      "id": "eq-arrhenius",
+      "source": "storyteller-rendered (Manim MathTex)",
+      "latex": "\\sigma(T) = \\sigma_0 \\exp\\!\\left(-\\frac{Q}{kT}\\right)",
+      "renderAs": "manim equationStep",
+      "useIn": "act-3 thermal-runaway derivation, step 1"
+    },
+    {
+      "id": "eq-joule",
+      "source": "storyteller-rendered (Manim MathTex)",
+      "latex": "P_{J} = \\sigma(T)\\, E^{2}",
+      "renderAs": "manim equationStep",
+      "useIn": "act-3 thermal-runaway derivation, step 2"
+    },
+    {
+      "id": "eq-radiation",
+      "source": "storyteller-rendered (Manim MathTex)",
+      "latex": "P_{\\mathrm{loss}} = \\varepsilon\\, \\sigma_{\\mathrm{SB}}\\, (T^{4} - T_{\\mathrm{furn}}^{4})",
+      "renderAs": "manim equationStep",
+      "useIn": "act-3 thermal-runaway derivation, step 3"
+    },
+    {
+      "id": "eq-onset",
+      "source": "storyteller-rendered (Manim MathTex)",
+      "latex": "\\sigma(T)\\, E^{2}\\, V \\;\\approx\\; \\varepsilon\\, \\sigma_{\\mathrm{SB}}\\, A\\, (T^{4} - T_{\\mathrm{furn}}^{4})",
+      "renderAs": "manim equationStep",
+      "useIn": "act-3 thermal-runaway derivation, schematic onset condition"
+    },
+    {
+      "id": "eq-strain",
+      "source": "storyteller-rendered (Manim MathTex) - Yoon 2019 section 2.2 (extracted as Unicode by Marker, must be re-rendered)",
+      "latex": "\\varepsilon = \\ln\\!\\left(\\frac{l}{l_{0}}\\right)",
+      "renderAs": "manim equationStep",
+      "useIn": "act-2 densification measurement and act-3 strain-to-density derivation"
+    },
+    {
+      "id": "eq-density",
+      "source": "storyteller-rendered (Manim MathTex) - Yoon 2019 section 2.2 (extracted as Unicode by Marker, must be re-rendered)",
+      "latex": "\\rho = \\rho_{0}\\, e^{-3\\varepsilon}",
+      "renderAs": "manim equationStep",
+      "useIn": "act-3 strain-to-density derivation"
+    }
+  ],
+  "metaphors": [
+    {
+      "concept": "sintering",
+      "metaphor": "a snowman packing into ice - separate snowflakes touching only at points slowly fuse along their contacts into one solid block, without anything ever fully melting",
+      "whenToDeploy": "act 1, immediately after the hook, to give viewers an everyday picture of grain-boundary diffusion."
+    },
+    {
+      "concept": "thermal runaway",
+      "metaphor": "a microphone slowly being moved toward its own speaker - a tiny initial squeak gets picked up, amplified, fed back, amplified again; nothing catastrophic happens until the loop closes, and then the room is screaming",
+      "whenToDeploy": "act 3, the moment before P_J vs P_loss curves cross. This is the metaphor we want to land hardest."
+    },
+    {
+      "concept": "the flash event itself",
+      "metaphor": "the moment a kettle's whistle finally fills the room - the kettle was warming for a long time, then in one second the steam reaches the whistle and the room changes character",
+      "whenToDeploy": "act 2, at the V-I curve climax, immediately before the spotlight on Yoon 2019 Figure 2A. Use sparingly - the storyteller may pick this OR the microphone metaphor; both is too many."
+    },
+    {
+      "concept": "reactive flash synchronicity",
+      "metaphor": "a band finishing a song - the drums and the bass do not stop on the same beat, but they finish inside the same measure; in Yoon 2019 the chemistry stops at beat 45, the shrinkage at beat 60, both inside the same one-minute song",
+      "whenToDeploy": "act 3, immediately before the Figure 3 spotlight. Optional - storyteller's call."
+    }
+  ],
+  "narrativeAngles": [
+    "Frame 1 (recommended): a thousand-year-old craft (sintering) gets a four-page note in 2010 that breaks its central rule (you must hold a powder for hours at near-melting). Tell the story as a discovery, not a survey.",
+    "Frame 2 (alternative): treat the video as 'how a runaway feedback loop becomes a manufacturing process'. Lean on the microphone-and-speaker metaphor; turn act 3 into a short narrative about positive feedback.",
+    "Frame 3 (alternative, weaker): walk Yoon 2019 as a stand-alone paper-tour - section by section. Use only if the storyteller feels the historical framing is too distractive."
+  ],
+  "criticisms": [
+    "We MUST derive the runaway from Arrhenius + Joule + radiation rather than just stating 'flash is thermal runaway'. The crossover plot is the visual that makes the regime click; doing this in three equation beats followed by one Manim crossover beat is the spine of the video.",
+    "We MUST re-render strain epsilon = ln(l/l_0) and density rho = rho_0 e^(-3 epsilon) via Manim MathTex. Marker captured them as Unicode mathvariant glyphs in section 2.2 of paper.md (visible as 'ߝ' and 'ߩ'). Never spotlight that block of paper-md text - render the equations cleanly and only spotlight the surrounding paragraph if at all.",
+    "Yoon 2019's Figure 1 is just a current-density ramp - it is not the V-I curve. The classic three-stage V-I curve must be redrawn in Manim from scratch (not pulled from the paper) because the paper's own Figure 2A is a current-rate run, not a constant-V run; the canonical curve lives in Cologna 2010 and review papers, not in this paper. Be explicit about that switch.",
+    "The Frenkel-pair hypothesis must NOT be sold as equal in weight to Joule runaway. The 2024-25 consensus is clear: Joule is necessary and largely sufficient. Frenkel + electrochemical are minority contributions still under investigation. One short beat each, then move on - do not let the mechanism debate hijack act 3.",
+    "Pages 2-5 and 12-15 of the extracted PDF are Brookhaven boilerplate / disclaimer / references. Real content lives on pages 1, 6, 8, 9, 10, 11. The visualizer must be told never to spotlight pages 2-5 or 12-15 as paperPage cues - only those six content pages are valid spotlight targets.",
+    "The 8YSZ catalyst trick in Yoon 2019's setup (50 vol% 8YSZ added so the lab's power supply is enough) is a methodological subtlety. It is NOT load-bearing for the synchronicity story. Mention in one beat at most, lest viewers leave thinking flash needs a catalyst.",
+    "Avoid implying that Cologna 2010 or Yoon 2019 settled the mechanism debate. They did not. The video's claim is narrower: thermal runaway is the dominant explanation; reactive flash exists; synchronicity is real."
+  ],
+  "openQuestionsForUser": [
+    "Should we name the Cologna-Rashkova-Raj 2010 paper out loud, or just call it 'a 4-page note in 2010'? Naming makes it more concrete; not naming keeps the act 1 hook tighter.",
+    "How much should we lean on Lucideon as the industrial example? It is the cleanest commercial story but it is also one company - if you want a more neutral 'state of the art' beat we can drop the brand name and just say 'industrial scale-up is underway in the UK'.",
+    "Are we comfortable with one beat each on the Frenkel-pair and electrochemical hypotheses, or do you want to skip them entirely and stay 100% Joule-runaway? Skipping is cleaner; one-beat-each is more honest."
+  ]
+}

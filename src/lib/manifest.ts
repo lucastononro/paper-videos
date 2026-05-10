@@ -16,7 +16,17 @@ const Visual = z.discriminatedUnion('kind', [
     kind: z.literal('paperPage'),
     pageIdx: z.number().int().nonnegative(),
     focus: z.enum(['top', 'center', 'bottom', 'all']).default('all'),
+    // The text on the page that this beat is about. Optional; when set, the
+    // harness resolves `highlightBBox` from the PDF text layer (see
+    // src/lib/resolve-bbox.ts) — far more reliable than the storyteller
+    // guessing pixel coordinates.
+    quote: z.string().optional(),
     highlightBBox: BBox.optional(),
+    // When true and a highlightBBox exists, the renderer crops to the bbox
+    // (with padding) and scales it up to fill the canvas instead of dimming
+    // the rest of the page. Useful when the highlight is small text on a
+    // dense page.
+    zoom: z.boolean().optional(),
   }),
   z.object({
     kind: z.literal('highlightedQuote'),
@@ -107,6 +117,9 @@ export const ManifestSchema = z.object({
   // v2 fields:
   voice: z.array(VoiceBeat).default([]),
   visualBlocks: z.array(VisualBlock).default([]),
+  // Render the bottom CaptionBar over the video. Default false because most
+  // viewers prefer narration alone; the user opts in at /paper-video new time.
+  captions: z.boolean().default(false),
 });
 
 export type Manifest = z.infer<typeof ManifestSchema>;
@@ -294,7 +307,8 @@ function visualKey(v: Visual): string | null {
     case 'paperPage': {
       const bb = v.highlightBBox;
       const bbKey = bb ? `${bb.x},${bb.y},${bb.w},${bb.h}` : '_';
-      return `paperPage:${v.pageIdx}:${v.focus}:${bbKey}`;
+      const zoomKey = v.zoom ? 'z' : '_';
+      return `paperPage:${v.pageIdx}:${v.focus}:${bbKey}:${zoomKey}`;
     }
     case 'highlightedQuote': {
       const bb = v.bbox;
@@ -323,12 +337,14 @@ export function defaultManifest(args: {
   paperSource: Manifest['paperSource'];
   paperTitle: string;
   voiceAlias: string;
+  captions?: boolean;
 }): Manifest {
   return ManifestSchema.parse({
     ...args,
     fps: 30,
     resolution: { width: 1920, height: 1080 },
     segments: [],
+    captions: args.captions ?? false,
   });
 }
 
@@ -344,10 +360,53 @@ export function videoPublicDir(slug: string): string {
  * Walk script.md beats + per-beat timestamps and rebuild manifest.segments with
  * accurate frame ranges. Pause beats use their declared duration; narrated
  * beats use the audio duration from their timestamps file.
+ *
+ * Modes:
+ *   - default (`partial:false`): every narrated beat MUST have its mp3 +
+ *     timestamps; missing files throw. Used at the end of the producer
+ *     pipeline as a final consistency check.
+ *
+ *   - `partial:true`: incremental / live-preview mode. Stops including beats
+ *     at the first one whose audio isn't ready yet — the timeline truncates
+ *     cleanly at the last finished beat. If a Manim mp4 referenced by an
+ *     included beat is still missing, the visual falls back to a "Rendering:
+ *     <scene>" titleCard so the voice can play and the user sees the gap.
+ *     Used by `npm run sync-manifest -- <slug>` after every per-beat narrate
+ *     or render-manim, so the editor's chokidar watcher can fire
+ *     preview:reload and the player materializes new beats live.
  */
-export async function rebuildSegmentsFromScript(slug: string): Promise<Manifest> {
+export async function rebuildSegmentsFromScript(
+  slug: string,
+  options: { partial?: boolean } = {},
+): Promise<Manifest> {
+  const { partial = false } = options;
   const { parseScript } = await import('./script.js');
   const { readTimestamps, secondsToFrames } = await import('./timeline.js');
+  const { resolveBBox } = await import('./resolve-bbox.js');
+
+  // Resolve a paperPage / highlightedQuote visual's bbox from its quote text
+  // when one is present and no manual bbox was provided. Misses log a warning
+  // and leave the visual without a highlight.
+  const enrichVisual = async (v: Visual): Promise<Visual> => {
+    if (v.kind === 'paperPage' && v.quote && !v.highlightBBox) {
+      const bbox = await resolveBBox(slug, v.pageIdx + 1, v.quote);
+      if (bbox) return { ...v, highlightBBox: bbox };
+      console.warn(
+        `[resolve-bbox] quote not found on page ${v.pageIdx + 1}: "${v.quote.slice(0, 80)}…"`,
+      );
+      return v;
+    }
+    if (v.kind === 'highlightedQuote' && v.text && !v.bbox) {
+      const bbox = await resolveBBox(slug, v.pageIdx + 1, v.text);
+      if (bbox) return { ...v, bbox };
+      console.warn(
+        `[resolve-bbox] highlightedQuote text not found on page ${v.pageIdx + 1}: "${v.text.slice(0, 80)}…"`,
+      );
+      return v;
+    }
+    return v;
+  };
+
   const script = parseScript(slug);
   const manifest = readManifest(slug);
   const fps = manifest.fps;
@@ -375,19 +434,37 @@ export async function rebuildSegmentsFromScript(slug: string): Promise<Manifest>
         durationFrames,
         audioFile: null,
         timestampsFile: null,
-        visual: parseVisualCue(beat.visualCue),
+        visual: await enrichVisual(parseVisualCue(beat.visualCue)),
       });
       cursor += durationFrames;
       continue;
     }
     const tsPath = videoFile(slug, 'narration', `${beat.id}.timestamps.json`);
-    if (!fs.existsSync(tsPath)) {
+    const mp3Path = videoFile(slug, 'narration', `${beat.id}.mp3`);
+    const ready = fs.existsSync(tsPath) && fs.existsSync(mp3Path);
+    if (!ready) {
+      if (partial) {
+        // Live-preview mode: truncate the timeline at the last ready beat so
+        // the player gets a clean partial video to scrub. Subsequent beats
+        // will materialize as future syncs after their audio lands.
+        break;
+      }
       throw new Error(`Missing timestamps for ${beat.id}: ${tsPath}. Run narrate.ts first.`);
     }
     const ts = readTimestamps(tsPath);
     // Add 200ms tail so visual settles after voice ends.
     const durationFrames = Math.max(1, secondsToFrames(ts.audioDurationSeconds + 0.2, fps));
-    const visual = parseVisualCue(beat.visualCue);
+    let visual = await enrichVisual(parseVisualCue(beat.visualCue));
+    // In partial mode, if the visual references a Manim mp4 that hasn't
+    // rendered yet, swap in a "Rendering…" placeholder card so the voice
+    // beat still plays — the visualizer will replace it on its next sync.
+    if (partial && visual.kind === 'manimClip') {
+      const mp4Path = videoFile(slug, visual.mp4);
+      if (!fs.existsSync(mp4Path)) {
+        const sceneName = visual.mp4.replace(/^manim\//, '').replace(/\.mp4$/, '');
+        visual = { kind: 'titleCard', text: `Rendering: ${sceneName}…` };
+      }
+    }
     segments.push({
       id: beat.id,
       startFrame: cursor,
@@ -398,7 +475,16 @@ export async function rebuildSegmentsFromScript(slug: string): Promise<Manifest>
     });
     cursor += durationFrames;
   }
-  const updated: Manifest = { ...manifest, segments };
+  // Clear stale v2 fields so migrateToV2 rebuilds them from the fresh
+  // segments — otherwise its idempotency guard returns the old voice /
+  // visualBlocks and incremental syncs never propagate to the player.
+  const updated: Manifest = migrateToV2({
+    ...manifest,
+    segments,
+    voice: [],
+    visualBlocks: [],
+    schemaVersion: undefined,
+  });
   writeManifest(slug, updated);
   return updated;
 }
@@ -436,15 +522,27 @@ function parseVisualCue(cue: string): Visual {
         kind: 'paperPage',
         pageIdx: Number(args['page'] ?? 1) - 1,
         focus: (args['focus'] ?? 'all') as 'top' | 'center' | 'bottom' | 'all',
+        // `quote=` is the preferred way to highlight: the harness resolves
+        // the bbox from the PDF text layer at manifest-build time. Manual
+        // `highlight=x,y,w,h` is supported for back-compat / edge cases.
+        ...(args['quote'] ? { quote: args['quote'] } : {}),
         ...(parseBBox(args['highlight']) ? { highlightBBox: parseBBox(args['highlight'])! } : {}),
+        ...(args['zoom'] === 'true' || args['zoom'] === '1' ? { zoom: true } : {}),
       };
-    case 'highlightedquote':
+    case 'highlightedquote': {
+      // `pageIdx=N` is 0-indexed (legacy convention); `page=N` is 1-indexed.
+      // Use whichever the storyteller emitted without changing its meaning.
+      const pageIdx =
+        args['pageIdx'] !== undefined
+          ? Number(args['pageIdx'])
+          : Math.max(0, Number(args['page'] ?? 1) - 1);
       return {
         kind: 'highlightedQuote',
-        pageIdx: Number(args['pageIdx'] ?? 0),
+        pageIdx,
         text: args['text'] ?? args._text ?? '',
         ...(parseBBox(args['bbox']) ? { bbox: parseBBox(args['bbox'])! } : {}),
       };
+    }
     case 'equationcard':
       return {
         kind: 'equationCard',

@@ -1,0 +1,358 @@
+{
+  "thesisInOneSentence": "If you give a contrastive loss a *bag* of plausible positives instead of demanding a single correct one, you can learn powerful video representations directly from the noisy soundtrack of unedited YouTube how-to videos — no human labels at all.",
+  "audience": "Undergrad ML basics: knows what a softmax, dot product, embedding, and CNN are. Has seen contrastive learning at the level of 'pull positives together, push negatives apart' but probably hasn't seen NCE in formula form. No prior multiple-instance-learning knowledge assumed.",
+  "hook": "There are 100 million instructional clips on YouTube. People narrate as they cook, build, repair — but half the time they describe a thing *before* or *after* doing it, or they don't describe it at all. The question this paper asks: can a model learn to *see* by listening to people who are mostly, sort of, almost telling the truth?",
+  "narrativeArc": [
+    {
+      "actId": "act-1",
+      "name": "The dream and the dirt",
+      "estSeconds": 75,
+      "purpose": "Pose the dream: learn vision from the world's free narration. Then immediately puncture it — the narration is misaligned, vague, late, or absent. Make the misalignment problem visceral with an example (sanding wood: someone says 'sander' five seconds after they pick it up)."
+    },
+    {
+      "actId": "act-2",
+      "name": "The setup: a joint embedding space",
+      "estSeconds": 110,
+      "purpose": "Establish the geometric playing field. Two encoders f (video) and g (text) project clips and narrations into the same R^d. Similarity = dot product. This is the workspace the rest of the video lives in."
+    },
+    {
+      "actId": "act-3",
+      "name": "The single-positive contrastive recipe (NCE)",
+      "estSeconds": 130,
+      "purpose": "Walk through standard NCE: one true clip-narration pair fights against many negatives in a softmax. Make the formula feel like a tug-of-war. Crucially, end this act by stress-testing it: 'what happens when the so-called positive is actually wrong?' — and watch the loss confidently push the encoder in the wrong direction."
+    },
+    {
+      "actId": "act-4",
+      "name": "The MIL trick: a bag of plausible positives",
+      "estSeconds": 195,
+      "purpose": "The center of the video. Don't pick one narration — pick K nearby narrations as candidates and ask the model to match *at least one*. Derive how 'OR' becomes a SUM in probability space (mutually exclusive events), and slot that sum into the NCE numerator. End with the final MIL-NCE formula assembled piece by piece on screen."
+    },
+    {
+      "actId": "act-5",
+      "name": "Why the sum (and not the max)",
+      "estSeconds": 110,
+      "purpose": "Contrast the soft sum-of-positives with two natural alternatives — Max+NCE (pick the best one) and Attn+NCE (attention-weighted average). Show the ablation table. The takeaway: summing keeps the gradient flowing to ALL plausible positives, not just the easiest one. This is the MIL twist."
+    },
+    {
+      "actId": "act-6",
+      "name": "What this buys you",
+      "estSeconds": 70,
+      "purpose": "Show the headline empirical result: representations trained from scratch on uncurated YouTube *beat* representations trained with full Kinetics labels on multiple downstream tasks. No labels, better numbers."
+    },
+    {
+      "actId": "act-7",
+      "name": "Why this matters beyond MIL-NCE",
+      "estSeconds": 30,
+      "purpose": "The lesson generalizes: when supervision is noisy but plentiful, 'soften the positive' rather than clean the data. This is a recipe, not a one-off. Close on the paper title and citation."
+    }
+  ],
+  "conceptsToVisualize": [
+    {
+      "id": "c-001",
+      "concept": "the misalignment problem in narrated video",
+      "whyItMatters": "Without seeing a concrete misalignment, viewers won't understand what MIL-NCE is *for*. This is the entire motivation.",
+      "currentConfusion": "Viewers will assume 'narration roughly = subtitle = caption' and think this is solved. We need to break that intuition with a timeline showing 'sanding down' said five seconds late.",
+      "visualSuggestion": "manim — horizontal video timeline with thumbnail squares above and text bubbles below. Show a 'true alignment' line connecting clip to wrong narration; jiggle the line, then slide text bubbles forward/back in time so the alignment goes wrong. Tag percentage: '~50% of pairs misaligned'.",
+      "associatedActs": ["act-1"],
+      "associatedEquationIds": []
+    },
+    {
+      "id": "c-002",
+      "concept": "joint video-text embedding space",
+      "whyItMatters": "Every later step happens inside R^d. If viewers don't see this space concretely, the dot product score has no home.",
+      "currentConfusion": "People think 'embedding' means a fixed dictionary. Here both f and g are *learned* and they have to converge.",
+      "visualSuggestion": "manim — a 2D scatter (proxy for R^d). Left: video clip thumbnails fly in via f and land as blue dots. Right: narration strings fly in via g and land as orange dots. As we 'train', semantically related pairs drift toward each other; unrelated pairs drift apart.",
+      "associatedActs": ["act-2"],
+      "associatedEquationIds": ["eq-002", "eq-024", "eq-026"]
+    },
+    {
+      "id": "c-003",
+      "concept": "dot product as similarity score",
+      "whyItMatters": "f(x)^T g(y) is the only similarity primitive in the entire paper. It is the load-bearing operation.",
+      "currentConfusion": "Students conflate dot product with cosine similarity; here the embeddings are not unit-normalized so the magnitude matters too.",
+      "visualSuggestion": "manim — two arrows in the same R^d space; project g(y) onto f(x); show the scalar score grow as the angle shrinks AND as magnitudes grow. Annotate e^{score} as 'unnormalized joint probability'.",
+      "associatedActs": ["act-2"],
+      "associatedEquationIds": ["eq-002"]
+    },
+    {
+      "id": "c-004",
+      "concept": "softmax NCE with one positive",
+      "whyItMatters": "MIL-NCE is one symbol-substitution away from this. Without standing this up first, the substitution has no audience.",
+      "currentConfusion": "Why is this a softmax and not just 'maximize the dot product'? Because we need negatives — the dot product alone has no scale.",
+      "visualSuggestion": "manim — build the softmax fraction in three steps: (1) numerator e^{f(x_i)g(y_i)} with the true pair highlighted blue, (2) denominator adds the same plus a row of red e^{f(x')g(y')} negative scores, (3) wrap in log and sum over i. Visually show: pulling the blue arrow tighter while pushing red arrows away.",
+      "associatedActs": ["act-3"],
+      "associatedEquationIds": ["eq-004"]
+    },
+    {
+      "id": "c-005",
+      "concept": "what goes wrong when the positive is wrong",
+      "whyItMatters": "This is the empirical fact the whole paper exists to fix. Show it visually before showing the math fix.",
+      "currentConfusion": "Viewers might assume noise just adds variance. It does worse — it adds confidently-wrong gradient.",
+      "visualSuggestion": "manim — re-use the embedding space; pick a clip whose 'positive' narration is actually unrelated. The training step *pulls* them together (wrong direction) while pushing apart pairs that were actually correct. A red 'X' over the gradient arrow.",
+      "associatedActs": ["act-3"],
+      "associatedEquationIds": ["eq-004"]
+    },
+    {
+      "id": "c-006",
+      "concept": "the bag of positives P_i",
+      "whyItMatters": "This is the conceptual move of the paper. 'Don't pick one — keep K nearby.'",
+      "currentConfusion": "Why is keeping more candidates *better*? Doesn't more noise = worse signal? Answer: because the loss only requires AT LEAST ONE to match — adding noisy candidates can only help, up to a point.",
+      "visualSuggestion": "manim — same timeline as in act-1. Around the chosen clip, slide a window covering K=5 nearby narrations. Group them as a bracket labeled P_i. Highlight: 'we don't know which is correct — so we keep them all.'",
+      "associatedActs": ["act-4"],
+      "associatedEquationIds": ["eq-013", "eq-015", "eq-033", "eq-050"]
+    },
+    {
+      "id": "c-007",
+      "concept": "from OR to SUM (MIL extension)",
+      "whyItMatters": "This is the small-but-essential probability move that justifies why summing exponentials is the right thing.",
+      "currentConfusion": "Where does the sum come from? Why not a max or a product? The answer is mutual exclusivity: if at most one (x, y_k) is the 'true' pair, P(any of them) = sum of P(each).",
+      "visualSuggestion": "manim — Venn-style disjoint blobs labeled (x,y_1), (x,y_2),...(x,y_K). The probability of their union = sum of areas (because disjoint). Then translate areas back to e^{f(x)g(y_k)} terms. Land on: p(P) ∝ Σ_k e^{f(x)g(y_k)}.",
+      "associatedActs": ["act-4"],
+      "associatedEquationIds": ["eq-003", "eq-034"]
+    },
+    {
+      "id": "c-008",
+      "concept": "the MIL-NCE objective assembled",
+      "whyItMatters": "The headline equation. Should land as a satisfying click — every piece already introduced, now snapped into one expression.",
+      "currentConfusion": "The equation looks scary at first glance. But every symbol was built up earlier — emphasize the substitution: numerator went from a single e^{...} to a sum of e^{...}.",
+      "visualSuggestion": "manim — start with the standard NCE equation on screen. Highlight the numerator. Replace it with the sum-over-bag, in place. Slide in the rest. Color-code: blue = positives bag, red = negatives, gray = log.",
+      "associatedActs": ["act-4"],
+      "associatedEquationIds": ["eq-001", "eq-004", "eq-041"]
+    },
+    {
+      "id": "c-009",
+      "concept": "MIL-NCE vs Max+NCE vs Attn+NCE",
+      "whyItMatters": "Justifies WHY summing (the soft 'any') beats picking the best one (the hard 'argmax') or attending to the best one. Without this, a viewer would reasonably ask 'why not just pick the most-similar candidate?'",
+      "currentConfusion": "Max sounds smarter — it commits. But max only sends gradient to one element. Sum sends gradient everywhere. With noisy bags this matters a lot.",
+      "visualSuggestion": "manim — three side-by-side gradient diagrams. Max+NCE: gradient flows through one candidate. Attn+NCE: weighted average, mostly through one. MIL-NCE: gradient flows through ALL plausible positives. Then drop the ablation numbers from Table 2d.",
+      "associatedActs": ["act-5"],
+      "associatedEquationIds": ["eq-005", "eq-006", "eq-008", "eq-009"]
+    },
+    {
+      "id": "c-010",
+      "concept": "results vs supervised baselines",
+      "whyItMatters": "The empirical payoff. No labels, beats labels. This is the surprise that makes the paper memorable.",
+      "currentConfusion": "Viewers might expect 'self-supervised is close to but slightly behind supervised.' Here it actually wins.",
+      "visualSuggestion": "spotlight — pull the relevant rows of Table 3 and Table 4c onto the screen with our row highlighted. Then a small Manim bar chart comparing 'Supervised on Kinetics-700' vs 'Ours, no labels' on COIN frame accuracy and on Kinetics-700 top-1.",
+      "associatedActs": ["act-6"],
+      "associatedEquationIds": []
+    }
+  ],
+  "questionsToAnswerOnScreen": [
+    "Why does noisy narration break standard contrastive learning?",
+    "What does it actually mean for a clip-narration pair to be 'misaligned'?",
+    "What is a joint embedding space, geometrically?",
+    "Why is the loss a softmax — what role do the negatives play?",
+    "Where does the sum-over-bag come from? (Why is OR a sum?)",
+    "Why summing is better than maxing over the bag?",
+    "How can a model trained on YouTube *beat* a model trained on Kinetics labels?"
+  ],
+  "thingsToCutOrSkip": [
+    "Section 2 related work — name HowTo100M and CPC/InfoNCE in passing, otherwise skip the literature wall.",
+    "Specific I3D / S3D architecture internals — say '3D CNN backbone' and move on.",
+    "Word2vec details and language-model ablations (Table 2f) — mention 'a simple bag-of-words text encoder is enough' and don't dwell.",
+    "All eight downstream datasets individually — pick TWO (HMDB-51 / UCF-101 for action recognition, COIN for segmentation, plus the headline Kinetics-700 finetune comparison) and skip YouCook2, MSR-VTT, YT8M, CrossTask details.",
+    "Symmetric vs asymmetric negative ablation (Table 2e) — mention only as a footnote if at all.",
+    "Number-of-negatives ablation (Table 2b) — fold into 'more negatives helps, they used 512'.",
+    "The Attn+NCE math (eq-007, eq-008, eq-009) — mention it exists, don't derive it. Save derivation budget for MIL-NCE itself.",
+    "Tables 4a/4b/4d details and the labeled-dataset retrieval comparisons — show one chart, not the full set."
+  ],
+  "priorWork": [
+    {
+      "title": "HowTo100M: Learning a Text-Video Embedding by Watching Hundred Million Narrated Video Clips",
+      "arxivId": "1906.03327",
+      "year": 2019,
+      "whyRelevant": "The dataset that makes this work possible AND the immediate predecessor that ignored misalignment — MIL-NCE is the targeted fix to that paper's blind spot."
+    },
+    {
+      "title": "Representation Learning with Contrastive Predictive Coding (CPC / InfoNCE)",
+      "arxivId": "1807.03748",
+      "year": 2018,
+      "whyRelevant": "Establishes softmax-NCE as a representation-learning loss. MIL-NCE swaps its single-positive numerator for a sum-over-bag."
+    },
+    {
+      "title": "Noise-contrastive estimation: A new estimation principle for unnormalized statistical models",
+      "arxivId": null,
+      "year": 2010,
+      "whyRelevant": "Gutmann and Hyvarinen — the original NCE. Worth a one-sentence acknowledgement so 'NCE' is not a cargo-culted acronym."
+    },
+    {
+      "title": "Solving the multiple instance problem with axis-parallel rectangles",
+      "arxivId": null,
+      "year": 1997,
+      "whyRelevant": "Dietterich et al. — the foundational MIL paper. One-line mention: this is where 'a bag has at least one positive' comes from."
+    },
+    {
+      "title": "Quo Vadis, Action Recognition? A New Model and the Kinetics Dataset (I3D)",
+      "arxivId": "1705.07750",
+      "year": 2017,
+      "whyRelevant": "I3D is the video backbone. Mention as 'a standard 3D CNN' and skip the inflation details."
+    }
+  ],
+  "supportingMaterial": [
+    {
+      "kind": "image",
+      "needsToFind": "Figure 1 — example showing instructional video frames with misaligned narrations underneath",
+      "preferredSource": "videos/video-paper-smaira/paper-md-assets/_page_0_Figure_10.jpeg if extracted, else page-001.png crop"
+    },
+    {
+      "kind": "image",
+      "needsToFind": "Figure 2a — five candidate (clip, narration) pairs with a bracket showing the bag P",
+      "preferredSource": "page-003.png — the figure illustrating positive candidates and the MIL-NCE diagram"
+    },
+    {
+      "kind": "image",
+      "needsToFind": "Figure 2b — the abstract diagram with green triangles (positives), red squares (negatives), and the discriminative ratio illustration",
+      "preferredSource": "page-003.png — right half"
+    },
+    {
+      "kind": "image",
+      "needsToFind": "Figure 3 — selected video/narration pairs from a held-out set, showing what MIL-NCE chose to weight highly",
+      "preferredSource": "page-007.png"
+    },
+    {
+      "kind": "diagram",
+      "needsToGenerate": "stylized timeline showing a clip x and 5 narrations y, y^1..y^4 sliding in time relative to the clip, with the bag P drawn as a bracket"
+    },
+    {
+      "kind": "diagram",
+      "needsToGenerate": "side-by-side comparison: standard NCE numerator (one term) vs MIL-NCE numerator (sum of K terms), both as boxed equations with arrows"
+    },
+    {
+      "kind": "diagram",
+      "needsToGenerate": "small bar chart: 'Ours (no labels)' vs 'Supervised baseline (Kinetics)' on COIN action segmentation and Kinetics-700 finetune"
+    }
+  ],
+  "spotlights": [
+    {
+      "label": "the abstract claim — learn from scratch, no labels, beat fully-supervised",
+      "pageIdx": 0,
+      "bboxApprox": "0.10,0.34,0.80,0.18",
+      "whyItMatters": "Anchor the thesis in the paper's own words at the top of the video."
+    },
+    {
+      "label": "Figure 1 — misaligned narration example",
+      "pageIdx": 0,
+      "bboxApprox": "0.08,0.55,0.84,0.20",
+      "whyItMatters": "Concrete instance of the noise problem the rest of the paper exists to fix."
+    },
+    {
+      "label": "Figure 2a — bag of K positive candidates",
+      "pageIdx": 2,
+      "bboxApprox": "0.08,0.10,0.42,0.30",
+      "whyItMatters": "The visual definition of the bag P. Land it on screen the moment we introduce MIL."
+    },
+    {
+      "label": "Figure 2b — MIL-NCE diagram with positives/negatives",
+      "pageIdx": 2,
+      "bboxApprox": "0.52,0.10,0.40,0.30",
+      "whyItMatters": "Geometric intuition for the soft selection of multiple positives vs traditional MIL."
+    },
+    {
+      "label": "MIL-NCE objective — the headline equation (1)",
+      "pageIdx": 3,
+      "bboxApprox": "0.18,0.18,0.64,0.10",
+      "whyItMatters": "When the derivation lands, point at the printed equation. Closes the loop with the paper itself."
+    },
+    {
+      "label": "Standard NCE objective (4)",
+      "pageIdx": 4,
+      "bboxApprox": "0.18,0.16,0.64,0.10",
+      "whyItMatters": "Show the contrast: this is the equation we modify in exactly one place."
+    },
+    {
+      "label": "Table 2c — performance vs |P|",
+      "pageIdx": 5,
+      "bboxApprox": "0.55,0.50,0.42,0.20",
+      "whyItMatters": "Validates the central claim with a sweep — going from 1 to 5 candidates is a big jump."
+    },
+    {
+      "label": "Table 3 — beating self-supervised SOTA on HMDB/UCF",
+      "pageIdx": 6,
+      "bboxApprox": "0.55,0.18,0.42,0.40",
+      "whyItMatters": "The headline empirical result. The 'Ours' row sitting next to fully-supervised numbers is the moral payoff."
+    },
+    {
+      "label": "Table 4c — Kinetics-700 from scratch / ImageNet / Ours",
+      "pageIdx": 7,
+      "bboxApprox": "0.45,0.10,0.30,0.18",
+      "whyItMatters": "Numerically: pretraining on YouTube > pretraining on ImageNet labels."
+    }
+  ],
+  "derivationsToBuild": [
+    {
+      "concept": "from joint probability to standard NCE",
+      "openingQuestion": "We want a loss that pulls true clip-narration pairs together and pushes random pairs apart. How do we turn that wish into a single number we can backprop?",
+      "stepsToShow": [
+        "state p(x,y) ∝ e^{f(x)^T g(y)} as our scoring rule",
+        "the problem with maximum likelihood: the normalization constant sums over ALL pairs of clips and narrations — intractable",
+        "switch to a discriminative trick: ask the model to tell true pairs from negative pairs",
+        "write the softmax: numerator = score of the true pair, denominator = true + negatives",
+        "take log, sum over training pairs — that's the NCE loss"
+      ],
+      "estBeats": 10,
+      "associatedEquationIds": ["eq-002", "eq-004"]
+    },
+    {
+      "concept": "from NCE to MIL-NCE — the bag-of-positives extension",
+      "openingQuestion": "What if the 'true' positive isn't actually true? What if we don't know which of K nearby narrations matches the clip?",
+      "stepsToShow": [
+        "set up the bag: pick K narrations near the clip in time, call the set P",
+        "we want: at least one of them matches → in probability, this is P(union of (x, y_k))",
+        "if the candidate pairs are mutually exclusive, P(union) = sum of individual probabilities",
+        "translate back to scores: p(P) ∝ Σ_{k} e^{f(x)^T g(y_k)}",
+        "now plug this sum into the NCE numerator — the denominator stays the same",
+        "the result is the MIL-NCE objective: same loss shape, but the numerator is a SUM over the bag"
+      ],
+      "estBeats": 12,
+      "associatedEquationIds": ["eq-001", "eq-003", "eq-034", "eq-041"]
+    },
+    {
+      "concept": "why sum, not max — the gradient argument",
+      "openingQuestion": "Wouldn't it be smarter to pick the single best candidate from the bag and ignore the rest?",
+      "stepsToShow": [
+        "max+NCE: numerator = max over the bag — gradient flows through ONE candidate per step",
+        "MIL-NCE: numerator = sum — gradient flows through ALL candidates, weighted by their current score",
+        "consequence: in noisy bags, max commits early and can latch onto a wrong winner; sum hedges and lets the model discover which candidate is right over training",
+        "ablation Table 2d makes the case: MIL-NCE > Max+NCE on most tasks"
+      ],
+      "estBeats": 6,
+      "associatedEquationIds": ["eq-005", "eq-006"]
+    }
+  ],
+  "metaphors": [
+    {
+      "concept": "MIL-NCE — the bag of positives",
+      "metaphor": "A police lineup where the witness can only say 'one of these five people is the suspect, but I'm not sure which.' Standard NCE forces the witness to pick exactly one (and they'll often be wrong). MIL-NCE lets the lineup as a whole speak — if any one of the five is a strong match, the whole bag scores high.",
+      "whenToDeploy": "Just before the eq-003 derivation, in act-4. Drop the metaphor immediately after introducing the bag visually but before the probability math."
+    },
+    {
+      "concept": "joint embedding space",
+      "metaphor": "A meeting room where video clips and sentences walk in through different doors but have to find each other. Each clip carries a position chosen by f; each sentence carries a position chosen by g; the dot product is how close they're standing.",
+      "whenToDeploy": "Beginning of act-2, when we introduce f and g as the two encoders."
+    },
+    {
+      "concept": "noise-contrastive estimation",
+      "metaphor": "Telling apart real money from counterfeit. You don't model what real bills look like in the abstract — you train a detector by showing it real and fake side by side, and the contrast does the work.",
+      "whenToDeploy": "When NCE is first named, in act-3. Helps demystify the 'noise' in the name."
+    }
+  ],
+  "narrativeAngles": [
+    "The 'one symbol' story: MIL-NCE differs from standard NCE in exactly one place — the numerator becomes a sum. A single typographic change with a huge empirical payoff. The whole video is a setup for that substitution.",
+    "The 'noisy supervision' story: real-world data is messy. Instead of cleaning it, design a loss that's robust to mess. MIL-NCE is a case study in this strategy.",
+    "The 'soft argmax' framing: across the act-5 ablation, the lesson is that summing (a soft 'any') beats maxing (a hard 'argmax') when you don't know which candidate is correct. Same lesson appears in attention, in mixture models, in Boltzmann distributions.",
+    "Frame as a fix to a specific paper (HowTo100M / Miech 2019). The original work paired one clip to one narration and got OK results. MIL-NCE keeps the bag and gets state-of-the-art."
+  ],
+  "criticisms": [
+    "The paper hand-waves the mutual-exclusivity assumption (the y_k's are 'mutually exclusive') that lets P(union) = sum. We MUST make this assumption explicit on screen — it's the only thing that justifies the sum and most viewers will accept the formula without noticing the assumption was made.",
+    "The paper's Figure 2b is conceptually strong but visually noisy (overlapping triangles, squares, blobs). Don't reuse it raw — redraw the green-positives / red-negatives diagram in Manim with cleaner geometry.",
+    "The paper presents the MIL-NCE equation (1) as a formula to be accepted, then justifies it 'in the following section'. We should *invert* this order: derive standard NCE first, derive the bag-sum first, THEN assemble equation (1) as the natural consequence. The reveal feels earned that way.",
+    "The Max+NCE / Attn+NCE alternatives (eqs 5-9) are presented as if obviously inferior. They are not — Max+NCE is essentially the original MIL-SVM trick. We owe the viewer a fair argument for why summing wins, ideally with the gradient-flow visualization, not just 'Table 2d says so'.",
+    "The paper doesn't motivate why the bag size sweet-spot is K=5 — it just says 'too many adds noise, too few defeats the point'. We should show Table 2c as the empirical answer rather than pretending there's a principled derivation."
+  ],
+  "openQuestionsForUser": [
+    "How deep do you want to go on NCE itself? Option A (lighter): present softmax-NCE as 'the standard contrastive loss' with one slide of intuition, then move on. Option B (deeper): derive NCE from the joint-probability/normalization-constant problem (~60 extra seconds in act-3). The current arc assumes Option A. Switching to B pushes act-3 from 130s to ~190s and we'd need to trim act-5 or act-6.",
+    "Should we mention that the Attn+NCE comparison hints at modern cross-modal attention models (CLIP, Flamingo)? Could be a nice forward-looking footnote in act-7, or a digression we cut.",
+    "The paper compares to AVTS [43] which uses *audio* (not text) for self-supervision. Worth a 10-second 'and other modalities work too' aside, or skip to keep the focus tight?"
+  ]
+}

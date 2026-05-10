@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#1a2332"/>
+      <stop offset="100%" stop-color="#0e1117"/>
+    </radialGradient>
+    <linearGradient id="paper" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f3ead2"/>
+      <stop offset="100%" stop-color="#d9cca6"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+
+  <!-- Aged paper -->
+  <g transform="translate(610,90)">
+    <!-- subtle paper shadow -->
+    <rect x="8" y="14" width="700" height="900" fill="#000" opacity="0.45" rx="2"/>
+    <rect width="700" height="900" fill="url(#paper)" rx="2"/>
+    <!-- decorative double rule -->
+    <line x1="60" y1="80" x2="640" y2="80" stroke="#5a4a2a" stroke-width="2"/>
+    <line x1="60" y1="86" x2="640" y2="86" stroke="#5a4a2a" stroke-width="0.6"/>
+
+    <g text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" fill="#2c2014">
+      <text x="350" y="160" font-size="38" letter-spacing="2">NOUVELLES MÉTHODES</text>
+      <text x="350" y="210" font-size="26" font-style="italic">pour la détermination</text>
+      <text x="350" y="248" font-size="26" font-style="italic">DES ORBITES DES COMÈTES;</text>
+      <line x1="220" y1="290" x2="480" y2="290" stroke="#5a4a2a" stroke-width="1"/>
+      <text x="350" y="340" font-size="22" font-style="italic">avec un</text>
+      <text x="350" y="378" font-size="28" letter-spacing="3">SUPPLÉMENT</text>
+      <text x="350" y="418" font-size="22" font-style="italic">contenant divers perfectionnements</text>
+      <text x="350" y="448" font-size="22" font-style="italic">de ces méthodes et leur application</text>
+      <text x="350" y="478" font-size="22" font-style="italic">aux deux comètes de 1805.</text>
+      <line x1="260" y1="520" x2="440" y2="520" stroke="#5a4a2a" stroke-width="1"/>
+      <text x="350" y="580" font-size="24">PAR A. M. LEGENDRE,</text>
+      <text x="350" y="615" font-size="18" font-style="italic">Membre de l'Institut et de la Légion d'honneur,</text>
+      <text x="350" y="640" font-size="18" font-style="italic">de la Société royale de Londres, etc.</text>
+      <line x1="280" y1="690" x2="420" y2="690" stroke="#5a4a2a" stroke-width="1"/>
+      <text x="350" y="760" font-size="22">A PARIS,</text>
+      <text x="350" y="800" font-size="18" font-style="italic">Chez COURCIER, Imprimeur-Libraire</text>
+      <text x="350" y="824" font-size="18" font-style="italic">pour les Mathématiques.</text>
+      <line x1="290" y1="852" x2="410" y2="852" stroke="#5a4a2a" stroke-width="1"/>
+      <text x="350" y="884" font-size="22" letter-spacing="3">M. DCCC. V.</text>
+    </g>
+  </g>
+
+  <!-- Caption -->
+  <g text-anchor="middle" font-family="Georgia, serif" fill="#8b949e">
+    <text x="960" y="1040" font-size="24" font-style="italic">Legendre's appendix &#8212; "Sur la méthode des moindres quarrés" (Paris, 1805)</text>
+  </g>
+</svg>

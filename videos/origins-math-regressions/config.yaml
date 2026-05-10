@@ -1,0 +1,13 @@
+slug: origins-math-regressions
+paperSource:
+  kind: url
+  value: https://www.cs.toronto.edu/~hinton/absps/naturebp.pdf
+paperTitle: Learning representations by back-propagating errors
+voice: pharaoh
+captions: false
+targetLengthMinutes: 12
+focusAreas: []
+resolution:
+  width: 1920
+  height: 1080
+fps: 30

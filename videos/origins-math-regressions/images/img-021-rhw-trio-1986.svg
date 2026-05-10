@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#1a2332"/>
+      <stop offset="100%" stop-color="#0e1117"/>
+    </radialGradient>
+    <linearGradient id="paperJ" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f6f1e0"/>
+      <stop offset="100%" stop-color="#e0d9c0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+
+  <!-- The Nature paper title block -->
+  <g transform="translate(380,140)">
+    <rect x="10" y="16" width="1160" height="800" fill="#000" opacity="0.5" rx="2"/>
+    <rect width="1160" height="800" fill="url(#paperJ)" rx="2"/>
+
+    <g font-family="Georgia, 'Times New Roman', serif" fill="#161312">
+      <!-- masthead -->
+      <rect x="80" y="60" width="220" height="46" fill="#a32424"/>
+      <text x="190" y="93" text-anchor="middle" font-size="28" font-weight="700" fill="#fff" letter-spacing="3">nature</text>
+      <text x="1080" y="93" text-anchor="end" font-size="16" font-style="italic">Vol. 323 &#8226; 9 October 1986</text>
+      <line x1="80" y1="125" x2="1080" y2="125" stroke="#161312" stroke-width="1.5"/>
+
+      <text x="580" y="180" text-anchor="middle" font-size="18" letter-spacing="3" fill="#a32424">LETTER TO NATURE</text>
+
+      <!-- title -->
+      <text x="580" y="260" text-anchor="middle" font-size="46" font-weight="700">Learning representations</text>
+      <text x="580" y="318" text-anchor="middle" font-size="46" font-weight="700">by back-propagating errors</text>
+
+      <line x1="430" y1="360" x2="730" y2="360" stroke="#161312" stroke-width="1"/>
+
+      <!-- authors -->
+      <text x="580" y="430" text-anchor="middle" font-size="32" letter-spacing="2">David E. Rumelhart*</text>
+      <text x="580" y="478" text-anchor="middle" font-size="32" letter-spacing="2">Geoffrey E. Hinton&#8224;</text>
+      <text x="580" y="526" text-anchor="middle" font-size="32" letter-spacing="2">Ronald J. Williams*</text>
+
+      <!-- affiliations -->
+      <text x="580" y="600" text-anchor="middle" font-size="18" font-style="italic">*Institute for Cognitive Science, University of California, San Diego,</text>
+      <text x="580" y="626" text-anchor="middle" font-size="18" font-style="italic">La Jolla, California 92093, USA</text>
+      <text x="580" y="666" text-anchor="middle" font-size="18" font-style="italic">&#8224;Department of Computer Science, Carnegie-Mellon University,</text>
+      <text x="580" y="692" text-anchor="middle" font-size="18" font-style="italic">Pittsburgh, Pennsylvania 15213, USA</text>
+
+      <line x1="430" y1="730" x2="730" y2="730" stroke="#161312" stroke-width="0.5"/>
+      <text x="580" y="765" text-anchor="middle" font-size="16">Nature 323, 533&#8211;536 (9 October 1986)</text>
+    </g>
+  </g>
+
+  <g text-anchor="middle" font-family="Georgia, serif" fill="#8b949e">
+    <text x="960" y="970" font-size="26" font-style="italic">The 1986 paper that ended the AI winter</text>
+    <text x="960" y="1010" font-size="20">Rumelhart &#183; Hinton &#183; Williams</text>
+  </g>
+</svg>

@@ -3,7 +3,6 @@ import type { PlayerRef } from '@remotion/player';
 import type { Manifest, Visual } from '../api';
 import { useSelection } from '../selection/selection';
 import { useThreadStore } from '../threads/store';
-import { ws } from '../ws/client';
 
 const KIND_COLORS: Record<Visual['kind'], string> = {
   titleCard: '#8b5cf6',
@@ -27,23 +26,21 @@ export const BeatStrip: React.FC<{
   const sel = useSelection((s) => s.current);
   const setSel = useSelection((s) => s.set);
   const setPanelOpen = useThreadStore((s) => s.setPanelOpen);
+  const setDraft = useThreadStore((s) => s.setDraft);
 
   const seekTo = (frame: number) => {
     playerRef?.current?.seekTo(Math.max(0, Math.min(totalFrames - 1, frame)));
   };
 
+  // Seed a draft thread in the side panel and open it. The actual
+  // `thread:create` is sent from the panel's composer when the user types
+  // their ask there — never via a window.prompt popup.
   const startSpotEdit = (kind: 'beat' | 'block', id: string) => {
-    const initialAsk = window.prompt(`Spot-edit on ${id}: what should claude do?`, '');
-    if (!initialAsk || !initialAsk.trim()) return;
+    const scope = kind === 'beat'
+      ? { beatIds: [id], blockIds: [] as string[], label: id }
+      : { beatIds: [] as string[], blockIds: [id], label: id };
+    setDraft(slug, { scope });
     setPanelOpen(slug, true);
-    ws.send({
-      kind: 'thread:create',
-      slug,
-      scope: kind === 'beat'
-        ? { beatIds: [id], blockIds: [], label: id }
-        : { beatIds: [], blockIds: [id], label: id },
-      initialAsk: initialAsk.trim(),
-    });
   };
 
   // Detect if a single-beat or single-block selection is active so we can show

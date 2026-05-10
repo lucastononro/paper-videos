@@ -1,0 +1,144 @@
+[
+  {
+    "id": "ref-mactutor-galois",
+    "title": "Évariste Galois — MacTutor History of Mathematics Archive",
+    "author": "J. J. O'Connor and E. F. Robertson",
+    "publisher": "University of St Andrews",
+    "year": null,
+    "url": "https://mathshistory.st-andrews.ac.uk/Biographies/Galois/",
+    "whyRelevant": "Primary biographical source. Hedges legends (the eraser; the all-night writing) against the documentary record. The single most reliable English-language biography online."
+  },
+  {
+    "id": "ref-wikipedia-galois",
+    "title": "Évariste Galois — Wikipedia (English)",
+    "url": "https://en.wikipedia.org/wiki/%C3%89variste_Galois",
+    "whyRelevant": "Cross-reference for dates, names, document quotes (testament letter, banquet toast, last words to Alfred). Cross-checked May 2026."
+  },
+  {
+    "id": "ref-britannica-galois",
+    "title": "Évariste Galois — Encyclopedia Britannica",
+    "url": "https://www.britannica.com/biography/Evariste-Galois",
+    "whyRelevant": "Concise corroboration of family background, the funeral riot, the political fuse after his father's suicide."
+  },
+  {
+    "id": "ref-rothman-1982",
+    "title": "Genius and Biographers: The Fictionalization of Évariste Galois",
+    "author": "Tony Rothman",
+    "venue": "American Mathematical Monthly, vol. 89 no. 2, pp. 84–106",
+    "year": 1982,
+    "url": "https://bpb-us-e1.wpmucdn.com/sites.tufts.edu/dist/8/3572/files/2015/11/rothman.pdf",
+    "whyRelevant": "The canonical debunking of the romantic Galois myth (the all-night invention, the duel-over-a-femme-fatale, E. T. Bell's purple prose). Required reading before scripting Acts 1, 6, and the criticisms section."
+  },
+  {
+    "id": "ref-neumann-2011",
+    "title": "The Mathematical Writings of Évariste Galois",
+    "author": "Peter M. Neumann",
+    "publisher": "European Mathematical Society (Heritage of European Mathematics)",
+    "year": 2011,
+    "url": "https://ems.press/books/hem/9",
+    "whyRelevant": "Modern critical edition of Galois's manuscripts, with parallel French/English translations and notes. The authoritative source on the testament letter and the marginal annotations."
+  },
+  {
+    "id": "ref-gardner-bicentennial",
+    "title": "The Bicentennial of Évariste Galois",
+    "author": "Robert Gardner",
+    "publisher": "East Tennessee State University (lecture notes)",
+    "year": 2011,
+    "url": "https://faculty.etsu.edu/gardnerr/talks/Galois-print.pdf",
+    "whyRelevant": "Useful narrative summary with reproductions of the duel-night letter quotations. Convenient cross-check on letter texts."
+  },
+  {
+    "id": "ref-brechenmacher-galoisfields",
+    "title": "A History of Galois Fields",
+    "author": "Frédéric Brechenmacher",
+    "venue": "preprint, hal-00786662",
+    "year": 2012,
+    "url": "https://hal.science/hal-00786662",
+    "whyRelevant": "Definitive account of the 1830 finite-field paper and how Liouville's 1846 publication interacted with the broader 19th-century group-theory tradition (Cauchy, Serret, Jordan)."
+  },
+  {
+    "id": "ref-liouville-1846",
+    "title": "Œuvres mathématiques d'Évariste Galois (Journal de mathématiques pures et appliquées, Tome XI, 1846, pp. 381–444)",
+    "author": "Évariste Galois, edited by Joseph Liouville",
+    "year": 1846,
+    "url": "https://gallica.bnf.fr/ark:/12148/bpt6k163907/f472n2.capture",
+    "whyRelevant": "The original posthumous publication. The literal moment Galois's ideas reach the printed page, fourteen years after the duel."
+  },
+  {
+    "id": "ref-jordan-1870",
+    "title": "Traité des substitutions et des équations algébriques",
+    "author": "Camille Jordan",
+    "publisher": "Gauthier-Villars, Paris",
+    "year": 1870,
+    "url": "https://gallica.bnf.fr/ark:/12148/bpt6k290534.image",
+    "whyRelevant": "The book that turned Galois's manuscript into a discipline. The hinge between Galois and modern group theory. Read by Klein and Lie in Paris that same summer."
+  },
+  {
+    "id": "ref-wikipedia-abel-ruffini",
+    "title": "Abel–Ruffini theorem — Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Abel%E2%80%93Ruffini_theorem",
+    "whyRelevant": "Cross-reference for the 1799 Ruffini / 1824 Abel chronology and the modern Galois-theoretic statement."
+  },
+  {
+    "id": "ref-wikipedia-solvable-group",
+    "title": "Solvable group — Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Solvable_group",
+    "whyRelevant": "Standard definition of the solvable chain and the equivalence with the derived series — the core technical object of Acts 3 and 5."
+  },
+  {
+    "id": "ref-wikipedia-alternating-group",
+    "title": "Alternating group — Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Alternating_group",
+    "whyRelevant": "Reference for |A_n| = n!/2, A_5 simplicity, and the icosahedral isomorphism A_5 ≅ I."
+  },
+  {
+    "id": "ref-wikipedia-galois-theory",
+    "title": "Galois theory — Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Galois_theory",
+    "whyRelevant": "Modern statement of the Galois correspondence and a cross-reference for the canonical examples used in Act 3 (x^3 - 2 / Q)."
+  },
+  {
+    "id": "ref-wikipedia-erlangen",
+    "title": "Erlangen program — Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Erlangen_program",
+    "whyRelevant": "Cross-reference for Klein's 1872 reformulation of geometry as the study of group invariants. Anchor of the Act 7 legacy montage."
+  },
+  {
+    "id": "ref-wikipedia-noether-theorem",
+    "title": "Noether's theorem — Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Noether%27s_theorem",
+    "whyRelevant": "Reference for the 1918 statement and the discrete-to-continuous bridge from Galois groups to Lie groups in physics."
+  },
+  {
+    "id": "ref-wikipedia-aes",
+    "title": "Advanced Encryption Standard — Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Advanced_Encryption_Standard",
+    "whyRelevant": "Confirms AES operates on bytes interpreted as elements of GF(2^8) with the irreducible polynomial x^8 + x^4 + x^3 + x + 1 — the closing flourish of Act 7."
+  },
+  {
+    "id": "ref-wikipedia-reed-solomon",
+    "title": "Reed–Solomon error correction — Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Reed%E2%80%93Solomon_error_correction",
+    "whyRelevant": "Confirms the use of Galois fields in CDs, DVDs, QR codes, and Voyager telemetry."
+  },
+  {
+    "id": "ref-rothman-bell-debunk",
+    "title": "Genius and Biographers (full PDF host on tufts.edu)",
+    "author": "Tony Rothman",
+    "year": 1982,
+    "url": "https://www.tandfonline.com/doi/abs/10.1080/00029890.1982.11995389",
+    "whyRelevant": "Mirror of ref-rothman-1982 (publisher's authoritative landing page on Taylor & Francis)."
+  },
+  {
+    "id": "ref-mactutor-jordan",
+    "title": "Marie Ennemond Camille Jordan — MacTutor",
+    "url": "https://mathshistory.st-andrews.ac.uk/Biographies/Jordan/",
+    "whyRelevant": "Confirms Klein and Lie's 1870 Paris pilgrimage to study the Traité under Jordan's guidance."
+  },
+  {
+    "id": "ref-mactutor-klein",
+    "title": "Felix Christian Klein — MacTutor",
+    "url": "https://mathshistory.st-andrews.ac.uk/Biographies/Klein/",
+    "whyRelevant": "Cross-reference for the 1870 Paris visit and the path from Jordan's Traité to the 1872 Erlangen Program."
+  }
+]

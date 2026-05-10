@@ -1,0 +1,772 @@
+{
+  "thesisInOneSentence": "A poor sleeper, a sharp tongue, and one stubborn question — 'when can an equation be solved with a formula?' — collided in Évariste Galois to invent the language of symmetry that now runs through algebra, physics, and cryptography, all before he was shot dead at twenty in a quarrel over a woman.",
+  "audience": "Curious adults with a high-school memory of the quadratic formula and zero abstract-algebra background. Assume they know what a polynomial is and what a 'formula' means; assume they have never heard the words 'group', 'normal subgroup', or 'permutation' used technically. Documentary tone — Ken Burns × 3Blue1Brown. Viewers should leave able to explain to a friend why the quintic has no formula.",
+  "hook": "A 20-year-old, the night before being shot dead in a duel he tried to talk his way out of, scribbled 'I have not the time' in the margin of a manuscript that would dominate algebra for two centuries. Almost everything you've heard about that night is wrong.",
+  "teaser": {
+    "openingLine": "On the morning of May 30, 1832, a passing peasant found a 20-year-old face-down by a pond near Paris, shot through the stomach.",
+    "stakes": "He died the next day. In his pockets and on his desk were the seeds of a theory that would later make modern physics, modern chemistry, and the encryption protecting this video possible — and almost everything later told about him is fiction.",
+    "openLoop": "How does a boy who failed his entrance exam twice, who never published a textbook, who lived twenty years and four months — invent the mathematics that two centuries of mathematicians, physicists, and cryptographers would build on? And what really happened the night before the duel?",
+    "visualConcept": "Open on a slow Ken-Burns push into the Alfred Galois portrait sketch (paper-md-assets/_page_0_Picture_3.jpeg) — the only known likeness, drawn by his grieving brother. Hold on the eyes for a beat too long. Cut to a candle-lit close-up of a manuscript page (one of the marginalia photos), camera tracking across crossed-out lines, landing on the famous 'Je n'ai pas le temps' annotation. Cut to a single field of black, then a Manim card: '{ 1, s_1, s_2, t_1, t_2, t_3 }' — the six elements of S_3, glowing — then dissolve. Title card lands as the LAST beat: 'Évariste Galois — Twenty Years, Two Centuries.'",
+    "estSeconds": 22,
+    "titleCardText": "Évariste Galois\nTwenty Years, Two Centuries"
+  },
+  "narrativeArc": [
+    {
+      "actId": "act-0",
+      "name": "Teaser",
+      "estSeconds": 22,
+      "purpose": "Cold-open: the dead body, the manuscript, the two-century shadow. End on a title card. NO math, NO biography yet — just a hook + an open loop. ~6-7 beats.",
+      "beatBudget": 7
+    },
+    {
+      "actId": "act-1",
+      "name": "Bourg-la-Reine: a mayor's son, a mother's library",
+      "estSeconds": 90,
+      "purpose": "Establish the world: 1811, post-Napoleonic France, a small town just south of Paris. Father is the liberal mayor and a composer of rhymed couplets; mother is a Latinist and skeptic, his sole teacher for twelve years. Set up two threads: a sharp, opinionated household; a France with the Bourbons returning, the Jesuits returning, the Revolution still smoldering. End the act with the family riding into Paris to drop 12-year-old Évariste at Louis-le-Grand. ~14-16 beats.",
+      "beatBudget": 16
+    },
+    {
+      "actId": "act-2",
+      "name": "Louis-le-Grand and a quiet rebellion in the chapel",
+      "estSeconds": 85,
+      "purpose": "Boarding-school years. The provisor wants to bring back the Jesuits; students refuse to sing, refuse to toast the king, get expelled by the dozens. Galois is not (yet) among the rebels but the autocratic regime imprints him. Teacher reports drift: 'good, but singular' → 'closed and original.' At fifteen, he is held back in rhetoric — punishment that becomes accidental gift, because it places him in M. Vernier's first math class. ~13-15 beats.",
+      "beatBudget": 14
+    },
+    {
+      "actId": "act-3",
+      "name": "The 350-year-old question",
+      "estSeconds": 120,
+      "purpose": "Pivot from biography to math. Plant the central question of the video: when can a polynomial equation be solved by a formula in its coefficients? Walk the viewer through quadratic (everyone knows it), cubic (Cardano, 1545, dramatic story), quartic (Ferrari, same year), then crash into the wall: the quintic. 250 years of failure. Lagrange's 1770 hunch (look at how the roots permute). Ruffini's flawed proof (1799). Abel's clean proof (1824) that no quintic formula exists. Galois, at sixteen, picks up Legendre and Lagrange's Note XIII and inhales it in two days. Open loop: Abel proved the impossibility — Galois will explain WHY. ~18-20 beats.",
+      "beatBudget": 19
+    },
+    {
+      "actId": "act-4",
+      "name": "Cauchy, Cauchy, and a father's grave",
+      "estSeconds": 105,
+      "purpose": "Galois at 17 submits his first researches (May/June 1829) — Cauchy is the referee. Debunk the Bell myth here: Cauchy did NOT lose them. Taton's 1971 letter shows Cauchy still had them six months later and planned to present them to the Academy on Jan 18, 1830. Cauchy likely encouraged Galois to consolidate for the Grand Prize. Then disaster, on TWO axes: (1) July 2, 1829 — Galois's father, hounded by a forged epigram campaign from the village priest, asphyxiates himself in a Paris apartment two steps from Louis-le-Grand. A riot erupts at the funeral. Days later, (2) Galois fails the Polytechnique entrance exam for the second and final time — possibly hurling an eraser, possibly not (Dupuy says it's tradition). End the act on Galois enrolled at the lesser École Normale, his father's coffin barely cold. ~14-16 beats.",
+      "beatBudget": 16
+    },
+    {
+      "actId": "act-5",
+      "name": "Permutations: the symmetries you already know",
+      "estSeconds": 140,
+      "purpose": "FIRST math derivation, kept concrete. Take the polynomial x^2 - 5x + 6 = (x-2)(x-3). Roots 2 and 3. Now: what if I told you 'the roots are 2 and 3' vs. 'the roots are 3 and 2' — same statement! The polynomial cannot tell its own roots apart in any way that depends on labels. Generalize: n distinct roots → n! ways to label them, all interchangeable as far as the coefficients are concerned. This is the secret object Lagrange and Cauchy circled but never named: the SYMMETRY GROUP of the equation. Build S_3 explicitly using the paper's eq-002, eq-008, eq-009 — show the 6 substitutions in Cauchy two-line notation as a Manim animation, demonstrate composition (s_1 ∘ s_1 = s_2), reveal the Cayley table from the paper. End on the punch: 'a polynomial's deepest fingerprint is its group of root-symmetries.' ~22-25 beats.",
+      "beatBudget": 24
+    },
+    {
+      "actId": "act-6",
+      "name": "Adjoining, normal subgroups, and the great unscrewing",
+      "estSeconds": 148,
+      "purpose": "SECOND math derivation — the heart of Galois theory, made viewable. Use Ehrhardt's quartic example x^4 - 5x^2 + 6 = (x^2-2)(x^2-3), roots ±√2, ±√3. Original group is the Klein four-group: { Id, X (flip √2's), Y (flip √3's), Z = XY }. Now ADJOIN √3: extend the rationals to Q[√3]. The substitutions Y and Z no longer leave things invariant — only Id and X survive. The group has been 'unscrewed' from 4 elements to 2. Adjoin √2 next: only Id remains. Group reduced to one element → equation is solvable by radicals. Frame this as Galois's central insight: solving is the same operation as decomposing a group along a chain of normal subgroups, each step a square root or n-th root. Now the punch lands: for the quintic x^5 - x - 1 (or any 'generic' quintic), the group is S_5. And S_5 has only ONE non-trivial normal subgroup, A_5, which is SIMPLE — it cannot be broken further. The chain terminates. No tower of radicals can ever reach the roots. THIS is why no quintic formula exists. Liberate viewers who took algebra and were never told why. ~25-28 beats.",
+      "beatBudget": 27
+    },
+    {
+      "actId": "act-7",
+      "name": "Revolution, the artillery, the bare knife",
+      "estSeconds": 100,
+      "purpose": "Pivot back to biography — July 1830, three days of revolution in Paris. The director of École Normale locks the students in. Galois tries to scale the wall, fails, misses the revolution. Charles X falls; Louis-Philippe takes the throne. Galois joins the Society of the Friends of the People (a militant republican secret society) and the Artillery of the National Guard. December: the artillery is dissolved by royal decree as a threat to the throne. May 9, 1831: the Vendanges des Bourgogne banquet to celebrate the acquittal of the 19 artillery officers. Galois rises with a glass in one hand and an open pocket-knife in the other and toasts 'To Louis-Philippe' — the qualifying clause 'if he betrays' is drowned out. Dumas, who is sitting two tables away, jumps out the window. Arrest the next morning. ~14-16 beats.",
+      "beatBudget": 16
+    },
+    {
+      "actId": "act-8",
+      "name": "Sainte-Pélagie: brandy, prophecy, a suicide attempt",
+      "estSeconds": 95,
+      "purpose": "Acquittal in June 1831 ('To Louis-Philippe — if he betrays') — but on Bastille Day he is re-arrested, in the disbanded Artillery Guard uniform, carrying a loaded rifle, two pistols, and a dagger. Six months in Sainte-Pélagie. Raspail's letters preserve a haunting scene: fellow prisoners taunt him into drinking; drunk for the first time in his life, he prophesies — verbatim — that he will die in a duel over 'some coquette de bas étage', then attempts suicide and is restrained by his cellmates. The prison shooting incident — Infeld claims it was an assassination attempt; Rothman shows the bullet was aimed elsewhere. In October, Poisson's letter arrives: the Memoir is rejected. Not 'incomprehensible' — the actual letter (Arago, signed) asks for a fuller exposition. Galois reads it as a betrayal. He resolves to publish privately and writes the savage, brilliant Préface (December 1831) — 'I shall not embellish or disfigure this work with a dedication.' ~14-16 beats.",
+      "beatBudget": 16
+    },
+    {
+      "actId": "act-9",
+      "name": "Stéphanie, and the morning by the pond",
+      "estSeconds": 100,
+      "purpose": "March 1832: cholera epidemic; Galois is transferred to the Sieur Faultrier pension. There he meets Stéphanie-Félicie Poterin du Motel, the daughter of the resident physician — Infantozzi finally identified her in 1968. NOT a prostitute. NOT an agent provocateur. She wrote two letters asking him to stop pursuing her — letters Galois copied onto the back of a math paper, with names erased. May 25 letter to Chevalier: 'how can I console myself when in one month I have exhausted the greatest source of happiness a man can have?' Two days before the duel, May 29: he writes Chevalier the famous mathematical letter. Walk through what he ACTUALLY wrote that night — Rothman shows it was annotations on existing work, NOT inventing the theory ex nihilo. The 'I have not the time' note appears exactly once. May 30, dawn, near a pond. Adversary: Pescheux d'Herbinville — a fellow republican, not a police agent (Lafayette personally testified for him at his earlier trial). They fired. A peasant found Galois alive an hour later. Hospital Cochin. He died June 1 in his brother Alfred's arms. 'Don't cry, Alfred — I need all my courage to die at twenty.' Funeral: 2,000-3,000 republicans attend. ~15-17 beats.",
+      "beatBudget": 16
+    },
+    {
+      "actId": "act-10",
+      "name": "Liouville, fourteen years later",
+      "estSeconds": 70,
+      "purpose": "The manuscripts go nowhere. Alfred Galois and Auguste Chevalier laboriously recopy them, send them to Gauss and Jacobi (no response). 1843: Joseph Liouville sits down with the bundle and spends MONTHS untangling it — and announces to the Academy that the boy was right. 1846: published in Liouville's Journal. Show a montage of those who built on it — Cayley codifies group theory, Jordan's 1870 Traité des Substitutions hands the torch to a young German student named Felix Klein, who in his Erlangen Programme declares that geometry IS the study of symmetry groups. ~10-12 beats.",
+      "beatBudget": 11
+    },
+    {
+      "actId": "act-11",
+      "name": "Symmetry, everywhere",
+      "estSeconds": 85,
+      "purpose": "Land the 'why this matters' beat. Quick, illustrated tour: Lie groups give us continuous symmetry → particle physics (the Standard Model is a story about symmetries SU(3) × SU(2) × U(1)). Noether's theorem: every conservation law in physics is a symmetry. Crystallography: 230 space groups classify all crystals. Public-key cryptography: RSA and elliptic-curve crypto live inside finite (Galois) fields and abelian groups. Error-correcting codes: every CD, every QR code, every deep-space transmission relies on Reed-Solomon codes built over GF(q) — the Galois field. Wiles's 1995 proof of Fermat's Last Theorem turns on Galois representations of elliptic curves. Whisper the punch: every text message you send is encrypted using Galois fields. He never lived to see one. ~12-14 beats.",
+      "beatBudget": 13
+    },
+    {
+      "actId": "act-12",
+      "name": "Coda — Don't cry, Alfred",
+      "estSeconds": 40,
+      "purpose": "Closing. Return to the portrait. Reprise the open loop: was he murdered by the regime? Almost certainly not — the historical evidence points to a personal quarrel he could have walked away from. Was he a misunderstood angel? No — he was difficult, paranoid, brave, and brilliant. The myth is smaller than the man. Hold on the brother's portrait. Title and arXiv-style sources card. ~6-8 beats.",
+      "beatBudget": 7
+    }
+  ],
+  "totalEstSeconds": 1200,
+  "totalBeatBudget": 202,
+  "conceptsToVisualize": [
+    {
+      "id": "c-001",
+      "concept": "what 'solvable by radicals' means, concretely",
+      "whyItMatters": "Without this, the entire question Galois answered is invisible to viewers. The phrase 'solvable by radicals' sounds like jargon but means something physical: can you write the roots using +, -, ×, ÷, and n-th roots of the coefficients?",
+      "currentConfusion": "Viewers conflate 'solvable' (a root exists) with 'solvable by radicals' (a closed-form formula exists). Every quintic HAS roots — in C, by the Fundamental Theorem of Algebra. The question is whether you can WRITE them.",
+      "visualSuggestion": "Manim — start with quadratic formula (everyone recognizes it), highlight the √, then the cubic formula (Cardano's, properly terrifying — show the nested cube roots), then ask 'what about x^5 + 2x + 1 = 0?' and have a question mark hover above where the formula should be. Then dissolve: 'Abel proved no such formula CAN exist. Galois explained why.'",
+      "associatedEquationIds": [
+        "eq-001",
+        "eq-005",
+        "eq-006"
+      ],
+      "act": "act-3"
+    },
+    {
+      "id": "c-002",
+      "concept": "permutations of roots = symmetries of the equation",
+      "whyItMatters": "This is the cognitive bridge from 'numbers' to 'group theory'. Once viewers see that swapping the roots of x^2 - 5x + 6 doesn't change the polynomial, the rest of Galois theory becomes intuitive.",
+      "currentConfusion": "Viewers think permutations are something they remember from probability class (counting). They are not used to the idea that 'swapping labels' is itself an OBJECT you can do algebra on.",
+      "visualSuggestion": "Manim. Start with x^2 - 5x + 6, factor to (x-2)(x-3). Animate the labels of the roots swapping (2 ↔ 3). The polynomial visibly does not change. Then move to x^3 - 6x^2 + 11x - 6 = (x-1)(x-2)(x-3). Show the 6 = 3! permutations as little arrow-diagrams between three dots. This is S_3.",
+      "associatedEquationIds": [
+        "eq-002",
+        "eq-007",
+        "eq-008",
+        "eq-009"
+      ],
+      "act": "act-5"
+    },
+    {
+      "id": "c-003",
+      "concept": "S_3 as a Cayley table",
+      "whyItMatters": "Concretizes 'group' from abstract definition to a 6×6 multiplication table viewers can read row-by-row. The paper has this exact table — anchor the abstract in the historical document.",
+      "currentConfusion": "'Group' sounds like 'a collection'. The whole point is that it is a collection PLUS a way of combining elements that obeys closure, identity, inverse, associativity. The table makes 'closure' visible.",
+      "visualSuggestion": "Manim Cayley table for S_3, rendered in MathTex. Highlight a row: 's_1 ∘ s_2 = Id', show what that means by animating the arrows. The diagonal of identities and the symmetry/asymmetry of the table tell a story.",
+      "associatedEquationIds": [
+        "eq-002",
+        "eq-008",
+        "eq-009",
+        "eq-010",
+        "eq-012",
+        "eq-013"
+      ],
+      "act": "act-5"
+    },
+    {
+      "id": "c-004",
+      "concept": "field extension by adjunction (Galois's word: 'adjoindre')",
+      "whyItMatters": "The viewer needs to internalize: solving by radicals = climbing a ladder of fields, each rung obtained by adjoining one new n-th root. Without this, normal-subgroup decomposition makes no sense.",
+      "currentConfusion": "Most viewers have never heard of fields as objects. We bypass formal definition and use the metaphor: 'a field is a collection of numbers closed under +, -, ×, ÷.' Q is one. Q[√2] is the smallest one containing √2.",
+      "visualSuggestion": "Manim — three nested rectangles labeled Q ⊂ Q[√3] ⊂ Q[√2, √3]. Each adjunction shows new numbers materializing inside the bigger box: in Q[√3], the number 2 + 5√3 lights up.",
+      "associatedEquationIds": [],
+      "act": "act-6"
+    },
+    {
+      "id": "c-005",
+      "concept": "the Klein four-group V_4 = {Id, X, Y, Z=XY} as the Galois group of x^4 - 5x^2 + 6",
+      "whyItMatters": "The viewer's first concrete computation of a Galois group from a polynomial. Pulled directly from Ehrhardt's worked example.",
+      "currentConfusion": "Viewers will worry about 'how do I know which permutations are allowed?' Answer: only those that fix the rationals. We illustrate without formalizing.",
+      "visualSuggestion": "Manim — four roots ±√2, ±√3 as four dots on a coordinate plane (or four nodes). X = horizontal flip, Y = vertical flip, Z = 180° rotation. Animate each substitution and verify the polynomial expression is invariant.",
+      "associatedEquationIds": [],
+      "act": "act-6"
+    },
+    {
+      "id": "c-006",
+      "concept": "unscrewing the group via normal subgroups",
+      "whyItMatters": "The single most important visual moment in the math. The chain V_4 → {Id, X} → {Id} shrinking by half each time directly mirrors the radical tower Q ⊂ Q[√3] ⊂ Q[√2, √3]. Twin animations side by side.",
+      "currentConfusion": "'Normal subgroup' sounds like jargon. Visually: a subgroup is normal if its cosets tile the parent group cleanly — if you can fold the group along that subgroup. We show the folding.",
+      "visualSuggestion": "Manim — a 2×2 lattice. On the left, the radical tower of fields growing UP. On the right, the Galois group shrinking DOWN. Each adjoined radical zaps a row of the group. Show the bidirectional ladder.",
+      "associatedEquationIds": [],
+      "act": "act-6"
+    },
+    {
+      "id": "c-007",
+      "concept": "S_5 has no normal subgroup chain to the trivial group",
+      "whyItMatters": "THE punch of the entire math arc. This is what viewers must see, not just hear. S_5 contains A_5; A_5 is simple (no normal subgroups except itself and {Id}); the chain terminates with a step that no radical extension can produce.",
+      "currentConfusion": "'Simple group' is the worst-named object in math. Simple means 'cannot be decomposed', not 'easy'. We must say 'atomic' or 'unbreakable' instead.",
+      "visualSuggestion": "Manim — try to fold S_5 along its only large normal subgroup, A_5. Show A_5 trying to fold further, refusing. Animate the failure visually: subgroups attempt to break A_5 and bounce off. Final tableau: 'No tower of radicals can reach this. Therefore: no formula.'",
+      "associatedEquationIds": [],
+      "act": "act-6"
+    },
+    {
+      "id": "c-008",
+      "concept": "Lagrange's Note XIII: the seed Galois inhaled at sixteen",
+      "whyItMatters": "Grounds the math in the historical chain — Galois did not invent in a vacuum, he stood on Lagrange. The PDF's Figure 2 shows the actual page.",
+      "currentConfusion": "None — this is a connecting beat between biography and math.",
+      "visualSuggestion": "PaperPage — Ken-Burns push on the Note XIII facsimile (paper page 5, figure 2 location). Highlight the title.",
+      "associatedEquationIds": [],
+      "act": "act-3"
+    },
+    {
+      "id": "c-009",
+      "concept": "the manuscript itself — Galois's own handwriting",
+      "whyItMatters": "Documentary-feel visual proof. The St-Andrews PDF shows the final page; paper-md-assets has multiple draft photos. These are sacred objects — let them breathe.",
+      "currentConfusion": "None.",
+      "visualSuggestion": "Image / PaperPage — slow Ken-Burns over the marginalia, the crossed-out lines, the 'Je n'ai pas le temps' annotation. Use multiple times across acts 8, 9, 10.",
+      "associatedEquationIds": [],
+      "act": "act-9"
+    },
+    {
+      "id": "c-010",
+      "concept": "Galois fields GF(q) — the silent infrastructure of modernity",
+      "whyItMatters": "The 'why this matters now' beat. Show a QR code, a CD, a deep-space transmission: every one of them is built on a Galois field.",
+      "currentConfusion": "Viewers will not know that 'finite field' = 'Galois field'. Name the connection explicitly.",
+      "visualSuggestion": "Image montage: a QR code, a CD surface, the Voyager Golden Record, an RSA key. Then Manim — render GF(2) and GF(4) as tiny addition/multiplication tables, then dissolve to a row of QR codes lighting up.",
+      "associatedEquationIds": [],
+      "act": "act-11"
+    }
+  ],
+  "questionsToAnswerOnScreen": [
+    "Why is there a formula for the quadratic, the cubic, the quartic — but not the quintic?",
+    "What does 'solvable by radicals' actually mean?",
+    "What is a permutation, and why does the polynomial 'not see' which order I list its roots in?",
+    "What is a group, in 90 seconds, with a worked example?",
+    "What does it mean to 'adjoin' a quantity to an equation?",
+    "What is a normal subgroup, illustrated as 'folding' a group?",
+    "Why does S_5 refuse to decompose, and why does that mean no quintic formula?",
+    "Did Galois really write group theory the night before the duel? (No — debunk Bell.)",
+    "Did Cauchy lose Galois's papers? (No — debunk the Bell/Infeld myth using Taton 1971.)",
+    "Was the duel a royalist conspiracy? (Almost certainly not — d'Herbinville was a fellow republican.)",
+    "Who was the 'infamous coquette'? (Stéphanie-Félicie Poterin du Motel, identified by Infantozzi 1968 — a doctor's daughter, not a prostitute.)",
+    "What is a Galois field, and why is one inside every QR code?"
+  ],
+  "thingsToCutOrSkip": [
+    "Multi-line proofs of Lemmas II–IV from Ehrhardt's exposition. We use only Lemma I, and only as a side-note in act 6.",
+    "The full statement of Propositions VI–VIII (irreducible prime-degree case). Mention as 'Galois went on to handle the prime-degree case' and move on.",
+    "Resolvents in their full Lagrange-Vandermonde generality. Use the resolvent V only as a passing motivation for Lemma II — do NOT write x_i = P(V,…)/Q(V,…) on screen for general n. Stay concrete with the quartic example.",
+    "Cardano's full cubic formula, written out. Show only the existence of nested radicals — viewers will recoil from a screen of expressions.",
+    "Ferrari's quartic formula, ditto.",
+    "Abel's full impossibility proof. State the result (1824, no quintic formula), credit him, move on.",
+    "The Saint-Simonian movement and its full politics — mention only that Galois's friend Chevalier was a Saint-Simonian.",
+    "The Le Globe article (June 1831) about Cauchy's praise — too in-the-weeds for a documentary.",
+    "Arago vs. Poisson rivalry inside the Academy.",
+    "Sophie Germain's letter (April 1831) — beautiful but tangential; cite as a footnote-style source on screen, do not narrate.",
+    "Galois's elliptic-functions work. He worked on it the last months of his life but it is not the through-line.",
+    "Detailed Restoration / July Monarchy political mechanics. Give a 30-second sketch — the audience needs context, not a poli-sci lecture.",
+    "The 'lost letter to Chevalier' as primary mythology — show the actual letter, neutralize the legend by exposing its real (annotative) content.",
+    "Romantic-rivalry-with-jilted-lover narrative. Stéphanie wrote to Galois asking him to stop — she was not a coquette who provoked the duel. Honor Rothman.",
+    "Police-conspiracy narrative. d'Herbinville was a republican hero who Lafayette personally vouched for at trial. Honor Rothman.",
+    "Bell's 'Genius and Stupidity' framing — name it explicitly as the source of the myth, then dismantle."
+  ],
+  "biographicalAnecdotesIncluded": [
+    {
+      "anecdote": "M. Galois (father) composed rhymed couplets that delighted neighbors at house parties — a talent that, perversely, would become the engine of his destruction when a reactionary priest forged scurrilous epigrams in his name.",
+      "source": "Rothman p. 85, citing Dupuy",
+      "act": "act-1"
+    },
+    {
+      "anecdote": "Galois's mother Adélaïde-Marie, a fluent Latinist and skeptic of religion, was his sole teacher for the first twelve years of his life.",
+      "source": "Rothman p. 85; St-Andrews",
+      "act": "act-1"
+    },
+    {
+      "anecdote": "M. Galois became mayor of Bourg-la-Reine during Napoleon's Hundred Days (1815), kept the post under the restored Bourbons, and grew progressively at odds with the conservatives in his town.",
+      "source": "Rothman p. 86",
+      "act": "act-1"
+    },
+    {
+      "anecdote": "At Louis-le-Grand, students rebelled when the new provisor was suspected of bringing back the Jesuits — refused to sing in chapel, refused to toast Louis XVIII at the school banquet. Forty were summarily expelled. Galois was not one of them, but the regime's arbitrariness imprinted on him.",
+      "source": "Rothman p. 86",
+      "act": "act-2"
+    },
+    {
+      "anecdote": "Galois was held back a year in rhetoric for poor work — and was therefore enrolled, almost by accident, in M. Vernier's first mathematics class in February 1827. He read Legendre's geometry text and Lagrange's memoirs as if they were novels.",
+      "source": "Rothman p. 86, Dupuy p. 256",
+      "act": "act-2"
+    },
+    {
+      "anecdote": "Teacher reports drift over time: 'Religious duties — Good. Conduct — Good. Work — Sustained' becomes 'Religious duties — Good. Conduct — Passable. Disposition — Happy. Character — Closed and original.'",
+      "source": "Rothman p. 86–87, citing Dupuy pp. 254–255",
+      "act": "act-2"
+    },
+    {
+      "anecdote": "Galois took the École Polytechnique entrance exam a year early, without preparation, and failed.",
+      "source": "Rothman p. 87",
+      "act": "act-3"
+    },
+    {
+      "anecdote": "M. Louis-Paul-Émile Richard, his second math teacher, declared Galois 'should be admitted to the Polytechnique without examination.' Richard wrote on his report 'this student is markedly superior to all his classmates.' (And then, later that academic year, cooled toward him — for reasons no one knows.)",
+      "source": "Rothman p. 88",
+      "act": "act-3"
+    },
+    {
+      "anecdote": "April 1829: Galois publishes his first paper, on continued fractions, in the Annales de Gergonne — at age 17.",
+      "source": "Rothman p. 87; St-Andrews",
+      "act": "act-3"
+    },
+    {
+      "anecdote": "May 25 / June 1, 1829: Galois submits his first researches on the solubility of equations of prime degree to the Academy. Cauchy is appointed referee.",
+      "source": "Rothman p. 87",
+      "act": "act-4"
+    },
+    {
+      "anecdote": "Taton 1971 letter discovery: Cauchy wrote to the Academy on January 18, 1830 saying 'I was supposed to present today first a report on the work of the young Galois... I am indisposed at home.' This proves Cauchy did NOT lose the papers and likely encouraged Galois to consolidate them for the Grand Prize. The 'Cauchy lost / discarded the papers' story is a Bell fabrication.",
+      "source": "Rothman pp. 87–89, citing Taton 1971",
+      "act": "act-4"
+    },
+    {
+      "anecdote": "July 2, 1829: Galois's father, hounded by a forged-epigrams campaign from the local priest, asphyxiates himself in a Paris apartment 'two steps from Louis-le-Grand'. A small riot erupts at the funeral when the same priest tries to officiate.",
+      "source": "Rothman p. 87",
+      "act": "act-4"
+    },
+    {
+      "anecdote": "Days later, Galois fails the Polytechnique entrance exam for the second and final time. The legend that he hurled an eraser at the examiner is, per Dupuy, only an unverified tradition.",
+      "source": "Rothman p. 88, Dupuy p. 211",
+      "act": "act-4"
+    },
+    {
+      "anecdote": "February 1830: Galois submits a Grand Prize entry to Fourier (Perpetual Secretary). Fourier dies in April. The manuscript is never recovered. The committee of Lacroix, Poisson, Legendre, and Poinsot, lacking the entry, awards the prize without Galois — to Abel (posthumously) and Jacobi.",
+      "source": "Rothman p. 89",
+      "act": "act-4"
+    },
+    {
+      "anecdote": "July Revolution, 1830: the director of École Normale, M. Guigniault, locks the students in to keep them off the barricades. Galois tries to scale the wall, fails, misses the revolution. He never forgives Guigniault.",
+      "source": "Rothman p. 90, Dupuy p. 221",
+      "act": "act-7"
+    },
+    {
+      "anecdote": "December 1830: Galois publishes a blistering letter in the Gazette des Écoles attacking Guigniault. The result, predictably, is expulsion. He quits before it becomes official and joins the Artillery of the National Guard, the militia branch dominated by republicans.",
+      "source": "Rothman p. 90, Dupuy pp. 227–228",
+      "act": "act-7"
+    },
+    {
+      "anecdote": "May 9, 1831: Vendanges des Bourgogne banquet, ~200 republicans celebrating the acquittal of 19 artillery officers. Galois rises with a glass in one hand and an open knife in the other and toasts 'To Louis-Philippe — IF HE BETRAYS.' The qualifying clause is drowned out; Dumas, sitting nearby, jumps out the window. Galois is arrested at his mother's house the next morning.",
+      "source": "Rothman pp. 92–93, Dumas's memoirs vol. 4 ch. 204",
+      "act": "act-7"
+    },
+    {
+      "anecdote": "June 15, 1831 trial: defense reveals the qualifying 'if he betrays'. Jury acquits in moments. Dumas: 'I repeat that this is a rude generation, perhaps a bit foolish, but you will recall Béranger's song Les Fous.'",
+      "source": "Rothman p. 93, Dumas",
+      "act": "act-7"
+    },
+    {
+      "anecdote": "July 14, 1831 (Bastille Day): Galois and Duchâtelet are arrested wearing the now-illegal Artillery Guard uniform, Galois 'armed to the teeth' with a loaded rifle, two pistols, and a dagger. He is held in Sainte-Pélagie until October 23 awaiting trial, then sentenced to six months.",
+      "source": "Rothman pp. 93–94",
+      "act": "act-8"
+    },
+    {
+      "anecdote": "July 25, 1831 — Sainte-Pélagie. Raspail records prisoners taunting the teetotal Galois into drinking; he refuses to look cowardly, downs glass after glass, then a second day a whole bottle of brandy. Drunk, he prophesies — verbatim — 'I will die in a duel on the occasion of some coquette de bas étage.' Then attempts to take his own life and is restrained by his cellmates.",
+      "source": "Rothman pp. 94–95, Raspail Lettres sur les Prisons de Paris vol. 2 pp. 89–90",
+      "act": "act-8"
+    },
+    {
+      "anecdote": "October 1831: Poisson's letter — actually signed by Arago — rejects the third Memoir. Real text: 'we have made every effort... his argument is neither sufficiently clear nor sufficiently developed... it is not even possible for us to give an idea of this paper... one should rather wait to form a more definite opinion until the author publishes a more complete account.' Galois reads it as betrayal.",
+      "source": "Rothman p. 96, Bertrand 1902",
+      "act": "act-8"
+    },
+    {
+      "anecdote": "December 1831, in Sainte-Pélagie, Galois writes his Préface — five pages of extraordinary defiance: 'I shall not encumber this work with surnames or titles... I owe nothing of value in my work to the advice or encouragement of important men... the whole thing was written in prison, hardly suited for meditation.'",
+      "source": "Rothman pp. 96–97, Bourgne and Azra pp. 3–11",
+      "act": "act-8"
+    },
+    {
+      "anecdote": "March 16, 1832: cholera epidemic in Paris. Galois transferred from Sainte-Pélagie to the Sieur Faultrier pension. There, the resident physician's daughter, Stéphanie-Félicie Poterin du Motel, enters the story. Identified by C. A. Infantozzi (1968) by reading under Galois's erasures with a magnifying glass.",
+      "source": "Rothman pp. 100–101, Infantozzi 1968",
+      "act": "act-9"
+    },
+    {
+      "anecdote": "May 25, 1832 letter to Chevalier: 'how can I console myself when in one month I have exhausted the greatest source of happiness a man can have?' He is disenchanted. He has been declined.",
+      "source": "Rothman p. 97",
+      "act": "act-9"
+    },
+    {
+      "anecdote": "The duel was almost certainly with Pescheux d'Herbinville, a fellow republican (not a police agent — Lafayette personally testified for him at his earlier trial; the crowd pulled his coach through Paris in applause; Louis Blanc names him a hero of the July days).",
+      "source": "Rothman pp. 99–101, Louis Blanc Histoire de Dix Ans, Dupuy",
+      "act": "act-9"
+    },
+    {
+      "anecdote": "The night before, May 29, Galois writes the long letter to Chevalier. He ANNOTATES existing manuscripts — he does NOT invent the theory ex nihilo. The 'I have not the time' marginalia appears exactly once — and even there, he tarnishes the romance by adding '(Author's note)'.",
+      "source": "Rothman pp. 102–103, Bourgne and Azra pp. 48, 54, 173",
+      "act": "act-9"
+    },
+    {
+      "anecdote": "May 30, dawn, near a pond by the Sieur Faultrier. They fired. Galois, shot through the stomach, was abandoned (per Alfred) or left while seconds searched for a doctor (per Dupuy). A passing peasant found him an hour later and took him to Hospital Cochin. He died June 1 in his brother Alfred's arms, having refused the services of a priest. Last words: 'Don't cry, Alfred — I need all my courage to die at twenty.'",
+      "source": "Rothman p. 84, p. 103; St-Andrews",
+      "act": "act-9"
+    },
+    {
+      "anecdote": "Funeral June 2, 1832 in a common grave (no marker survives). Two to three thousand republicans attend; the police break up a Society of the Friends of the People meeting the previous night and arrest 30.",
+      "source": "Rothman p. 103",
+      "act": "act-9"
+    },
+    {
+      "anecdote": "1843: Joseph Liouville sits with the manuscripts, spends months, and announces to the Academy that the boy was right. Publishes in the Journal de Mathématiques in 1846 — fourteen years after Galois's death.",
+      "source": "Rothman p. 103; Ehrhardt's BibNum analysis; St-Andrews",
+      "act": "act-10"
+    }
+  ],
+  "mythsExplicitlyDebunked": [
+    {
+      "myth": "Galois wrote down group theory the night before the duel.",
+      "reality": "He had been submitting papers on the theory of equations since age 17 (May 1829). The night-before letter to Chevalier ANNOTATES existing manuscripts and summarizes results he had been refining for three years. The 'I have not the time' marginalia appears exactly once — and even there, Rothman notes Galois undercut his own romance by adding '(Author's note)'.",
+      "source": "Rothman p. 102, citing Bourgne and Azra"
+    },
+    {
+      "myth": "Cauchy lost or threw out Galois's first manuscripts.",
+      "reality": "Taton's 1971 archival discovery: Cauchy wrote to the Academy on January 18, 1830 saying he was supposed to present Galois's work that day but was 'indisposed at home.' This proves he still had the papers six months after receiving them, had read them, and was likely the person who encouraged Galois to consolidate his work for the Grand Prize.",
+      "source": "Rothman pp. 87–88, René Taton 1971"
+    },
+    {
+      "myth": "The Academy of Sciences cabal-rejected Galois's work to crush an inconvenient genius.",
+      "reality": "Fourier — not Cauchy or Poisson — lost the Grand Prize manuscript when he died in April 1830. Poisson's October 1831 rejection (actually signed by Arago) asked for a fuller exposition, calling the proofs 'neither sufficiently clear nor sufficiently developed' but acknowledging the propositions might be part of 'a general theory of rich application.' By 1831 standards, this was an encouraging rejection.",
+      "source": "Rothman pp. 89, 96"
+    },
+    {
+      "myth": "Galois was a misunderstood angel persecuted by mediocrity.",
+      "reality": "Galois was difficult, paranoid, sometimes contemptuous, and twice arrested for behavior that was genuinely dangerous in genuinely dangerous times. He toasted the king with an open knife. He was 'armed to the teeth' on Bastille Day in a banned uniform. Sophie Germain, no enemy, wrote in April 1831 that he 'continued his habit of insult' and would 'go completely mad.' The Bell quote 'Galois was no ineffectual angel' becomes a Rothman refrain.",
+      "source": "Rothman pp. 90–91, Sophie Germain letter"
+    },
+    {
+      "myth": "The 'infamous coquette' was a prostitute or a police agent provocateur.",
+      "reality": "C. A. Infantozzi identified her in 1968 by reading the erased signature under a magnifying glass: Stéphanie-Félicie Poterin du Motel, daughter of Jean-Louis Auguste Poterin du Motel, the resident physician at the Sieur Faultrier pension where Galois lived after his prison release. She married a language professor in 1840. Her two surviving letters ask Galois to stop pursuing her.",
+      "source": "Rothman pp. 100–101, Infantozzi 1968"
+    },
+    {
+      "myth": "Pescheux d'Herbinville was a royalist hitman or police agent.",
+      "reality": "He was one of the 19 republicans acquitted in the conspiracy trial of April 1831 — the very trial whose acquittal the May 9 banquet celebrated. Lafayette personally testified for the accused. The crowd pulled d'Herbinville's coach through the streets of Paris. The 1848 unmasking of police agents (when Caussidière became chief of police) did not include him; he was later named curator of the palace of Fontainebleau.",
+      "source": "Rothman pp. 99–100, Louis Blanc Histoire de Dix Ans, Dupuy p. 247"
+    },
+    {
+      "myth": "The duel was a political murder dressed up as a personal quarrel.",
+      "reality": "Two letters Galois wrote the night before — one to Chevalier ('I die the victim of an infamous coquette and her two dupes'), one to Lebon and Delauney ('forgive those who kill me for they are of good faith') — both name a personal cause. Galois's cousin Gabriel Demante told Dupuy the quarrel was with 'a supposed uncle and a supposed fiancé.' The bullet incident in prison, Infeld's main piece of evidence, was aimed at someone else.",
+      "source": "Rothman pp. 97–101"
+    }
+  ],
+  "priorWork": [
+    {
+      "title": "Réflexions sur la résolution algébrique des équations",
+      "author": "Joseph-Louis Lagrange",
+      "year": 1770,
+      "whyRelevant": "Note XIII contains the first systematic study of permutations of roots — Galois's direct intellectual ancestor. Galois studied this as a lycée student. The paper's Figure 2 reproduces it."
+    },
+    {
+      "title": "Démonstration de l'impossibilité de la résolution algébrique des équations générales qui passent le quatrième degré",
+      "author": "Niels Henrik Abel",
+      "year": 1824,
+      "whyRelevant": "Proves no general formula in radicals exists for quintics — the impossibility theorem. Galois's work generalizes this from a result about quintics to a criterion for ALL degrees."
+    },
+    {
+      "title": "Sur le nombre de valeurs qu'une fonction peut acquérir...",
+      "author": "Augustin-Louis Cauchy",
+      "year": 1815,
+      "whyRelevant": "First formal study of substitutions / permutations of variables — sketched the framework Galois would inherit and Cauchy himself would expand in 1844."
+    },
+    {
+      "title": "Disquisitiones Arithmeticae",
+      "author": "Carl Friedrich Gauss",
+      "year": 1801,
+      "whyRelevant": "Galois studied this; his early Proposition III draft applies his theory to equations x^p = a, the cyclotomic case Gauss had handled."
+    },
+    {
+      "title": "Teoria Generale delle Equazioni",
+      "author": "Paolo Ruffini",
+      "year": 1799,
+      "whyRelevant": "First (flawed) attempted proof of quintic impossibility. Cited as the beginning of the impossibility thread in Lagrange-Ruffini-Abel."
+    },
+    {
+      "title": "Traité des substitutions et des équations algébriques",
+      "author": "Camille Jordan",
+      "year": 1870,
+      "whyRelevant": "First systematic exposition of Galois theory, 24 years after publication. Hands the torch to Klein, Lie, Hölder."
+    },
+    {
+      "title": "Vergleichende Betrachtungen über neuere geometrische Forschungen (Erlangen Programme)",
+      "author": "Felix Klein",
+      "year": 1872,
+      "whyRelevant": "Declares geometry IS the study of symmetry groups — a Galois-shaped thought."
+    },
+    {
+      "title": "Invariante Variationsprobleme",
+      "author": "Emmy Noether",
+      "year": 1918,
+      "whyRelevant": "Noether's theorem: every continuous symmetry of a physical system corresponds to a conservation law. The bridge from Galois to physics."
+    },
+    {
+      "title": "Modular elliptic curves and Fermat's Last Theorem",
+      "author": "Andrew Wiles",
+      "year": 1995,
+      "whyRelevant": "Galois representations of elliptic curves. The most famous proof of the late 20th century rests on Galois's idea."
+    },
+    {
+      "title": "La Vie d'Évariste Galois",
+      "author": "Paul Dupuy",
+      "year": 1896,
+      "whyRelevant": "The primary scholarly biography. Rothman's foundational source. Cite when narrating biographical specifics."
+    },
+    {
+      "title": "Genius and Biographers: The Fictionalization of Évariste Galois",
+      "author": "Tony Rothman",
+      "year": 1982,
+      "arxivId": null,
+      "whyRelevant": "The PRIMARY source for the documentary's debunking spine. Cite explicitly on screen at least once."
+    },
+    {
+      "title": "The Mathematical Writings of Évariste Galois",
+      "author": "Peter M. Neumann",
+      "year": 2011,
+      "whyRelevant": "Modern scholarly translation of Galois's complete writings. Use for direct quotes."
+    },
+    {
+      "title": "Évariste Galois 1811–1832",
+      "author": "Laura Toti Rigatelli",
+      "year": 1996,
+      "whyRelevant": "Modern biography building on Dupuy + Rothman + Bourgne-Azra."
+    },
+    {
+      "title": "Écrits et mémoires mathématiques d'Évariste Galois",
+      "author": "Robert Bourgne and Jean-Pierre Azra",
+      "year": 1962,
+      "whyRelevant": "Definitive critical edition with facsimiles. Cite when showing manuscript photos."
+    }
+  ],
+  "supportingMaterial": [
+    {
+      "kind": "image",
+      "needsToFind": "Alfred Galois's pencil sketch portrait of his brother Évariste",
+      "preferredSource": "paper-md-assets/_page_0_Picture_3.jpeg (already in repo). The ONLY known likeness. Use repeatedly throughout the video — opening, mid, close. This is the documentary's recurring visual anchor."
+    },
+    {
+      "kind": "image",
+      "needsToFind": "Lagrange's Note XIII facsimile",
+      "preferredSource": "paper page 5 / paper-md-assets/_page_5_Picture_13.jpeg if it depicts the Note XIII figure. Otherwise asset-fetcher should fetch from BNF Gallica (digitized Lagrange Réflexions sur la résolution algébrique des équations, 1770)."
+    },
+    {
+      "kind": "image",
+      "needsToFind": "Galois's manuscript drafts — cross-outs, marginalia, the 'Je n'ai pas le temps' page",
+      "preferredSource": "paper-md-assets/_page_12_Picture_0.jpeg (the larger draft photo) — Ehrhardt's Figure 3. Also fetch the final-night letter facsimile from Bourgne and Azra (1962) reproductions, available on Wikimedia Commons."
+    },
+    {
+      "kind": "image",
+      "needsToFind": "Map / view of Bourg-la-Reine, early 19th century",
+      "preferredSource": "Wikimedia Commons or BNF — engraving of Bourg-la-Reine c. 1820. Asset-fetcher to source."
+    },
+    {
+      "kind": "image",
+      "needsToFind": "Lycée Louis-le-Grand, period engraving",
+      "preferredSource": "Wikimedia / BNF Gallica — there are several 19th-c. lithographs of Louis-le-Grand."
+    },
+    {
+      "kind": "image",
+      "needsToFind": "École Polytechnique entrance exam scene or building, period",
+      "preferredSource": "Wikimedia — engraving of the school in 1820s."
+    },
+    {
+      "kind": "image",
+      "needsToFind": "Sainte-Pélagie prison, period drawing",
+      "preferredSource": "Wikimedia / BNF — the 19th-century prison was a famous landmark; multiple engravings exist."
+    },
+    {
+      "kind": "image",
+      "needsToFind": "July Revolution 1830 — Delacroix's 'Liberty Leading the People' (1830) — DOMAIN",
+      "preferredSource": "Public domain (Louvre / Wikimedia). Use as the iconic image for the July Days, ~1 second."
+    },
+    {
+      "kind": "image",
+      "needsToFind": "Period portraits of Cauchy, Poisson, Fourier, Lacroix, Lagrange, Abel, Liouville, Jordan, Klein",
+      "preferredSource": "Wikimedia Commons — all are public domain. Asset-fetcher should grab a clean portrait of each."
+    },
+    {
+      "kind": "image",
+      "needsToFind": "Manuscript of the Préface (December 1831), the Letter to Chevalier (May 29, 1832), and a page from the 1846 Liouville publication",
+      "preferredSource": "Bourgne and Azra reproductions; Gallica scan of Journal de Mathématiques Pures et Appliquées vol. 11 (1846)."
+    },
+    {
+      "kind": "image",
+      "needsToFind": "Modern visual handles for the legacy: a QR code, a CD surface (rainbow data spiral), an RSA key visualization, the Standard Model Lagrangian poster, a Reed-Solomon decoder block diagram",
+      "preferredSource": "Wikimedia + open-source visualizations. Asset-fetcher chooses the cleanest five."
+    },
+    {
+      "kind": "image",
+      "needsToFind": "Pond / dawn / Paris-suburb visual evocation for the duel scene",
+      "preferredSource": "Period landscape paintings (Corot, early Daubigny) — Wikimedia public domain. AVOID anything melodramatic; tone is solemn, not theatrical."
+    },
+    {
+      "kind": "diagram",
+      "needsToGenerate": "S_3 Cayley table — animated, MathTex-based, drawn from Ehrhardt p. 4 of paper.md (the 6×6 table)"
+    },
+    {
+      "kind": "diagram",
+      "needsToGenerate": "Permutation as two-line Cauchy notation — animated transitions, Manim"
+    },
+    {
+      "kind": "diagram",
+      "needsToGenerate": "Field-extension ladder Q ⊂ Q[√3] ⊂ Q[√2, √3] paired with group-shrinkage ladder V_4 ⊃ {Id, X} ⊃ {Id} — twin animation, Manim"
+    },
+    {
+      "kind": "diagram",
+      "needsToGenerate": "S_5 attempting and failing to decompose past A_5 — Manim, with the simple-group 'unbreakable' tableau as the held final frame"
+    },
+    {
+      "kind": "diagram",
+      "needsToGenerate": "Timeline ribbon: 1811 birth → 1823 Louis-le-Grand → 1827 first math class → 1829 first paper, father's suicide, two Polytechnique fails → 1830 July Revolution, Artillery Guard → 1831 banquet, two arrests → 1832 cholera transfer, Stéphanie, duel, death → 1846 Liouville publishes. Use as a recurring motif, with a moving marker — appears 3-4 times across acts."
+    }
+  ],
+  "spotlights": [
+    {
+      "label": "Ehrhardt's headline claim about Galois's question",
+      "pageIdx": 0,
+      "bboxApprox": "0.10,0.42,0.80,0.10",
+      "whyItMatters": "Anchor the video's central question in the source paper itself — 'a necessary and sufficient condition for an equation to be solvable by radicals.'"
+    },
+    {
+      "label": "Quadratic formula on the page",
+      "pageIdx": 0,
+      "bboxApprox": "0.20,0.78,0.60,0.08",
+      "whyItMatters": "Familiar territory for the viewer — eq-001 in equations.json. The bridge from school math to Galois's question."
+    },
+    {
+      "label": "S_3 substitutions — eq-002 and surroundings",
+      "pageIdx": 3,
+      "bboxApprox": "0.10,0.20,0.80,0.40",
+      "whyItMatters": "The exact place the paper introduces S_3 in Cauchy two-line notation. Spotlight the original text, then dissolve to Manim animation."
+    },
+    {
+      "label": "S_3 Cayley table",
+      "pageIdx": 4,
+      "bboxApprox": "0.10,0.10,0.80,0.30",
+      "whyItMatters": "The six-by-six table that grounds 'group' from abstraction to a concrete object."
+    },
+    {
+      "label": "Lemma I and the example P(x) = x^2 + 1",
+      "pageIdx": 4,
+      "bboxApprox": "0.10,0.55,0.80,0.30",
+      "whyItMatters": "The only lemma we touch in the math arc — irreducibility, illustrated with a high-school example."
+    },
+    {
+      "label": "Figure 2 — Lagrange's Note XIII",
+      "pageIdx": 5,
+      "bboxApprox": "0.10,0.55,0.80,0.40",
+      "whyItMatters": "Visual anchor for 'Galois studied this as a lycée student' — let the viewer see the actual page he read."
+    },
+    {
+      "label": "The quartic example in Ehrhardt's exposition (Propositions II and V worked out)",
+      "pageIdx": 8,
+      "bboxApprox": "0.10,0.20,0.80,0.50",
+      "whyItMatters": "The single most important paragraph in the math arc — adjoining √3, then √2, watching the group shrink."
+    },
+    {
+      "label": "Figure 1 — Alfred Galois's portrait of Évariste",
+      "pageIdx": 0,
+      "bboxApprox": "0.30,0.18,0.40,0.30",
+      "whyItMatters": "The recurring visual anchor of the documentary."
+    },
+    {
+      "label": "Figure 3 — Galois's draft, reproduced",
+      "pageIdx": 12,
+      "bboxApprox": "0.10,0.10,0.80,0.40",
+      "whyItMatters": "The only manuscript-handwriting view inside the paper itself; pair with St-Andrews's 'final page' facsimile for variety."
+    },
+    {
+      "label": "Galois quote: 'When we thus agree to regard certain quantities as known...'",
+      "pageIdx": 1,
+      "bboxApprox": "0.10,0.55,0.80,0.10",
+      "whyItMatters": "Galois in his own words on adjunction — direct quote, anchors the field-extension act."
+    },
+    {
+      "label": "Verriest 1934 — the punch quote",
+      "pageIdx": 9,
+      "bboxApprox": "0.10,0.20,0.80,0.30",
+      "whyItMatters": "'It is no longer the degree of an equation that measures how difficult it is to solve, but the nature of its group.' This is the documentary's own thesis in one sentence — drop it just before the legacy act."
+    }
+  ],
+  "derivationsToBuild": [
+    {
+      "concept": "Permutations of roots leave the polynomial invariant — and that's what we'll call its symmetry",
+      "openingQuestion": "If I tell you the roots of x^2 - 5x + 6 are '2 and 3', can you tell me which is the first and which is the second? Does the polynomial care?",
+      "stepsToShow": [
+        "Write x^2 - 5x + 6 on screen.",
+        "Factor to (x-2)(x-3). Highlight: the polynomial is the SAME if you write (x-3)(x-2).",
+        "Now the cubic x^3 - 6x^2 + 11x - 6 = (x-1)(x-2)(x-3). Show that any of the 6 = 3! orderings of (1,2,3) produce the same polynomial when re-multiplied.",
+        "Animate three dots labeled 1, 2, 3 with arrows showing the 6 permutations.",
+        "Define: a permutation of n distinct items has n! possible arrangements.",
+        "Reveal Cauchy's two-line notation (eq-007).",
+        "Build S_3: list all six elements (eq-002, eq-008-013).",
+        "Show composition: t_1 ∘ s_1 = t_2 (or similar) using two animated swaps in sequence.",
+        "Reveal the full 6×6 Cayley table from the paper.",
+        "Punch: 'this table — closed under composition, with an identity, with inverses — is what mathematicians since 1830 have called a GROUP.'"
+      ],
+      "estBeats": 10,
+      "associatedEquationIds": [
+        "eq-002",
+        "eq-007",
+        "eq-008",
+        "eq-009",
+        "eq-010",
+        "eq-012",
+        "eq-013"
+      ]
+    },
+    {
+      "concept": "Adjoining a radical shrinks the Galois group — by exactly the right amount",
+      "openingQuestion": "What if I let you cheat? Say you're allowed to use √3 as if it were rational. How does the equation change?",
+      "stepsToShow": [
+        "Take Ehrhardt's quartic x^4 - 5x^2 + 6.",
+        "Factor to (x^2 - 2)(x^2 - 3). Roots are ±√2, ±√3.",
+        "Identify the symmetries: X (flip √2 ↔ -√2), Y (flip √3 ↔ -√3), Z = X∘Y. Plus identity.",
+        "Show the four elements as a 2×2 lattice diagram (Klein four-group V_4).",
+        "Now adjoin √3 to the rationals: Q ⊂ Q[√3]. Show what new numbers exist (e.g., 2 + 5√3).",
+        "In Q[√3], the polynomial 2√3·√3 + √3·(-√3) = 3 is now a 'rational' identity — but only X preserves it; Y and Z break it.",
+        "Group has been cut in half: V_4 → {Id, X}.",
+        "Adjoin √2 next: Q[√3] ⊂ Q[√2, √3]. Now even X fails. Group → {Id}.",
+        "Twin-ladder visualization: fields growing UP, group shrinking DOWN. They are mirror images.",
+        "Punch: 'solving the equation = climbing the radical ladder = unscrewing the group, one normal subgroup at a time.'",
+        "Generalize: this works because at each rung, the subgroup we 'mod out by' is a normal subgroup, and the quotient is cyclic — that is exactly what 'adjoining an n-th root' means.",
+        "Now the quintic punch: for x^5 - x - 1 (or any generic quintic), the Galois group is S_5. S_5's only proper normal subgroup is A_5. A_5 is SIMPLE — it has no non-trivial normal subgroups. The ladder has nowhere to go. No tower of radicals exists.",
+        "Conclusion on screen: 'Therefore: no quintic formula. Not because we haven't found it. Because none exists.'"
+      ],
+      "estBeats": 13,
+      "associatedEquationIds": []
+    }
+  ],
+  "metaphors": [
+    {
+      "concept": "the Galois group of an equation",
+      "metaphor": "a fingerprint of indiscernibility — what the equation tells us about its roots WITHOUT distinguishing them. Two equations with the same group are 'the same' from the equation's point of view; their solubility behaves identically.",
+      "whenToDeploy": "as the bridge from S_3 (act 5) into the quartic example (act 6). Use Verriest's exact 1934 phrasing on screen as a quote: 'the group expresses the degree of indiscernibility of the roots.'"
+    },
+    {
+      "concept": "adjoining a radical to a field",
+      "metaphor": "renting a new tool. A polynomial that was 'irreducible' in your shop becomes reducible the moment you bring in a new tool — say, √3. Galois realized: 'irreducibility' is not absolute. It depends on which tools you're allowed to use.",
+      "whenToDeploy": "when first introducing the word 'adjoin' (act 6, opening). Pair with the actual Galois quote about agreeing to regard certain quantities as known."
+    },
+    {
+      "concept": "normal subgroup as a fold-line",
+      "metaphor": "a normal subgroup is a fold-line on the group. You can fold the group along that line and the two halves match up cleanly. A simple group is a sheet of paper with NO fold-lines — it cannot be folded any further.",
+      "whenToDeploy": "in the unscrewing demo (act 6, midpoint). Animate an actual fold of V_4 along {Id, X}, then animate the fold ATTEMPT on A_5 and have the paper bounce back unfolded."
+    },
+    {
+      "concept": "solvability by radicals as a staircase of square roots and n-th roots",
+      "metaphor": "imagine a staircase. The ground floor is the rational numbers Q. Each step UP is one new radical. To 'solve by radicals' is to climb a finite staircase from Q to a field that contains all the roots. Galois proved: such a staircase exists if and only if the group of the equation can be folded all the way down to nothing along normal subgroups with cyclic quotients.",
+      "whenToDeploy": "as the synthesis at the end of the math arc (end of act 6), just before the S_5 punch."
+    },
+    {
+      "concept": "the manuscript fate after Galois's death",
+      "metaphor": "a fourteen-year-old letter in a desk drawer that no one knew how to open. Liouville is the man with the right key.",
+      "whenToDeploy": "act 10 opening."
+    }
+  ],
+  "narrativeAngles": [
+    "Frame as: a 350-year-old question (the quintic) finally answered by a 20-year-old, in a notation he barely had time to invent.",
+    "Frame as: the boy who refused to be coy. Galois explicitly wrote in his Préface that he would not 'repeat the rudiments of the whole theory on the pretext of presenting it in an intelligible form' — and was punished for it. His successor Liouville had to spend three years learning to read him. The video repays Galois by being intelligible without being coy.",
+    "Frame as: the difference between the Bell legend and the Rothman record. The myth is smaller than the man. Galois was not a misunderstood angel — he was difficult, paranoid, fearless, and right.",
+    "Frame as: a chain reaction. One stubborn question at age sixteen leads to permutations, leads to groups, leads (a century later) to Lie groups, Noether's theorem, the Standard Model, RSA, Reed-Solomon codes. The video tracks the chain.",
+    "Frame as: a Ken-Burns documentary. Slow pushes on the brother's portrait. The same image returns three times. The narrator is a guide, not a hype-man. Pacing is patient. Music — when it comes — is sparse."
+  ],
+  "criticisms": [
+    "Ehrhardt's exposition is rigorous but flat — the original paper has zero hooks for a non-mathematician. Our job is to extract the worked quartic example, the S_3 table, and Lemma I and BUILD them into a derivation, not to summarize the paper section by section.",
+    "Ehrhardt does not derive WHY S_5's failure to decompose implies no quintic formula — that punch lands outside her exposition. We must build it ourselves, as the climax of the math arc. This is the single most important visual derivation in the video.",
+    "The paper is in awkward English translation — quote sparingly, paraphrase when smoother.",
+    "Galois's actual phrasing is dense and 19th-century — when we quote him, we quote the Neumann (2011) or Cox (2012) modern translation, NOT the BibNum English text where it is rough.",
+    "Our viewers are not used to the modern definition of a group as 'a set with one operation satisfying four axioms'. We must sneak in the four properties via the Cayley table (closure, identity, inverse, associativity) without ever announcing them as a definition. The viewer should leave KNOWING what a group is operationally even if they could not state the axioms.",
+    "Bell's 'Genius and Stupidity' chapter has shaped EVERY popular Galois treatment for 80 years. We should NAME him on screen and explicitly mark which beats are Bell-myth-corrections — this lends the documentary scholarly authority and is the secret weapon vs. all other Galois videos.",
+    "The 'duel over a girl' is awkward because it is BOTH true AND not the whole story. Stéphanie was real; she existed; she wrote letters asking him to leave her alone. Galois absorbed her decline as catastrophic. But the duel was a culturally common event — Rothman cites 23 duels per day in 18th-c. Ireland during election season. Frame it without melodrama: this is what young men of that class and time did when wounded. He could have walked away. He didn't.",
+    "WARNING for storyteller: do NOT have the narrator say 'tragic' or 'romantic' as adjectives — let the events be tragic and romantic on their own. Show, don't editorialize.",
+    "WARNING for visualizer: the scene-end-tableau rule is critical here. The duel scene should NOT end on a fade-to-black on a body — that is broken-render-indistinguishable. End on a held tableau: e.g., the manuscript on an empty desk, lit by dawn. Three full seconds of silence. THEN cut.",
+    "WARNING for asset-fetcher: do NOT generate AI images of Galois. The Alfred Galois portrait sketch is the ONLY historically defensible likeness. All other 'Galois portraits' floating online are speculative or modern reconstructions. Use only the verified sketch + manuscript photos + period engravings of places."
+  ],
+  "openQuestionsForUser": [
+    "Pacing question: I have estimated 1202 seconds (~20:02) total, with 202 beats. Acceptable, or do you want me to compress the math (acts 5+6) to leave more room for biographical breathing in acts 8 and 9?",
+    "Math depth: I have planned for the viewer to leave understanding the Klein-four-group example concretely AND seeing why S_5 doesn't decompose. This requires acts 5+6 to total ~5 minutes of pure math. If you want to shave time, the easiest cut is the S_3 Cayley table (act 5) — but I think it's load-bearing for the viewer's first encounter with the word 'group'.",
+    "Tone: I have written the brief assuming a Pharaoh-voiced narration that is patient, slightly grave, with dry wit. Please confirm pharaoh is the intended voice (config.yaml says so) and that the documentary register — closer to Ken Burns than to 3Blue1Brown's enthusiastic-explainer mode — is correct.",
+    "Music: brief does not specify music. Storyteller will need direction. Suggest: sparse solo piano under biographical scenes, silence under math derivations.",
+    "Closing: do you want a closing card listing modern applications of Galois fields with specific products (e.g., 'Reed-Solomon codes — used in QR codes, CDs, deep-space transmission, blockchain consensus protocols'), or a more austere 'symmetry, everywhere' close on the brother's portrait?",
+    "Bell-myth on-screen attribution: I have planned to NAME E.T. Bell explicitly when correcting myths. Do you want this, or a softer 'the popular legend says X — the historical record says Y'?"
+  ]
+}

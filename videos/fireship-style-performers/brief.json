@@ -1,0 +1,269 @@
+{
+  "thesisInOneSentence": "Performers replace the O(n^2) softmax attention matrix with a random-feature kernel trick, then re-associate (phi(Q) phi(K)^T) V into phi(Q) (phi(K)^T V), turning attention into linear time without changing what the model can express.",
+  "audience": "Working ML engineers who already know what a Transformer is, have probably tweeted about quadratic attention, and want the actual trick in 3 minutes — not a graduate seminar.",
+  "hook": "Attention is O(n^2). That wall is why your context window is 8k instead of 8 million. Performers tear it down with a kernel trick from 2007.",
+  "teaser": {
+    "openingLine": "Attention is O(n squared). Double the tokens, quadruple the compute. That is the wall every long-context model slams into.",
+    "stakes": "If you can rewrite that quadratic into a linear pass — without breaking softmax — you unlock million-token Transformers on a single GPU.",
+    "openLoop": "How do you replace softmax(QK^T) — a non-linear, dense L by L matrix — with something that scales linearly? Spoiler: you do not compute it at all.",
+    "visualConcept": "Cold open: bold sans-serif 'O(n^2)' fills the screen, pulses red. Cut to a bar chart of memory blowing up. Quick zoom on the paper's title. Title card 'PERFORMERS — attention, but linear' lands as the LAST beat.",
+    "estSeconds": 16
+  },
+  "narrativeArc": [
+    {
+      "actId": "act-0",
+      "name": "Teaser",
+      "estSeconds": 16,
+      "purpose": "Cold-open hook in Fireship cadence. Beats: (1) 'Attention is O(n^2)' punch. (2) Stakes: this is THE bottleneck. (3) Tease: a 2007 kernel trick fixes it. (4) Open-loop question: 'how do you skip the L by L matrix entirely?' (5) Title card 'Performers — attention, but linear' as payoff. No equations on screen. Chunky type, fast cuts."
+    },
+    {
+      "actId": "act-1",
+      "name": "The O(n^2) wall",
+      "estSeconds": 32,
+      "purpose": "Set the bottleneck precisely. Show standard attention: softmax(QK^T / sqrt(d)) V. Highlight the L x L matrix A. State the cost: O(L^2 d) compute, O(L^2) memory. Drop a concrete number ('a 16k context blows past 1 GB just for ONE attention matrix'). Land the pain: 'this is why your context window is small.' Quick paperPage zoom on Equation 1."
+    },
+    {
+      "actId": "act-2",
+      "name": "The kernel trick",
+      "estSeconds": 52,
+      "purpose": "The big idea. Reframe softmax(q^T k) as a kernel K(q,k). Any kernel can be written as K(x,y) = E[phi(x)^T phi(y)] for some random feature map phi. So the L x L matrix A is approximated by phi(Q) phi(K)^T — a product of two L x r matrices. Beat sequence: kernel definition → 'wait you can do that?' moment → caveat (negative features explode, they fix it with positive random features exp(omega^T x - ||x||^2/2)). Use equationStep to reveal eq-003 then eq-007. One paperPage spotlight on Lemma 1."
+    },
+    {
+      "actId": "act-3",
+      "name": "The linear-time rewrite",
+      "estSeconds": 48,
+      "purpose": "The punchline. Show (phi(Q) phi(K)^T) V — still L^2 if you compute the middle. Then re-associate: phi(Q) (phi(K)^T V). The middle term is now r x d. Total cost: O(L r d) — LINEAR in L. This is one Manim beat: associativity arrows collapsing the parens. Drop the benchmark: 'forward pass goes from 8k tokens choking to 64k tokens fine on the same GPU.' Quick paperPage zoom on Figure 3."
+    },
+    {
+      "actId": "act-4",
+      "name": "The fine print",
+      "estSeconds": 18,
+      "purpose": "Caveats and close. One breath each: (1) it's an unbiased approximation, not exact. (2) FAVOR+ uses ORTHOGONAL random features for lower variance — one-line callout. (3) Drop-in compatible with pretrained Transformers via small finetune. Close with arxiv ID + GitHub. Title card with paper title and 2009.14794."
+    }
+  ],
+  "conceptsToVisualize": [
+    {
+      "id": "c-001",
+      "concept": "the L x L attention matrix bottleneck",
+      "whyItMatters": "This is the entire reason the video exists. The viewer must SEE the L x L grid swelling as L grows.",
+      "currentConfusion": "engineers know attention is 'expensive' but rarely viscerally see the matrix shape",
+      "visualSuggestion": "paperPage zoom on Equation 1; chunky on-screen card showing 'A in R^(L x L)' with L scaling 1k -> 16k -> 64k and the square growing red",
+      "associatedEquationIds": ["eq-001"],
+      "actId": "act-1"
+    },
+    {
+      "id": "c-002",
+      "concept": "kernel feature map K(x,y) = E[phi(x)^T phi(y)]",
+      "whyItMatters": "The bridge from 'non-linear softmax' to 'a product of two thin matrices'. Without this the whole trick is opaque.",
+      "currentConfusion": "most engineers haven't seen Rahimi-Recht random features; phi feels like magic",
+      "visualSuggestion": "equationStep reveal of eq-003; chunky text card 'softmax IS a kernel' to anchor",
+      "associatedEquationIds": ["eq-003", "eq-006"],
+      "actId": "act-2"
+    },
+    {
+      "id": "c-003",
+      "concept": "positive random features for softmax (Lemma 1)",
+      "whyItMatters": "The specific phi that makes the trick numerically stable for softmax — the contribution of THIS paper, not Rahimi-Recht.",
+      "currentConfusion": "why not just sin/cos like classical random features? answer: variance explodes near zero",
+      "visualSuggestion": "equationStep on eq-007; one-line subtitle 'sin/cos blows up near zero — exp doesn't'",
+      "associatedEquationIds": ["eq-007"],
+      "actId": "act-2"
+    },
+    {
+      "id": "c-004",
+      "concept": "associativity: (phi(Q) phi(K)^T) V  ->  phi(Q) (phi(K)^T V)",
+      "whyItMatters": "THIS is the punchline. One re-parenthesization turns O(L^2) into O(L). Pure visual gold.",
+      "currentConfusion": "viewers may not realize matrix multiply is associative AND that this is the entire mechanism",
+      "visualSuggestion": "manimClip — show three matrices, animate parens sliding right, dimensions appearing under each block (L x r, r x d, no L x L anywhere). 6-8 seconds.",
+      "associatedEquationIds": ["eq-004"],
+      "actId": "act-3"
+    },
+    {
+      "id": "c-005",
+      "concept": "linear vs quadratic scaling benchmark",
+      "whyItMatters": "Empirical payoff. The viewer needs to see the curves diverge.",
+      "currentConfusion": "none — this is the easy beat",
+      "visualSuggestion": "paperPage spotlight on Figure 3 (page 6) — Performer vs Transformer speed and max-L curves",
+      "associatedEquationIds": [],
+      "actId": "act-3"
+    }
+  ],
+  "questionsToAnswerOnScreen": [
+    "Why is attention O(n^2)?",
+    "Can you rewrite softmax as a kernel?",
+    "What is phi and where does it come from?",
+    "Why does moving the parentheses make it linear?",
+    "Is it actually equal, or just an approximation?"
+  ],
+  "thingsToCutOrSkip": [
+    "Unbiasedness proofs (Lemmas 2-4, Theorems 1-4) — mention 'provably unbiased' in one breath, do not derive.",
+    "All trigonometric random feature MSE comparison — say 'sin/cos blows up, exp does not' and move on.",
+    "The orthogonality construction (Gram-Schmidt details, ORF theory) — one sentence callout: 'orthogonal features cut variance further'.",
+    "Unidirectional / causal prefix-sum trick (Appendix B.1) — do not mention; it adds complexity for no payoff in 3 min.",
+    "Protein modeling experiments and TrEMBL ablations — out of scope.",
+    "Generalized kernel choices (ReLU features, etc.) — skip.",
+    "All of Sections 3 and 4.4-4.7 — pure theory and ablations.",
+    "The regularized softmax-kernel SMREG — skip entirely.",
+    "Comparisons to Reformer / Linformer / Longformer beyond a single benchmark glance.",
+    "The 'redrawing random features periodically' training detail — too in-the-weeds."
+  ],
+  "priorWork": [
+    {
+      "title": "Attention Is All You Need",
+      "arxivId": "1706.03762",
+      "year": 2017,
+      "whyRelevant": "Defines the standard softmax attention this paper is replacing. Reference once during act-1 for 'the original Transformer'."
+    },
+    {
+      "title": "Random Features for Large-Scale Kernel Machines (Rahimi & Recht)",
+      "arxivId": "",
+      "year": 2007,
+      "whyRelevant": "The kernel-as-random-feature-product trick comes from here. Drop the phrase '2007 kernel trick' as a credibility flex in the teaser/act-2."
+    },
+    {
+      "title": "Reformer: The Efficient Transformer",
+      "arxivId": "2001.04451",
+      "year": 2020,
+      "whyRelevant": "The other widely-known efficient Transformer of the era. One-line callout in act-4 to position Performer in the landscape."
+    },
+    {
+      "title": "Linformer: Self-Attention with Linear Complexity",
+      "arxivId": "2006.04768",
+      "year": 2020,
+      "whyRelevant": "Same goal, different trick (low-rank projection instead of kernel). One-line callout in act-4."
+    }
+  ],
+  "supportingMaterial": [
+    {
+      "kind": "paperPage",
+      "needsToFind": "Equation 1 — standard attention definition (page 2, top)",
+      "preferredSource": "videos/fireship-style-performers/pages/page-002.png"
+    },
+    {
+      "kind": "paperPage",
+      "needsToFind": "Equation 3 and 4 — kernel feature map and the linear rewrite (page 3)",
+      "preferredSource": "videos/fireship-style-performers/pages/page-003.png"
+    },
+    {
+      "kind": "paperPage",
+      "needsToFind": "Figure 1 — dashed-block reordering of computation (page 3)",
+      "preferredSource": "videos/fireship-style-performers/pages/page-003.png"
+    },
+    {
+      "kind": "paperPage",
+      "needsToFind": "Lemma 1 — positive random features for softmax (page 4)",
+      "preferredSource": "videos/fireship-style-performers/pages/page-004.png"
+    },
+    {
+      "kind": "paperPage",
+      "needsToFind": "Figure 3 — Transformer vs Performer speed and max-L (page 6)",
+      "preferredSource": "videos/fireship-style-performers/pages/page-006.png"
+    },
+    {
+      "kind": "diagram",
+      "needsToGenerate": "chunky type card: 'O(n^2)' pulsing red, then collapsing to 'O(n)' in green. Used as title-card cousin during teaser and act-3 punchline."
+    },
+    {
+      "kind": "diagram",
+      "needsToGenerate": "Manim associativity collapse: three blocks [phi(Q): L x r] [phi(K)^T: r x L] [V: L x d], parens animating from left-grouping to right-grouping, middle product becoming r x d, L x L matrix never materializing."
+    }
+  ],
+  "spotlights": [
+    {
+      "label": "headline claim from abstract",
+      "pageIdx": 0,
+      "bboxApprox": "0.10,0.20,0.80,0.10",
+      "whyItMatters": "Anchors the 'linear instead of quadratic, no priors needed' thesis directly to the paper."
+    },
+    {
+      "label": "Equation 1 — standard softmax attention",
+      "pageIdx": 1,
+      "bboxApprox": "0.18,0.40,0.65,0.06",
+      "whyItMatters": "The thing being replaced. Show it once, then never again."
+    },
+    {
+      "label": "Equation 3 — kernel as expectation of feature map",
+      "pageIdx": 2,
+      "bboxApprox": "0.28,0.32,0.48,0.05",
+      "whyItMatters": "The bridge. The single equation that makes the whole trick possible."
+    },
+    {
+      "label": "Equation 4 — the linear-time rewrite",
+      "pageIdx": 2,
+      "bboxApprox": "0.20,0.50,0.65,0.07",
+      "whyItMatters": "The punchline equation. Brackets indicate order of computation — that IS the trick."
+    },
+    {
+      "label": "Figure 1 — dashed-block reordering",
+      "pageIdx": 2,
+      "bboxApprox": "0.10,0.62,0.80,0.22",
+      "whyItMatters": "Visual proof the L x L matrix is skipped."
+    },
+    {
+      "label": "Lemma 1 — positive random features for softmax",
+      "pageIdx": 3,
+      "bboxApprox": "0.10,0.20,0.80,0.18",
+      "whyItMatters": "The specific phi map that makes softmax kernelizable WITHOUT blowing up. The paper's actual contribution beyond classical random features."
+    },
+    {
+      "label": "Figure 3 — speed and max-L curves",
+      "pageIdx": 5,
+      "bboxApprox": "0.08,0.20,0.85,0.30",
+      "whyItMatters": "Empirical payoff: linear curve diverging from the quadratic wall."
+    }
+  ],
+  "derivationsToBuild": [
+    {
+      "concept": "the linear-time rewrite via associativity",
+      "openingQuestion": "If A = phi(Q) phi(K)^T, why is computing A V still O(L^2)? And how does one parenthesis change everything?",
+      "stepsToShow": [
+        "Show A V written as (phi(Q) phi(K)^T) V — middle product is L x L, still quadratic.",
+        "Slide the parens: phi(Q) (phi(K)^T V).",
+        "Now phi(K)^T V is r x d — tiny, independent of L.",
+        "Final multiply phi(Q) by (r x d) is O(L r d) — linear in L.",
+        "Side-by-side dimension callouts: nowhere does L x L appear."
+      ],
+      "estBeats": 5,
+      "associatedEquationIds": ["eq-004"]
+    },
+    {
+      "concept": "softmax as a kernel via positive random features (compressed)",
+      "openingQuestion": "Can softmax(q^T k) really be written as phi(q)^T phi(k)?",
+      "stepsToShow": [
+        "softmax kernel SM(x,y) = exp(x^T y).",
+        "Identity: exp(x^T y) = E_omega [ exp(omega^T x - ||x||^2 / 2) * exp(omega^T y - ||y||^2 / 2) ] for omega ~ N(0, I).",
+        "Read off phi(x) = exp(omega^T x - ||x||^2 / 2) — positive, well-behaved.",
+        "Stack m samples → phi: R^d → R^m, plug into Equation 4."
+      ],
+      "estBeats": 4,
+      "associatedEquationIds": ["eq-006", "eq-007"]
+    }
+  ],
+  "metaphors": [
+    {
+      "concept": "the kernel trick replacing the L x L matrix",
+      "metaphor": "It is like replacing a giant lookup table with a hash function. Instead of materializing every (query, key) score, you hand each token a 'fingerprint' phi, and dot products of fingerprints reproduce the scores you would have computed.",
+      "whenToDeploy": "Beat 1 of act-2, right before showing eq-003. One sentence. Drop and move on."
+    },
+    {
+      "concept": "the associativity rewrite",
+      "metaphor": "Same equation, different parentheses, billion-times-cheaper compute. Like factoring a slow loop into matmul.",
+      "whenToDeploy": "Beat 1 of act-3, immediately before the Manim associativity clip."
+    }
+  ],
+  "narrativeAngles": [
+    "The 'one weird trick' framing: a 2007 kernel-method paper, applied to 2017 Transformers, breaks the O(n^2) wall in 2020.",
+    "Frame it as engineering plumbing, not theory: 'the math is unchanged, only the order of operations changes.' This is what makes it Fireship-shaped.",
+    "Implicit competitive frame: while everyone else (Reformer, Longformer, Linformer) sparsifies or low-ranks attention, Performers keep softmax full-rank and just refuse to materialize the matrix."
+  ],
+  "criticisms": [
+    "The paper buries the punchline (Equation 4 + Figure 1) under a section of kernel preliminaries. We MUST lead with the rewrite and backfill the kernel justification — invert the paper's order.",
+    "The paper conflates 'FAVOR+' (positive + orthogonal random features + algorithm) with the much simpler core trick (kernel feature map + associativity). For 3 minutes, only the core trick matters; FAVOR+ is a one-line callout.",
+    "Figure 1 in the paper is fine but typographically dense — re-render the associativity collapse cleanly in Manim with bold dim labels (L x r), (r x d), no axes, no clutter.",
+    "Lemma 1's identity exp(x^T y) = E[exp(omega^T x - ||x||^2/2) * exp(omega^T y - ||y||^2/2)] is non-obvious and the paper just states it. We do NOT derive — we present it as a fact and move on, otherwise we blow the time budget."
+  ],
+  "openQuestionsForUser": [
+    "Confirm: keep act-4 caveats to 18 seconds (orthogonal features + finetune compatibility in one breath each)? Or drop FAVOR+ orthogonality entirely and use that time on a stronger close?",
+    "Closing card: arxiv ID 2009.14794 alone, or also include the Google github.com/google-research/performer link?"
+  ]
+}

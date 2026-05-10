@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#1a2332"/>
+      <stop offset="100%" stop-color="#0e1117"/>
+    </radialGradient>
+    <linearGradient id="newsprint" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#efe9d8"/>
+      <stop offset="100%" stop-color="#d2c8b0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+
+  <!-- Newspaper clipping -->
+  <g transform="translate(360,90)">
+    <rect x="10" y="16" width="1200" height="900" fill="#000" opacity="0.5" rx="2"/>
+    <rect width="1200" height="900" fill="url(#newsprint)" rx="2"/>
+
+    <g font-family="Georgia, 'Times New Roman', serif" fill="#1a1410">
+      <!-- masthead -->
+      <text x="600" y="80" text-anchor="middle" font-size="44" font-weight="700" letter-spacing="6" font-family="'Old English Text MT', Georgia, serif">The New York Times</text>
+      <line x1="80" y1="105" x2="1120" y2="105" stroke="#1a1410" stroke-width="2"/>
+      <text x="80" y="135" font-size="14" font-style="italic">JULY 8, 1958</text>
+      <text x="1120" y="135" text-anchor="end" font-size="14" font-style="italic">PAGE 25</text>
+      <line x1="80" y1="155" x2="1120" y2="155" stroke="#1a1410" stroke-width="0.5"/>
+
+      <!-- Big headline -->
+      <text x="600" y="240" text-anchor="middle" font-size="64" font-weight="700">NEW NAVY DEVICE</text>
+      <text x="600" y="310" text-anchor="middle" font-size="64" font-weight="700">LEARNS BY DOING</text>
+
+      <!-- subhead -->
+      <text x="600" y="370" text-anchor="middle" font-size="26" font-style="italic">Psychologist Shows Embryo</text>
+      <text x="600" y="402" text-anchor="middle" font-size="26" font-style="italic">of Computer Designed to</text>
+      <text x="600" y="434" text-anchor="middle" font-size="26" font-style="italic">Read and Grow Wiser</text>
+
+      <line x1="500" y1="470" x2="700" y2="470" stroke="#1a1410" stroke-width="1"/>
+
+      <!-- Two columns -->
+      <g font-size="16">
+        <text x="120" y="520">WASHINGTON, July 7&#8212;The Navy revealed</text>
+        <text x="120" y="546">the embryo of an electronic computer today</text>
+        <text x="120" y="572">that it expects will be able to walk, talk,</text>
+        <text x="120" y="598">see, write, reproduce itself and be conscious</text>
+        <text x="120" y="624">of its existence.</text>
+        <text x="120" y="666">    The embryo&#8212;the Weather Bureau's</text>
+        <text x="120" y="692">$2,000,000 &#8220;704&#8221; computer&#8212;learned to</text>
+        <text x="120" y="718">differentiate between right and left after</text>
+        <text x="120" y="744">fifty attempts in the Navy's demonstration</text>
+        <text x="120" y="770">for newsmen.</text>
+        <text x="120" y="812">    The service said it would use this</text>
+        <text x="120" y="838">principle to build the first of its</text>
+        <text x="120" y="864">Perceptron thinking machines that will be</text>
+
+        <text x="640" y="520">able to read and write. It is expected to</text>
+        <text x="640" y="546">be finished in about a year at a cost of</text>
+        <text x="640" y="572">$100,000.</text>
+        <text x="640" y="614">    Dr. Frank Rosenblatt, designer of</text>
+        <text x="640" y="640">the Perceptron, conducted the demonstration.</text>
+        <text x="640" y="666">He said the machine would be the first</text>
+        <text x="640" y="692">device to think as the human brain. As do</text>
+        <text x="640" y="718">human beings, Perceptron will make</text>
+        <text x="640" y="744">mistakes at first, but will grow wiser as</text>
+        <text x="640" y="770">it gains experience, he said.</text>
+        <text x="640" y="812">    Dr. Rosenblatt, a research psychologist</text>
+        <text x="640" y="838">at the Cornell Aeronautical Laboratory,</text>
+        <text x="640" y="864">Buffalo, said Perceptrons might be fired</text>
+      </g>
+    </g>
+  </g>
+
+  <g text-anchor="middle" font-family="Georgia, serif" fill="#8b949e">
+    <text x="960" y="1040" font-size="22" font-style="italic">The New York Times, July 8, 1958 &#8212; reconstruction</text>
+  </g>
+</svg>

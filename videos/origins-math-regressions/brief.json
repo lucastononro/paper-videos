@@ -1,0 +1,470 @@
+{
+  "thesisInOneSentence": "A deep neural network is just nested regressions stacked on top of each other; the only genuinely new idea over two centuries of statistics is that you can train the inner ones by recursively applying the chain rule.",
+  "audience": "Curious viewer with high-school calculus and a vague sense of what 'fitting a line' means. No ML background assumed. They have heard the words 'neural network' but cannot connect them to anything mathematical.",
+  "hook": "When you fit a line to data, you have already trained a one-neuron network. Everything in modern deep learning is a 200-year-old idea — least squares — repeated, stacked, and finally taught to fix its own middle layers in 1986.",
+  "tone": "Warm, curious, history-flavored. 3Blue1Brown's 'But what is a neural network?' tempo crossed with Veritasium's pacing on portraits and dates. Slow on people, slow on the chain rule moment, brisk through the chronology in between.",
+  "targetLengthMinutes": 12,
+  "narrativeArc": [
+    {
+      "actId": "act-1",
+      "name": "The hook — a line is a network",
+      "estSeconds": 50,
+      "purpose": "Plant the thesis: the simplest 'neural network' is a line through points. We've been training networks since 1805 — we just didn't call them that. Show a scatter plot, drop a line through it, label it 'a one-neuron network'.",
+      "keyVisuals": ["scatter plot of points", "line being fit (Manim)", "title card: ORIGINS — From Least Squares to Backprop"],
+      "paperRefs": []
+    },
+    {
+      "actId": "act-2",
+      "name": "Legendre, Gauss, and the birth of regression (1805-1809)",
+      "estSeconds": 80,
+      "purpose": "Establish linear regression as the prototype. Legendre publishes least squares in 1805 (Nouvelles méthodes pour la détermination des orbites des comètes). Gauss claims he had it in 1795, publishes in 1809 with the probabilistic justification (Theoria motus). Show portraits, the original title pages, the formula y = β₀ + β₁x, and the squared-error loss being minimized.",
+      "keyVisuals": ["Legendre portrait", "Gauss portrait", "scan of Legendre 1805 title page", "scan of Gauss Theoria motus", "Manim: residuals shrinking as the line tilts to optimum"],
+      "paperRefs": []
+    },
+    {
+      "actId": "act-3",
+      "name": "Logistic regression — the same shape, with a squash",
+      "estSeconds": 60,
+      "purpose": "Bridge from continuous-output regression to classification. Same weighted sum, but pushed through a sigmoid to produce a probability between 0 and 1. This is the SAME σ that will reappear as eq-002 of Rumelhart 80 years later. Pierre-François Verhulst's logistic curve (1838-1845) shown in its original ecological context, then re-cast as a 'soft step'.",
+      "keyVisuals": ["Verhulst portrait", "logistic curve over a population growth plot", "Manim: weighted sum → σ() → output between 0 and 1", "side-by-side: linear regression line vs logistic S-curve"],
+      "paperRefs": ["eq-002"]
+    },
+    {
+      "actId": "act-4",
+      "name": "McCulloch & Pitts — a neuron is a threshold (1943)",
+      "estSeconds": 60,
+      "purpose": "First mathematical model of a biological neuron. Warren McCulloch (neurophysiologist) and Walter Pitts (homeless 19-year-old logician) write 'A Logical Calculus of the Ideas Immanent in Nervous Activity'. Inputs weighted, summed, passed through a step function — a hard threshold. Plant the idea: this is logistic regression with a hard step instead of a soft sigmoid.",
+      "keyVisuals": ["McCulloch portrait", "Pitts portrait", "scan of McCulloch-Pitts 1943 paper title", "Manim: weighted-sum-then-step diagram drawn next to a cartoon biological neuron"],
+      "paperRefs": []
+    },
+    {
+      "actId": "act-5",
+      "name": "Rosenblatt's Perceptron — a network that LEARNS (1958)",
+      "estSeconds": 80,
+      "purpose": "Frank Rosenblatt at Cornell builds the Mark I Perceptron — actual hardware with motorized potentiometers as weights. He proves the perceptron convergence theorem: if the data is linearly separable, the rule wᵢ ← wᵢ + η(d−y)xᵢ will find a separating hyperplane in finite steps. The press goes wild ('the embryo of an electronic computer that the Navy expects will be able to walk, talk, see, write, reproduce itself' — NYT 1958). Show the photo of the Mark I and the moving decision boundary.",
+      "keyVisuals": ["Rosenblatt portrait", "Mark I Perceptron hardware photo (Cornell archive)", "1958 NYT clipping", "Manim: 2D points with a decision-boundary line rotating into place as misclassified points push it"],
+      "paperRefs": []
+    },
+    {
+      "actId": "act-6",
+      "name": "Widrow & Hoff — gradient descent on a neuron (1960)",
+      "estSeconds": 45,
+      "purpose": "ADALINE (Adaptive Linear Neuron) at Stanford. Bernard Widrow and his student Ted Hoff (later co-inventor of the Intel 4004) train a neuron by minimizing squared error directly — the LMS rule. This is gradient descent on a regression-shaped neuron, two and a half decades before backprop. Plant the idea that the loss-surface picture (a parabola) is universal.",
+      "keyVisuals": ["Widrow portrait", "Hoff portrait (later Intel 4004 era)", "ADALINE hardware photo", "Manim: ball rolling down a quadratic loss bowl"],
+      "paperRefs": []
+    },
+    {
+      "actId": "act-7",
+      "name": "The XOR cliff — Minsky, Papert, and the AI winter (1969)",
+      "estSeconds": 75,
+      "purpose": "Minsky and Papert publish Perceptrons (MIT Press, 1969). They prove rigorously that a single-layer perceptron cannot compute XOR, and more generally cannot represent any non-linearly-separable function. Show the XOR truth table, draw all four points on a 2D grid, and show that no line separates them. The book's reception kills funding for connectionist research for over a decade. THIS is why the field needed an answer for hidden layers.",
+      "keyVisuals": ["Minsky portrait", "Papert portrait", "Perceptrons (1969) book cover", "Manim: XOR scatter (0,0)→0, (0,1)→1, (1,0)→1, (1,1)→0; sweep a line through all orientations and show no separation works"],
+      "paperRefs": ["paper.md line 159 — Rumelhart cites Minsky & Papert 1969"]
+    },
+    {
+      "actId": "act-8",
+      "name": "Stack the layers — but how do you train the middle?",
+      "estSeconds": 60,
+      "purpose": "Solve XOR by stacking: two hidden units, one output, sigmoid nonlinearity. State the universal-approximation intuition (a wide enough hidden layer can express anything). Pose the problem the entire video has been building toward: the perceptron rule needs to know the desired output of each unit. For hidden units, we don't know what they should be. So how do we adjust their weights?",
+      "keyVisuals": ["Manim: 2-2-1 MLP with sigmoid hidden units solving XOR (decision boundary curves into a non-linear shape)", "highlighted question on screen: 'What should the hidden unit say?'", "side-by-side: linear regression neuron → MLP as 'nested regressions'"],
+      "paperRefs": ["paper.md lines 53-58 — Rumelhart frames the problem of hidden units"]
+    },
+    {
+      "actId": "act-9",
+      "name": "1986 — Rumelhart, Hinton, Williams, and the chain rule",
+      "estSeconds": 160,
+      "purpose": "The climax. Walk through the actual derivation in the Nature paper. (1) Forward pass: eq-001 weighted sum, eq-002 sigmoid. (2) Loss: eq-003 squared error. (3) Backward pass — and this is the magical move — apply the chain rule recursively: ∂E/∂y at output (eq-004), ∂E/∂x via σ'(x)=y(1-y) (eq-005/006), ∂E/∂w (eq-007/008), and the recursion that makes it a backwards pass: ∂E/∂y at any hidden unit is a weighted sum of ∂E/∂x from above (eq-009/010). Then the gradient step (eq-011) and momentum (eq-012). Pace this slowly: the chain rule is not a new theorem (Leibniz, 1676) — what was new was REPEATEDLY applying it backwards, layer by layer, to assign blame. Spotlight the Nature page itself when each equation lands.",
+      "keyVisuals": ["Rumelhart portrait", "Hinton circa 1986 portrait (CMU era)", "Williams portrait", "scan of Nature 323, 533 (1986) title page", "Manim: forward pass animating left-to-right with values flowing", "Manim: backward pass animating right-to-left with gradients flowing", "Manim: equation cascade — each eq builds out of the previous one with arrows"],
+      "paperRefs": [
+        "paper.md lines 61-69 — eq-001 and eq-002, the forward pass",
+        "paper.md lines 78-83 — eq-003, the loss",
+        "paper.md lines 95-111 — eq-004, eq-005, eq-006, eq-007/008, the backward chain-rule cascade",
+        "paper.md lines 123-131 — eq-009, eq-010, the recursion that makes it back-PROP",
+        "paper.md lines 133-141 — eq-011, eq-012, gradient step and momentum"
+      ]
+    },
+    {
+      "actId": "act-10",
+      "name": "Closing — every modern net is a nested regression",
+      "estSeconds": 50,
+      "purpose": "Zoom out. Show a modern deep network (10+ layers). Recolor each layer to emphasize: every single neuron is a logistic regression. Every layer is a stack of them. Training is just the chain rule, applied recursively, exactly as Rumelhart-Hinton-Williams wrote in 1986. End on the closing title card with the paper's full citation and arxiv-style link.",
+      "keyVisuals": ["Manim: deep MLP morphing — each neuron annotated as 'logistic regression'", "timeline tableau: 1805 Legendre → 1943 McCulloch-Pitts → 1958 Rosenblatt → 1969 Minsky-Papert → 1986 Rumelhart-Hinton-Williams → today", "closing title card: 'Learning representations by back-propagating errors — Rumelhart, Hinton, Williams (Nature 323, 533-536, 1986)'"],
+      "paperRefs": []
+    }
+  ],
+  "conceptsToVisualize": [
+    {
+      "id": "c-001",
+      "concept": "linear regression as a one-neuron network",
+      "actIds": ["act-1", "act-2"],
+      "whyItMatters": "Sets up the thesis. If a viewer accepts that fitting a line IS a tiny neural network, the rest of the video is just stacking.",
+      "currentConfusion": "Students think 'linear in regression' means 'linear in the input'. It actually means 'linear in the coefficients' — you can fit a parabola with linear regression by adding x² as a feature. Address briefly.",
+      "visualSuggestion": "Manim — scatter of points, line dropping in, then redraw the same line as a single-neuron diagram with weights w₀, w₁ labelled identically",
+      "associatedEquationIds": []
+    },
+    {
+      "id": "c-002",
+      "concept": "least-squares loss surface",
+      "actIds": ["act-2", "act-6"],
+      "whyItMatters": "The parabola of squared error is the universal picture for every gradient-descent moment in the video. Anchor it once, reuse it.",
+      "currentConfusion": "Why squared and not absolute? Hand-wave: squared has a clean derivative; Gauss showed it's optimal under Gaussian noise.",
+      "visualSuggestion": "Manim — 1D parabola E(w) with a ball rolling to the bottom; later, lift to 2D bowl",
+      "associatedEquationIds": ["eq-003"]
+    },
+    {
+      "id": "c-003",
+      "concept": "sigmoid as a soft step",
+      "actIds": ["act-3", "act-4"],
+      "whyItMatters": "The sigmoid is the bridge between a McCulloch-Pitts hard threshold (1943) and a differentiable Rumelhart unit (1986). Without differentiability, no chain rule, no backprop.",
+      "currentConfusion": "Why sigmoid specifically? Because its derivative is the elegant y(1-y) — which is the only reason eq-006 is one line and not three.",
+      "visualSuggestion": "Manim — animate a step function morphing into σ(x) = 1/(1+e^(-x)); then show the derivative bump y(1-y) appearing underneath",
+      "associatedEquationIds": ["eq-002", "eq-006"]
+    },
+    {
+      "id": "c-004",
+      "concept": "perceptron decision boundary",
+      "actIds": ["act-5"],
+      "whyItMatters": "Visualizes WHY the perceptron rule works on linearly separable data — and why it's helpless against XOR.",
+      "currentConfusion": "Viewers conflate the perceptron rule (1958) with backprop (1986). The rule is a one-shot per-example update; it cannot adjust hidden weights because it has no notion of credit assignment.",
+      "visualSuggestion": "Manim — 2D scatter, line rotating as misclassified points 'push' it; transition to XOR scatter where rotation is futile",
+      "associatedEquationIds": []
+    },
+    {
+      "id": "c-005",
+      "concept": "XOR is not linearly separable",
+      "actIds": ["act-7", "act-8"],
+      "whyItMatters": "Single most important negative result in early ML. Justifies the entire need for hidden layers.",
+      "currentConfusion": "Why is XOR special? Because the OUTPUT-1 points sit on opposite corners of the unit square — diagonally — and no single line separates diagonals.",
+      "visualSuggestion": "Manim — four corner points of unit square, color-coded by XOR output; sweep a line through all angles, every position misclassifies at least one",
+      "associatedEquationIds": []
+    },
+    {
+      "id": "c-006",
+      "concept": "MLP as nested logistic regressions",
+      "actIds": ["act-8", "act-10"],
+      "whyItMatters": "The thesis-recapture moment. Once the viewer sees an MLP as f(g(h(x))) where each function is a logistic regression, the chain rule becomes obvious.",
+      "currentConfusion": "Viewers think hidden units are exotic. They are not — each one is just another logistic regression on the layer below.",
+      "visualSuggestion": "Manim — a 3-layer MLP where each neuron is highlighted in turn and re-drawn as a tiny logistic-regression panel",
+      "associatedEquationIds": ["eq-001", "eq-002"]
+    },
+    {
+      "id": "c-007",
+      "concept": "chain-rule cascade (the backward pass)",
+      "actIds": ["act-9"],
+      "whyItMatters": "The actual climax. Showing the recursion explicitly is what makes 'backprop' click rather than feel like a magic word.",
+      "currentConfusion": "The leap is conceptual, not technical. The chain rule is from 1676 (Leibniz). The leap is realizing that ∂E/∂y at a hidden unit is itself computable from the ∂E/∂x of the units it feeds — which means once you have gradients at the top, you can DERIVE gradients at every layer below.",
+      "visualSuggestion": "Manim — a 3-layer net; on the forward pass, values flow left-to-right; on the backward pass, the SAME wires now carry ∂E/∂x flowing right-to-left, and at each unit we visibly multiply by σ'=y(1-y)",
+      "associatedEquationIds": ["eq-004", "eq-005", "eq-006", "eq-007", "eq-008", "eq-009", "eq-010"]
+    },
+    {
+      "id": "c-008",
+      "concept": "gradient descent with momentum",
+      "actIds": ["act-9"],
+      "whyItMatters": "Eq-012 is the small bonus that turns slow gradient descent into something tractable on 1986 hardware. Show why a 'velocity' term helps.",
+      "currentConfusion": "Why does adding α·Δw(t-1) help? Because it averages out noisy gradients and accelerates through long flat valleys.",
+      "visualSuggestion": "Manim — ball rolling in a long narrow valley; without momentum it zigzags; with momentum it glides",
+      "associatedEquationIds": ["eq-011", "eq-012"]
+    }
+  ],
+  "questionsToAnswerOnScreen": [
+    "What does it mean to 'fit' a line?",
+    "Why is squared error the loss everyone uses?",
+    "How is a sigmoid different from a step function — and why does that difference matter?",
+    "Why can't a single-layer perceptron learn XOR?",
+    "What should a hidden unit's 'desired output' be?",
+    "How does the chain rule let us assign blame to a hidden weight?",
+    "What is the derivative of σ(x) — and why is it just y(1-y)?",
+    "What does the 'back' in backpropagation actually refer to?"
+  ],
+  "thingsToCutOrSkip": [
+    "Lines 1-44 of paper.md — the tail of a different Nature article on amino-acid racemization. Not our paper.",
+    "Lines 163-181 of paper.md — start of the kitten amblyopia paper. Not our paper.",
+    "Fig. 1 (mirror-symmetry detection net): too niche; the symmetry task is a paper-internal demo, not a load-bearing concept.",
+    "Figs. 2/3/4 (family-tree experiment with English/Italian isomorphism): genuinely cool but a 90-second detour we cannot afford. Mention in one sentence at most.",
+    "The XOR experiment IN the Rumelhart paper (lines 145-146): we cover XOR earlier via Minsky-Papert. Don't double-dip.",
+    "Fig. 5 (recurrent-net unrolling equivalence) and the iterative-net paragraph (lines 119-121, 149): out of scope.",
+    "Local-minima discussion (line 151): mention in one breath, do not derail.",
+    "'Not a plausible model of learning in brains' (line 153): leave for the closing only if time permits.",
+    "Weight-decay and the 0.8/0.2 thresholding tricks (line 117): implementation detail.",
+    "Le Cun and Parker independent rediscovery (line 143): one-liner footnote, not a detour.",
+    "Multi-head-attention-style modern extensions: out of scope; this video stops at the 1986 result."
+  ],
+  "priorWork": [
+    {
+      "title": "Nouvelles méthodes pour la détermination des orbites des comètes",
+      "author": "Adrien-Marie Legendre",
+      "year": 1805,
+      "whyRelevant": "First published statement of least-squares regression. The original 'fit a line' moment."
+    },
+    {
+      "title": "Theoria motus corporum coelestium in sectionibus conicis solem ambientium",
+      "author": "Carl Friedrich Gauss",
+      "year": 1809,
+      "whyRelevant": "Gauss's probabilistic justification of least squares (he claimed prior independent discovery in 1795). Establishes squared error as the principled loss under Gaussian noise."
+    },
+    {
+      "title": "Notice sur la loi que la population suit dans son accroissement",
+      "author": "Pierre-François Verhulst",
+      "year": 1838,
+      "whyRelevant": "Origin of the logistic curve, decades before it became the canonical neural-network nonlinearity."
+    },
+    {
+      "title": "A Logical Calculus of the Ideas Immanent in Nervous Activity",
+      "author": "Warren McCulloch & Walter Pitts",
+      "venue": "Bulletin of Mathematical Biophysics 5, 115-133",
+      "year": 1943,
+      "whyRelevant": "First mathematical model of a neuron — weighted sum then threshold. The direct ancestor of every unit in eq-001/002."
+    },
+    {
+      "title": "The Perceptron: A Probabilistic Model for Information Storage and Organization in the Brain",
+      "author": "Frank Rosenblatt",
+      "venue": "Psychological Review 65, 386-408",
+      "year": 1958,
+      "whyRelevant": "First trainable neural network. The perceptron learning rule and the convergence theorem. Cited by Rumelhart in ref [1]."
+    },
+    {
+      "title": "Principles of Neurodynamics",
+      "author": "Frank Rosenblatt",
+      "venue": "Spartan, Washington DC",
+      "year": 1961,
+      "whyRelevant": "Rumelhart's actual cited reference [1] for the perceptron-convergence procedure."
+    },
+    {
+      "title": "Adaptive Switching Circuits",
+      "author": "Bernard Widrow & Marcian Hoff",
+      "venue": "IRE WESCON Convention Record",
+      "year": 1960,
+      "whyRelevant": "ADALINE and the LMS rule — gradient descent on a single neuron. Bridges Gauss's least squares and Rumelhart's gradient step (eq-011)."
+    },
+    {
+      "title": "Perceptrons: An Introduction to Computational Geometry",
+      "author": "Marvin Minsky & Seymour Papert",
+      "venue": "MIT Press",
+      "year": 1969,
+      "whyRelevant": "The XOR impossibility proof and the political-funding consequences. Cited by Rumelhart in ref [2]."
+    },
+    {
+      "title": "Applications of Advances in Nonlinear Sensitivity Analysis",
+      "author": "Paul Werbos",
+      "venue": "PhD thesis, Harvard",
+      "year": 1974,
+      "whyRelevant": "Werbos derived backpropagation more than a decade before Rumelhart-Hinton-Williams. Mention in one sentence — credit where due — but not as a detour."
+    },
+    {
+      "title": "Une procédure d'apprentissage pour réseau à seuil asymétrique",
+      "author": "Yann Le Cun",
+      "venue": "Proc. Cognitiva 85, 599-604",
+      "year": 1985,
+      "whyRelevant": "Independent rediscovery of backprop, cited by Rumelhart as ref [3]. One-line acknowledgement."
+    },
+    {
+      "title": "Learning representations by back-propagating errors",
+      "author": "David E. Rumelhart, Geoffrey E. Hinton, Ronald J. Williams",
+      "venue": "Nature 323, 533-536",
+      "year": 1986,
+      "whyRelevant": "The anchor paper. Climax of the video."
+    }
+  ],
+  "supportingMaterial": [
+    { "kind": "image", "needsToFind": "Adrien-Marie Legendre portrait", "preferredSource": "Wikimedia Commons (public domain caricature, c. 1820)" },
+    { "kind": "image", "needsToFind": "Carl Friedrich Gauss portrait", "preferredSource": "Wikimedia Commons (Jensen 1840 portrait, public domain)" },
+    { "kind": "image", "needsToFind": "Title page of Legendre 1805 'Nouvelles méthodes...'", "preferredSource": "BnF Gallica or archive.org" },
+    { "kind": "image", "needsToFind": "Title page of Gauss 1809 'Theoria motus'", "preferredSource": "archive.org" },
+    { "kind": "image", "needsToFind": "Pierre-François Verhulst portrait", "preferredSource": "Wikimedia Commons (public domain)" },
+    { "kind": "image", "needsToFind": "Warren McCulloch portrait", "preferredSource": "AAAS / public-domain biography photos; Wikipedia" },
+    { "kind": "image", "needsToFind": "Walter Pitts portrait", "preferredSource": "Wikipedia / archives of MIT RLE" },
+    { "kind": "image", "needsToFind": "Frank Rosenblatt portrait", "preferredSource": "Cornell University archives, Wikipedia" },
+    { "kind": "image", "needsToFind": "Mark I Perceptron hardware photograph (Cornell, 1958-60)", "preferredSource": "Cornell University Library / National Archives; widely reproduced" },
+    { "kind": "image", "needsToFind": "1958 New York Times clipping on the Perceptron", "preferredSource": "NYT archive (July 8, 1958)" },
+    { "kind": "image", "needsToFind": "Bernard Widrow portrait", "preferredSource": "Stanford EE department / IEEE Spectrum" },
+    { "kind": "image", "needsToFind": "Marcian (Ted) Hoff portrait", "preferredSource": "Intel Museum / IEEE" },
+    { "kind": "image", "needsToFind": "ADALINE hardware photo", "preferredSource": "Stanford archives" },
+    { "kind": "image", "needsToFind": "Marvin Minsky portrait", "preferredSource": "MIT Museum, Wikipedia" },
+    { "kind": "image", "needsToFind": "Seymour Papert portrait", "preferredSource": "MIT Museum, Wikipedia" },
+    { "kind": "image", "needsToFind": "Cover of 'Perceptrons' (1969) book by Minsky & Papert", "preferredSource": "MIT Press archive" },
+    { "kind": "image", "needsToFind": "David Rumelhart portrait (UCSD era, mid-1980s)", "preferredSource": "Stanford / UCSD archives" },
+    { "kind": "image", "needsToFind": "Geoffrey Hinton portrait, circa 1986 (CMU era)", "preferredSource": "CMU archives, University of Toronto press materials" },
+    { "kind": "image", "needsToFind": "Ronald J. Williams portrait", "preferredSource": "Northeastern University faculty page / archives" },
+    { "kind": "image", "needsToFind": "Cover/page of Nature 323, October 1986", "preferredSource": "Nature publisher; the paper PDF itself (page 1)" },
+    { "kind": "diagram", "needsToGenerate": "y = β₀ + β₁x equation card with labelled intercept and slope" },
+    { "kind": "diagram", "needsToGenerate": "Squared-error loss formula MSE = (1/n)Σ(yᵢ − ŷᵢ)² as an equation card" },
+    { "kind": "diagram", "needsToGenerate": "Perceptron update rule wᵢ ← wᵢ + η(d−y)xᵢ as an equation card" },
+    { "kind": "diagram", "needsToGenerate": "XOR truth table rendered cleanly (4 rows, color-coded outputs)" },
+    { "kind": "diagram", "needsToGenerate": "Single-neuron schematic: inputs → weighted sum → activation → output" },
+    { "kind": "diagram", "needsToGenerate": "MLP schematic (e.g. 3-4-2) with sigmoid units, used for both forward and backward pass animations" },
+    { "kind": "diagram", "needsToGenerate": "Timeline frieze 1805 → 1986 with portraits placed at each milestone" }
+  ],
+  "spotlights": [
+    {
+      "label": "the abstract — 'a new learning procedure, back-propagation'",
+      "pageIdx": 0,
+      "bboxApprox": "0.10,0.30,0.80,0.10",
+      "whyItMatters": "Headline thesis of the paper, in their own words. Shown when act-9 opens.",
+      "preferredQuote": "We describe a new learning procedure, back-propagation, for networks of neurone-like units."
+    },
+    {
+      "label": "the differentiating-from-perceptrons line",
+      "pageIdx": 0,
+      "bboxApprox": "0.10,0.46,0.80,0.06",
+      "whyItMatters": "This is the literal sentence where the authors say what's NEW: hidden units that learn useful features. Anchors the act-9 setup.",
+      "preferredQuote": "The ability to create useful new features distinguishes back-propagation from earlier, simpler methods such as the perceptron-convergence procedure"
+    },
+    {
+      "label": "eq-001 — the weighted sum",
+      "pageIdx": 0,
+      "bboxApprox": "0.32,0.74,0.36,0.06",
+      "whyItMatters": "Forward-pass equation #1. Anchor the derivation in the paper itself.",
+      "preferredQuote": "x_j = \\sum_i y_i w_{ji}"
+    },
+    {
+      "label": "eq-002 — the sigmoid",
+      "pageIdx": 1,
+      "bboxApprox": "0.30,0.10,0.40,0.08",
+      "whyItMatters": "The exact sigmoid that closes the bridge from logistic regression (act-3) to Rumelhart's hidden unit.",
+      "preferredQuote": "y_j = \\frac{1}{1 + e^{-x_j}}"
+    },
+    {
+      "label": "eq-003 — the squared-error loss",
+      "pageIdx": 1,
+      "bboxApprox": "0.28,0.42,0.44,0.07",
+      "whyItMatters": "Same loss Gauss wrote in 1809. Show the literal printed equation when the visual recapture lands.",
+      "preferredQuote": "E = \\frac{1}{2} \\sum_{c} \\sum_{j} (y_{j,c} - d_{j,c})^{2}"
+    },
+    {
+      "label": "the chain-rule cascade — eqs 4 through 6",
+      "pageIdx": 1,
+      "bboxApprox": "0.10,0.62,0.80,0.22",
+      "whyItMatters": "The actual derivation. Spotlight the block of paper text where ∂E/∂y → ∂E/∂x → ∂E/∂w unfolds. Crop close, zoom=true, so each line is readable.",
+      "preferredQuote": "The backward pass starts by computing"
+    },
+    {
+      "label": "eq-007 — the recursion that makes it BACK-prop",
+      "pageIdx": 2,
+      "bboxApprox": "0.30,0.30,0.40,0.07",
+      "whyItMatters": "This single equation IS backpropagation: ∂E/∂y at a hidden unit equals the weighted sum of ∂E/∂x from above. Show it on the page when act-9 reaches its peak.",
+      "preferredQuote": "\\partial E/\\partial y_i = \\sum_i \\partial E/\\partial x_j \\cdot w_{ji}"
+    },
+    {
+      "label": "the gradient step and momentum — eqs 8 and 9",
+      "pageIdx": 2,
+      "bboxApprox": "0.20,0.55,0.60,0.18",
+      "whyItMatters": "Lands the practical training loop and the small-but-clever momentum trick (eq-012).",
+      "preferredQuote": "\\Delta w = -\\varepsilon \\partial E / \\partial w"
+    },
+    {
+      "label": "the closing 'not a plausible model of brains' caveat",
+      "pageIdx": 2,
+      "bboxApprox": "0.10,0.86,0.80,0.06",
+      "whyItMatters": "Honest closing note from the authors. Optional spotlight if act-10 has room to breathe.",
+      "preferredQuote": "The learning procedure, in its current form, is not a plausible model of learning in brains."
+    }
+  ],
+  "derivationsToBuild": [
+    {
+      "concept": "least squares (linear regression)",
+      "openingQuestion": "Given a cloud of points, which line is the best fit?",
+      "stepsToShow": [
+        "show the residual r_i = y_i − (β₀ + β₁x_i) as a vertical segment from each point to the line",
+        "define the total error as the SUM of SQUARED residuals (not absolute, not raw — squared, because Gauss showed it's optimal under Gaussian noise)",
+        "tilt and slide the line; watch the sum of squared residuals shrink",
+        "lift to the (β₀, β₁)-plane and show the loss surface is a paraboloid with a single minimum",
+        "frame this single-minimum picture as the universal loss-bowl that will reappear in every later act"
+      ],
+      "estBeats": 7,
+      "associatedEquationIds": []
+    },
+    {
+      "concept": "the sigmoid derivative σ'(x) = y(1−y)",
+      "openingQuestion": "Why does the sigmoid have such a clean derivative?",
+      "stepsToShow": [
+        "write σ(x) = 1/(1+e^(-x))",
+        "differentiate by quotient rule",
+        "rearrange and notice that the result factors as σ(x)·(1−σ(x))",
+        "rewrite as y·(1−y) — the derivative is expressible purely in terms of the OUTPUT, not the input",
+        "plant the consequence: this is the only reason eq-006 in Rumelhart is one line"
+      ],
+      "estBeats": 5,
+      "associatedEquationIds": ["eq-002", "eq-006"]
+    },
+    {
+      "concept": "the perceptron learning rule (1958)",
+      "openingQuestion": "If a neuron makes a mistake, how should it move its weights?",
+      "stepsToShow": [
+        "binary target d ∈ {0,1}, predicted y ∈ {0,1}, error e = d − y",
+        "rule: wᵢ ← wᵢ + η · e · xᵢ",
+        "show geometrically: misclassified positive → push the boundary toward this point; misclassified negative → push it away",
+        "state the convergence theorem informally: for linearly separable data, finite steps",
+        "foreshadow the failure: this rule needs a TARGET. Hidden units have no target."
+      ],
+      "estBeats": 6,
+      "associatedEquationIds": []
+    },
+    {
+      "concept": "backpropagation — the chain rule applied recursively",
+      "openingQuestion": "How do we compute the gradient of the loss with respect to a weight buried two layers deep?",
+      "stepsToShow": [
+        "set up a 3-layer net (input → hidden → output) with sigmoid units; reuse eq-001 and eq-002 visually",
+        "write the loss eq-003",
+        "compute ∂E/∂y at the output: it's just y − d (eq-004)",
+        "apply the chain rule once: ∂E/∂x = ∂E/∂y · dy/dx, and substitute σ' = y(1−y) to get eq-006",
+        "apply the chain rule again to reach a weight: ∂E/∂w = ∂E/∂x · y_input (eq-007/008)",
+        "now THE recursion: ∂E/∂y at a hidden unit is a weighted sum of ∂E/∂x at the units it FEEDS (eq-009/010)",
+        "loop the recursion: same formula propagates backward, layer by layer, all the way to the input weights",
+        "gradient step: Δw = −ε ∂E/∂w (eq-011)",
+        "momentum upgrade: Δw(t) = −ε ∂E/∂w(t) + α Δw(t-1) (eq-012); illustrate with a ball gliding through a long valley"
+      ],
+      "estBeats": 14,
+      "associatedEquationIds": ["eq-003", "eq-004", "eq-005", "eq-006", "eq-007", "eq-008", "eq-009", "eq-010", "eq-011", "eq-012"]
+    }
+  ],
+  "metaphors": [
+    {
+      "concept": "a deep neural network",
+      "metaphor": "Russian nesting dolls of regression. Open the outermost doll: it's a logistic regression. Open it: each of its inputs is itself the output of another logistic regression. Keep opening. There is no exotic creature inside — it's regressions all the way down.",
+      "whenToDeploy": "act-1 (plant the seed) and act-10 (cash it in)"
+    },
+    {
+      "concept": "the perceptron decision boundary",
+      "metaphor": "A bouncer at a club drawing a chalk line on the floor. People on one side get in; the other side don't. The perceptron rule is the bouncer redrawing the line every time someone is misclassified at the door.",
+      "whenToDeploy": "act-5, immediately after the convergence theorem lands"
+    },
+    {
+      "concept": "the chain rule cascade in backprop",
+      "metaphor": "A bucket brigade — but in reverse. The error sits at the output, and each layer passes it backward to the previous layer, scaling and reshaping it. By the time the brigade reaches the input weights, every weight has its own personal share of the blame.",
+      "whenToDeploy": "act-9, just before the equations land — frame the visual, then drop into the math"
+    },
+    {
+      "concept": "gradient descent with momentum",
+      "metaphor": "A heavy ball rolling on the loss surface. Without mass, it gets stuck zigzagging in narrow valleys. Add inertia (the α·Δw(t-1) term) and it carries through.",
+      "whenToDeploy": "act-9 closing — when eq-012 appears"
+    },
+    {
+      "concept": "what 'training' means",
+      "metaphor": "Tuning a piano. Each weight is a tension peg; each training example is a struck note compared against a reference pitch. Backprop is the algorithm that tells you exactly how much to turn each peg, simultaneously, to bring the whole instrument closer to in-tune.",
+      "whenToDeploy": "act-1 or act-8 — wherever the abstraction needs grounding once"
+    }
+  ],
+  "narrativeAngles": [
+    "Frame the whole video as a 200-year arc of ONE idea: minimize squared error. Every milestone is just a richer model class fitted with the same loss.",
+    "Frame backprop as 'credit assignment': how do we blame a buried weight for a wrong answer? The chain rule, applied recursively, is the answer.",
+    "Frame the AI winter as a story about an answerable question (XOR) that took 17 years to answer because nobody could train hidden layers. Rumelhart-Hinton-Williams ended the winter.",
+    "Frame Hinton, Rumelhart, Williams as an unlikely intellectual lineage — a cognitive psychologist, a connectionist physicist's-grandson, and a CS theorist — meeting in PDP group at UCSD.",
+    "Frame the sigmoid as the unsung hero — without its differentiability and its clean derivative y(1-y), the chain-rule cascade would be a mess of special cases."
+  ],
+  "criticisms": [
+    "The Rumelhart paper hand-waves over WHERE the chain-rule recursion comes from — they just write eq-007 and move on. We MUST motivate it: the chain rule is from Leibniz 1676; what was new in 1986 was applying it RECURSIVELY, layer by layer, in software.",
+    "The paper does not credit Werbos (1974) who derived backprop in his Harvard PhD thesis 12 years earlier. We will mention Werbos in one sentence — credit where due — without derailing the narrative.",
+    "The XOR experiment in section 'One simple task...' (paper.md lines 145-146) is narratively redundant because we already framed XOR via Minsky-Papert in act-7. Cut.",
+    "Fig. 1 (mirror-symmetry net) is iconic in retrospective surveys but visually noisy and conceptually narrow. Skip; redraw a clean MLP from scratch in Manim instead.",
+    "The family-tree experiment (Figs. 2-4, paper.md lines 89-93, 117) is genuinely beautiful but a 90-second detour we cannot afford in 12 minutes. One-line mention only.",
+    "The recurrent-net unrolling argument (Fig. 5, lines 119-121, 149) is a separate idea with its own visual complexity. Cut entirely.",
+    "Linear regression's 'linear in the coefficients, not in the inputs' subtlety is a classic source of student confusion — must address in 5 seconds in act-2 and move on (don't dwell).",
+    "The popular framing 'backprop is just the chain rule' undersells the conceptual leap of credit assignment for hidden units. Push back gently in act-9: yes it's the chain rule, AND that wasn't obvious."
+  ],
+  "openQuestionsForUser": [
+    "Should we explicitly mention Werbos 1974, or treat 1986 as the canonical date for narrative cleanliness? (Default: one-sentence Werbos mention in act-9.)",
+    "Should the closing tableau (act-10) include a brief flash-forward to modern deep learning (CNNs, transformers) or stay strictly historical and end at 1986? (Default: a one-shot timeline frieze with 'today' as the rightmost tick, no specific modern architectures named.)",
+    "How aggressive should the bilingual mathematical-history pedagogy be? Specifically: do we derive σ'(x) = y(1−y) on screen (45 seconds) or just state it? (Default: derive it briefly — it's the single neatest piece of calculus in the whole video and pays for itself.)",
+    "Voice 'pharaoh' is configured in voices.yaml — confirm before producer runs TTS. (Standard hard rule reminder, not a creative question.)"
+  ]
+}

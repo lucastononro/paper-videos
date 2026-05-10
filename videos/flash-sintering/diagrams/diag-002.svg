@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <!-- Background -->
+  <rect width="1280" height="720" fill="#0e1117"/>
+
+  <!-- Title -->
+  <text x="640" y="50" font-family="Inter, system-ui, sans-serif" font-size="28" font-weight="600"
+        fill="#e6edf3" text-anchor="middle">Solid-oxide fuel cell — cross section</text>
+
+  <!-- Stack body (centered) -->
+  <!-- Cathode (top, blue), Electrolyte (middle, ~yellow/orange), Anode (bottom, neutral grey) -->
+  <g>
+    <!-- Cathode -->
+    <rect x="380" y="130" width="520" height="110" fill="#1f4e79" stroke="#58a6ff" stroke-width="2"/>
+    <text x="640" y="195" font-family="Inter, system-ui, sans-serif" font-size="26" font-weight="600"
+          fill="#e6edf3" text-anchor="middle">Cathode (LSM / LSCF)</text>
+
+    <!-- Electrolyte -->
+    <rect x="380" y="240" width="520" height="80" fill="#5a4612" stroke="#ffd866" stroke-width="2"/>
+    <text x="640" y="288" font-family="Inter, system-ui, sans-serif" font-size="24" font-weight="600"
+          fill="#ffd866" text-anchor="middle">Electrolyte — 8YSZ (dense)</text>
+
+    <!-- Anode -->
+    <rect x="380" y="320" width="520" height="110" fill="#2a2f36" stroke="#8b949e" stroke-width="2"/>
+    <text x="640" y="385" font-family="Inter, system-ui, sans-serif" font-size="26" font-weight="600"
+          fill="#e6edf3" text-anchor="middle">Anode (Ni–YSZ cermet)</text>
+  </g>
+
+  <!-- O^2- ion crossing electrolyte (yellow arrow downward through the electrolyte band) -->
+  <g>
+    <line x1="640" y1="240" x2="640" y2="320" stroke="#ffd866" stroke-width="3" stroke-dasharray="6,5"/>
+    <polygon points="635,318 645,318 640,330" fill="#ffd866"/>
+    <text x="660" y="287" font-family="Inter, system-ui, sans-serif" font-size="20" font-weight="600"
+          fill="#ffd866">O²⁻</text>
+  </g>
+
+  <!-- O2 in (top side, blue) -->
+  <g>
+    <line x1="170" y1="180" x2="378" y2="180" stroke="#58a6ff" stroke-width="3"/>
+    <polygon points="378,175 378,185 388,180" fill="#58a6ff"/>
+    <text x="180" y="165" font-family="Inter, system-ui, sans-serif" font-size="22" font-weight="600"
+          fill="#58a6ff">O₂ in (air)</text>
+  </g>
+
+  <!-- H2 in (bottom side, orange) -->
+  <g>
+    <line x1="170" y1="370" x2="378" y2="370" stroke="#f97583" stroke-width="3"/>
+    <polygon points="378,365 378,375 388,370" fill="#f97583"/>
+    <text x="180" y="355" font-family="Inter, system-ui, sans-serif" font-size="22" font-weight="600"
+          fill="#f97583">H₂ in (fuel)</text>
+  </g>
+
+  <!-- H2O out (bottom right) -->
+  <g>
+    <line x1="902" y1="395" x2="1110" y2="395" stroke="#a8b3c1" stroke-width="3"/>
+    <polygon points="1110,390 1110,400 1120,395" fill="#a8b3c1"/>
+    <text x="930" y="425" font-family="Inter, system-ui, sans-serif" font-size="22" font-weight="600"
+          fill="#a8b3c1">H₂O out</text>
+  </g>
+
+  <!-- External circuit: electron path from anode -> external -> cathode -->
+  <g fill="none" stroke="#7ee787" stroke-width="3">
+    <!-- left wire down from cathode out, around bottom, over to anode -->
+    <path d="M 380 160 L 250 160 L 250 90 L 1030 90 L 1030 410 L 900 410" />
+  </g>
+  <!-- Light bulb / load -->
+  <g>
+    <circle cx="640" cy="90" r="22" fill="#0e1117" stroke="#7ee787" stroke-width="3"/>
+    <text x="640" y="98" font-family="Inter, system-ui, sans-serif" font-size="22" font-weight="700"
+          fill="#7ee787" text-anchor="middle">⌁</text>
+    <text x="640" y="68" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="500"
+          fill="#7ee787" text-anchor="middle">load</text>
+  </g>
+  <!-- e- labels along the wire -->
+  <text x="350" y="130" font-family="Inter, system-ui, sans-serif" font-size="20" font-weight="600" fill="#7ee787">e⁻</text>
+  <text x="950" y="120" font-family="Inter, system-ui, sans-serif" font-size="20" font-weight="600" fill="#7ee787">e⁻</text>
+
+  <!-- Half-reactions -->
+  <g font-family="Inter, system-ui, sans-serif" fill="#8b949e">
+    <text x="640" y="495" font-size="20" text-anchor="middle">cathode:  ½ O₂ + 2 e⁻  →  O²⁻</text>
+    <text x="640" y="525" font-size="20" text-anchor="middle">anode:  H₂ + O²⁻  →  H₂O + 2 e⁻</text>
+    <text x="640" y="565" font-size="22" text-anchor="middle" fill="#e6edf3" font-weight="600">
+      net:  H₂ + ½ O₂  →  H₂O  +  electricity
+    </text>
+  </g>
+
+  <!-- Footnote -->
+  <text x="640" y="640" font-family="Inter, system-ui, sans-serif" font-size="16"
+        fill="#586069" text-anchor="middle" font-style="italic">
+    The electrolyte must be dense (no gas leaks) — densifying YSZ is what flash sintering accelerates.
+  </text>
+</svg>

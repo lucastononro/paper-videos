@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <defs>
+    <linearGradient id="page-gradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f7eedb"/>
+      <stop offset="1" stop-color="#e6d6b1"/>
+    </linearGradient>
+    <radialGradient id="page-shadow" cx="0.5" cy="0.5" r="0.7">
+      <stop offset="0.65" stop-color="#0e1117" stop-opacity="0"/>
+      <stop offset="1" stop-color="#0e1117" stop-opacity="0.6"/>
+    </radialGradient>
+    <pattern id="paper-noise" x="0" y="0" width="6" height="6" patternUnits="userSpaceOnUse">
+      <rect width="6" height="6" fill="#f7eedb"/>
+      <circle cx="2" cy="2" r="0.4" fill="#c9b88a" opacity="0.25"/>
+      <circle cx="5" cy="4" r="0.4" fill="#c9b88a" opacity="0.2"/>
+    </pattern>
+  </defs>
+
+  <!-- Backdrop -->
+  <rect width="1920" height="1080" fill="#0e1117"/>
+
+  <!-- Single old book page, centered -->
+  <g transform="translate(560, 90)">
+    <!-- Page shadow -->
+    <rect x="6" y="14" width="800" height="900" fill="#000" opacity="0.5"/>
+    <!-- Page -->
+    <rect width="800" height="900" fill="url(#page-gradient)"/>
+    <rect width="800" height="900" fill="url(#paper-noise)" opacity="0.5"/>
+    <!-- Vignette -->
+    <rect width="800" height="900" fill="url(#page-shadow)"/>
+
+    <!-- Top ornament -->
+    <g stroke="#3a2c14" stroke-width="2" fill="none" transform="translate(400, 120)">
+      <path d="M-160 0 L-30 0 M30 0 L160 0"/>
+      <circle cx="0" cy="0" r="6" fill="#3a2c14"/>
+      <path d="M-30 0 Q-15 -8 0 0 Q15 8 30 0" fill="#3a2c14"/>
+    </g>
+
+    <!-- Title block -->
+    <text x="400" y="200" text-anchor="middle" font-family="Times New Roman, Georgia, serif" font-size="34" font-weight="bold" fill="#2a1d0c" letter-spacing="4">É L É M E N S</text>
+    <text x="400" y="248" text-anchor="middle" font-family="Times New Roman, Georgia, serif" font-size="22" fill="#3a2c14">DE</text>
+    <text x="400" y="312" text-anchor="middle" font-family="Times New Roman, Georgia, serif" font-size="50" font-weight="bold" fill="#2a1d0c" letter-spacing="6">GÉOMÉTRIE,</text>
+
+    <text x="400" y="380" text-anchor="middle" font-family="Times New Roman, Georgia, serif" font-size="18" fill="#3a2c14">AVEC DES NOTES,</text>
+
+    <!-- Decorative rule -->
+    <line x1="200" y1="420" x2="600" y2="420" stroke="#3a2c14" stroke-width="1.5"/>
+    <line x1="280" y1="430" x2="520" y2="430" stroke="#3a2c14" stroke-width="0.7"/>
+
+    <text x="400" y="490" text-anchor="middle" font-family="Times New Roman, Georgia, serif" font-size="22" fill="#3a2c14">Par A.-M. LEGENDRE,</text>
+    <text x="400" y="528" text-anchor="middle" font-family="Times New Roman, Georgia, serif" font-size="16" font-style="italic" fill="#3a2c14">Membre de l'Institut National,</text>
+    <text x="400" y="552" text-anchor="middle" font-family="Times New Roman, Georgia, serif" font-size="16" font-style="italic" fill="#3a2c14">de la Société des Sciences de Berlin,</text>
+    <text x="400" y="576" text-anchor="middle" font-family="Times New Roman, Georgia, serif" font-size="16" font-style="italic" fill="#3a2c14">de la Société Royale de Londres, etc.</text>
+
+    <!-- A small geometric figure (engraving style triangle) -->
+    <g transform="translate(400, 660)" stroke="#2a1d0c" stroke-width="1.6" fill="none">
+      <polygon points="-90,40 90,40 0,-90"/>
+      <line x1="0" y1="-90" x2="0" y2="40"/>
+      <text x="0" y="62" text-anchor="middle" font-family="Times New Roman, serif" font-size="14" fill="#2a1d0c" stroke="none">A</text>
+      <text x="-100" y="50" text-anchor="middle" font-family="Times New Roman, serif" font-size="14" fill="#2a1d0c" stroke="none">B</text>
+      <text x="100" y="50" text-anchor="middle" font-family="Times New Roman, serif" font-size="14" fill="#2a1d0c" stroke="none">C</text>
+      <text x="0" y="-100" text-anchor="middle" font-family="Times New Roman, serif" font-size="14" fill="#2a1d0c" stroke="none">D</text>
+    </g>
+
+    <!-- Bottom rule -->
+    <line x1="200" y1="780" x2="600" y2="780" stroke="#3a2c14" stroke-width="1"/>
+    <text x="400" y="820" text-anchor="middle" font-family="Times New Roman, Georgia, serif" font-size="20" font-weight="bold" fill="#2a1d0c">À PARIS,</text>
+    <text x="400" y="852" text-anchor="middle" font-family="Times New Roman, Georgia, serif" font-size="16" fill="#3a2c14">CHEZ FIRMIN DIDOT, IMPRIMEUR-LIBRAIRE.</text>
+    <text x="400" y="884" text-anchor="middle" font-family="Times New Roman, Georgia, serif" font-size="16" font-style="italic" fill="#3a2c14">M. DCC. XCIV.</text>
+  </g>
+</svg>

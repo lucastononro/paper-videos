@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { VIDEOS_DIR, slugDir } from '../paths.js';
 import { readManifest, totalDurationFrames } from '../../../../src/lib/manifest.js';
+import { inFlightSnapshot } from '../ws.js';
 
 export const projectsRouter = express.Router();
 
@@ -11,6 +12,7 @@ projectsRouter.get('/', (_req: Request, res: Response) => {
     res.json({ projects: [] });
     return;
   }
+  const inFlight = inFlightSnapshot();
   const projects = fs
     .readdirSync(VIDEOS_DIR, { withFileTypes: true })
     .filter((d) => d.isDirectory())
@@ -42,9 +44,10 @@ projectsRouter.get('/', (_req: Request, res: Response) => {
           visualBlocks: manifest.visualBlocks.length,
           hasOutputMp4,
           lastModified,
+          inFlight: inFlight.has(slug),
         };
       } catch (err) {
-        return { slug, error: (err as Error).message };
+        return { slug, error: (err as Error).message, inFlight: inFlight.has(slug) };
       }
     })
     .sort((a, b) => {

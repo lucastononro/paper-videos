@@ -209,3 +209,18 @@
   color: var(--text);
   line-height: 1.5;
 }
+
+/* In-panel composer for a brand-new thread (replaces window.prompt). */
+.thread-composer-hint {
+  margin: 14px 14px 8px 14px;
+  padding: 10px 12px;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  font-size: 12px;
+  color: var(--text-mute);
+  line-height: 1.5;
+}
+.thread-composer-hint strong {
+  color: #ffd866;
+  font-weight: 600;
+}

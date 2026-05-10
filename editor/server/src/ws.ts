@@ -1,12 +1,11 @@
 import { randomUUID } from 'node:crypto';
 import { WebSocketServer, type WebSocket } from 'ws';
 import type http from 'node:http';
-import { spawnClaudeTurn, type ClaudeRunHandle } from './chat/spawn.js';
-import { buildDirective } from './chat/directive.js';
-import { SessionStore } from './chat/session-store.js';
+import { chatStore } from './chat/store.js';
 import type { ChatEvent, ClientFrame } from './chat/types.js';
 import { threadStore } from './threads/store.js';
 import type { ThreadClientFrame, ThreadEvent } from './threads/types.js';
+import { renderStore } from './render/store.js';
 
 type AnyClientFrame = ClientFrame | ThreadClientFrame;
 
@@ -14,32 +13,65 @@ type Conn = {
   id: string;
   socket: WebSocket;
   subscribedSlug: string | null;
-  inFlight: ClaudeRunHandle | null;
 };
 
 const conns = new Map<string, Conn>();
-const sessions = new SessionStore();
 
-// Subscribe once to the thread store; route events back to the connection that
-// owns them (parentConnId), and route `thread:notice` to whichever connection
-// is currently subscribed to the slug (so the parent chat sees the handoff).
+// Forward chat events to every connection currently subscribed to the slug.
+chatStore.onEvent((slug, e) => {
+  for (const conn of conns.values()) {
+    if (conn.subscribedSlug === slug) sendRaw(conn, e);
+  }
+});
+
+// Broadcast in-flight transitions globally so the gallery can show running
+// indicators on cards even when not in the editor view.
+chatStore.onInFlightChange((slug, inFlight) => {
+  if (slug === null) return;
+  for (const conn of conns.values()) {
+    sendRaw(conn, { kind: 'inflight:changed', slug, inFlight });
+  }
+});
+
+// Render-button events go to every conn subscribed to the slug AND to every
+// gallery viewer (so cards can show "rendering" too — no slug filter for
+// global state events). render:done also triggers a preview:reload so the
+// player picks up the new output.mp4 / regenerated thumbnails.
+renderStore.subscribe((e) => {
+  for (const conn of conns.values()) {
+    sendRaw(conn, e);
+  }
+  if (e.kind === 'render:done' && e.ok) {
+    for (const conn of conns.values()) {
+      if (conn.subscribedSlug === e.slug) {
+        sendRaw(conn, { kind: 'preview:reload', slug: e.slug });
+      }
+    }
+  }
+});
+
+// Forward thread events: thread:created/status/event to the connection that
+// is subscribed to the thread's slug; thread:notice to every conn subscribed
+// to the slug.
 threadStore.subscribe((e: ThreadEvent) => {
   switch (e.kind) {
-    case 'thread:created':
+    case 'thread:created': {
+      const slug = e.thread.slug;
+      for (const conn of conns.values()) {
+        if (conn.subscribedSlug === slug) sendRaw(conn, e);
+      }
+      return;
+    }
     case 'thread:status':
     case 'thread:event': {
-      const thread =
-        e.kind === 'thread:created'
-          ? e.thread
-          : threadStore.get(e.threadId);
-      if (!thread) return;
-      const conn = conns.get(thread.parentConnId);
-      if (conn) sendRaw(conn, e);
+      const t = threadStore.get(e.threadId);
+      if (!t) return;
+      for (const conn of conns.values()) {
+        if (conn.subscribedSlug === t.slug) sendRaw(conn, e);
+      }
       return;
     }
     case 'thread:notice': {
-      // Broadcast to every connection currently viewing this slug — so the
-      // main chat shows the notice regardless of which conn started the thread.
       for (const conn of conns.values()) {
         if (conn.subscribedSlug === e.slug) sendRaw(conn, e);
       }
@@ -51,27 +83,30 @@ threadStore.subscribe((e: ThreadEvent) => {
 export function attachWs(server: http.Server): WebSocketServer {
   const wss = new WebSocketServer({ server, path: '/ws' });
   wss.on('connection', (socket) => {
-    const conn: Conn = { id: randomUUID(), socket, subscribedSlug: null, inFlight: null };
+    const conn: Conn = { id: randomUUID(), socket, subscribedSlug: null };
     conns.set(conn.id, conn);
-    sendChat(conn, { kind: 'system_raw', raw: { hello: true, connId: conn.id } });
+    sendRaw(conn, { kind: 'system_raw', raw: { hello: true, connId: conn.id } });
 
     socket.on('message', (raw) => {
       let msg: AnyClientFrame | null = null;
       try {
         msg = JSON.parse(String(raw)) as AnyClientFrame;
       } catch {
-        sendChat(conn, { kind: 'error', message: 'invalid json' });
+        sendRaw(conn, { kind: 'error', message: 'invalid json' });
         return;
       }
       handleClientFrame(conn, msg).catch((err) => {
-        sendChat(conn, { kind: 'error', message: `handler error: ${(err as Error).message}` });
+        sendRaw(conn, { kind: 'error', message: `handler error: ${(err as Error).message}` });
       });
     });
 
     socket.on('close', () => {
-      if (conn.inFlight) conn.inFlight.cancel();
-      sessions.clearForConn(conn.id);
-      threadStore.clearForConn(conn.id);
+      // IMPORTANT: do NOT cancel running chat / threads. They stay alive on the
+      // server so the user can reconnect (refresh, navigate away+back) and
+      // pick up where they left off via the replay path.
+      if (conn.subscribedSlug !== null) chatStore.detach(conn.id, conn.subscribedSlug);
+      chatStore.detachAll(conn.id);
+      threadStore.detachConn(conn.id);
       conns.delete(conn.id);
     });
   });
@@ -80,13 +115,23 @@ export function attachWs(server: http.Server): WebSocketServer {
 
 async function handleClientFrame(conn: Conn, msg: AnyClientFrame): Promise<void> {
   switch (msg.kind) {
-    // ---- chat (parent) ----
-    case 'subscribe:slug':
+    // ---- subscription / replay ----
+    case 'subscribe:slug': {
+      // Detach from the previous slug so we stop receiving its broadcasts.
+      if (conn.subscribedSlug !== null && conn.subscribedSlug !== msg.slug) {
+        chatStore.detach(conn.id, conn.subscribedSlug);
+      }
       conn.subscribedSlug = msg.slug;
-      // Replay any in-flight thread state for this slug so the panel hydrates
-      // even when the user reloads the page mid-edit.
+      chatStore.attach(conn.id, msg.slug);
+
+      // Replay history for this slug so a refresh or a new tab rebuilds the
+      // chat exactly. We mark it explicitly so the client knows to reset its
+      // local message buffer before ingesting.
+      const history = chatStore.history(msg.slug);
+      sendRaw(conn, { kind: 'chat:replay', slug: msg.slug, events: history });
+
+      // Replay any threads belonging to this slug.
       for (const t of threadStore.list(msg.slug)) {
-        if (t.parentConnId !== conn.id) continue;
         sendRaw(conn, { kind: 'thread:created', thread: t });
         for (const e of t.events) sendRaw(conn, { kind: 'thread:event', threadId: t.id, event: e });
         sendRaw(conn, {
@@ -96,45 +141,48 @@ async function handleClientFrame(conn: Conn, msg: AnyClientFrame): Promise<void>
           summary: t.summary ?? undefined,
         });
       }
-      return;
 
-    case 'chat:cancel':
-      if (conn.inFlight) {
-        conn.inFlight.cancel();
-        conn.inFlight = null;
-      }
-      return;
-
-    case 'chat:turn': {
-      if (conn.inFlight) {
-        conn.inFlight.cancel();
-        try {
-          await conn.inFlight.wait;
-        } catch {
-          /* gone */
-        }
-        conn.inFlight = null;
-      }
-      const directive = buildDirective(msg.slug, msg.text);
-      const resumeId = msg.sessionId ?? sessions.get(conn.id, msg.slug);
-      const handle = spawnClaudeTurn({
-        text: directive,
-        resumeSessionId: resumeId,
-        onEvent: (e: ChatEvent) => {
-          if (e.kind === 'session_started') sessions.set(conn.id, msg.slug, e.sessionId);
-          sendChat(conn, e);
-        },
+      // Tell the client whether a turn is in flight so the UI can reflect it.
+      sendRaw(conn, {
+        kind: 'inflight:changed',
+        slug: msg.slug ?? '',
+        inFlight: chatStore.isInFlight(msg.slug),
       });
-      conn.inFlight = handle;
-      try {
-        await handle.wait;
-      } finally {
-        if (conn.inFlight === handle) conn.inFlight = null;
+
+      // Render state — so reconnecting mid-render picks up the running flag.
+      if (msg.slug) {
+        const r = renderStore.state(msg.slug);
+        sendRaw(conn, {
+          kind: 'render:state',
+          slug: msg.slug,
+          running: r.running,
+          percent: r.percent,
+          startedAt: r.startedAt,
+        });
       }
       return;
     }
 
-    // ---- threads (forked child sessions) ----
+    // ---- main chat ----
+    case 'chat:cancel':
+      chatStore.cancel(conn.subscribedSlug);
+      return;
+
+    case 'chat:turn':
+      void chatStore.turn(msg.slug, msg.text);
+      return;
+
+    case 'chat:reset':
+      chatStore.reset(msg.slug);
+      // Send a fresh empty replay so the client clears its buffer.
+      for (const c of conns.values()) {
+        if (c.subscribedSlug === msg.slug) {
+          sendRaw(c, { kind: 'chat:replay', slug: msg.slug, events: [] });
+        }
+      }
+      return;
+
+    // ---- threads (forked spot-edit sessions) ----
     case 'thread:create':
       threadStore.create({
         parentConnId: conn.id,
@@ -166,11 +214,7 @@ async function handleClientFrame(conn: Conn, msg: AnyClientFrame): Promise<void>
   }
 }
 
-function sendChat(conn: Conn, e: ChatEvent): void {
-  sendRaw(conn, e);
-}
-
-function sendRaw(conn: Conn, e: ChatEvent | ThreadEvent): void {
+function sendRaw(conn: Conn, e: unknown): void {
   if (conn.socket.readyState !== conn.socket.OPEN) return;
   conn.socket.send(JSON.stringify(e));
 }
@@ -179,7 +223,16 @@ function sendRaw(conn: Conn, e: ChatEvent | ThreadEvent): void {
 export function broadcastReload(slug: string): void {
   for (const conn of conns.values()) {
     if (conn.subscribedSlug === slug) {
-      sendChat(conn, { kind: 'preview:reload', slug });
+      sendRaw(conn, { kind: 'preview:reload', slug });
     }
   }
+}
+
+/** Snapshot of slugs with a running chat turn or active thread. */
+export function inFlightSnapshot(): Set<string> {
+  const out = chatStore.inFlightSlugs();
+  for (const t of threadStore.list()) {
+    if (t.status === 'running' || t.status === 'awaiting_finish') out.add(t.slug);
+  }
+  return out;
 }

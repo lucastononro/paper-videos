@@ -1,0 +1,13 @@
+{
+  "id": "img-004",
+  "kind": "image",
+  "file": "images/img-004.png",
+  "scriptToken": "img-fig3-retrieval",
+  "source": "paper Figure 3 (page 6) — qualitative retrieval examples",
+  "sourceFile": "paper-md-assets/_page_6_Figure_0.jpeg",
+  "caption": "Figure 3: Selected video and narration pairs from five positive candidates on HowTo100M held-out samples using MIL-NCE. For each anchor clip the model picks one narration from the surrounding bag of five; the highlighted (pink) narration is the one MIL-NCE selects.",
+  "license": "publication-fair-use",
+  "paperRef": "Miech, Alayrac, Smaira, Laptev, Sivic, Zisserman (2020) — arXiv:1912.06430",
+  "usedByBeats": ["beat-105"],
+  "transform": "Original JPEG centered on a 1920x1080 dark-navy (#0e1117) canvas; height-bound to 92% of canvas height."
+}

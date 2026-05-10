@@ -1,0 +1,13 @@
+{
+  "id": "img-001",
+  "kind": "image",
+  "file": "images/img-001.png",
+  "scriptToken": "img-fig1-misalignment",
+  "source": "paper Figure 1 (page 1)",
+  "sourceFile": "paper-md-assets/_page_0_Figure_10.jpeg",
+  "caption": "Figure 1: We describe an efficient approach to learn visual representations from misaligned and noisy narrations (bottom) automatically extracted from instructional videos (top). Our video representations are learnt from scratch without relying on any manually annotated visual dataset yet outperform all self-supervised and many fully-supervised methods on several video recognition benchmarks.",
+  "license": "publication-fair-use",
+  "paperRef": "Miech, Alayrac, Smaira, Laptev, Sivic, Zisserman (2020) — arXiv:1912.06430",
+  "usedByBeats": ["beat-006", "beat-007"],
+  "transform": "Original JPEG centered on a 1920x1080 dark-navy (#0e1117) canvas; scaled to 95% width."
+}

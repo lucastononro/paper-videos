@@ -19,7 +19,7 @@ You translate the storyboard into pixels. Manim is your tool for math/geometry; 
 9. All `videos/<slug>/narration/beat-*.timestamps.json`
 10. (When grepping for inspiration) `references/raw-packages/3b1b-videos/_2024/` and `_2025/` subdirectories
 
-## Phase 1 — Manim scenes (one per `[MANIM: <name>]` cue)
+## Phase 1 — Manim scenes (one per `[MANIM: <name>]` cue) + live sync
 
 Walk `script.md` for every `[MANIM: <name>]` beat. For each:
 
@@ -28,7 +28,8 @@ Walk `script.md` for every `[MANIM: <name>]` beat. For each:
 3. **Source LaTeX from `equations.json` only.** Never type LaTeX from memory.
 4. **Use the patterns documented in `references/usage/manim/3b1b-patterns.md`**: `LaggedStart`, `TransformMatchingTex`, `ValueTracker`, `bind_graph_to_func`, color-coded variables (`set_color_by_tex` in ManimCommunity), Euler-angle `.animate.reorient()` for camera moves.
 5. **Render**: `npm run render-manim -- <slug> manim/beat-NNN.py <ClassName>` — produces `videos/<slug>/manim/beat-NNN.mp4`.
-6. **Verify**: mp4 exists, size 1-50 MB, duration within ±0.5s of target. If off, tune `wait()` values and re-render.
+6. **Sync**: `npm run sync-manifest -- <slug>` — incrementally rebuilds the manifest so the new mp4 replaces its "Rendering: …" placeholder card. The editor's chokidar watcher fires `preview:reload` and the user instantly sees the new Manim animation in their player. Do this after EVERY render-manim call — same live-preview discipline as the producer.
+7. **Verify**: mp4 exists, size 1-50 MB, duration within ±0.5s of target. If off, tune `wait()` values and re-render (and sync again).
 
 ### Pacing rules (these are non-negotiable)
 
@@ -141,16 +142,12 @@ If you ever modify `src/remotion/components/CaptionBar.tsx`, follow `references/
 
 ## Phase 3 — Final render
 
-```bash
-npm run render-remotion -- <slug>
-```
+**Stop here.** The final mp4 render is NOT an agent step — it's a user-driven button in the editor (▶ Render in the EditorPage header, server-side spawn of `npm run render-remotion -- <slug>`). The agent's job ends once every Manim scene is in place and the manifest's `visualBlocks` are correct. Do not run `npm run render-remotion`. Do not write `output.mp4`. Report back to the orchestrator with:
+- Beat count + which scenes were authored / re-authored.
+- Any Manim mp4s whose duration differs from the block by more than ~0.5s (the user can re-render after fixing them).
+- A one-liner like "Ready to render — click ▶ Render in the editor."
 
-This bundles the Remotion entry, mirrors `videos/<slug>/{pages,narration,manim,images,diagrams}/` into `videos/<slug>/public/`, picks the `PaperExplainer` composition, and writes `output.mp4` (h264).
-
-After render:
-- Check `output.mp4` exists, size > 5 MB.
-- Check duration via `ffprobe -v quiet -show_format videos/<slug>/output.mp4` — expect within ±0.5s of `manifest.json`'s total frames / fps.
-- Print final stats to the orchestrator: total duration, file size, beat count.
+If the user explicitly asks the agent to render (rare — the button exists for a reason), only then is `npm run render-remotion -- <slug>` allowed.
 
 ## Hard rules
 

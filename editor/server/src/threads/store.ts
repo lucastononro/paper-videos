@@ -1,5 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import { spawnClaudeTurn, type ClaudeRunHandle } from '../chat/spawn.js';
+import { chatStore } from '../chat/store.js';
 import { buildThreadDirective, buildFinishPrompt, extractSummary } from './directive.js';
 import type { Thread, ThreadScope, ThreadStatus, ThreadEvent } from './types.js';
 import type { ChatEvent } from '../chat/types.js';
@@ -72,6 +73,11 @@ class ThreadStore {
     };
     this.threads.set(id, rec);
     this.broadcast({ kind: 'thread:created', thread: this.toPlain(rec) });
+    // Record the initial ask in the thread's events so reconnect-replays show
+    // the user's first message.
+    const userEvent: ChatEvent = { kind: 'user_text', text: args.initialAsk, ts: Date.now() };
+    rec.events.push(userEvent);
+    this.broadcast({ kind: 'thread:event', threadId: rec.id, event: userEvent });
     // Kick off the first turn synchronously.
     this.runTurn(rec, buildThreadDirective(args.slug, args.scope, args.initialAsk));
     return this.toPlain(rec);
@@ -81,6 +87,11 @@ class ThreadStore {
   turn(threadId: string, text: string): boolean {
     const rec = this.threads.get(threadId);
     if (!rec) return false;
+    // Record the user's message in the thread's events so a reconnect-replay
+    // shows it. Mirrors the parent chat's behavior.
+    const userEvent: ChatEvent = { kind: 'user_text', text, ts: Date.now() };
+    rec.events.push(userEvent);
+    this.broadcast({ kind: 'thread:event', threadId: rec.id, event: userEvent });
     void this.cancelInFlight(rec);
     this.runTurn(rec, text);
     return true;
@@ -126,14 +137,15 @@ class ThreadStore {
     return true;
   }
 
-  /** Drop all threads associated with a disconnected WS connection. */
-  clearForConn(parentConnId: string): void {
-    for (const [id, rec] of [...this.threads.entries()]) {
-      if (rec.parentConnId === parentConnId) {
-        void this.cancelInFlight(rec);
-        this.threads.delete(id);
-      }
-    }
+  /**
+   * Connection went away. We do NOT cancel running threads — the user might
+   * have just refreshed the page and is about to reconnect. Threads stay
+   * alive; their events accumulate in `events[]` for replay.
+   *
+   * (If you genuinely want to terminate a thread, call `end()` from the UI.)
+   */
+  detachConn(_parentConnId: string): void {
+    /* no-op — threads survive WS disconnect */
   }
 
   // ----- internals -----
@@ -210,6 +222,18 @@ class ThreadStore {
         scope: rec.scope,
         summary,
       });
+      // Persist the notice in the parent chat's history so a refresh /
+      // navigate-away-and-back replays the same notice the live UI showed.
+      // Without this the notice lives only on the client and disappears on
+      // remount.
+      chatStore.recordEvent(rec.slug, {
+        kind: 'thread_notice',
+        threadId: rec.id,
+        scopeLabel: scopeShortLabel(rec.scope),
+        summary,
+        status: 'completed',
+        ts: Date.now(),
+      });
       return;
     }
     // Otherwise the turn just finished — back to ready, awaiting next ask.
@@ -225,6 +249,14 @@ class ThreadStore {
       }
     }
   }
+}
+
+function scopeShortLabel(s: ThreadScope): string {
+  if (s.label) return s.label;
+  const parts: string[] = [];
+  if (s.beatIds.length) parts.push(s.beatIds.join(', '));
+  if (s.blockIds.length) parts.push(s.blockIds.join(', '));
+  return parts.join(' + ') || 'video';
 }
 
 export const threadStore = new ThreadStore();

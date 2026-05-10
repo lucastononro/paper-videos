@@ -23,36 +23,48 @@ export type ChatItem =
 type ChatState = {
   itemsBySlug: Record<string, ChatItem[]>;
   inFlightBySlug: Record<string, boolean>;
-  appendUser: (slug: string, text: string) => void;
+  /** True when the server has just confirmed a clean replay for this slug.
+   *  Used to gate the "reset on send" behavior; user echo is skipped while
+   *  the server hasn't sent its first replay yet. */
+  hydratedBySlug: Record<string, boolean>;
   ingest: (slug: string, e: ServerEvent) => void;
+  /** Server-driven replay (called on (re)subscribe). Resets the slug's buffer. */
+  replay: (slug: string, events: ServerEvent[]) => void;
   setInFlight: (slug: string, v: boolean) => void;
   cancel: (slug: string) => void;
+  /** Local-only — clears the visible chat without telling the server. Use the
+   *  ChatPanel reset button (which fires `chat:reset` over WS) for a real reset. */
+  clearLocal: (slug: string) => void;
 };
 
 export const useChatStore = create<ChatState>((set, get) => ({
   itemsBySlug: {},
   inFlightBySlug: {},
-  appendUser: (slug, text) => {
-    set((s) => {
-      const items = s.itemsBySlug[slug] ?? [];
-      const next = [
-        ...items,
-        { kind: 'user' as const, id: `u-${Date.now()}-${Math.random()}`, text, ts: Date.now() },
-      ];
-      return {
-        itemsBySlug: { ...s.itemsBySlug, [slug]: next },
-        inFlightBySlug: { ...s.inFlightBySlug, [slug]: true },
-      };
-    });
-  },
+  hydratedBySlug: {},
   ingest: (slug, e) => {
     set((s) => {
       const items = s.itemsBySlug[slug] ?? [];
       const next = applyEvent(items, e);
       const inFlight = { ...s.inFlightBySlug };
       if (e.kind === 'done' || e.kind === 'error') inFlight[slug] = false;
+      // user_text from server confirms our turn was accepted; mark in-flight.
+      if (e.kind === 'user_text') inFlight[slug] = true;
       return { itemsBySlug: { ...s.itemsBySlug, [slug]: next }, inFlightBySlug: inFlight };
     });
+  },
+  replay: (slug, events) => {
+    let items: ChatItem[] = [];
+    let inFlight = false;
+    for (const e of events) {
+      items = applyEvent(items, e);
+      if (e.kind === 'user_text') inFlight = true;
+      if (e.kind === 'done' || e.kind === 'error') inFlight = false;
+    }
+    set((s) => ({
+      itemsBySlug: { ...s.itemsBySlug, [slug]: items },
+      inFlightBySlug: { ...s.inFlightBySlug, [slug]: inFlight },
+      hydratedBySlug: { ...s.hydratedBySlug, [slug]: true },
+    }));
   },
   setInFlight: (slug, v) =>
     set((s) => ({ inFlightBySlug: { ...s.inFlightBySlug, [slug]: v } })),
@@ -73,10 +85,20 @@ export const useChatStore = create<ChatState>((set, get) => ({
       set((s) => ({ inFlightBySlug: { ...s.inFlightBySlug, [slug]: false } }));
     }
   },
+  clearLocal: (slug) =>
+    set((s) => ({
+      itemsBySlug: { ...s.itemsBySlug, [slug]: [] },
+      inFlightBySlug: { ...s.inFlightBySlug, [slug]: false },
+    })),
 }));
 
 function applyEvent(items: ChatItem[], e: ServerEvent): ChatItem[] {
   switch (e.kind) {
+    case 'user_text':
+      return [
+        ...items,
+        { kind: 'user', id: `u-${e.ts}-${Math.random()}`, text: e.text, ts: e.ts },
+      ];
     case 'text': {
       const last = items[items.length - 1];
       if (last && last.kind === 'assistant' && last.id === e.messageId) {
@@ -136,11 +158,32 @@ function applyEvent(items: ChatItem[], e: ServerEvent): ChatItem[] {
       return items;
     case 'rate_limit':
       return items;
+    case 'thread_notice': {
+      // Persisted notice from a forked spot-edit thread. Server pushes this
+      // into the slug's history so refresh / navigate-back replays it.
+      // Dedup on threadId so a live event + replay can't double-add.
+      if (items.some((it) => it.kind === 'notice' && it.id === `tn-${e.threadId}`)) return items;
+      return [
+        ...items,
+        {
+          kind: 'notice',
+          id: `tn-${e.threadId}`,
+          ts: e.ts,
+          text: `Spot edit on ${e.scopeLabel} — ${e.summary}`,
+          tone: e.status === 'completed' ? 'success' : 'info',
+        },
+      ];
+    }
     case 'error':
       return [...items, { kind: 'system', id: `err-${Date.now()}`, ts: Date.now(), text: `error: ${e.message}` }];
     case 'done':
     case 'preview:reload':
     case 'system_raw':
+    case 'chat:replay':
+    case 'inflight:changed':
+    case 'render:state':
+    case 'render:progress':
+    case 'render:done':
       return items;
     // Thread events are handled by the threads store, not the parent chat.
     case 'thread:created':
@@ -153,7 +196,11 @@ function applyEvent(items: ChatItem[], e: ServerEvent): ChatItem[] {
 
 /**
  * Hook that wires the WS singleton into the chat store for one slug.
- * Subscribes to `subscribe:slug` so the server can scope `preview:reload`.
+ *
+ * The server replays the slug's full event history on every (re)subscribe via
+ * a `chat:replay` event — that's how a page refresh / tab navigation rebuilds
+ * the chat without losing context. The chat subprocess on the server keeps
+ * running across WS disconnects so events accumulate in the slug's history.
  */
 export function useWsBindings(slug: string): void {
   React.useEffect(() => {
@@ -161,8 +208,15 @@ export function useWsBindings(slug: string): void {
     ws.send({ kind: 'subscribe:slug', slug });
     const off = ws.on((e) => {
       if (e.kind === 'preview:reload') {
-        // Phase E hooks this in EditorPage.
         window.dispatchEvent(new CustomEvent('preview:reload', { detail: e }));
+        return;
+      }
+      if (e.kind === 'chat:replay' && (e.slug === slug || e.slug === null)) {
+        useChatStore.getState().replay(slug, e.events);
+        return;
+      }
+      if (e.kind === 'inflight:changed' && e.slug === slug) {
+        useChatStore.getState().setInFlight(slug, e.inFlight);
         return;
       }
       useChatStore.getState().ingest(slug, e);

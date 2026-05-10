@@ -1,0 +1,30 @@
+{
+  "img-flash-glow": {
+    "kind": "image",
+    "file": "images/img-001.png",
+    "width": 1280,
+    "height": 720,
+    "source": "https://www.nature.com/articles/srep27222 — Saunders, Grasso, Reece (2016) 'Ultrafast-Contactless Flash Sintering using Plasma Electrodes', Scientific Reports 6:27222, Figure 3 (page 3): stills from a video of the contactless flash sintering process, (a) before and (b) 0.5 s after the application of the flash power supply reaching a current of 6 A.",
+    "license": "CC-BY-4.0",
+    "attribution": "Saunders, T., Grasso, S. & Reece, M. J. 'Ultrafast-Contactless Flash Sintering using Plasma Electrodes.' Sci. Rep. 6, 27222 (2016). https://doi.org/10.1038/srep27222 — Creative Commons Attribution 4.0 International License (https://creativecommons.org/licenses/by/4.0/).",
+    "method": "Page 3 of the open-access PDF rasterized via pdfjs-dist; Figure 3 region cropped and matted onto a 1280x720 dark canvas."
+  },
+  "img-microstructure": {
+    "kind": "diagram",
+    "file": "diagrams/diag-001.svg",
+    "width": 1280,
+    "height": 720,
+    "source": "generated",
+    "license": "project-original",
+    "method": "Hand-coded SVG (project palette). Two-panel schematic SEM-style cartoon: left = porous green compact (~30 grey particles loosely packed with visible pores, rho approx 60%); right = sintered polycrystal with sharp Voronoi grain boundaries (rho > 95%). Substituted for the MDPI Materials 16/4/1544 reference because MDPI blocks automated fetches and the schematic conveys the before/after physics more clearly at video scale."
+  },
+  "img-sofc-stack": {
+    "kind": "diagram",
+    "file": "diagrams/diag-002.svg",
+    "width": 1280,
+    "height": 720,
+    "source": "generated",
+    "license": "project-original",
+    "method": "Hand-coded SVG (project palette). SOFC cross-section: cathode (LSM/LSCF) on top, dense 8YSZ electrolyte in the middle, Ni-YSZ anode on the bottom; arrows for O2 in (air, blue), H2 in (fuel, red), H2O out (grey), O^2- ion through electrolyte (yellow dashed), and external electron loop (green) through a load. Substituted for the MDPI Applied Sciences 14/10/3953 reference because MDPI blocks automated fetches; the schematic emphasises why a dense electrolyte (the densification problem flash sintering targets) matters."
+  }
+}

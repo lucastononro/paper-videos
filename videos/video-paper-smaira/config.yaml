@@ -1,0 +1,13 @@
+slug: video-paper-smaira
+paperSource:
+  kind: arxiv
+  value: https://arxiv.org/abs/1912.06430
+  arxivId: "1912.06430"
+paperTitle: End-to-End Learning of Visual Representations from Uncurated Instructional Videos
+voice: pharaoh
+targetLengthMinutes: 12
+focusAreas: []
+resolution:
+  width: 1920
+  height: 1080
+fps: 30

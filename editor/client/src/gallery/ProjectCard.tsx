@@ -37,7 +37,7 @@ export const ProjectCard: React.FC<{ project: ProjectSummary }> = ({ project }) 
           position: 'relative',
         }}
       >
-        {project.hasOutputMp4 && (
+        {project.hasOutputMp4 && !project.inFlight && (
           <span
             style={{
               position: 'absolute',
@@ -52,6 +52,38 @@ export const ProjectCard: React.FC<{ project: ProjectSummary }> = ({ project }) 
             }}
           >
             ✓ rendered
+          </span>
+        )}
+        {project.inFlight && (
+          <span
+            style={{
+              position: 'absolute',
+              top: 8,
+              right: 8,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              padding: '3px 10px 3px 8px',
+              borderRadius: 999,
+              background: 'rgba(13,17,23,0.85)',
+              color: '#79c0ff',
+              fontSize: 11,
+              fontWeight: 600,
+              border: '1px solid rgba(121,192,255,0.40)',
+            }}
+            title="Claude is working in this project"
+          >
+            <span
+              style={{
+                width: 10,
+                height: 10,
+                border: '2px solid rgba(121,192,255,0.30)',
+                borderTopColor: '#79c0ff',
+                borderRadius: '50%',
+                animation: 'tool-spin 0.8s linear infinite',
+              }}
+            />
+            running
           </span>
         )}
       </div>

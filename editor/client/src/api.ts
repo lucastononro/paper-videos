@@ -12,6 +12,8 @@ export type ProjectSummary = {
   visualBlocks: number;
   hasOutputMp4: boolean;
   lastModified: number;
+  /** True when a chat turn or async thread is currently running for this slug. */
+  inFlight: boolean;
 };
 
 type BBox = { x: number; y: number; w: number; h: number };
@@ -52,6 +54,8 @@ export type Manifest = {
   voice: VoiceBeat[];
   visualBlocks: VisualBlock[];
   totalFrames: number;
+  /** Render the bottom CaptionBar over the video. Default false (opt-in per video). */
+  captions?: boolean;
 };
 
 export type Equations = Array<{
@@ -160,8 +164,48 @@ export function thumbUrl(slug: string): string {
   return `/api/projects/${encodeURIComponent(slug)}/thumb.png`;
 }
 
+export type FileEntry = {
+  name: string;
+  path: string;
+  isDir: boolean;
+  size: number;
+  mtime: number;
+  mime: string | null;
+};
+
+export async function listFiles(slug: string, dirPath: string): Promise<FileEntry[]> {
+  const url = `/api/projects/${encodeURIComponent(slug)}/files?path=${encodeURIComponent(dirPath)}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`GET files failed: ${res.status}`);
+  const json = (await res.json()) as { entries: FileEntry[] };
+  return json.entries;
+}
+
+export function fileUrl(slug: string, filePath: string): string {
+  return `/api/projects/${encodeURIComponent(slug)}/file?path=${encodeURIComponent(filePath)}`;
+}
+
 export function staticAssetBaseUrl(slug: string): string {
   return `/static/${encodeURIComponent(slug)}/`;
+}
+
+/**
+ * Render the slug to output.mp4 via the button-driven `render-remotion` flow.
+ * Server returns 409 if a render is already in progress for this slug.
+ */
+export async function startRender(slug: string): Promise<{ started: boolean; running: boolean }> {
+  const res = await fetch(`/api/projects/${encodeURIComponent(slug)}/render`, { method: 'POST' });
+  if (res.status === 409) {
+    return { started: false, running: true };
+  }
+  if (!res.ok) throw new Error(`POST render failed: ${res.status}`);
+  const j = (await res.json()) as { started: boolean; running: boolean };
+  return j;
+}
+
+export async function cancelRender(slug: string): Promise<void> {
+  const res = await fetch(`/api/projects/${encodeURIComponent(slug)}/render`, { method: 'DELETE' });
+  if (!res.ok) throw new Error(`DELETE render failed: ${res.status}`);
 }
 
 export function formatDuration(seconds: number): string {

@@ -42,7 +42,10 @@ export type ParsedScript = {
 };
 
 const FM_RE = /^---\s*\n([\s\S]*?)\n---\s*\n/;
-const BEAT_RE = /^###\s+(beat-\d{3})\s*$/;
+// Beat heading: `### beat-NNN` optionally followed by ` | <metadata> | ...`
+// (e.g. `### beat-001 | act-0 | est. 7.5 sec`). The metadata is informational
+// only — the parser keeps just the `beat-NNN` id.
+const BEAT_RE = /^###\s+(beat-\d{3})(?:\s*\|.*)?\s*$/;
 const ACT_RE = /^##\s+(.+)$/;
 const TITLE_RE = /^#\s+(.+)$/;
 // VISUAL/MANIM use colon (e.g. `[VISUAL: titleCard ...]`); PAUSE is bare (e.g. `[PAUSE 0.5s]`).

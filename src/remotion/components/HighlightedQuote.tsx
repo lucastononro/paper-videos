@@ -37,13 +37,30 @@ export const HighlightedQuote: React.FC<{
         style={{
           flex: 1,
           height: '90%',
-          borderRadius: 12,
-          overflow: 'hidden',
-          boxShadow: '0 30px 60px rgba(0,0,0,0.45)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
           position: 'relative',
         }}
       >
-        <Img src={pageSrc} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        {/* Page wrapper sized to the image's intrinsic aspect — bbox %s map
+            1:1 onto image pixels. Previously this used objectFit:cover which
+            cropped the image and made every bbox doubly wrong. */}
+        <div
+          style={{
+            position: 'relative',
+            height: '100%',
+            display: 'inline-block',
+            borderRadius: 12,
+            overflow: 'hidden',
+            boxShadow: '0 30px 60px rgba(0,0,0,0.45)',
+            backgroundColor: '#ffffff',
+          }}
+        >
+        <Img
+          src={pageSrc}
+          style={{ display: 'block', height: '100%', width: 'auto', maxWidth: '100%' }}
+        />
 
         {bbox && (
           <>
@@ -98,6 +115,7 @@ export const HighlightedQuote: React.FC<{
             />
           </>
         )}
+        </div>
       </div>
       <div
         style={{

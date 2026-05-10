@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <defs>
+    <linearGradient id="jpg-gradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f4ecd6"/>
+      <stop offset="1" stop-color="#dfceaa"/>
+    </linearGradient>
+    <radialGradient id="jpg-shadow" cx="0.5" cy="0.5" r="0.7">
+      <stop offset="0.65" stop-color="#0e1117" stop-opacity="0"/>
+      <stop offset="1" stop-color="#0e1117" stop-opacity="0.65"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1920" height="1080" fill="#0e1117"/>
+
+  <g transform="translate(560, 80)">
+    <rect x="6" y="14" width="800" height="920" fill="#000" opacity="0.55"/>
+    <rect width="800" height="920" fill="url(#jpg-gradient)"/>
+    <rect width="800" height="920" fill="url(#jpg-shadow)"/>
+
+    <!-- Decorative top frame -->
+    <g transform="translate(400, 110)" stroke="#2a1d0c" stroke-width="1.6" fill="none">
+      <path d="M-220 0 L220 0"/>
+      <path d="M-200 -8 L-200 8"/>
+      <path d="M200 -8 L200 8"/>
+      <path d="M-100 0 Q-50 -12 0 0 Q50 12 100 0" stroke-width="1.2"/>
+    </g>
+
+    <text x="400" y="180" text-anchor="middle" font-family="Times New Roman, Georgia, serif" font-size="30" fill="#3a2614" letter-spacing="3">TRAITÉ</text>
+    <text x="400" y="220" text-anchor="middle" font-family="Times New Roman, Georgia, serif" font-size="20" fill="#3a2614">DES</text>
+    <text x="400" y="280" text-anchor="middle" font-family="Times New Roman, Georgia, serif" font-size="48" font-weight="bold" fill="#2a1d0c" letter-spacing="4">SUBSTITUTIONS</text>
+    <text x="400" y="320" text-anchor="middle" font-family="Times New Roman, Georgia, serif" font-size="20" fill="#3a2614">ET DES</text>
+    <text x="400" y="378" text-anchor="middle" font-family="Times New Roman, Georgia, serif" font-size="40" font-weight="bold" fill="#2a1d0c" letter-spacing="3">ÉQUATIONS ALGÉBRIQUES</text>
+
+    <line x1="180" y1="430" x2="620" y2="430" stroke="#3a2614" stroke-width="1.4"/>
+    <line x1="260" y1="442" x2="540" y2="442" stroke="#3a2614" stroke-width="0.7"/>
+
+    <text x="400" y="500" text-anchor="middle" font-family="Times New Roman, Georgia, serif" font-size="26" fill="#3a2614">PAR M. CAMILLE JORDAN,</text>
+    <text x="400" y="540" text-anchor="middle" font-family="Times New Roman, Georgia, serif" font-size="18" font-style="italic" fill="#3a2614">DOCTEUR ÈS SCIENCES MATHÉMATIQUES,</text>
+    <text x="400" y="568" text-anchor="middle" font-family="Times New Roman, Georgia, serif" font-size="18" font-style="italic" fill="#3a2614">INGÉNIEUR EN CHEF DES MINES.</text>
+
+    <!-- Center mathematical ornament -->
+    <g transform="translate(400, 660)" font-family="Times New Roman, Georgia, serif" fill="#2a1d0c" stroke="none">
+      <text text-anchor="middle" font-style="italic" font-size="38">G &gt; H &gt; K &gt; ⋯ &gt; { e }</text>
+    </g>
+
+    <line x1="180" y1="760" x2="620" y2="760" stroke="#3a2614" stroke-width="1"/>
+    <text x="400" y="810" text-anchor="middle" font-family="Times New Roman, Georgia, serif" font-size="22" font-weight="bold" fill="#2a1d0c">PARIS,</text>
+    <text x="400" y="842" text-anchor="middle" font-family="Times New Roman, Georgia, serif" font-size="17" fill="#3a2614">GAUTHIER-VILLARS, IMPRIMEUR-LIBRAIRE</text>
+    <text x="400" y="868" text-anchor="middle" font-family="Times New Roman, Georgia, serif" font-size="15" fill="#3a2614">DU BUREAU DES LONGITUDES, DE L'ÉCOLE POLYTECHNIQUE.</text>
+    <line x1="280" y1="888" x2="520" y2="888" stroke="#3a2614" stroke-width="0.6"/>
+    <text x="400" y="906" text-anchor="middle" font-family="Times New Roman, Georgia, serif" font-size="16" font-style="italic" fill="#3a2614">M DCCC LXX</text>
+  </g>
+</svg>

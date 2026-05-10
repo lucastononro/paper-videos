@@ -19,7 +19,6 @@ export const ChatPanel: React.FC<{
   // (and `useShallow` if/when we need element-wise equality).
   const items = useChatStore((s) => s.itemsBySlug[slug] ?? EMPTY_ITEMS);
   const inFlight = useChatStore((s) => Boolean(s.inFlightBySlug[slug]));
-  const appendUser = useChatStore((s) => s.appendUser);
   const cancel = useChatStore((s) => s.cancel);
   const localRef = React.useRef<HTMLTextAreaElement | null>(null);
   const ref = inputRef ?? localRef;
@@ -27,13 +26,15 @@ export const ChatPanel: React.FC<{
   const send = React.useCallback(() => {
     const text = draft.trim();
     if (!text) return;
-    // Server interrupts the in-flight turn automatically when a new chat:turn
-    // arrives — that's the simp "send to interrupt & redirect" pattern.
-    appendUser(slug, text);
+    // The server echoes the user message back as a `user_text` event, so we
+    // do not append a local copy here. That keeps the timeline replay-stable
+    // across page refreshes (the server's history is the single source).
+    // Server also interrupts any in-flight turn automatically — simp's
+    // "send to interrupt & redirect" pattern.
     ws.send({ kind: 'chat:turn', slug, sessionId: null, text });
     setDraft('');
     autosize(ref.current);
-  }, [appendUser, draft, ref, setDraft, slug]);
+  }, [draft, ref, setDraft, slug]);
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -76,7 +77,7 @@ export const ChatPanel: React.FC<{
         <span>chat — {slug}</span>
       </div>
 
-      <MessageList items={items} inFlight={inFlight} emptyHint={emptyHint} />
+      <MessageList items={items} inFlight={inFlight} emptyHint={emptyHint} slug={slug} />
 
       <div className="chat-input-wrap">
         <div className={`chat-input-area ${inFlight ? 'is-running' : ''}`}>

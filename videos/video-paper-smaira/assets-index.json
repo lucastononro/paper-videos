@@ -1,0 +1,45 @@
+{
+  "_comment": "Canonical id -> file mapping for video-paper-smaira. The script.md src tokens are listed in 'scriptToken'. Updated by asset-fetcher.",
+  "img-fig1-misalignment": {
+    "id": "img-001",
+    "kind": "image",
+    "file": "images/img-001.png",
+    "source": "paper Figure 1 (page 1)",
+    "sourceFile": "paper-md-assets/_page_0_Figure_10.jpeg",
+    "license": "publication-fair-use",
+    "attribution": "Miech et al., 'End-to-End Learning of Visual Representations from Uncurated Instructional Videos' (CVPR 2020), arXiv:1912.06430, Figure 1.",
+    "usedByBeats": ["beat-006", "beat-007"]
+  },
+  "img-fig2a-bag": {
+    "id": "img-002",
+    "kind": "image",
+    "file": "images/img-002.png",
+    "source": "paper Figure 2(a) (page 3) — 'Examples of positive candidates' sub-panel",
+    "sourceFile": "paper-md-assets/_page_2_Figure_0.jpeg",
+    "crop": "left sub-panel (x: 0..825 of the 1301x320 source)",
+    "license": "publication-fair-use",
+    "attribution": "Miech et al., 'End-to-End Learning of Visual Representations from Uncurated Instructional Videos' (CVPR 2020), arXiv:1912.06430, Figure 2(a).",
+    "usedByBeats": ["beat-051"]
+  },
+  "img-fig2b-diagram": {
+    "id": "img-003",
+    "kind": "image",
+    "file": "images/img-003.png",
+    "source": "paper Figure 2(b) (page 3) — 'Illustration of MIL-NCE' embedding-space sketch",
+    "sourceFile": "paper-md-assets/_page_2_Figure_0.jpeg",
+    "crop": "right sub-panel (x: 815..1301 of the 1301x320 source)",
+    "license": "publication-fair-use",
+    "attribution": "Miech et al., 'End-to-End Learning of Visual Representations from Uncurated Instructional Videos' (CVPR 2020), arXiv:1912.06430, Figure 2(b).",
+    "usedByBeats": ["beat-079"]
+  },
+  "img-fig3-retrieval": {
+    "id": "img-004",
+    "kind": "image",
+    "file": "images/img-004.png",
+    "source": "paper Figure 3 (page 6) — qualitative retrieval gallery",
+    "sourceFile": "paper-md-assets/_page_6_Figure_0.jpeg",
+    "license": "publication-fair-use",
+    "attribution": "Miech et al., 'End-to-End Learning of Visual Representations from Uncurated Instructional Videos' (CVPR 2020), arXiv:1912.06430, Figure 3.",
+    "usedByBeats": ["beat-105"]
+  }
+}

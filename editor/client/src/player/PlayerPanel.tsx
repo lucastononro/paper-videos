@@ -82,8 +82,14 @@ export const PlayerPanel: React.FC<{
       >
         <div
           style={{
+            // `width: 100%` + `maxHeight: 100%` + `aspect-ratio` lets the
+            // browser shrink in either direction to satisfy both bounds while
+            // keeping the 16:9 frame intact — no more controls bleeding under
+            // the filmstrip when the right column is short.
             width: '100%',
+            height: 'auto',
             maxWidth: '100%',
+            maxHeight: '100%',
             aspectRatio: `${manifest.resolution.width} / ${manifest.resolution.height}`,
             border: '1px solid var(--border)',
             borderRadius: 8,

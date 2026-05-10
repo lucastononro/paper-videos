@@ -9,6 +9,8 @@ import { thumbRouter } from './routes/thumb.js';
 import { prepareRouter } from './routes/prepare.js';
 import { newRouter } from './routes/new.js';
 import { qaRouter } from './routes/qa.js';
+import { filesRouter } from './routes/files.js';
+import { renderRouter } from './routes/render.js';
 import { attachWs } from './ws.js';
 import { startWatcher } from './watch.js';
 
@@ -43,6 +45,10 @@ app.use('/api/projects', prepareRouter);
 app.use('/api/projects', newRouter);
 // /api/projects/:slug/qa-report (GET cached, POST re-runs)
 app.use('/api/projects', qaRouter);
+// /api/projects/:slug/files & .../file
+app.use('/api/projects', filesRouter);
+// /api/projects/:slug/render — POST starts, DELETE cancels, GET state
+app.use('/api/projects', renderRouter);
 
 // Backwards compat for older clients still hitting /api/slugs.
 app.use('/api/slugs', projectsRouter);

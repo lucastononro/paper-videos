@@ -32,7 +32,9 @@ type Visual =
       kind: 'paperPage';
       pageIdx: number;
       focus: 'top' | 'center' | 'bottom' | 'all';
+      quote?: string;
       highlightBBox?: BBox;
+      zoom?: boolean;
     }
   | { kind: 'highlightedQuote'; pageIdx: number; text: string; bbox?: BBox }
   | { kind: 'equationCard'; equationId: string; reveal: 'stepwise' | 'all' }
@@ -67,6 +69,7 @@ export type ManifestForCore = {
   schemaVersion?: 2;
   voice: VoiceBeat[];
   visualBlocks: VisualBlock[];
+  captions?: boolean;
 };
 
 export type Equations = Array<{
@@ -144,7 +147,8 @@ export const PaperExplainerCore: React.FC<PaperExplainerCoreProps> = ({
           </BlockFade>
         </Sequence>
       ))}
-      {/* Voice + caption layer */}
+      {/* Voice + caption layer. Captions are opt-in per video — see the
+          `captions` flag on the manifest, set at /paper-video new time. */}
       {manifest.voice.map((beat) => (
         <Sequence
           key={beat.id}
@@ -154,7 +158,9 @@ export const PaperExplainerCore: React.FC<PaperExplainerCoreProps> = ({
           layout="none"
         >
           {beat.audioFile && <Narration audioSrc={resolve(beat.audioFile)} />}
-          {beat.timestampsFile && <CaptionBar timestampsSrc={resolve(beat.timestampsFile)} />}
+          {manifest.captions && beat.timestampsFile && (
+            <CaptionBar timestampsSrc={resolve(beat.timestampsFile)} />
+          )}
         </Sequence>
       ))}
     </AbsoluteFill>
@@ -209,6 +215,7 @@ const VisualForBlock: React.FC<{
           focus={v.focus}
           durationFrames={block.durationFrames}
           highlightBBox={v.highlightBBox}
+          zoom={v.zoom}
         />
       );
     case 'highlightedQuote':

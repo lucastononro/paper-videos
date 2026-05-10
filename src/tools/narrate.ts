@@ -145,11 +145,23 @@ for (const beatId of targets) {
   fs.writeFileSync(mp3, paddedMp3);
 
   const rawWords = charsToWords(charAlignment);
-  const words = rawWords.map((w) => ({
-    ...w,
-    start: w.start + padLeading,
-    end: w.end + padLeading,
-  }));
+  // Strip ElevenLabs audio-tag tokens (`[curious]`, `[pause]`, `[serious]`,
+  // `[emphasized]`, etc.) from the caption word stream. The tags steer
+  // prosody server-side but should never appear on screen — when v3 leaks
+  // them into the alignment they'd otherwise show up as visible bracketed
+  // "words" in CaptionBar. Also strip leading/trailing bracket-only fragments
+  // from a word in case a tag fused with adjacent text without a space.
+  const TAG_ONLY = /^\[[^\]]+\]$/;
+  const TAG_FRAGMENT = /\[[^\]]+\]/g;
+  const words = rawWords
+    .filter((w) => !TAG_ONLY.test(w.word))
+    .map((w) => ({
+      ...w,
+      word: w.word.replace(TAG_FRAGMENT, ''),
+      start: w.start + padLeading,
+      end: w.end + padLeading,
+    }))
+    .filter((w) => w.word.length > 0);
   const payload: SegmentTimestamps = {
     segmentId: beatId,
     audioDurationSeconds: audioDurationSeconds(words) + padTrailing,

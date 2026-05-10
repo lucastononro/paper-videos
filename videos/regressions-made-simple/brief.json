@@ -1,0 +1,333 @@
+{
+  "thesisInOneSentence": "Every regression model in this video is the same idea — fit a function to data by minimizing a loss — but each one earns its complexity by answering a question the previous one could not.",
+  "audience": "High-school algebra, glimpsed calculus once. Has heard of machine learning but probably can't define it. Smart, curious, allergic to being talked down to. Will not tolerate a single unearned symbol.",
+  "hook": "Eight models that look like eight different ideas — the line, the curve, the classifier, the forest, the neural net — are actually one idea, told eight times, each time fixing a flaw in the last. Once you see it, you can never unsee it.",
+  "narrativeArc": [
+    {
+      "actId": "act-1",
+      "name": "The seed: a line through points",
+      "estSeconds": 100,
+      "purpose": "Open on a scatter of dots and the most innocent question in statistics: what is the single best line? Define MSE not as algebra but as a game — slide the line, watch the red residuals shrink. By minute two the viewer should feel: 'I just understood what every textbook calls regression.' Plant the seed that will grow into everything else: pick a function, define a loss, minimize."
+    },
+    {
+      "actId": "act-2",
+      "name": "More dimensions, then bent dimensions",
+      "estSeconds": 130,
+      "purpose": "Multiple linear regression as 'same idea, more knobs' — collapse a 3D plane fit to its matrix form so the viewer feels how dimensions hide inside notation. Then the polynomial trick: don't change the model, change the inputs. End on the visual cliffhanger of the degree-9 monster passing through every training point and doing the wrong thing in between. The viewer should feel a small dread: something is broken."
+    },
+    {
+      "actId": "act-3",
+      "name": "The crisis and the cure",
+      "estSeconds": 200,
+      "purpose": "Name the disease (bias and variance) and prescribe the medicine (regularization). Show the U-curve of held-out error so the tradeoff stops being words. Land the L1-vs-L2 contour picture cleanly — the ellipse touches the diamond on a corner, and a corner lies on an axis, and that is why lasso zeros features. By act-end the viewer should feel: 'we tamed complexity by charging for it, not forbidding it.' This is the longest act because it carries the deepest single insight."
+    },
+    {
+      "actId": "act-4",
+      "name": "The same machinery, now classifying",
+      "estSeconds": 110,
+      "purpose": "Pivot. Logistic regression as the surprise twist: take the same linear function, squeeze its output through the sigmoid, swap MSE for cross-entropy because probabilities deserve a probability-shaped loss. The viewer should feel a click — 'wait, this is the same thing.' End by noticing the decision boundary is still linear, which sets up the next act's hunger for nonlinearity."
+    },
+    {
+      "actId": "act-5",
+      "name": "Forests, networks, and the realization",
+      "estSeconds": 120,
+      "purpose": "Two flavors of escape from linearity: partition-and-average (random forests) versus stack-and-bend (neural networks). Show one ReLU bending a line, two stacked, then a smooth target being chased by a network of bends. The closing tableau: eight model names line up on screen and dissolve into a single sentence — 'fit a function, punish your mistakes, repeat.' The viewer should feel quiet."
+    }
+  ],
+  "conceptsToVisualize": [
+    {
+      "id": "c-001",
+      "concept": "linear regression and the residual picture",
+      "whyItMatters": "This is the seed. Everything later is a variation on this one image — a function fit to data, with errors measured and minimized.",
+      "currentConfusion": "Beginners often think 'best fit line' means equidistant or visually centered. They don't realize MSE is a specific, asymmetric choice (squared, not absolute, not perpendicular).",
+      "visualSuggestion": "manim — scatter of dots, draggable line, vertical red residual segments, a live readout of MSE. Then orthogonality of residuals to fit shown as the punchline.",
+      "associatedEquationIds": ["eq-001", "eq-002"],
+      "actId": "act-1"
+    },
+    {
+      "id": "c-002",
+      "concept": "multiple linear regression as a hyperplane",
+      "whyItMatters": "Bridges the leap from 'a line in 2D' to 'an arbitrary linear function of many features.' Without it, every later model feels stuck in 1D.",
+      "currentConfusion": "Students see the matrix form and panic — they don't realize X is just rows-as-data-points and the dot product is the same scalar multiplication they already know.",
+      "visualSuggestion": "manim — 3D scatter with a translucent tilting plane, then a 'compress to matrix' transition where the 3D scene collapses into rows and columns. Highlight one row turning into one prediction via a dot product.",
+      "associatedEquationIds": ["eq-003", "eq-004"],
+      "actId": "act-2"
+    },
+    {
+      "id": "c-003",
+      "concept": "polynomial features as a trick, not a new model",
+      "whyItMatters": "It establishes a habit of thought — 'change the inputs, not the model' — that returns later as the kernel trick and as neural-net features. The viewer needs to feel the trick land.",
+      "currentConfusion": "People think polynomial regression is fundamentally different from linear regression. The point — that it is literally still linear regression, just on richer features — gets lost if rushed.",
+      "visualSuggestion": "manim — a single point moving along the x-axis, a vertical column of its powers (x, x², x³, ...) lighting up as it moves. Then the degree-zoo: line, parabola, cubic, degree-9 swoosh, all on the same data.",
+      "associatedEquationIds": ["eq-005"],
+      "actId": "act-2"
+    },
+    {
+      "id": "c-004",
+      "concept": "overfitting (the degree-9 monster)",
+      "whyItMatters": "Sets up everything in act-3. Without feeling the wrongness viscerally, regularization is just an unmotivated tax.",
+      "currentConfusion": "Viewers often think 'overfitting = high training error.' The opposite: it's zero training error and catastrophic test error.",
+      "visualSuggestion": "manim — show a degree-9 curve nailing every training dot, then dropping in a held-out point off-screen and watching the curve miss it by a comical margin. Add a 'training error: 0.000' counter for irony.",
+      "associatedEquationIds": [],
+      "actId": "act-2"
+    },
+    {
+      "id": "c-005",
+      "concept": "bias-variance decomposition",
+      "whyItMatters": "Gives a name to the two halves of the wrongness. Once named, they can be traded against each other — and that trade is the rest of statistics.",
+      "currentConfusion": "Bias and variance are notoriously slippery — students memorize 'underfit vs overfit' without seeing them as components of a single decomposition.",
+      "visualSuggestion": "manim — small-multiples grid of fits to different bootstrap samples. Low-degree row: all curves nearly identical (low variance, high bias). High-degree row: every curve wildly different (low bias, high variance). Then the U-curve of test error vs complexity.",
+      "associatedEquationIds": ["eq-006"],
+      "actId": "act-3"
+    },
+    {
+      "id": "c-006",
+      "concept": "ridge vs lasso constraint geometry",
+      "whyItMatters": "This is THE picture for understanding regularization. Get this right and the viewer leaves with an unforgettable mental model; get it wrong and they leave confused about why lasso zeros things.",
+      "currentConfusion": "Most explanations draw the diamond corners off-axis, which destroys the entire point. The diamond's corners MUST sit exactly on the coordinate axes — that's why an L1 solution forces a coordinate to zero.",
+      "visualSuggestion": "manim — concentric MSE ellipses; overlay a circle (ridge) and a diamond (lasso) growing outward; freeze at the moment of first contact. For lasso, show the contact point snapping onto a corner that lives on the w_2=0 axis. Side-by-side comparison so the difference is unmissable.",
+      "associatedEquationIds": ["eq-007", "eq-008"],
+      "actId": "act-3"
+    },
+    {
+      "id": "c-007",
+      "concept": "the sigmoid as a squeezer",
+      "whyItMatters": "Without it, logistic regression looks like a magic trick. With it, the viewer sees a single elegant move — wrap a linear function in a function whose range is (0, 1).",
+      "currentConfusion": "Viewers conflate 'sigmoid output' with 'decision boundary.' They are different objects: one is a probability, the other is a linear hyperplane in input space.",
+      "visualSuggestion": "manim — animate the real line ℝ getting bent into the open interval (0, 1) by σ. Show z=0 mapping to 0.5 and the asymptotes. Then overlay the resulting σ(w·x+b) over a 2D plane.",
+      "associatedEquationIds": ["eq-009", "eq-010"],
+      "actId": "act-4"
+    },
+    {
+      "id": "c-008",
+      "concept": "cross-entropy as the right loss for probabilities",
+      "whyItMatters": "Pairs with the sigmoid to make logistic regression an actual probabilistic model rather than a hack. Also: it's the loss every classifier you'll ever meet uses.",
+      "currentConfusion": "People wonder why we don't just square the probability error. The answer — that -log p shoots to infinity as p→0, so confident wrong answers are infinitely punished — is the heart of it.",
+      "visualSuggestion": "manim — plot of -log(p) on [0,1], with a dot crawling toward p=0 and the loss climbing to ∞. Compare side-by-side with a squared-error curve, which barely flinches at confident wrongness.",
+      "associatedEquationIds": ["eq-011"],
+      "actId": "act-4"
+    },
+    {
+      "id": "c-009",
+      "concept": "logistic regression's decision boundary is linear",
+      "whyItMatters": "Necessary surprise: even though the output curves smoothly, the boundary p=0.5 is a flat hyperplane. Sets up the hunger for nonlinearity that drives act-5.",
+      "currentConfusion": "Because the sigmoid is curvy, viewers assume the boundary is curvy too. It isn't.",
+      "visualSuggestion": "manim — 2D scatter of two classes; the σ output drawn as a height map; slice horizontally at 0.5 and reveal a straight line appearing on the floor as the boundary.",
+      "associatedEquationIds": ["eq-010"],
+      "actId": "act-4"
+    },
+    {
+      "id": "c-010",
+      "concept": "random forests as variance averaging",
+      "whyItMatters": "It's the workhorse of tabular ML. The video would be incomplete without it, and the visual — fifty noisy step functions averaging into one smooth curve — is gorgeous.",
+      "currentConfusion": "Viewers expect 'the average of dumb models is dumb.' The opposite: averaging decorrelated high-variance models drops the variance without raising the bias.",
+      "visualSuggestion": "manim — animate one tree being grown by recursive splits, then its piecewise-constant prediction surface. Then ghost in 50 more such surfaces with low opacity; the average emerges as a smooth dark curve.",
+      "associatedEquationIds": ["eq-012"],
+      "actId": "act-5"
+    },
+    {
+      "id": "c-011",
+      "concept": "ReLU as a kink, then composition",
+      "whyItMatters": "This is where 'neural network' stops being mystical and becomes mechanical. One ReLU bends a line. Stack two and you can bend the bend.",
+      "currentConfusion": "The leap from 'one neuron is just max(0, w·x+b)' to 'a neural network can approximate anything' usually feels like a swindle. Showing it stage-by-stage demystifies it.",
+      "visualSuggestion": "manim — start with a flat target curve. Add one ReLU: a single hinge appears. Add two: two hinges. Add five: a piecewise-linear approximation tracing the target. Then a slider to push hidden units up to dozens; watch a smooth curve emerge.",
+      "associatedEquationIds": ["eq-013"],
+      "actId": "act-5"
+    },
+    {
+      "id": "c-012",
+      "concept": "gradient descent as 'no closed form, walk downhill'",
+      "whyItMatters": "The viewer needs to know how the network's parameters get found. Closed-form solutions ran out somewhere between trees and nets; descent is the universal substitute.",
+      "currentConfusion": "Beginners think 'gradient descent' is one specific algorithm rather than the simple idea of walking against the gradient. Naming the chain rule briefly (don't derive backprop) reassures them this is doable, not magical.",
+      "visualSuggestion": "manim — 2D loss landscape with a ball rolling along the gradient. Show a single update arrow, then many. End with a parameter trajectory snaking into a basin.",
+      "associatedEquationIds": ["eq-014"],
+      "actId": "act-5"
+    }
+  ],
+  "questionsToAnswerOnScreen": [
+    "Why squared error and not absolute error?",
+    "Why does adding more polynomial terms eventually make the model worse, not better?",
+    "What does 'bias' actually mean — and how is it different from 'variance'?",
+    "Why does lasso force some weights to exactly zero, while ridge only shrinks them?",
+    "Why can't we just use mean squared error for classification?",
+    "Why is the logistic regression decision boundary a straight line even though sigmoid is curved?",
+    "How can averaging a bunch of mediocre trees beat a single carefully tuned one?",
+    "What does ReLU actually do, and why does stacking ReLUs let a network fit anything?",
+    "When do we use the closed-form normal equations and when do we have to use gradient descent?",
+    "What is the one idea that ties all eight of these models together?"
+  ],
+  "thingsToCutOrSkip": [
+    "Closed-form derivation of the normal equations — show the formula land, do not derive it.",
+    "Feature scaling, train/test/validation split as a process, k-fold cross-validation. Bias/variance gestures at these without naming them.",
+    "GLMs, generalized additive models, MARS, splines, kernel ridge, Gaussian processes, SVR, gradient boosting, XGBoost, transformers — all out of scope.",
+    "Specific optimizers (Adam, momentum, RMSProp). 'Gradient descent' is enough.",
+    "Backpropagation as a derivation. Mention 'the chain rule, essentially' and move on.",
+    "Any code, any scikit-learn references, any specific library names.",
+    "Concrete datasets. Use abstract (x, y) clouds; let the viewer fill in 'house prices' or 'patient outcomes' themselves.",
+    "Multi-class softmax, one-vs-rest schemes — logistic regression stays binary.",
+    "Decision-tree splitting criteria (Gini, entropy). The video shows 'splits happen' without ranking them.",
+    "Bias term in equations after the first occurrence — once you've seen +b, fold it into w via the implicit constant feature trick visually so the math stays clean.",
+    "Universal approximation proof sketch. Cite Cybenko/Hornik by name; do not gesture at the proof.",
+    "Convexity vs non-convexity discussion. Out of scope; would require a calculus detour."
+  ],
+  "priorWork": [
+    {
+      "title": "Approximation by Superpositions of a Sigmoidal Function",
+      "arxivId": null,
+      "year": 1989,
+      "whyRelevant": "Cybenko's universal approximation theorem — cited by name when neural-net regression lands as 'this can fit any continuous function.'"
+    },
+    {
+      "title": "Approximation Capabilities of Multilayer Feedforward Networks",
+      "arxivId": null,
+      "year": 1991,
+      "whyRelevant": "Hornik's strengthening of Cybenko, generalizing beyond sigmoid activations. One-line citation alongside Cybenko."
+    },
+    {
+      "title": "Random Forests",
+      "arxivId": null,
+      "year": 2001,
+      "whyRelevant": "Breiman's paper introducing random forests — the closing line of the trees-and-forests act notes this is twenty-plus years old and still state of the art on tabular data."
+    }
+  ],
+  "supportingMaterial": [
+    {
+      "kind": "diagram",
+      "needsToGenerate": "the eight-stops journey map: a horizontal sequence of eight nodes (line, hyperplane, polynomial, U-curve, ridge/lasso shapes, sigmoid, tree+forest, neural-net stack) with curved arrows labeled by the failure each one fixes. Used as a recurring 'where are we' beacon every time we cross an act boundary."
+    },
+    {
+      "kind": "diagram",
+      "needsToGenerate": "matrix anatomy of multiple linear regression: an X matrix with rows highlighted as 'one data point' and columns highlighted as 'one feature,' and the equation y_hat = X w + b sitting next to it with arrows tying scalar to row to column."
+    },
+    {
+      "kind": "diagram",
+      "needsToGenerate": "the L1-vs-L2 contour picture, twin-paneled. Left: ellipses + circle, contact point off-axis. Right: ellipses + diamond, contact point snapped onto a coordinate axis. Annotated so the on-axis hit is unmissable."
+    },
+    {
+      "kind": "diagram",
+      "needsToGenerate": "side-by-side -log(p) vs (1-p)^2 punishment curves, showing the asymptote at 0 for cross-entropy and the tame slope of squared error."
+    },
+    {
+      "kind": "diagram",
+      "needsToGenerate": "a tiny decision tree (3-4 splits) with the resulting piecewise-constant prediction surface in 2D, and an inset of fifty-tree-overlay producing a smooth average."
+    },
+    {
+      "kind": "diagram",
+      "needsToGenerate": "the 'stacked regressions with a kink' diagram for a one-hidden-layer net: input vector → linear → ReLU bend → linear → output, with the two linear blocks visually tagged as 'regression' and the ReLU tagged as 'the kink.'"
+    },
+    {
+      "kind": "diagram",
+      "needsToGenerate": "closing tableau: the eight model names stacked vertically, then dissolving into a single line of text — 'Fit a function. Punish your mistakes. Repeat.'"
+    }
+  ],
+  "spotlights": [],
+  "derivationsToBuild": [
+    {
+      "concept": "the geometric meaning of MSE: residuals and the projection picture",
+      "openingQuestion": "When we say 'best fit,' best in what sense? What are we actually minimizing?",
+      "stepsToShow": [
+        "draw a scatter of (x, y) points and a draggable line",
+        "for each point, draw the vertical residual segment in red",
+        "label the loss as the average of squared red-segment-lengths",
+        "drag the line until total red is visibly minimized",
+        "freeze on the optimum and rotate the camera so the residuals appear perpendicular to the column space — show that 'best fit' = 'orthogonal projection'",
+        "land the formula y_hat = X w + b alongside the geometric picture"
+      ],
+      "estBeats": 10,
+      "associatedEquationIds": ["eq-001", "eq-002", "eq-003"]
+    },
+    {
+      "concept": "ridge vs lasso: why corners zero things",
+      "openingQuestion": "Both ridge and lasso 'shrink' the weights. Why does only lasso ever produce an exact zero?",
+      "stepsToShow": [
+        "draw the MSE level sets as concentric ellipses around the unconstrained optimum",
+        "introduce the ridge constraint as a circle of radius determined by lambda; grow the smallest ellipse that touches the circle",
+        "show the ridge contact point — somewhere on the circle, generically off-axis",
+        "swap the circle for the lasso diamond (axis-aligned!), grow the same ellipses",
+        "show the contact point snapping onto a corner of the diamond, and that corner sitting exactly on the w_2 = 0 axis",
+        "conclude: 'the corners lie on the axes — that's why a coordinate becomes exactly zero'"
+      ],
+      "estBeats": 9,
+      "associatedEquationIds": ["eq-007", "eq-008"]
+    },
+    {
+      "concept": "cross-entropy as the loss that punishes confident wrong answers",
+      "openingQuestion": "Why not just use squared error on the predicted probability?",
+      "stepsToShow": [
+        "set up: true label y=1, model predicts p_hat ranging from 0.99 down to 0.01",
+        "plot squared-error punishment (1 - p_hat)^2 — bounded, gentle near zero",
+        "plot cross-entropy punishment -log(p_hat) — climbs to infinity as p_hat → 0",
+        "drop a marker on p_hat = 0.001 and read off both losses: ~1.0 vs ~6.9",
+        "now flip y to 0 with p_hat = 0.999 — symmetric explosion",
+        "land the formula: -[y log p_hat + (1-y) log(1-p_hat)] as the unified statement"
+      ],
+      "estBeats": 8,
+      "associatedEquationIds": ["eq-009", "eq-010", "eq-011"]
+    },
+    {
+      "concept": "ReLU composition as universal function fitting",
+      "openingQuestion": "How can max(0, z) — the simplest possible nonlinearity — let us fit any function?",
+      "stepsToShow": [
+        "start with a smooth wiggly target curve (say, sin(x) on a bounded domain)",
+        "add one ReLU unit: a single hinge appears at some location, slope chosen by the outer linear layer",
+        "add a second ReLU: now a piecewise-linear curve with two kinks, already roughly tracking the target",
+        "add five ReLUs: the kinks find their right places, target is reasonably approximated",
+        "ramp to thirty ReLUs: visually indistinguishable from the target",
+        "label this as eq-013 and name-drop Cybenko 1989, Hornik 1991 in the closing beat"
+      ],
+      "estBeats": 9,
+      "associatedEquationIds": ["eq-013"]
+    }
+  ],
+  "metaphors": [
+    {
+      "concept": "the eight-model journey",
+      "metaphor": "a chain of failures and rescues — every model in the video answers a question raised by the previous model's failure, like a generation of tools each forged to fix the flaw of the last",
+      "whenToDeploy": "establish in the hook (act-1 opening), revisit at every act boundary as a 'where are we' beacon, then collapse it in the closing tableau"
+    },
+    {
+      "concept": "neural network",
+      "metaphor": "a stack of regressions with a kink in between — every layer is a linear regression, and ReLU is the bend that lets the next regression do something the first one couldn't",
+      "whenToDeploy": "act-5, the moment we open the hood on a one-hidden-layer net; this is the line that demystifies the whole thing"
+    },
+    {
+      "concept": "regularization",
+      "metaphor": "we don't forbid complexity, we charge for it — the model is free to use big weights, but it has to pay, and λ is the price tag",
+      "whenToDeploy": "act-3 transition into ridge/lasso; deploy once and let the constraint-shape picture carry the rest"
+    },
+    {
+      "concept": "MSE",
+      "metaphor": "treat squared error as a tax on disagreement — small disagreements barely cost anything, big ones cost a lot more, and the model is just minimizing its tax bill",
+      "whenToDeploy": "act-1, the first time we introduce the loss — gives the squaring a reason rather than asking the viewer to take it on faith"
+    },
+    {
+      "concept": "random forest",
+      "metaphor": "a parliament of mediocre trees — no single one is wise, but they vote, and the average is wiser than any of them",
+      "whenToDeploy": "act-5 opening, before the math of bootstrap aggregation lands"
+    }
+  ],
+  "narrativeAngles": [
+    "Through-line: 'Fit a function. Punish your mistakes. Repeat.' — every act ends with a small reminder of this three-beat refrain, so by the closing card the viewer can mouth it along.",
+    "Frame each model as the answer to the previous model's failure: line → 'too low-dimensional' → hyperplane → 'too flat' → polynomial → 'too eager' → bias/variance → 'name the disease' → regularization → 'cure it' → logistic → 'now classify' → forest/nets → 'now go nonlinear, two ways.'",
+    "Treat equations as characters that recur: MSE shows up in act-1, returns inside ridge/lasso, gets replaced by cross-entropy in logistic, returns implicitly in random-forest leaf means, and lives inside the loss the neural net minimizes.",
+    "Visual through-line: a horizontal 'journey strip' at the top of the screen lights up the current stop and dims the rest; by the end, all eight glow simultaneously and dissolve.",
+    "Eight models, one idea — and the idea is so small you can fit it in a single sentence. The video is the unfolding of that sentence into eight scenes."
+  ],
+  "criticisms": [
+    "Most explanations of MSE skip straight to the formula. We MUST anchor it in the residual picture first, before any algebra — otherwise the rest of the video is built on sand.",
+    "The L1-vs-L2 picture is almost always drawn wrong. The diamond's corners MUST sit precisely on the coordinate axes. If they're rotated 45 degrees off-axis (as in some textbooks), the entire 'lasso zeroes things' argument collapses.",
+    "Viewers routinely conflate the sigmoid output with the decision boundary. Make the distinction explicit: σ outputs a probability surface; the decision boundary is the level set p = 0.5, which is a flat hyperplane.",
+    "The polynomial-features trick gets framed as a new kind of model in most explanations. It is NOT — it is literally still linear regression, and saying so out loud is the moment that makes the rest of the video click.",
+    "Bias and variance are usually defined in words, never decomposed. Show the formula E[(y - y_hat)^2] = bias^2 + variance + σ^2 once on screen — even without proving it, seeing it as a sum makes the tradeoff feel real.",
+    "Random-forest explanations often frame trees as 'weak learners' (a boosting concept). For random forests the trees are typically deep and high-variance, not weak. Don't borrow boosting language.",
+    "Universal approximation gets oversold as 'neural nets can do anything.' The honest statement: with enough hidden units, they can approximate any continuous function on a bounded domain. Drop the bounded-domain caveat in the closing line — it matters.",
+    "Cross-entropy is often introduced as 'the right loss for classification' with no justification. Show the -log(p) curve climbing to infinity at p=0 — that single picture earns the whole loss.",
+    "Decision trees as piecewise-constant functions is a key visual that's usually skipped. Without it, viewers don't see why averaging trees produces a smooth curve.",
+    "The closing 'fit a function, punish your mistakes, repeat' refrain MUST appear at least three times before the closing card, or the final line lands flat. Plant it early."
+  ],
+  "openQuestionsForUser": [
+    "The brief currently treats the eight-stops journey strip as a recurring on-screen device. Confirm that's the intended visual motif — if not, I can swap it for a less-prominent act-marker.",
+    "Cross-entropy is currently derived only from the punishment-curve angle (-log p exploding at 0). The maximum-likelihood-under-Bernoulli derivation is mentioned in the curriculum but flagged as optional. Confirm it stays in the 'mention briefly' tier; full MLE derivation would add ~20s.",
+    "For the universal approximation moment, do we want to actually animate the network approximating sin(x) (~30 ReLUs visible), or stay schematic (one, two, five ReLUs and a 'now imagine more')? The animated version is gorgeous but expensive to render."
+  ]
+}

@@ -23,7 +23,15 @@ Produce `videos/<slug>/brief.json` — a creative brief with:
   "thesisInOneSentence": "What this video is really about, in plain English.",
   "audience": "Assumes undergrad math + ML basics; no graduate background.",
   "hook": "The 1-2 sentences that make a viewer stay past the first 5 seconds.",
+  "teaser": {
+    "openingLine": "The very first sentence the narrator says — punchy, concrete, no jargon. Land on a stake or a contradiction. Bad: \"This paper introduces…\" Good: \"In 2017, eight researchers quietly killed twenty years of recurrent architecture.\"",
+    "stakes": "The 1-sentence reason a viewer should care more after hearing the hook. What is at risk, what changed, what's surprising.",
+    "openLoop": "An unanswered question or contradiction the video will resolve. Should beg the viewer to keep watching to find out. Example: \"How can attention alone replace recurrence — and still know word order?\"",
+    "visualConcept": "What goes on screen during the teaser. A striking Manim animation, a single bold number, a paper-page spotlight on the headline claim. Avoid title cards as the first frame — the title lands AT THE END of the teaser, as the payoff.",
+    "estSeconds": 18
+  },
   "narrativeArc": [
+    { "actId": "act-0", "name": "Teaser",        "estSeconds": 18,  "purpose": "Cold-open hook. Showman pattern: hook → stakes → open-loop question → title card landing as payoff. ~5-8 beats; no equations, no jargon." },
     { "actId": "act-1", "name": "Why care?",     "estSeconds": 60,  "purpose": "..." },
     { "actId": "act-2", "name": "The setup",     "estSeconds": 90,  "purpose": "..." },
     { "actId": "act-3", "name": "The core idea", "estSeconds": 240, "purpose": "..." },
@@ -100,6 +108,7 @@ Produce `videos/<slug>/brief.json` — a creative brief with:
 
 Be opinionated. The brief is not neutral — it's a position. Concretely:
 
+0. **The teaser is a separate exercise from the rest.** Before you write Acts 1–5, write the teaser. Pretend the viewer's finger is hovering over "back". Find the single most surprising / contrarian / consequential fact in the paper and lead with it as `teaser.openingLine`. The teaser is NOT a summary of the paper; it's a hook + an open loop. If your hook starts with "This paper introduces" or "We will explore", rewrite it. Concrete beats abstract; specific numbers beat adjectives; a question (or a contradiction) beats a thesis statement. The title card lands AT THE END of the teaser, not at the start — that's the payoff for paying attention to the hook.
 1. **What is the actual insight?** Not the paper's contribution-list. The *one* idea a viewer should leave with. State it in one sentence.
 2. **What will confuse them?** Read the paper as if you're new to it. Where do steps feel hand-waved? Where do dimensions get sloppy? Where does the notation collide with prior conventions?
 3. **What deserves Manim, what deserves a paper page, what deserves an image?**
@@ -115,6 +124,9 @@ Be opinionated. The brief is not neutral — it's a position. Concretely:
 ## Constraint
 
 - `narrativeArc[].estSeconds` must sum to within ±10% of `config.yaml.targetLengthMinutes × 60`.
+- `narrativeArc[0]` MUST be the teaser (`actId: "act-0"`, `name: "Teaser"`, ~15-25 seconds). No exceptions — every video opens with one.
+- `teaser.openingLine` must be present, non-generic (no "This paper introduces…" / "In this video we…" / "We will explore…"), and ≤ 25 words.
+- `teaser.openLoop` must be a question or a contradiction — something the rest of the video resolves.
 - Every `conceptsToVisualize` entry must reference at least one act and at least one equation id (or none if purely visual).
 - `thingsToCutOrSkip` must not be empty — there is always something to cut from a paper.
 - `spotlights` must have at least 3 entries and at most 12 — the paper must appear on screen at named, deliberate moments.

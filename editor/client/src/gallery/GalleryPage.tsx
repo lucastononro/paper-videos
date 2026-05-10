@@ -2,6 +2,7 @@ import React from 'react';
 import { fetchProjects, type ProjectSummary } from '../api';
 import { ProjectCard } from './ProjectCard';
 import { NewProjectDialog } from './NewProjectDialog';
+import { ws } from '../ws/client';
 
 export const GalleryPage: React.FC = () => {
   const [projects, setProjects] = React.useState<ProjectSummary[] | null>(null);
@@ -18,6 +19,20 @@ export const GalleryPage: React.FC = () => {
   React.useEffect(() => {
     load();
   }, [load]);
+
+  // Live-update the running indicator on cards when a chat turn or thread
+  // starts / ends. Server broadcasts `inflight:changed` globally so the
+  // gallery doesn't need to subscribe to specific slugs.
+  React.useEffect(() => {
+    ws.start();
+    return ws.on((e) => {
+      if (e.kind === 'inflight:changed') {
+        setProjects((prev) =>
+          prev?.map((p) => (p.slug === e.slug ? { ...p, inFlight: e.inFlight } : p)) ?? prev,
+        );
+      }
+    });
+  }, []);
 
   return (
     <div style={{ minHeight: '100%', display: 'flex', flexDirection: 'column' }}>

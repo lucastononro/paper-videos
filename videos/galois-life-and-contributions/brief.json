@@ -1,0 +1,514 @@
+{
+  "thesisInOneSentence": "Galois invented the language groups speak — the algebra of symmetry that now underpins modern math, physics, and cryptography — and he sketched it in prison and in a letter on the night before he died at twenty.",
+  "audience": "Curious adult viewer — comfortable with high-school algebra (knows the quadratic formula, can imagine a polynomial), but no university math required. Will accept that 'group' is a technical word once we ground it in symmetries of concrete objects. Cares about story as much as math; this is a documentary, not a lecture.",
+  "hook": "On 30 May 1832 a twenty-year-old was shot in the abdomen at a Paris dawn duel. The night before, he sat down with a quill and wrote a letter that would, eventually, rewrite mathematics — but the words he kept scrawling in the margin were 'I have not the time.'",
+  "narrativeArc": [
+    {
+      "actId": "act-1",
+      "name": "The duel and the letter",
+      "estSeconds": 90,
+      "purpose": "Cold open. Establish the human stakes in 90 seconds: a 20-year-old, dawn, a pistol, a letter on his desk with the words 'Je n'ai pas le temps' in the margin. Promise the viewer that we will explain (a) what was in the letter, and (b) why it took the next century to catch up. End on the title card."
+    },
+    {
+      "actId": "act-2",
+      "name": "Boyhood, the Lycée, and the first failure",
+      "estSeconds": 150,
+      "purpose": "Build the human. Bourg-la-Reine 1811. Liberal-republican father as mayor, classically-educated mother. Lycée Louis-le-Grand at twelve. The moment maths arrives at fifteen — Legendre's Géométrie devoured in days, Lagrange's memoirs by sixteen. Richard's line: 'this student works only in the highest realms of mathematics.' First failure at École Polytechnique 1828. Plant the seed: he could see further than his examiners but couldn't (or wouldn't) explain himself."
+    },
+    {
+      "actId": "act-3",
+      "name": "The question — what is a 'group'?",
+      "estSeconds": 270,
+      "purpose": "The mathematical core, slow and visual. We don't even mention Galois for the first half. Start from Cardano's cubic formula. Show that for 300 years no one could write a formula for the quintic. Lagrange's clue: every classical formula has a hidden ingredient — combinations of roots that are unchanged under permutation. Build symmetric group S_3 by literally permuting the three roots of x^3 - 2 in the complex plane. Define 'group' from the floor up: a set of moves you can compose and undo. The Rubik's-cube metaphor lands here. Define normal subgroup as the 'closet of moves nobody outside notices'. End with the headline: solvable by radicals iff the Galois group is solvable. The viewer must FEEL this is the right concept before the politics resumes."
+    },
+    {
+      "actId": "act-4",
+      "name": "The political fuse — 1829-1831",
+      "estSeconds": 170,
+      "purpose": "The world breaks his life open. Father destroyed by clerical slander, suicide 2 July 1829. Funeral riot. Second Polytechnique failure (the eraser legend, hedged honestly). École Normale, July Revolution 1830 (Trois Glorieuses). Galois locked inside the school, Polytechnique students hailed as heroes outside. Public letter, expulsion December 1830. Joins the Republican Artillery. The toast with the dagger, 9 May 1831. Bastille Day 1831 in full militia uniform. Six months in Sainte-Pélagie. Poisson's rejection arrives in the cell. The math has not stopped — the Premier Mémoire was submitted 17 January 1831, before any of this. We watch a young man's life converge on its end with the algebra still unfinished."
+    },
+    {
+      "actId": "act-5",
+      "name": "The quintic obstruction — why no formula can exist",
+      "estSeconds": 230,
+      "purpose": "Back to the math, with the personal stakes loaded. The most beautiful payoff in the video: a proof of impossibility. Walk through the chain {e} ⊲ A_3 ⊲ S_3 — abelian quotients, the cubic is solvable. Then S_4 → A_4 → V_4 → {e} — still all abelian, the quartic is solvable. Then to S_5: contains A_5. Show A_5 has 60 elements. Show its conjugacy classes (visually) — there is no proper normal subgroup. The chain has nowhere to go. Therefore the quintic is unsolvable by radicals. This is mathematics's first impossibility theorem — the ancestor of Cantor, Gödel, Turing. Viewer should leave Act 5 understanding that 'no formula' isn't 'we haven't found one yet' — it's 'no such object can exist'. Bonus 30s: ruler-and-compass impossibilities (doubling the cube, trisecting the angle) as the same idea applied to geometry."
+    },
+    {
+      "actId": "act-6",
+      "name": "The night, the duel, the letter",
+      "estSeconds": 180,
+      "purpose": "Return to the cold open and pay it off. Released from prison 29 April 1832. Stéphanie. Letters copied onto the back of his math drafts. The challenge — by whom and why, sources disagree, we say so. The night of 29 May: three letters. Show the famous closing of the testament — 'ask Jacobi or Gauss publicly' — with translation overlaid. Show 'Je n'ai pas le temps' once, held. The historical caveat: he did NOT invent Galois theory that night — he had finished the Premier Mémoire 17 months earlier. What he did that night was redact, summarize, and add new theorems pointing forward. Dawn, 25 paces, abdomen, abandoned, the peasant, Cochin Hospital. 'Don't cry, Alfred. I need all my courage to die at twenty.' 31 May 1832, around ten in the morning. Funeral riot 2 June. Common grave, Montparnasse."
+    },
+    {
+      "actId": "act-7",
+      "name": "Legacy — the language he gave us",
+      "estSeconds": 130,
+      "purpose": "Liouville rescues the manuscripts; publishes 1846. Jordan's Traité 1870 makes group theory a field. Klein and Lie travel to Paris to study with Jordan in 1870; the Erlangen Program of 1872 declares geometry to BE group theory. Noether at Göttingen 1918: every continuous symmetry is a conservation law. Galois fields in AES (every HTTPS connection on Earth). Reed-Solomon codes in CDs, QR codes, Voyager, Bitcoin. Standard Model: U(1) × SU(2) × SU(3). End on the closing card: the testament line, then the title and dates, then black."
+    }
+  ],
+  "conceptsToVisualize": [
+    {
+      "id": "c-001",
+      "concept": "permutation of roots as a symmetry of a polynomial",
+      "whyItMatters": "This is the bridge from 'a polynomial' to 'an algebra of symmetries'. Without it the rest of the video is jargon.",
+      "currentConfusion": "Viewers conflate 'permutation of variables' (formal) with 'permutation of root values' (geometric). They also expect roots to be real and visible on a number line; we need them in the complex plane.",
+      "visualSuggestion": "manim — plot the three complex roots of x^3 - 2 as dots in the complex plane (an equilateral triangle). Cycle them; relabel α_1, α_2, α_3 with each move; show that simple symmetric functions like α_1+α_2+α_3 do not change while α_1 alone does.",
+      "associatedActs": [
+        "act-3"
+      ],
+      "associatedEquationIds": [
+        "eq-003",
+        "eq-004",
+        "eq-008"
+      ]
+    },
+    {
+      "id": "c-002",
+      "concept": "group as the algebra of symmetries",
+      "whyItMatters": "The core abstraction. Once 'group' lands, the rest of the video is downhill.",
+      "currentConfusion": "Word 'group' colloquially = a set. Mathematically it's a set + a closed associative invertible operation. Most viewers stop at 'set'.",
+      "visualSuggestion": "manim — open with a Rubik's-cube ghost (a 3D mesh, not a real cube to dodge copyright). Each move composes; each move reverses. Then morph the cube away and replace with the 6 permutations of three roots, organized as a Cayley table. The Cayley table BECOMES the group.",
+      "associatedActs": [
+        "act-3"
+      ],
+      "associatedEquationIds": [
+        "eq-007",
+        "eq-009"
+      ]
+    },
+    {
+      "id": "c-003",
+      "concept": "normal subgroup as a 'compatible' substructure",
+      "whyItMatters": "Without normal subgroups there is no quotient, no chain, no theorem. The single hardest concept in the video for a general audience.",
+      "currentConfusion": "Why on earth do we need gNg^{-1} = N? The conjugation condition feels arbitrary.",
+      "visualSuggestion": "manim — visual metaphor: a 'closet' of moves inside the bigger group. Color the closet blue, the rest red. Show that conjugating a blue move by a red move stays blue iff the closet is normal. Then show: only normal closets let you 'collapse' the group into a smaller one (the quotient G/N).",
+      "associatedActs": [
+        "act-3",
+        "act-5"
+      ],
+      "associatedEquationIds": [
+        "eq-011"
+      ]
+    },
+    {
+      "id": "c-004",
+      "concept": "solvable group = decomposition into abelian layers",
+      "whyItMatters": "This IS the headline theorem of Galois theory. Make it visual or lose the audience.",
+      "currentConfusion": "Why do abelian quotients correspond to radicals? Need an intuitive bridge.",
+      "visualSuggestion": "manim — peel an onion. Each layer is an abelian quotient; the act of peeling is 'adjoining a radical'. When you can peel all the way to nothing, the equation is solvable. When you hit a layer that won't peel — non-abelian, simple — you stop.",
+      "associatedActs": [
+        "act-3",
+        "act-5"
+      ],
+      "associatedEquationIds": [
+        "eq-012",
+        "eq-013",
+        "eq-014"
+      ]
+    },
+    {
+      "id": "c-005",
+      "concept": "A_5 as the obstruction — simple and non-abelian",
+      "whyItMatters": "The wall the quintic crashes into. The single most important object in the video after the symmetric group itself.",
+      "currentConfusion": "Why does 'simple' matter? What does it mean for a group to have no normal subgroups?",
+      "visualSuggestion": "manim — show all 60 elements of A_5 as a sphere of points (the icosahedron's rotation group, A_5 ≅ I, a beautiful coincidence). Animate every conjugacy class lighting up; show that no proper subset is closed under conjugation. The chain has nowhere to go. End on a held tableau of the icosahedron.",
+      "associatedActs": [
+        "act-5"
+      ],
+      "associatedEquationIds": [
+        "eq-015",
+        "eq-016",
+        "eq-024"
+      ]
+    },
+    {
+      "id": "c-006",
+      "concept": "ruler-and-compass impossibility via field-extension degree",
+      "whyItMatters": "Bonus payoff in act 5; shows that the same algebra disposes of three Greek conundra. Good viewer-reward moment.",
+      "currentConfusion": "Why does 'degree of an extension' equal 'how hard it is to construct'? Need to anchor to the visual: each ruler-and-compass move is a quadratic step.",
+      "visualSuggestion": "manim — start with a unit segment. Each ruler-or-compass move halves an angle, takes a perpendicular, finds an intersection — every move is a quadratic over the previous field. Build a tower. Then show the cube-root-of-2 lives at degree 3 — odd — so it can never be reached.",
+      "associatedActs": [
+        "act-5"
+      ],
+      "associatedEquationIds": [
+        "eq-018",
+        "eq-019"
+      ]
+    },
+    {
+      "id": "c-007",
+      "concept": "Galois field GF(p^n) and modern crypto",
+      "whyItMatters": "The closing flourish — Galois's other invention literally lives in every browser.",
+      "currentConfusion": "How can a 'field with 256 elements' do anything useful? The leap from finite-set algebra to AES is non-obvious.",
+      "visualSuggestion": "image / diagram — schematic of the AES round (substitution, shift, mix, key-add) with the GF(2^8) module highlighted. Don't derive AES; just show the field arithmetic powering it. Then a montage: HTTPS lock icon, QR code, Voyager spacecraft, satellite phone — all using Galois fields.",
+      "associatedActs": [
+        "act-7"
+      ],
+      "associatedEquationIds": [
+        "eq-020",
+        "eq-021"
+      ]
+    },
+    {
+      "id": "c-008",
+      "concept": "Noether's bridge: continuous symmetry → conservation law",
+      "whyItMatters": "Connects Galois's discrete algebra of finite groups to the continuous-symmetry algebra of physics. The line from a polynomial's roots to the Standard Model.",
+      "currentConfusion": "Discrete vs. continuous groups feels like a different subject; the viewer needs the moral bridge.",
+      "visualSuggestion": "manim — show a mass on a spring oscillating; emphasize that the laws of physics don't care if you slide time forward by a second. Time-translation symmetry → conservation of energy. Then morph the timeline into U(1), SU(2), SU(3) symbols.",
+      "associatedActs": [
+        "act-7"
+      ],
+      "associatedEquationIds": [
+        "eq-022",
+        "eq-023"
+      ]
+    }
+  ],
+  "questionsToAnswerOnScreen": [
+    "Why isn't there a quintic formula? Did mathematicians just give up?",
+    "What is a 'group', really?",
+    "What does it mean to 'permute the roots' of an equation?",
+    "Why would a 20-year-old's math be worth a duel?",
+    "Why can't we double the cube with ruler and compass?",
+    "What's a normal subgroup, and why does it matter?",
+    "Where does Galois's theory live in modern technology?",
+    "Was the duel really about a woman, or about politics?",
+    "Did Galois really invent group theory the night before he died?"
+  ],
+  "thingsToCutOrSkip": [
+    "A formal proof that A_5 is simple — sketch the conjugacy-class-counting idea visually, do not derive.",
+    "Galois's original notation (which is closer to permutation groups than to abstract groups) — modern notation is dramatically clearer; flag the difference once and move on.",
+    "Most of his published papers (the 1829 continued-fractions note, the second memoir on primitive equations) — focus the math entirely on the Premier Mémoire and the testament letter.",
+    "The full content of the testament letter — show the famous lines, summarize the rest in one beat, do not unpack each theorem.",
+    "Detailed proof that solvability of the Galois group ⟺ solvability by radicals — state the theorem, illustrate both directions on S_3 and on S_5, do not formalize.",
+    "Lagrange resolvents — the technical tool Galois used as a starting point. Mention 'Lagrange handed Galois the language' and move on.",
+    "Cauchy's role in losing/not-losing the 1829 memoir — modern scholarship has rehabilitated him; this rabbit hole derails the politics.",
+    "Wantzel's separate proof of the constructibility theorem — credit him in one beat, but treat constructibility as a Galois-theory consequence.",
+    "Liouville's full editorial story (Libri controversy, 1843 announcement) — one beat is enough; the viewer cares about the rescue, not the academic politics.",
+    "Pre-Galois history of group theory (Lagrange, Cauchy, Ruffini, Abel) — Abel deserves a 25-second beat; the rest is footnote."
+  ],
+  "priorWork": [
+    {
+      "title": "Réflexions sur la résolution algébrique des équations",
+      "author": "Joseph-Louis Lagrange",
+      "year": 1771,
+      "whyRelevant": "Lagrange first noticed that all classical formulas for solving polynomials hide a structure of permutations of roots. He could not finish the program; he handed Galois the language."
+    },
+    {
+      "title": "Mémoire sur la résolution algébrique des équations",
+      "author": "Niels Henrik Abel",
+      "year": 1824,
+      "whyRelevant": "Abel proved the general quintic is unsolvable by radicals — the Abel-Ruffini theorem. Galois sharpened the question: which specific polynomials are solvable?"
+    },
+    {
+      "title": "Teoria generale delle equazioni",
+      "author": "Paolo Ruffini",
+      "year": 1799,
+      "whyRelevant": "Ruffini gave the first (incomplete) proof that the quintic is unsolvable. His proof had gaps Abel later filled. A footnote-credit beat."
+    },
+    {
+      "title": "Recherches sur les substitutions",
+      "author": "Augustin-Louis Cauchy",
+      "year": 1815,
+      "whyRelevant": "Cauchy formalized permutations as a self-contained algebraic object — 'substitutions' in his terminology. The notation Galois used is Cauchy's. Worth one beat in act 4."
+    },
+    {
+      "title": "Traité des substitutions et des équations algébriques",
+      "author": "Camille Jordan",
+      "year": 1870,
+      "whyRelevant": "The book that turned Galois's manuscript into a field. Read by Klein and Lie in Paris in 1870. The hinge from Galois to modern algebra."
+    },
+    {
+      "title": "Vergleichende Betrachtungen über neuere geometrische Forschungen (Erlangen Program)",
+      "author": "Felix Klein",
+      "year": 1872,
+      "whyRelevant": "Klein, having just studied Jordan's Traité in Paris, redefined geometry as the study of group invariants. Galois → geometry."
+    },
+    {
+      "title": "Invariante Variationsprobleme (Noether's theorem)",
+      "author": "Emmy Noether",
+      "year": 1918,
+      "whyRelevant": "Every continuous symmetry of a physical system corresponds to a conservation law. The bridge from Galois's discrete groups to the gauge groups of modern physics."
+    },
+    {
+      "title": "Œuvres mathématiques d'Évariste Galois",
+      "author": "edited by Joseph Liouville",
+      "year": 1846,
+      "whyRelevant": "Liouville's posthumous publication of Galois's papers in his Journal de mathématiques pures et appliquées, vol. XI, pp. 381-444. The rescue."
+    }
+  ],
+  "supportingMaterial": [
+    {
+      "kind": "image",
+      "needsToFind": "the only known portrait of Évariste Galois — a pencil sketch by his brother Alfred Galois made from memory in 1848",
+      "preferredSource": "Wikimedia Commons (public domain — pre-1900 work)"
+    },
+    {
+      "kind": "image",
+      "needsToFind": "facsimile or photograph of the first page of the testament letter to Auguste Chevalier, 29 May 1832 (Bibliothèque de l'Institut de France manuscript)",
+      "preferredSource": "Wikimedia Commons / Bibliothèque de l'Institut de France digitization (public domain)"
+    },
+    {
+      "kind": "image",
+      "needsToFind": "facsimile of one of the marginal 'Je n'ai pas le temps' annotations in the testament letter manuscript",
+      "preferredSource": "Wikimedia Commons / scholarly editions of Galois's manuscripts (Neumann)"
+    },
+    {
+      "kind": "image",
+      "needsToFind": "engraving or painting of the Lycée Louis-le-Grand in Paris in the 1820s",
+      "preferredSource": "Wikimedia Commons (public domain)"
+    },
+    {
+      "kind": "image",
+      "needsToFind": "1830s map of Paris showing Bourg-la-Reine, Lycée Louis-le-Grand, École Normale, Sainte-Pélagie prison, Cochin Hospital, and Montparnasse cemetery",
+      "preferredSource": "diagram — generate ourselves over a public-domain 1830s Paris map base from Wikimedia Commons"
+    },
+    {
+      "kind": "image",
+      "needsToFind": "engraving of the July Revolution barricades, 1830 (Delacroix's 'Liberty Leading the People' is the obvious option but cliché — prefer a contemporaneous engraving of the Trois Glorieuses)",
+      "preferredSource": "Wikimedia Commons (public domain)"
+    },
+    {
+      "kind": "image",
+      "needsToFind": "portrait of Joseph-Louis Lagrange",
+      "preferredSource": "Wikimedia Commons (public domain)"
+    },
+    {
+      "kind": "image",
+      "needsToFind": "portrait of Augustin-Louis Cauchy",
+      "preferredSource": "Wikimedia Commons (public domain)"
+    },
+    {
+      "kind": "image",
+      "needsToFind": "portrait of Niels Henrik Abel",
+      "preferredSource": "Wikimedia Commons (public domain)"
+    },
+    {
+      "kind": "image",
+      "needsToFind": "portrait of Joseph Liouville",
+      "preferredSource": "Wikimedia Commons (public domain)"
+    },
+    {
+      "kind": "image",
+      "needsToFind": "portrait of Camille Jordan",
+      "preferredSource": "Wikimedia Commons (public domain)"
+    },
+    {
+      "kind": "image",
+      "needsToFind": "portrait of Felix Klein and/or Sophus Lie",
+      "preferredSource": "Wikimedia Commons (public domain)"
+    },
+    {
+      "kind": "image",
+      "needsToFind": "portrait of Emmy Noether at Göttingen",
+      "preferredSource": "Wikimedia Commons (public domain)"
+    },
+    {
+      "kind": "image",
+      "needsToFind": "modern photograph of the Galois cenotaph at Bourg-la-Reine cemetery",
+      "preferredSource": "Wikimedia Commons (CC-BY)"
+    },
+    {
+      "kind": "image",
+      "needsToFind": "title page of Liouville's Journal de mathématiques pures et appliquées, volume XI (1846), where Galois's works first appeared",
+      "preferredSource": "Gallica / Bibliothèque nationale de France (public domain)"
+    },
+    {
+      "kind": "image",
+      "needsToFind": "title page of Camille Jordan's Traité des substitutions, 1870",
+      "preferredSource": "Gallica / Internet Archive (public domain)"
+    },
+    {
+      "kind": "diagram",
+      "needsToGenerate": "a visual Cayley table of S_3 — six rows, six columns, color-coded entries showing composition"
+    },
+    {
+      "kind": "diagram",
+      "needsToGenerate": "the icosahedron with its 60 rotational symmetries highlighted — to anchor A_5 ≅ I geometrically"
+    },
+    {
+      "kind": "diagram",
+      "needsToGenerate": "the solvable chain {e} ⊲ A_3 ⊲ S_3 next to the broken chain at S_5/A_5, side by side"
+    }
+  ],
+  "spotlights": [
+    {
+      "label": "Galois's portrait by his brother Alfred (1848, the only likeness)",
+      "pageIdx": 0,
+      "bboxApprox": "0.20,0.20,0.60,0.60",
+      "whyItMatters": "The only surviving image of Galois — drawn from memory by Alfred sixteen years after the death. The film's emotional anchor."
+    },
+    {
+      "label": "First page of the testament letter to Auguste Chevalier, 29 May 1832",
+      "pageIdx": 0,
+      "bboxApprox": "0.10,0.05,0.80,0.85",
+      "whyItMatters": "The actual document the cold open promises. Show the handwriting; show the date in his own pen."
+    },
+    {
+      "label": "The marginal note 'Je n'ai pas le temps' in the testament letter",
+      "pageIdx": 0,
+      "bboxApprox": "0.30,0.40,0.40,0.10",
+      "whyItMatters": "The phrase the entire video orbits. Should appear once held silent in close-up."
+    },
+    {
+      "label": "The closing lines of the testament: 'Tu prieras publiquement Jacobi ou Gauss...'",
+      "pageIdx": 0,
+      "bboxApprox": "0.10,0.65,0.80,0.20",
+      "whyItMatters": "Galois's own framing of his work — humility plus a request for posterity. Pair with English translation overlay."
+    },
+    {
+      "label": "Title page of Liouville's 1846 publication of Galois's Œuvres",
+      "pageIdx": 0,
+      "bboxApprox": "0.20,0.10,0.60,0.80",
+      "whyItMatters": "The moment the manuscripts are rescued. Fourteen years after death."
+    },
+    {
+      "label": "Title page of Jordan's Traité des substitutions, 1870",
+      "pageIdx": 0,
+      "bboxApprox": "0.20,0.10,0.60,0.80",
+      "whyItMatters": "The moment Galois becomes a field, not a manuscript. Read by Klein and Lie that same year."
+    },
+    {
+      "label": "Excerpt from the École Normale dismissal letter / Gazette des Écoles, December 1830",
+      "pageIdx": 0,
+      "bboxApprox": "0.10,0.10,0.80,0.30",
+      "whyItMatters": "The political fuse — the 'Provisional King' polemic in his own words."
+    },
+    {
+      "label": "Engraving of the July Revolution / Trois Glorieuses, 27-29 July 1830",
+      "pageIdx": 0,
+      "bboxApprox": "0.05,0.10,0.90,0.80",
+      "whyItMatters": "While Polytechnique students fought on the barricades, Galois was locked inside the École Normale. The contrast is the act 4 hinge."
+    },
+    {
+      "label": "Modern photograph of the Galois cenotaph at Bourg-la-Reine cemetery",
+      "pageIdx": 0,
+      "bboxApprox": "0.20,0.20,0.60,0.60",
+      "whyItMatters": "The film's quiet final visual before the legacy montage. A real headstone in 2026 for someone buried in an unmarked grave in 1832."
+    }
+  ],
+  "derivationsToBuild": [
+    {
+      "concept": "the Galois group of x^3 - 2 is S_3",
+      "openingQuestion": "If we move the three cube roots of 2 around, what stays the same?",
+      "stepsToShow": [
+        "plot the three roots α_1 = ∛2, α_2 = ω∛2, α_3 = ω²∛2 in the complex plane (an equilateral triangle)",
+        "swap α_1 and α_2 — the polynomial (x-α_1)(x-α_2)(x-α_3) = x^3 - 2 is unchanged",
+        "list all six permutations of three objects — that is S_3",
+        "verify each permutation preserves the relation α_1 + α_2 + α_3 = 0",
+        "conclude: every algebraic relation among the roots is preserved under each of the six permutations",
+        "therefore Gal(x^3 - 2 / Q) = S_3, the full symmetric group on three letters"
+      ],
+      "estBeats": 14,
+      "associatedEquationIds": [
+        "eq-004",
+        "eq-005",
+        "eq-008",
+        "eq-009"
+      ]
+    },
+    {
+      "concept": "the cubic is solvable, the quintic is not",
+      "openingQuestion": "What does 'solvable' mean for a group, and what could possibly stop us?",
+      "stepsToShow": [
+        "build the chain {e} ⊲ A_3 ⊲ S_3 — show A_3 has 3 elements (cyclic, abelian) and S_3/A_3 has 2 elements (also abelian)",
+        "interpret abelian quotients as 'one radical step': A_3 = cube root, S_3/A_3 = square root",
+        "conclude: the cubic is solvable in radicals — and the formula uses exactly a square root and a cube root",
+        "now S_4: chain {e} ⊲ V_4 ⊲ A_4 ⊲ S_4, all quotients abelian — quartic is solvable",
+        "now S_5: contains A_5 of order 60",
+        "show A_5 has no normal subgroup other than {e} and itself — visually, walk through the conjugacy classes",
+        "since A_5 is non-abelian and simple, no chain with abelian quotients can reach it",
+        "therefore S_5 is not solvable — therefore the generic quintic is not solvable by radicals"
+      ],
+      "estBeats": 18,
+      "associatedEquationIds": [
+        "eq-012",
+        "eq-013",
+        "eq-014",
+        "eq-015",
+        "eq-016",
+        "eq-024"
+      ]
+    },
+    {
+      "concept": "doubling the cube is impossible with ruler and compass",
+      "openingQuestion": "The Greeks asked: given a cube, can we double its volume using only a straightedge and compass?",
+      "stepsToShow": [
+        "we need a length x with x^3 = 2",
+        "every ruler-or-compass move from a length L gives a new length in Q(L), an extension of degree 1 or 2",
+        "after k moves, the field of constructible lengths has degree 2^k over Q",
+        "but x = ∛2 has minimal polynomial x^3 - 2, so [Q(∛2) : Q] = 3",
+        "3 is not a power of 2 — so ∛2 cannot live in any constructible field",
+        "therefore doubling the cube is impossible — same algebra disposes of trisecting the angle and squaring the circle"
+      ],
+      "estBeats": 9,
+      "associatedEquationIds": [
+        "eq-018",
+        "eq-019"
+      ]
+    },
+    {
+      "concept": "abelian quotient = adjoining one radical (the bridge)",
+      "openingQuestion": "Why on earth would 'the quotient is abelian' translate to 'we can take a root'?",
+      "stepsToShow": [
+        "if Gal(L/K) is cyclic of order n and K contains the n-th roots of unity, then L = K(α) for some α with α^n in K (Kummer theory, sketched)",
+        "i.e. L is obtained from K by adjoining one n-th root",
+        "abelian = product of cyclic = stack of single-radical steps",
+        "non-abelian quotient = no such factorization possible = no radical formula"
+      ],
+      "estBeats": 7,
+      "associatedEquationIds": [
+        "eq-006",
+        "eq-014"
+      ]
+    }
+  ],
+  "metaphors": [
+    {
+      "concept": "what a group is",
+      "metaphor": "a Rubik's cube. Every move is reversible. Two moves combine into a third move. The set of all possible moves IS the group. You don't need to be holding a cube — the moves themselves are the algebra.",
+      "whenToDeploy": "Act 3, immediately after introducing 'permutation of roots'. Drop once the formal definition of S_3 is on screen."
+    },
+    {
+      "concept": "what a normal subgroup is",
+      "metaphor": "a closet of moves you can perform without anyone outside the closet noticing the change. If you do a move from inside the closet, then a move from outside, then undo the outside move, you'd better still be inside the closet — that's exactly the conjugation condition.",
+      "whenToDeploy": "Act 3, when introducing N ⊲ G. Reuse in act 5 when explaining why A_5 is simple ('A_5 has no closets')."
+    },
+    {
+      "concept": "solvable = peelable onion",
+      "metaphor": "a solvable group is an onion that peels into layers, where every layer is so simple it's abelian — addition only, no rotation. Each peel is one radical: a square root, a cube root, a fifth root. When you hit a layer that won't peel — non-abelian, simple — the onion is permanent. The quintic is the permanent onion.",
+      "whenToDeploy": "Act 5, as the visual frame for the chain {e} ⊲ A_3 ⊲ S_3 vs the wall at A_5."
+    },
+    {
+      "concept": "Galois theory as a translation",
+      "metaphor": "Galois theory is a translation between two languages. On one side: numbers, equations, formulas — the language of arithmetic. On the other side: symmetries, permutations, groups — the language of structure. Galois showed that a question in the first language has a definite answer ONLY when its translation in the second language has a certain shape. The dictionary is the deepest object in algebra.",
+      "whenToDeploy": "Bridge between act 3 and act 5. Open act 5 with this metaphor."
+    },
+    {
+      "concept": "impossibility theorem",
+      "metaphor": "a quintic formula is impossible the way a square circle is impossible — not because nobody has been clever enough, but because the geometry of the question rules it out. Galois invented the first proof of mathematical impossibility. Cantor, Gödel, Turing all walk in the door he opened.",
+      "whenToDeploy": "Act 5 closing — once A_5 has 'shut the door'."
+    }
+  ],
+  "narrativeAngles": [
+    "Frame the entire video as: a 20-year-old in a hurry. The subtext of every act is time running out. The marginal 'Je n'ai pas le temps' is the recurring motif.",
+    "Frame Act 3 as: the question is older than France. Cardano (1545), Lagrange (1771), Abel (1824), Galois (1831). Three centuries of trying; one boy gets it.",
+    "Frame Act 5 as: the first time mathematics ever proved 'no, you can't, ever' — and the door it opens to Cantor, Gödel, Turing.",
+    "Frame Act 7 as: Galois did not see what would come of his algebra. We are living inside it."
+  ],
+  "criticisms": [
+    "The romantic-tragedy framing ('he wrote group theory the night before he died') is exaggerated and historically inaccurate. The Premier Mémoire is dated 17 January 1831, sixteen months earlier. The video MUST acknowledge this honestly — the night was a redaction and a summary, not a creation.",
+    "The 'Galois threw an eraser at his examiner' story is legend, not record. State it as legend.",
+    "The duel motive is genuinely uncertain — romantic, political, or self-engineered. The video should NOT pick a single explanation. Lay out the three theories and let the viewer hold the ambiguity.",
+    "The Cauchy-lost-the-memoir story has been rehabilitated by recent scholarship (Neumann). Don't villainize Cauchy — he probably advocated for Galois's work and recommended revisions; Fourier's death is the actual loss.",
+    "Stéphanie-Félicie Poterin du Motel was identified as the woman by Carlos Infantozzi in 1968; the identification is plausible but not certain. Use her name once with a quiet hedge.",
+    "The 'group theory descends to Standard Model gauge groups' line in act 7 is a continuous-vs-discrete leap. Don't oversell it: Galois's groups are finite and discrete; gauge groups are continuous Lie groups. The bridge is Klein → Noether → Cartan, not a one-step move. State this carefully.",
+    "Most documentaries on Galois are 80% biography and 10% math. We should aim for 50% biography, 50% math, with the math woven through the life rather than dumped after it."
+  ],
+  "openQuestionsForUser": [
+    "How explicit do you want to be about the duel ambiguity? We can either commit to one theory (cleaner story, slight historical sin) or hold all three (more honest, slightly muddier act 6).",
+    "Do we want a brief Abel beat (~25s) in act 3, or do we save him for the legacy roll-call in act 7? The Abel-Ruffini timing matters because Galois actively responded to Abel's work.",
+    "For the closing legacy montage: do we go heavy on 'Galois lives in your phone' (AES, QR codes, Voyager) or heavy on 'Galois lives in modern geometry and physics' (Erlangen, Noether, Standard Model)? Both is possible but might dilute. Suggest leaning toward the 'in your phone' angle for a general audience.",
+    "Should we visually anchor A_5 to the icosahedron (A_5 ≅ rotation group of the regular icosahedron)? It's a beautiful coincidence and a stunning visual, but it adds a concept the viewer hasn't seen yet."
+  ]
+}

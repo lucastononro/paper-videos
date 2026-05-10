@@ -1,0 +1,22 @@
+slug: fireship-style-performers
+paperSource:
+  kind: arxiv
+  value: "2009.14794"
+  arxivId: "2009.14794"
+paperTitle: Rethinking Attention with Performers
+voice: pharaoh
+captions: false
+targetLengthMinutes: 3
+focusAreas: []
+styleDirective: |
+  Fireship-style explainer (NOT 3Blue1Brown).
+  - Tone: snappy, irreverent, dev-savvy, dry humor; treat the viewer as a busy engineer.
+  - Pacing: fast cuts, punchy beats, ~2-4 second average; total target ~3 minutes (Fireship "100-second" feel, slightly extended for a research paper).
+  - Narration: short declarative sentences. Drop filler. Land jokes / asides in 1 beat, not 3.
+  - Visuals: chunky type, code-snippet-style cards where useful, quick zoom/cuts over the paper, minimal lingering. Manim sparingly — favor bold typographic beats and crisp diagrams.
+  - Hook the first 5 seconds like a Fireship cold open: "Transformers have a problem. Attention is O(n²). Performers fix that — here's how." Title card lands as the payoff.
+  - Avoid 3b1b cadence: no slow buildup, no long contemplative pauses, no "let's take a moment to appreciate…".
+resolution:
+  width: 1920
+  height: 1080
+fps: 30

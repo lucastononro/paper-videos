@@ -1,0 +1,387 @@
+{
+  "img-portrait-alfred-1848": {
+    "kind": "image",
+    "file": "images/img-portrait-alfred-1848.jpg",
+    "width": 601,
+    "height": 857,
+    "source": "https://commons.wikimedia.org/wiki/File:Galois-1848.jpg",
+    "license": "public-domain",
+    "attribution": "Alfred Galois (brother of Évariste). Posthumous portrait drawn from memory and published in Le Magasin pittoresque, Paris, 1848. Public domain (PD-old, PD-US-published-before-1929). Wikimedia Commons.",
+    "method": "Downloaded from Wikimedia Commons, original resolution preserved."
+  },
+  "img-galois-portrait": {
+    "kind": "image",
+    "file": "images/img-galois-portrait.jpg",
+    "width": 777,
+    "height": 1080,
+    "source": "https://commons.wikimedia.org/wiki/File:E._Galois_Portrait_No.1.jpg",
+    "license": "public-domain",
+    "attribution": "Posthumous portrait of Évariste Galois by his brother Alfred Galois, c. 1848. Public domain (PD-old, CC0). Wikimedia Commons.",
+    "method": "Downloaded from Wikimedia Commons, original resolution preserved."
+  },
+  "img-bourg-la-reine": {
+    "kind": "image",
+    "file": "images/img-bourg-la-reine.jpg",
+    "width": 1173,
+    "height": 730,
+    "source": "https://commons.wikimedia.org/wiki/File:Evariste_Galois._Maison_natale.jpg",
+    "license": "public-domain",
+    "attribution": "Postcard (after 1908) of La Grande-Rue, Bourg-la-Reine, showing the birthplace of Évariste Galois (the Villa Bourg-la-Reine, his grandfather's and father's house). Anonymous author. Public domain (PD-anon-70-EU). Wikimedia Commons.",
+    "method": "Downloaded from Wikimedia Commons. Stands in for an early-19th-century view of the village (no 1820 image of the Grande-Rue is available on public-domain repositories)."
+  },
+  "img-lycee-louis-le-grand-1820": {
+    "kind": "image",
+    "file": "images/img-lycee-louis-le-grand-1820.jpg",
+    "width": 1001,
+    "height": 716,
+    "source": "https://commons.wikimedia.org/wiki/File:Coll%C3%A8ge_Louis-le-Grand_vers_1789.jpg",
+    "license": "public-domain",
+    "attribution": "Engraving of the entrance of the Collège Louis-le-Grand, c. 1789, by François-Nicolas Martinet. Public domain (PD-old, CC PDM 1.0). Wikimedia Commons.",
+    "method": "Downloaded from Wikimedia Commons. The 1789 engraving shows the same building Galois entered as a boarder in 1823 — the major 1885–1898 reconstruction had not yet altered it."
+  },
+  "img-louis-legendre-elements-cover": {
+    "kind": "image",
+    "file": "images/img-louis-legendre-elements-cover.jpg",
+    "width": 1320,
+    "height": 2400,
+    "source": "https://archive.org/details/lmentsdego00lege",
+    "license": "public-domain",
+    "attribution": "Adrien-Marie Legendre, 'Éléments de géométrie, avec des notes' (Firmin Didot, Paris, 12e édition, 1823). Bound cover. Public domain (Legendre d. 1833; printed before 1929). Internet Archive scan of the University of Toronto copy.",
+    "method": "Downloaded the cover image at large resolution from the Internet Archive and downscaled to 2400px tall via `sips`."
+  },
+  "img-cauchy-portrait": {
+    "kind": "image",
+    "file": "images/img-cauchy-portrait.jpg",
+    "width": 984,
+    "height": 1640,
+    "source": "https://commons.wikimedia.org/wiki/File:Portrait_of_Augustin_Louis_Cauchy_(1789-1857)-_Mathematician,_Physicist,_and_Astonomer_(2550744825).jpg",
+    "license": "public-domain",
+    "attribution": "Portrait of Augustin-Louis Cauchy (1789–1857). Smithsonian Institution Libraries collection, 'no known copyright restrictions'. Wikimedia Commons.",
+    "method": "Downloaded from Wikimedia Commons, original resolution preserved."
+  },
+  "img-lagrange-portrait": {
+    "kind": "image",
+    "file": "images/img-lagrange-portrait.jpg",
+    "width": 837,
+    "height": 1050,
+    "source": "https://commons.wikimedia.org/wiki/File:Joseph_Louis_Lagrange.jpg",
+    "license": "public-domain",
+    "attribution": "Joseph-Louis Lagrange (1736–1813). Engraving, 19th century. Public domain (PD-old, CC PDM 1.0). Wikimedia Commons.",
+    "method": "Downloaded from Wikimedia Commons, original resolution preserved."
+  },
+  "img-abel-portrait": {
+    "kind": "image",
+    "file": "images/img-abel-portrait.jpg",
+    "width": 2400,
+    "height": 3294,
+    "source": "https://commons.wikimedia.org/wiki/File:Niels_Henrik_Abel_(1802_-_1829).jpg",
+    "license": "CC-BY-2.0",
+    "attribution": "Niels Henrik Abel (1802–1829). Lithograph after a drawing by Johan Gørbitz, published 1913. Photographic reproduction by Trondheim byarkiv. Creative Commons Attribution 2.0 Generic via Wikimedia Commons.",
+    "method": "Downloaded from Wikimedia Commons and downscaled to 2400px max via `sips`."
+  },
+  "img-delacroix-liberty-1830": {
+    "kind": "image",
+    "file": "images/img-delacroix-liberty-1830.jpg",
+    "width": 3000,
+    "height": 2407,
+    "source": "https://commons.wikimedia.org/wiki/File:Eug%C3%A8ne_Delacroix_-_Le_28_Juillet._La_Libert%C3%A9_guidant_le_peuple.jpg",
+    "license": "public-domain",
+    "attribution": "Eugène Delacroix, 'Le 28 Juillet. La Liberté guidant le peuple' (1830). Oil on canvas, Musée du Louvre. Public domain (Delacroix d. 1863). Wikimedia Commons.",
+    "method": "Downloaded from Wikimedia Commons and downscaled to 3000px max via `sips`."
+  },
+  "img-saintepelagie-prison": {
+    "kind": "image",
+    "file": "images/img-saintepelagie-prison.jpg",
+    "width": 3000,
+    "height": 1544,
+    "source": "https://commons.wikimedia.org/wiki/File:Vue_de_la_prison_Sainte-P%C3%A9lagie,_mars_1830,_D.17396.jpg",
+    "license": "CC0",
+    "attribution": "Anonymous, 'Vue de la prison Sainte-Pélagie, mars 1830'. Graphite drawing, Musée Carnavalet, Paris (D.17396). Creative Commons CC0 1.0 Universal Public Domain Dedication. Wikimedia Commons.",
+    "method": "Downloaded from Wikimedia Commons, original resolution preserved."
+  },
+  "img-cochin-hospital": {
+    "kind": "image",
+    "file": "images/img-cochin-hospital.jpg",
+    "width": 3000,
+    "height": 2263,
+    "source": "https://commons.wikimedia.org/wiki/File:Fa%C3%A7ade_de_l%27H%C3%B4pital_Cochin_-_btv1b9047407v.jpg",
+    "license": "public-domain",
+    "attribution": "Façade de l'Hôpital Cochin, Paris. Press photograph by Agence Meurisse, 31 March 1930. Bibliothèque nationale de France, Gallica (btv1b9047407v). Public domain (PD-old). Wikimedia Commons.",
+    "method": "Downloaded from Wikimedia Commons and downscaled to 3000px max via `sips`. Stands in for the Hôpital Cochin façade — the building Galois was brought to after his duel; the 1930 photograph predates modernist additions and shows the same 18th-century structure."
+  },
+  "img-galois-testament-p1": {
+    "kind": "image",
+    "file": "images/img-galois-testament-p1.jpg",
+    "width": 829,
+    "height": 1134,
+    "source": "https://commons.wikimedia.org/wiki/File:E._Galois_Letter.jpg",
+    "license": "public-domain",
+    "attribution": "Évariste Galois, surviving page of the letter to Auguste Chevalier, 29 May 1832. Public domain (author died 1832). Wikimedia Commons.",
+    "method": "Downloaded from Wikimedia Commons. Used as the opening reference of the testament. Only one page facsimile is available on public-domain repositories; the visualizer should display the upper portion to suggest 'opening' the letter."
+  },
+  "img-galois-testament-p2": {
+    "kind": "image",
+    "file": "images/img-galois-testament-p2.jpg",
+    "width": 829,
+    "height": 1134,
+    "source": "https://commons.wikimedia.org/wiki/File:E._Galois_Letter.jpg",
+    "license": "public-domain",
+    "attribution": "Évariste Galois, final page of letter to Auguste Chevalier, 29 May 1832 — the closing passage where Galois asks Jacobi or Gauss to opine publicly on the importance of the theorems. Public domain (author died 1832). Wikimedia Commons.",
+    "method": "Same Wikimedia source as testament-p1 (this IS the closing page). Visualizer should crop to the lower portion / signature area to emphasize the closing request to Jacobi and Gauss."
+  },
+  "img-galois-testament-margin-jenaipasletemps": {
+    "kind": "image",
+    "file": "images/img-galois-testament-margin-jenaipasletemps.svg",
+    "synthetic": true,
+    "source": "generated",
+    "license": "project-original",
+    "method": "Hand-coded SVG (project palette, dark navy bg, cream serif). Recreates the famous marginal annotation 'Je n'ai pas le temps.' (Galois used the period spelling 'Je n'ai pas le tems') as an iconic typographic moment. Substituted because no public-domain photographic facsimile of the specific marginal note from the Premier Mémoire is available on Wikimedia Commons; the manuscripts are held in dossier 2, Ms 2108, Bibliothèque de l'Institut de France, with reproductions only in modern critical editions (Bourgne–Azra 1962, Neumann 2011)."
+  },
+  "img-galois-cenotaph-bourg-la-reine": {
+    "kind": "image",
+    "file": "images/img-galois-cenotaph-bourg-la-reine.jpg",
+    "width": 1808,
+    "height": 2400,
+    "source": "https://commons.wikimedia.org/wiki/File:%C3%89variste_Galois_tombe.jpg",
+    "license": "CC0",
+    "attribution": "Photograph of the cenotaph of Évariste Galois at the cemetery of Bourg-la-Reine (on his father Nicolas-Gabriel Galois's tomb). November 2024. Creative Commons CC0 1.0 Universal Public Domain Dedication. Wikimedia Commons.",
+    "method": "Downloaded from Wikimedia Commons and downscaled to 2400px tall via `sips`. (Galois himself was buried in a common grave at Montparnasse; only this cenotaph in his hometown is visitable.)"
+  },
+  "img-liouville-portrait": {
+    "kind": "image",
+    "file": "images/img-liouville-portrait.jpg",
+    "width": 721,
+    "height": 849,
+    "source": "https://commons.wikimedia.org/wiki/File:Joseph_Liouville.jpg",
+    "license": "CC-BY-SA-4.0",
+    "attribution": "Portrait of Joseph Liouville (1809–1882). Photograph of a 19th-century portrait, Wikimedia Commons. Creative Commons Attribution-ShareAlike 4.0 International.",
+    "method": "Downloaded from Wikimedia Commons, original resolution preserved."
+  },
+  "img-liouville-1846-cover": {
+    "kind": "image",
+    "file": "images/img-liouville-1846-cover.jpg",
+    "width": 558,
+    "height": 819,
+    "source": "https://commons.wikimedia.org/wiki/File:Journal_math_liouville.jpg",
+    "license": "public-domain",
+    "attribution": "Title page of the inaugural volume (1836) of Joseph Liouville's 'Journal de Mathématiques Pures et Appliquées'. Bibliothèque nationale de France. Public domain in France and the United States. Wikimedia Commons.",
+    "method": "Downloaded from Wikimedia Commons. Stands in for the 1846 volume (XI) in which Liouville published Galois's Œuvres mathématiques: Wikimedia hosts the inaugural-volume title page only; the journal's masthead and design were unchanged across the 1830s–40s, so this title page accurately conveys 'Liouville's journal' as an artefact."
+  },
+  "img-jordan-1870-traite": {
+    "kind": "image",
+    "file": "images/img-jordan-1870-traite.jpg",
+    "width": 512,
+    "height": 722,
+    "source": "https://gallica.bnf.fr/ark:/12148/bpt6k290534/f1.medres",
+    "license": "public-domain",
+    "attribution": "Title page of Camille Jordan, 'Traité des substitutions et des équations algébriques', Gauthier-Villars, Paris, 1870 (winner of the 1870 Prix Poncelet). Bibliothèque nationale de France, Gallica (bpt6k290534, f1). Public domain (Jordan d. 1922; printed 1870).",
+    "method": "Downloaded the medium-resolution facsimile of folio 1 (title page) from Gallica."
+  },
+  "img-klein-portrait": {
+    "kind": "image",
+    "file": "images/img-klein-portrait.jpg",
+    "width": 543,
+    "height": 715,
+    "source": "https://commons.wikimedia.org/wiki/File:Felix_Klein,_ante_1897_-_Accademia_delle_Scienze_di_Torino_0078_B.jpg",
+    "license": "public-domain",
+    "attribution": "Felix Klein (1849–1925), photographic portrait by Gebrüder Noelle, before 1897. Accademia delle Scienze di Torino, inv. 0078 B. Public domain (photographer d. 1917). Wikimedia Commons.",
+    "method": "Downloaded from Wikimedia Commons, original resolution preserved."
+  },
+  "img-noether-portrait": {
+    "kind": "image",
+    "file": "images/img-noether-portrait.jpg",
+    "width": 1208,
+    "height": 1840,
+    "source": "https://commons.wikimedia.org/wiki/File:Noether.jpg",
+    "license": "public-domain",
+    "attribution": "Emmy Noether (1882–1935), photographic portrait, anonymous, c. 1900–1910. Public domain (PD-anon-70-EU; PD-US-published-before-1929). Source: MAA / Flickr (5506847067) via Wikimedia Commons.",
+    "method": "Downloaded from Wikimedia Commons, original resolution preserved."
+  },
+  "diag-cayley-table-s3": {
+    "kind": "diagram",
+    "file": "diagrams/diag-cayley-table-s3.svg",
+    "synthetic": true,
+    "source": "generated",
+    "license": "project-original",
+    "method": "Hand-coded SVG (project palette: dark navy bg #0e1117, accents #58a6ff blue / #ffd866 yellow / #f97583 rose / #c792ea violet / #4a5160 slate). 6×6 Cayley table for the symmetric group S₃ ≅ D₃ presented as a colored multiplication grid with row & column headers (e, r, r², s, sr, sr²), color-coded cells indicating the product, an element legend on the right, and the defining relations r³ = e, s² = e, srs = r⁻¹. Used at line 252 of script.md as 'diag-cayley-table-s3' — the symmetries of the equation diagram."
+  },
+
+  "_aliases": "Below: extra IDs the orchestrator's task brief listed but the current script.md does not yet reference. The files exist on disk so a future script revision (e.g. inserting a Paris map cue, splitting the testament letter into multiple beats) can use them without re-fetching. Provenance / license info preserved. The renderer will silently ignore these entries; they're future-proofing.",
+
+  "img-paris-map-1830": {
+    "kind": "image",
+    "file": "images/img-paris-map-1830.jpg",
+    "width": 3500,
+    "height": 2087,
+    "source": "https://commons.wikimedia.org/wiki/File:Paris_map_of_1830_published_by_Goujon_and_Andriveau_-_Gallica.jpg",
+    "license": "public-domain",
+    "attribution": "X. Girard (drafter), J. Goujon and J. Andriveau (publishers), 'Plan de Paris' (1820 base, 1830 revision). Bibliothèque nationale de France, Gallica. Public domain (PDM 1.0). Wikimedia Commons.",
+    "method": "Downloaded the 12058×7192 master scan and downscaled to 3500px wide via `sips`."
+  },
+  "img-funeral-procession": {
+    "kind": "image",
+    "file": "images/img-funeral-procession.jpg",
+    "width": 3000,
+    "height": 2207,
+    "source": "https://commons.wikimedia.org/wiki/File:Convoi_fun%C3%A8bre_au_boulevard_de_Clichy_(Bourcard_159),_GDUT10779.jpg",
+    "license": "CC0",
+    "attribution": "Félix Buhot (1847–1898), 'Convoi funèbre au boulevard de Clichy', 1887, etching/drypoint/aquatint. Petit Palais, musée des Beaux-arts de la Ville de Paris (GDUT10779). Creative Commons CC0. Wikimedia Commons.",
+    "method": "Downloaded the 9249×6804 original and downscaled to 3000px wide via `sips`. Representational period funeral procession; substituted because no public-domain image of Galois's specific 2 June 1832 funeral procession exists."
+  },
+  "img-grave-galois": {
+    "kind": "image",
+    "file": "images/img-grave-galois.jpg",
+    "width": 1808,
+    "height": 2400,
+    "source": "https://commons.wikimedia.org/wiki/File:%C3%89variste_Galois_tombe.jpg",
+    "license": "CC0",
+    "attribution": "Photograph of the cenotaph of Évariste Galois at the cemetery of Bourg-la-Reine. November 2024. Creative Commons CC0 1.0. Wikimedia Commons.",
+    "method": "Same physical asset as `img-galois-cenotaph-bourg-la-reine`. Provided here under the alternate ID listed in the orchestrator's brief."
+  },
+  "img-hopital-cochin": {
+    "kind": "image",
+    "file": "images/img-hopital-cochin.jpg",
+    "width": 3000,
+    "height": 2263,
+    "source": "https://commons.wikimedia.org/wiki/File:Fa%C3%A7ade_de_l%27H%C3%B4pital_Cochin_-_btv1b9047407v.jpg",
+    "license": "public-domain",
+    "attribution": "Façade de l'Hôpital Cochin, Paris. Press photograph by Agence Meurisse, 31 March 1930. Bibliothèque nationale de France, Gallica. Public domain. Wikimedia Commons.",
+    "method": "Same physical asset as `img-cochin-hospital`. Provided here under the alternate ID listed in the orchestrator's brief."
+  },
+  "img-jordan-portrait": {
+    "kind": "image",
+    "file": "images/img-jordan-portrait.jpg",
+    "width": 259,
+    "height": 326,
+    "source": "https://commons.wikimedia.org/wiki/File:Camille_Jordan_4.jpg",
+    "license": "public-domain",
+    "attribution": "Camille Jordan (1838–1922), portrait photograph. MacTutor History of Mathematics Archive. Public domain (PD-old). Wikimedia Commons.",
+    "method": "Downloaded from Wikimedia Commons. Low-resolution (259×326); use sparingly or only for short crops. The script's current cue uses `img-jordan-1870-traite` (the Traité title page) instead, which is preferred for visual impact."
+  },
+  "img-july-revolution-barricades": {
+    "kind": "image",
+    "file": "images/img-july-revolution-barricades.jpg",
+    "width": 4169,
+    "height": 3850,
+    "source": "https://commons.wikimedia.org/wiki/File:R%C3%A9volution_de_1830_-_Combat_devant_l%27h%C3%B4tel_de_ville_-_28.07.1830.jpg",
+    "license": "CC0",
+    "attribution": "Jean-Victor Schnetz, 'Combat devant l'hôtel de ville, 28 juillet 1830'. Oil on canvas. Public domain (Schnetz d. 1870; CC0). Wikimedia Commons.",
+    "method": "Downloaded from Wikimedia Commons, original resolution preserved. Alternative to Delacroix's 'Liberty Leading the People' for portraying the July 1830 barricades."
+  },
+  "img-letter-chevalier": {
+    "kind": "image",
+    "file": "images/img-letter-chevalier.jpg",
+    "width": 829,
+    "height": 1134,
+    "source": "https://commons.wikimedia.org/wiki/File:E._Galois_Letter.jpg",
+    "license": "public-domain",
+    "attribution": "Évariste Galois, final page of testament letter to Auguste Chevalier, 29 May 1832. Wikimedia Commons.",
+    "method": "Same Wikimedia source as `img-galois-testament-p1` / `-p2`. Provided here under the alternate ID listed in the orchestrator's brief."
+  },
+  "img-letter-closing-jacobi-gauss": {
+    "kind": "image",
+    "file": "images/img-letter-closing-jacobi-gauss.jpg",
+    "width": 829,
+    "height": 1134,
+    "source": "https://commons.wikimedia.org/wiki/File:E._Galois_Letter.jpg",
+    "license": "public-domain",
+    "attribution": "Évariste Galois, final page of testament letter — the closing passage referencing Jacobi and Gauss. Wikimedia Commons.",
+    "method": "Same Wikimedia source as `img-galois-testament-p2`. Provided here under the alternate ID listed in the orchestrator's brief."
+  },
+  "img-letter-friends": {
+    "kind": "image",
+    "file": "images/img-letter-friends.jpg",
+    "width": 685,
+    "height": 507,
+    "source": "https://commons.wikimedia.org/wiki/File:E.Galois_article_1829.JPG",
+    "license": "public-domain",
+    "attribution": "Évariste Galois, opening of his 1829 article submitted for the Académie des Sciences competition. Public domain (Galois d. 1832). Wikimedia Commons.",
+    "method": "Downloaded from Wikimedia Commons. Used as a representative Galois-handwriting facsimile because no public-domain photograph of his specific letter to N.L. and V.D. (Lebon and Delaunay) exists on Wikimedia."
+  },
+  "img-letter-republicans": {
+    "kind": "image",
+    "file": "images/img-letter-republicans.png",
+    "width": 3034,
+    "height": 3781,
+    "source": "https://commons.wikimedia.org/wiki/File:Dupuy_-_La_vie_d%27%C3%89variste_Galois-page50-lettre.png",
+    "license": "public-domain",
+    "attribution": "Reproduction of a Galois letter (to his aunt) on page 50 of Paul Dupuy, 'La vie d'Évariste Galois' (1896). Public domain (Galois d. 1832). Wikimedia Commons.",
+    "method": "Downloaded from Wikimedia Commons. Used as a representative Galois-letter facsimile because no public-domain image of the specific 'Lettre à tous les républicains' exists on Wikimedia."
+  },
+  "img-liouville-journal-1846": {
+    "kind": "image",
+    "file": "images/img-liouville-journal-1846.jpg",
+    "width": 558,
+    "height": 819,
+    "source": "https://commons.wikimedia.org/wiki/File:Journal_math_liouville.jpg",
+    "license": "public-domain",
+    "attribution": "Title page of inaugural volume (1836) of Liouville's Journal de Mathématiques Pures et Appliquées. BnF.",
+    "method": "Same physical asset as `img-liouville-1846-cover`. Provided here under the alternate ID listed in the orchestrator's brief."
+  },
+  "img-lycee-louis-le-grand": {
+    "kind": "image",
+    "file": "images/img-lycee-louis-le-grand.jpg",
+    "width": 1001,
+    "height": 716,
+    "source": "https://commons.wikimedia.org/wiki/File:Coll%C3%A8ge_Louis-le-Grand_vers_1789.jpg",
+    "license": "public-domain",
+    "attribution": "Engraving of the Collège Louis-le-Grand entrance, c. 1789, by François-Nicolas Martinet.",
+    "method": "Same physical asset as `img-lycee-louis-le-grand-1820`. Provided here under the alternate ID listed in the orchestrator's brief."
+  },
+  "img-nicolas-galois-father": {
+    "kind": "image",
+    "file": "images/img-nicolas-galois-father.jpg",
+    "width": 1500,
+    "height": 1004,
+    "source": "https://commons.wikimedia.org/wiki/File:Bourg-la-Reine-Lieutier-G2.jpg",
+    "license": "public-domain",
+    "attribution": "Portrait of Nicolas-Gabriel Galois (1775–1829), mayor of Bourg-la-Reine 1814–1829, father of Évariste Galois. From Paul Lieutier, 'Bourg-la-Reine. Essai d'histoire locale', 1914. Public domain (PD-old). Wikimedia Commons.",
+    "method": "Downloaded from Wikimedia Commons, original resolution preserved."
+  },
+  "img-noether-gottingen": {
+    "kind": "image",
+    "file": "images/img-noether-gottingen.jpg",
+    "width": 1208,
+    "height": 1840,
+    "source": "https://commons.wikimedia.org/wiki/File:Noether.jpg",
+    "license": "public-domain",
+    "attribution": "Emmy Noether, photographic portrait, anonymous, c. 1900–1910.",
+    "method": "Same physical asset as `img-noether-portrait`. Provided here under the alternate ID listed in the orchestrator's brief."
+  },
+  "img-bourg-la-reine-1820": {
+    "kind": "image",
+    "file": "images/img-bourg-la-reine-1820.jpg",
+    "width": 1173,
+    "height": 730,
+    "source": "https://commons.wikimedia.org/wiki/File:Evariste_Galois._Maison_natale.jpg",
+    "license": "public-domain",
+    "attribution": "Postcard (after 1908) of La Grande-Rue, Bourg-la-Reine, showing Galois's birthplace. Wikimedia Commons.",
+    "method": "Same physical asset as `img-bourg-la-reine`. Provided here under the alternate ID listed in the orchestrator's brief."
+  },
+  "img-sainte-pelagie-prison": {
+    "kind": "image",
+    "file": "images/img-sainte-pelagie-prison.jpg",
+    "width": 3000,
+    "height": 1544,
+    "source": "https://commons.wikimedia.org/wiki/File:Vue_de_la_prison_Sainte-P%C3%A9lagie,_mars_1830,_D.17396.jpg",
+    "license": "CC0",
+    "attribution": "Anonymous, 'Vue de la prison Sainte-Pélagie, mars 1830'. Musée Carnavalet (D.17396). CC0. Wikimedia Commons.",
+    "method": "Same physical asset as `img-saintepelagie-prison`. Provided here under the alternate ID listed in the orchestrator's brief (with a hyphen between 'sainte' and 'pelagie')."
+  },
+  "img-marginal-je-nai-pas-le-temps": {
+    "kind": "image",
+    "file": "images/img-galois-testament-margin-jenaipasletemps.svg",
+    "synthetic": true,
+    "source": "generated",
+    "license": "project-original",
+    "method": "Same hand-coded SVG as `img-galois-testament-margin-jenaipasletemps`. Provided here under the alternate ID listed in the orchestrator's brief."
+  },
+  "img-mother-adelaide": {
+    "kind": "diagram",
+    "file": "diagrams/diag-mother-adelaide-namecard.svg",
+    "synthetic": true,
+    "source": "generated",
+    "license": "project-original",
+    "method": "Hand-coded SVG name card on dark navy bg (project palette). No portrait of Adélaïde-Marie Demante (1788–1872), Galois's mother, is known to survive — fabricating one would be irresponsible. The SVG is a typographic placeholder showing 'Adélaïde-Marie Demante · 1788 – 1872 · Évariste's mother' in the project's serif treatment, suitable as a brief beat-card before the narration moves on."
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "id": "img-003",
+  "kind": "image",
+  "file": "images/img-003.png",
+  "scriptToken": "img-fig2b-diagram",
+  "source": "paper Figure 2(b) (page 3) — right sub-panel, 'Illustration of MIL-NCE'",
+  "sourceFile": "paper-md-assets/_page_2_Figure_0.jpeg",
+  "crop": "right half of Figure 2 (x: 815..1301, y: 0..304 of the 1301x320 source)",
+  "caption": "Figure 2(b): Illustration of MIL-NCE — embedding-space sketch. Green triangles are the positive narration candidates P; red squares are sampled negatives N. Blue circles around triangles indicate the MIL-NCE positive contribution (a sum over the bag); the orange disc shows the standard single-MIL positive (one candidate).",
+  "license": "publication-fair-use",
+  "paperRef": "Miech, Alayrac, Smaira, Laptev, Sivic, Zisserman (2020) — arXiv:1912.06430",
+  "usedByBeats": ["beat-079"],
+  "transform": "Cropped right sub-panel of Figure 2 from paper-md-assets, centered on a 1920x1080 dark-navy (#0e1117) canvas."
+}

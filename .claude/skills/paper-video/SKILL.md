@@ -20,13 +20,18 @@ Each agent has its own context window. The `videos/<slug>/` folder is the persis
 ### `/paper-video new <arxiv_id_or_url_or_path>`
 
 1. Resolve source → slug (arxiv id like `1706.03762` → kebab paper title; URL → infer arxiv id; local path → filename stem).
-2. `npm run fetch-paper -- <source> <slug>` → `videos/<slug>/paper.pdf` + default `config.yaml` + initial `manifest.json`.
-3. Delegate **paper-extractor** subagent: produces `paper.md`, `equations.json`, `pages/page-NNN.png`, `paper-md-assets/`.
-4. Print summary: paper title, page count, equation count, suggested next step (`/paper-video render <slug>`).
+2. **Ask the user once**, in one short message: *"Render bottom captions over the video? (default no)"* — if they say yes, pass `--captions` to the next step. Default to off when the answer is unclear or skipped. Never re-ask if the user has already answered for this slug in this session.
+3. `npm run fetch-paper -- <source> <slug> [--captions]` → `videos/<slug>/paper.pdf` + default `config.yaml` (with `captions: true|false`) + initial `manifest.json`.
+4. Delegate **paper-extractor** subagent: produces `paper.md`, `equations.json`, `pages/page-NNN.png`, `paper-md-assets/`.
+5. Print summary: paper title, page count, equation count, captions on/off, suggested next step (`/paper-video render <slug>`).
 
 ### `/paper-video render <slug>`
 
-Full pipeline — **always use subagents, never inline their work**.
+Asset pipeline — **always use subagents, never inline their work**. The final
+mp4 render is **NOT** part of this command; it's a button-driven step the
+user triggers in the editor (▶ Render in the EditorPage header). This
+command stops once every beat has its narration mp3, every visual block has
+its asset / Manim mp4, and the manifest is consistent.
 
 1. Read `videos/<slug>/config.yaml` and `manifest.json`. If `paper.md` is missing, run `new` first.
 2. Confirm voice alias with the user (one short message) unless already specified in this session.
@@ -36,8 +41,8 @@ Full pipeline — **always use subagents, never inline their work**.
    - **asset-fetcher** → `images/`, `diagrams/`, `assets-index.json` (resolves every `[VISUAL: image src=...]` and `[VISUAL: diagram src=...]` cue)
    - **producer** → `narration/beat-*.{mp3,timestamps.json}` + updated `manifest.json` segments
      - Quality gate after first 3 narrated beats. STOP, ask user to listen, continue only on confirmation.
-   - **visualizer** → `manim/beat-*.{py,mp4}`, then `npm run render-remotion -- <slug>` → `output.mp4`
-4. Verify `videos/<slug>/output.mp4` exists, size > 5 MB. Report duration, beat count, file size.
+   - **visualizer** → `manim/beat-*.{py,mp4}` only. **Do NOT run `npm run render-remotion`.**
+4. Tell the user: "Assets ready — click ▶ Render in the editor to produce output.mp4." Do NOT run the Remotion render yourself unless the user explicitly asks.
 
 ### `/paper-video script <slug>`
 

@@ -1,0 +1,158 @@
+{
+  "legendre-portrait": {
+    "kind": "image",
+    "file": "images/img-001-legendre.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Legendre_and_Fourier_(1820).jpg",
+    "license": "Public domain",
+    "attribution": "Julien-Léopold Boilly, 1820 watercolor caricature (Album de 73 portraits-charge aquarellés des membres de l'Institut). Legendre on the left.",
+    "notes": "The only known authenticated portrait of Legendre. A famous 19th-century mistake long misattributed a different man's portrait to him."
+  },
+  "legendre-1805-titlepage": {
+    "kind": "image",
+    "file": "images/img-002-legendre-1805-titlepage.svg",
+    "source": "generated",
+    "license": "project-original",
+    "method": "hand-coded SVG title-page reconstruction in project palette; text matches the actual 1805 title page of Nouvelles méthodes pour la détermination des orbites des comètes (Paris: Courcier).",
+    "notes": "Generated rather than scanned because no high-quality public-domain scan of the title page was readily available. The wording is verbatim from the historical record."
+  },
+  "gauss-portrait": {
+    "kind": "image",
+    "file": "images/img-003-gauss.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Carl_Friedrich_Gauss_1840_by_Jensen.jpg",
+    "license": "Public domain",
+    "attribution": "Christian Albrecht Jensen, 1840 oil portrait of Carl Friedrich Gauss"
+  },
+  "gauss-theoria-motus": {
+    "kind": "image",
+    "file": "images/img-004-theoria-motus.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Gauss-5.jpg",
+    "license": "Public domain (PD-old-70-expired; published before 1931)",
+    "attribution": "Title page of an 1890 reprint of Gauss, Theoria Motus Corporum Coelestium in sectionibus conicis solem ambientium (orig. 1809)."
+  },
+  "verhulst-portrait": {
+    "kind": "image",
+    "file": "images/img-005-verhulst.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Pierre_Francois_Verhulst.jpg",
+    "license": "Public domain (PD-old; author died 1849)",
+    "attribution": "19th-century engraving of Pierre-François Verhulst (1804–1849)"
+  },
+  "mcculloch-portrait": {
+    "kind": "image",
+    "file": "images/img-006-mcculloch.svg",
+    "source": "generated",
+    "license": "project-original",
+    "method": "hand-coded SVG silhouette title-card in project palette",
+    "notes": "No portrait of Warren McCulloch (1898–1969) was found on Wikimedia Commons or in another freely-licensed public-domain repository. A stylized silhouette card was generated as a placeholder consistent with the video's design language. If the user later locates an APS / U. of Illinois Archives photo with a clear license, swap the file in place."
+  },
+  "pitts-portrait": {
+    "kind": "image",
+    "file": "images/img-007-pitts.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:1954_Walter_Pitts_and_a_blackboard.jpg",
+    "license": "Public domain in the United States (PD-US-not-renewed; published 1954, copyright not renewed)",
+    "attribution": "Francis Bello, photo of Walter Pitts at MIT, published in Fortune magazine, May 1954.",
+    "notes": "Note: file page on Commons carries a deletion-discussion banner; if it is ever removed the local copy here remains usable in the U.S. under PD-US-not-renewed."
+  },
+  "mcculloch-pitts-1943-paper": {
+    "kind": "image",
+    "file": "images/img-008-mcculloch-pitts-1943-paper.svg",
+    "source": "generated",
+    "license": "project-original",
+    "method": "hand-coded SVG reconstruction of the title page of W. S. McCulloch & W. Pitts, 'A Logical Calculus of the Ideas Immanent in Nervous Activity', Bulletin of Mathematical Biophysics 5, 115–133 (1943). All text is from the public-domain original."
+  },
+  "rosenblatt-portrait": {
+    "kind": "image",
+    "file": "images/img-009-rosenblatt.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Frank_Rosenblatt.jpg",
+    "license": "CC BY-SA 4.0",
+    "attribution": "Heinz Nixdorf MuseumsForum / Wikimedia Commons. Frank Rosenblatt as a student, c.1950."
+  },
+  "mark-i-perceptron": {
+    "kind": "image",
+    "file": "images/img-010-mark1-perceptron.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:330-PSA-80-60_(USN_710739)_(20897323365).jpg",
+    "license": "Public domain (work of U.S. Navy)",
+    "attribution": "U.S. Navy photograph 330-PSA-80-60 / USN 710739: Charles Wightman adjusting the Mark I Perceptron at Cornell Aeronautical Laboratory, 1960."
+  },
+  "nyt-1958-perceptron-clipping": {
+    "kind": "image",
+    "file": "images/img-011-nyt-1958-perceptron.svg",
+    "source": "generated",
+    "license": "project-original",
+    "method": "hand-coded SVG reconstruction of the New York Times article 'New Navy Device Learns By Doing', published July 8, 1958, page 25. Headline and lead paragraphs paraphrase the well-documented original.",
+    "notes": "The original NYT article remains under copyright (modern New York Times Company). A reconstruction in the video's design language avoids licensing risk while preserving the historical content the script needs to reference."
+  },
+  "widrow-portrait": {
+    "kind": "image",
+    "file": "images/img-012-widrow.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Bernard_Widrow_-_1963.jpg",
+    "license": "Public domain in the United States (PD-US-not-renewed; from Stanford Today, 1963)",
+    "attribution": "Stanford Today magazine, 1963. Bernard Widrow at Stanford University."
+  },
+  "hoff-portrait": {
+    "kind": "image",
+    "file": "images/img-013-hoff.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Marcian_Ted_Hoff_(cropped).jpg",
+    "license": "CC BY-SA 4.0",
+    "attribution": "Computer History Museum / Wikimedia Commons. Marcian 'Ted' Hoff at the CHM 2009 Fellows Award event."
+  },
+  "adaline-hardware": {
+    "kind": "image",
+    "file": "images/img-014-adaline.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Bernard_Widrow_with_ADALINE.jpg",
+    "license": "Public domain in the United States (PD-US-not-renewed)",
+    "attribution": "Bernard Widrow with the ADALINE adaptive linear neuron hardware, c.1960. Stanford."
+  },
+  "minsky-portrait": {
+    "kind": "image",
+    "file": "images/img-015-minsky.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Marvin_Minsky.jpg",
+    "license": "CC BY-SA 2.0",
+    "attribution": "Photograph of Marvin Minsky uploaded to Wikimedia Commons by user Sethwoodworth, 2008."
+  },
+  "papert-portrait": {
+    "kind": "image",
+    "file": "images/img-016-papert.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Seymour_Papert.jpg",
+    "license": "CC BY-SA 3.0",
+    "attribution": "Photograph of Seymour Papert / Wikimedia Commons."
+  },
+  "perceptrons-1969-book-cover": {
+    "kind": "image",
+    "file": "images/img-017-perceptrons-book.jpg",
+    "source": "https://en.wikipedia.org/wiki/File:Perceptrons_(book).jpg",
+    "license": "Fair use (low-resolution book cover used for educational commentary, consistent with Wikipedia's use)",
+    "attribution": "Cover of Marvin Minsky & Seymour Papert, Perceptrons: An Introduction to Computational Geometry. MIT Press, 1969.",
+    "notes": "Used at low resolution (257×388) under fair-use for the purpose of identifying and commenting on the work itself."
+  },
+  "rumelhart-portrait": {
+    "kind": "image",
+    "file": "images/img-018-rumelhart.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:DavidRumelhart-IJCNNseattle1991-07-08.jpg",
+    "license": "CC BY-SA (Wikimedia Commons)",
+    "attribution": "David E. Rumelhart at IJCNN Seattle, 8 July 1991. Wikimedia Commons."
+  },
+  "hinton-1986-portrait": {
+    "kind": "image",
+    "file": "images/img-019-hinton.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Geoffrey_Hinton_at_UBC.jpg",
+    "license": "CC BY-SA 3.0",
+    "attribution": "Geoffrey Hinton lecturing at the University of British Columbia, 30 May 2013. Photo by Eviatar Bach.",
+    "notes": "No freely-licensed 1986-era photo of Hinton was readily available on Wikimedia. The 2013 photo is used as the best public-domain-friendly substitute. The cue text in script.md does not depend on the photo being from 1986."
+  },
+  "williams-portrait": {
+    "kind": "image",
+    "file": "images/img-020-williams.svg",
+    "source": "generated",
+    "license": "project-original",
+    "method": "hand-coded SVG silhouette title-card",
+    "notes": "Ronald J. Williams (1945–2024) does not appear to have a freely-licensed portrait on Wikimedia Commons or other PD repositories. A stylized silhouette card was generated to maintain visual consistency. Northeastern University faculty page or NU obituary page may have a usable photo if a license can be cleared later."
+  },
+  "rumelhart-hinton-williams-trio-1986": {
+    "kind": "image",
+    "file": "images/img-021-rhw-trio-1986.svg",
+    "source": "generated",
+    "license": "project-original",
+    "method": "hand-coded SVG reconstruction of the Nature 323 (Oct 1986) letter-to-Nature title block, with the actual paper title, authors, affiliations, and citation.",
+    "notes": "No group photograph of the three authors from 1986 is in the public domain. Rather than risk an unlicensed image, the script's mention of the trio is illustrated by their joint paper's title block — which is exactly what the next beats zoom into anyway."
+  }
+}

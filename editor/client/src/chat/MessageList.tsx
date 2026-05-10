@@ -1,12 +1,23 @@
 import React from 'react';
-import type { ChatItem } from './useChatStream';
+import type { ChatItem, ChatTextItem, ChatToolItem } from './useChatStream';
 import { ToolCallCard } from './ToolCallCard';
+import { AskUserQuestionCard } from './AskUserQuestionCard';
+import { Markdown } from './Markdown';
 
+/**
+ * `onAnswer` is the callback used when the user picks an option on an
+ * `AskUserQuestion` card. It routes the answer back to whichever target the
+ * parent owns: a parent-chat instance forwards it as `chat:turn`, a thread
+ * detail forwards it as `thread:turn`. When omitted the card falls back to
+ * a chat:turn against `slug`.
+ */
 export const MessageList: React.FC<{
   items: ChatItem[];
   inFlight: boolean;
   emptyHint?: React.ReactNode;
-}> = ({ items, inFlight, emptyHint }) => {
+  slug?: string | null;
+  onAnswer?: (text: string) => void;
+}> = ({ items, inFlight, emptyHint, slug, onAnswer }) => {
   const ref = React.useRef<HTMLDivElement>(null);
   React.useEffect(() => {
     if (ref.current) ref.current.scrollTop = ref.current.scrollHeight;
@@ -39,7 +50,7 @@ export const MessageList: React.FC<{
     >
       {items.length === 0 && !inFlight && emptyHint}
       {items.map((it) => (
-        <Item key={it.id} item={it} />
+        <Item key={it.id} item={it} slug={slug ?? null} onAnswer={onAnswer} />
       ))}
       {(lastVisibleIsUser || lastIsAssistantToolOnly) && <ThinkingDots />}
     </div>
@@ -54,12 +65,18 @@ const ThinkingDots: React.FC = () => (
   </div>
 );
 
-const Item: React.FC<{ item: ChatItem }> = ({ item }) => {
+const Item: React.FC<{
+  item: ChatItem;
+  slug: string | null;
+  onAnswer?: (text: string) => void;
+}> = ({ item, slug, onAnswer }) => {
   if (item.kind === 'user') {
     return (
       <div className="chat-msg">
         <div className="chat-msg-label">you</div>
-        <div className="chat-bubble-user">{item.text}</div>
+        <div className="chat-bubble-user">
+          <Markdown source={item.text} />
+        </div>
       </div>
     );
   }
@@ -76,18 +93,41 @@ const Item: React.FC<{ item: ChatItem }> = ({ item }) => {
       </div>
     );
   }
+  // Group runs of adjacent text chunks so markdown spans (paragraphs,
+  // tables, lists) survive the streamed event boundaries.
+  const groups = groupChunks(item.chunks);
   return (
     <div className="chat-msg">
       <div className="chat-msg-label">claude</div>
-      {item.chunks.map((c, i) =>
-        c.kind === 'text' ? (
+      {groups.map((g, i) =>
+        g.kind === 'text-run' ? (
           <div key={i} className="chat-text-assistant">
-            {c.text}
+            <Markdown source={g.text} />
           </div>
+        ) : g.tool.name === 'AskUserQuestion' ? (
+          <AskUserQuestionCard key={i} tool={g.tool} slug={slug} onAnswer={onAnswer} />
         ) : (
-          <ToolCallCard key={i} tool={c} />
+          <ToolCallCard key={i} tool={g.tool} />
         ),
       )}
     </div>
   );
 };
+
+type ChunkGroup =
+  | { kind: 'text-run'; text: string }
+  | { kind: 'tool'; tool: ChatToolItem };
+
+function groupChunks(chunks: Array<ChatTextItem | ChatToolItem>): ChunkGroup[] {
+  const out: ChunkGroup[] = [];
+  for (const c of chunks) {
+    if (c.kind === 'text') {
+      const last = out[out.length - 1];
+      if (last && last.kind === 'text-run') last.text += c.text;
+      else out.push({ kind: 'text-run', text: c.text });
+    } else {
+      out.push({ kind: 'tool', tool: c });
+    }
+  }
+  return out;
+}

@@ -9,7 +9,6 @@ import type {
   ThreadSummary,
 } from '../ws/types';
 import type { ChatItem } from '../chat/useChatStream';
-import { useChatStore } from '../chat/useChatStream';
 
 export type ThreadView = ThreadSummary & {
   /** Materialized chat timeline derived from `events`. */
@@ -18,13 +17,29 @@ export type ThreadView = ThreadSummary & {
   pendingUserText: string | null;
 };
 
+/**
+ * A "draft" is the in-panel composer state used in place of a popup when the
+ * user clicks "Spot-edit" on a beat or block. The panel opens; the composer
+ * is shown with the draft's scope label; the user types their ask there and
+ * hits Send → the thread is created. Auto-cleared when the matching
+ * `thread:created` arrives so the composer collapses.
+ */
+export type ThreadDraft = {
+  scope: ThreadScope;
+  /** Optional pre-filled text. Almost always empty — the user types in-panel. */
+  initialAsk?: string;
+};
+
 type ThreadState = {
   threadsBySlug: Record<string, ThreadView[]>;
   selectedByslug: Record<string, string | null>;
   /** Open / closed state of the right-side panel, per slug. */
   panelOpenBySlug: Record<string, boolean>;
+  /** Pending thread-creation draft per slug (in-panel composer). */
+  draftBySlug: Record<string, ThreadDraft | null>;
   panelOpen: (slug: string) => boolean;
   setPanelOpen: (slug: string, open: boolean) => void;
+  setDraft: (slug: string, draft: ThreadDraft | null) => void;
   selectThread: (slug: string, threadId: string | null) => void;
   ingest: (e: ServerEvent) => void;
   /** Local-echo a user message under a thread. Server will reflect via events. */
@@ -37,9 +52,12 @@ export const useThreadStore = create<ThreadState>((set, get) => ({
   threadsBySlug: {},
   selectedByslug: {},
   panelOpenBySlug: {},
+  draftBySlug: {},
   panelOpen: (slug) => Boolean(get().panelOpenBySlug[slug]),
   setPanelOpen: (slug, open) =>
     set((s) => ({ panelOpenBySlug: { ...s.panelOpenBySlug, [slug]: open } })),
+  setDraft: (slug, draft) =>
+    set((s) => ({ draftBySlug: { ...s.draftBySlug, [slug]: draft } })),
   selectThread: (slug, threadId) =>
     set((s) => ({ selectedByslug: { ...s.selectedByslug, [slug]: threadId } })),
   ingest: (e) => {
@@ -100,6 +118,9 @@ function applyEvent(state: ThreadState, e: ServerEvent): Partial<ThreadState> {
         threadsBySlug: { ...state.threadsBySlug, [slug]: [...list, view] },
         selectedByslug: { ...state.selectedByslug, [slug]: e.thread.id },
         panelOpenBySlug: { ...state.panelOpenBySlug, [slug]: true },
+        // The composer was for THIS draft — clear it so the panel collapses
+        // back to the standard list+detail view.
+        draftBySlug: { ...state.draftBySlug, [slug]: null },
       };
     }
     case 'thread:status': {
@@ -131,37 +152,18 @@ function applyEvent(state: ThreadState, e: ServerEvent): Partial<ThreadState> {
       });
       return { threadsBySlug: { ...state.threadsBySlug, [slug]: next } };
     }
-    case 'thread:notice': {
-      // Inject a notice into the parent chat ("Spot edit … completed: …").
-      const scopeStr = scopeToShortLabel(e.scope);
-      const text = `Spot edit on ${scopeStr} — ${e.summary}`;
-      Promise.resolve().then(() => {
-        useChatStore.setState((cs) => {
-          const items = cs.itemsBySlug[e.slug] ?? [];
-          const newItem: ChatItem = {
-            kind: 'notice',
-            id: `tn-${e.threadId}-${Date.now()}`,
-            ts: Date.now(),
-            text,
-            tone: e.status === 'completed' ? 'success' : 'info',
-          };
-          return { itemsBySlug: { ...cs.itemsBySlug, [e.slug]: [...items, newItem] } };
-        });
-      });
+    case 'thread:notice':
+      // Server now persists this as a `thread_notice` chat event (see
+      // editor/server/src/threads/store.ts) which flows through the parent
+      // chat's history — that's what materializes the notice item. We don't
+      // inject it from here anymore; doing so would double-render after the
+      // chat replay re-emits the same notice on subscribe.
       return {};
-    }
     default:
       return {};
   }
 }
 
-function scopeToShortLabel(s: ThreadScope): string {
-  if (s.label) return s.label;
-  const parts: string[] = [];
-  if (s.beatIds.length) parts.push(s.beatIds.join(', '));
-  if (s.blockIds.length) parts.push(s.blockIds.join(', '));
-  return parts.join(' + ') || 'video';
-}
 
 function eventsToItems(events: ChatEvent[]): ChatItem[] {
   let items: ChatItem[] = [];

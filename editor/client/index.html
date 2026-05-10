@@ -17,12 +17,33 @@
         --accent: #ffd866;
       }
       * { box-sizing: border-box; }
-      html, body, #root { height: 100%; margin: 0; }
+      html, body, #root {
+        height: 100%;
+        margin: 0;
+        /* Keep the page itself non-scrollable — every panel handles its own
+           overflow internally, so the chat's input bar stays pinned to the
+           bottom of the viewport regardless of how many messages are above. */
+        overflow: hidden;
+      }
       body {
         background: var(--bg);
         color: var(--text);
         font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
         font-size: 14px;
+      }
+      /* Global spinner keyframe — used by the gallery's running indicator
+         and by tool-card spinners inside the chat. */
+      @keyframes tool-spin { to { transform: rotate(360deg); } }
+      /* Pulse animation for the in-flight ring on gallery cards. */
+      @keyframes inflight-pulse {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(121,192,255,0.35); }
+        50%      { box-shadow: 0 0 0 6px rgba(121,192,255,0); }
+      }
+      /* Soft opacity pulse — used by the "syncing" badge in the right-pane
+         tabs while a chokidar-driven reload is in flight. */
+      @keyframes pulse {
+        0%, 100% { opacity: 0.4; }
+        50%      { opacity: 1; }
       }
     </style>
   </head>

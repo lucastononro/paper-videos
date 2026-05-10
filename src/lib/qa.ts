@@ -418,7 +418,8 @@ function visualKey(v: Visual): string | null {
     case 'paperPage': {
       const bb = v.highlightBBox;
       const bbKey = bb ? `${bb.x},${bb.y},${bb.w},${bb.h}` : '_';
-      return `paperPage:${v.pageIdx}:${v.focus}:${bbKey}`;
+      const zoomKey = v.zoom ? 'z' : '_';
+      return `paperPage:${v.pageIdx}:${v.focus}:${bbKey}:${zoomKey}`;
     }
     case 'highlightedQuote':
       return `quote:${v.pageIdx}:${v.text}`;

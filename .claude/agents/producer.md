@@ -25,13 +25,24 @@ Before generating any audio:
 6. **Tag sanity check**: scan the script for tags outside the curated list in `references/usage/elevenlabs/README.md` section 3a. If you find `[laughs]`, `[shouts]`, accent tags, or any "theatrical" tag, flag back to the storyteller — academic content shouldn't use them.
 7. **Beat ordering**: every `### beat-NNN` is sequential, no gaps, no duplicates.
 
-## Step 2 — Generate audio (one beat at a time, sequentially)
+## Step 2 — Generate audio (one beat at a time, sequentially) + live sync
 
 For each beat that has narration (skip silent / pause beats):
 
 ```bash
 npm run narrate -- <slug> beat-NNN
+npm run sync-manifest -- <slug>
 ```
+
+**Run `npm run sync-manifest -- <slug>` after EVERY single `narrate` call.**
+This is the live-preview loop: sync-manifest does an incremental rebuild
+that includes all beats whose audio is ready and truncates at the first
+unfinished one. The editor's chokidar watcher fires `preview:reload` and the
+user immediately sees the new beat appear in their player — they don't have
+to wait for the whole video to finish to start judging quality.
+
+The teaser (Act 0, beats 001-006 or so) lands first → the user hears the
+hook within seconds. Then Act 1, then Act 2, etc. — the video grows live.
 
 `narrate.ts` will:
 - Parse the beat's narration line from `script.md`.
@@ -62,15 +73,20 @@ If anything sounds off:
 
 Only continue with the rest of the beats after explicit user confirmation.
 
-## Step 3 — Build manifest segments
+## Step 3 — Final consistency check
 
-After all narrated beats are generated, run:
+If you've been calling `npm run sync-manifest` after every narrate (Step 2,
+which you should have been), the manifest is already in sync — every beat
+that has audio is in there. As a final safety net, run a strict (non-partial)
+rebuild that throws if any narrated beat is missing audio:
 
 ```bash
 npx tsx -e "import('./src/lib/manifest.ts').then(m => m.rebuildSegmentsFromScript('<slug>'))"
 ```
 
-This walks `script.md` + each beat's `*.timestamps.json`, computes startFrame/durationFrames per beat, and writes `manifest.json` for the renderer to consume.
+This is the same call as before, but in non-partial mode — it acts as a
+sanity check that you didn't skip a beat. If it errors, narrate the missing
+beat and run sync-manifest again.
 
 For silent / pause beats: the script's `[PAUSE Xs]` cue determines the duration directly (no audio file).
 

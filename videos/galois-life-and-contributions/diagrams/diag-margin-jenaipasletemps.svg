@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" preserveAspectRatio="xMidYMid meet">
+  <!-- Background: dark navy -->
+  <rect width="1920" height="1080" fill="#0e1117"/>
+
+  <!-- Aged-paper card (cream, slightly off-center for realism) -->
+  <g transform="translate(260, 140)">
+    <!-- Paper shadow -->
+    <rect x="6" y="14" width="1400" height="800" rx="4" ry="4" fill="#000" opacity="0.45"/>
+    <!-- Aged paper -->
+    <rect x="0" y="0" width="1400" height="800" rx="2" ry="2" fill="#e8dcc4"/>
+    <!-- Subtle paper grain via inner stroke -->
+    <rect x="0" y="0" width="1400" height="800" rx="2" ry="2" fill="none" stroke="#c8b894" stroke-width="2" opacity="0.5"/>
+    <!-- Stained edges -->
+    <path d="M 0 760 L 1400 760 L 1400 800 L 0 800 Z" fill="#b8a884" opacity="0.18"/>
+    <path d="M 0 0 L 60 0 L 60 800 L 0 800 Z" fill="#b8a884" opacity="0.12"/>
+
+    <!-- Faux body text lines (manuscript ink, with one struck-through) -->
+    <g font-family="Georgia, 'Times New Roman', serif" fill="#1c1815" opacity="0.78">
+      <text x="100" y="100" font-size="22" font-style="italic">Soit l'équation f(x) = 0 dont les racines sont a, b, c, ...</text>
+      <text x="100" y="135" font-size="22" font-style="italic">Considérons le groupe G de cette équation.</text>
+      <text x="100" y="170" font-size="22" font-style="italic">Si l'on adjoint à l'équation toutes les racines</text>
+      <text x="100" y="205" font-size="22" font-style="italic">d'une équation auxiliaire, le groupe G se</text>
+      <text x="100" y="240" font-size="22" font-style="italic">décompose alors en plusieurs groupes ...</text>
+      <text x="100" y="290" font-size="22" font-style="italic">Démonstration. — Soit H un sous-groupe</text>
+      <text x="100" y="325" font-size="22" font-style="italic">distingué de G. Les classes de G modulo H ...</text>
+      <text x="100" y="360" font-size="22" font-style="italic">forment elles-mêmes un groupe, appelé</text>
+      <text x="100" y="395" font-size="22" font-style="italic">groupe quotient G/H. La résolubilité de</text>
+      <text x="100" y="430" font-size="22" font-style="italic">l'équation se ramène donc à l'étude de la</text>
+      <text x="100" y="465" font-size="22" font-style="italic">suite de groupes quotients ...</text>
+      <text x="100" y="525" font-size="22" font-style="italic">Il y a quelque chose à compléter dans cette</text>
+      <text x="100" y="560" font-size="22" font-style="italic">démonstration.</text>
+    </g>
+
+    <!-- The famous marginal note, hand-scrawled style, in deeper ink -->
+    <g transform="translate(880, 545) rotate(-7)" font-family="'Brush Script MT', 'Lucida Handwriting', cursive" fill="#2a1f0e">
+      <!-- A swooping underline arrow pointing toward the "démonstration" line -->
+      <path d="M -110 -25 Q -50 -10 0 5" fill="none" stroke="#2a1f0e" stroke-width="2.5" opacity="0.8"/>
+      <!-- The note itself -->
+      <text x="0" y="0" font-size="44" font-style="italic" font-weight="bold">Je n'ai pas le tems.</text>
+      <!-- Hasty underline -->
+      <path d="M 8 12 Q 200 22 380 8" fill="none" stroke="#2a1f0e" stroke-width="2.5" opacity="0.9"/>
+    </g>
+
+    <!-- Small ink blot for character -->
+    <ellipse cx="1180" cy="490" rx="6" ry="3" fill="#2a1f0e" opacity="0.7"/>
+
+    <!-- Page number bottom -->
+    <text x="1320" y="780" font-family="Georgia, serif" font-size="18" fill="#5b4a30" font-style="italic" opacity="0.7">— 35 —</text>
+  </g>
+
+  <!-- Caption beneath -->
+  <g font-family="Inter, 'Helvetica Neue', sans-serif" fill="#e6edf3">
+    <text x="960" y="1000" text-anchor="middle" font-size="32" font-weight="500">"Je n'ai pas le tems."</text>
+    <text x="960" y="1042" text-anchor="middle" font-size="22" font-style="italic" fill="#a0aec0">Galois, marginal note · Premier Mémoire · 1830</text>
+  </g>
+</svg>

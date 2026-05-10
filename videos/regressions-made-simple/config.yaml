@@ -1,0 +1,20 @@
+slug: regressions-made-simple
+paperSource:
+  kind: local
+  value: curriculum (no paper — original explainer)
+paperTitle: "Regressions, Made Simple"
+voice: pharaoh
+captions: false
+targetLengthMinutes: 11
+focusAreas:
+  - linear regression and the geometry of MSE
+  - polynomial features and the overfitting failure
+  - bias-variance tradeoff as diagnosis
+  - regularization (ridge vs lasso, the constraint-shape picture)
+  - logistic regression as the same machinery for classification
+  - random forests as variance reduction by averaging
+  - neural network regression as composed linear regressions
+resolution:
+  width: 1920
+  height: 1080
+fps: 30

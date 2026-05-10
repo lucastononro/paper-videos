@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <!-- Background -->
+  <rect width="1280" height="720" fill="#0e1117"/>
+
+  <!-- Title -->
+  <text x="640" y="50" font-family="Inter, system-ui, sans-serif" font-size="28" font-weight="600"
+        fill="#e6edf3" text-anchor="middle">Microstructure: before vs. after a 5-second flash</text>
+
+  <!-- Panel divider -->
+  <line x1="640" y1="90" x2="640" y2="640" stroke="#21262d" stroke-width="2"/>
+
+  <!-- Left panel: porous green compact -->
+  <g>
+    <rect x="60" y="100" width="540" height="450" fill="#11161d" stroke="#30363d" stroke-width="1.5"/>
+    <!-- Porous particles: ~30 grey circles loosely packed with gaps -->
+    <g fill="#a8b3c1" stroke="#1f2630" stroke-width="1.2">
+      <circle cx="130" cy="170" r="34"/>
+      <circle cx="210" cy="155" r="28"/>
+      <circle cx="280" cy="180" r="36"/>
+      <circle cx="365" cy="160" r="30"/>
+      <circle cx="445" cy="180" r="33"/>
+      <circle cx="525" cy="165" r="27"/>
+      <circle cx="155" cy="240" r="29"/>
+      <circle cx="230" cy="225" r="33"/>
+      <circle cx="315" cy="245" r="31"/>
+      <circle cx="395" cy="230" r="35"/>
+      <circle cx="470" cy="250" r="28"/>
+      <circle cx="550" cy="240" r="30"/>
+      <circle cx="120" cy="310" r="32"/>
+      <circle cx="195" cy="320" r="34"/>
+      <circle cx="275" cy="310" r="29"/>
+      <circle cx="355" cy="325" r="36"/>
+      <circle cx="435" cy="315" r="30"/>
+      <circle cx="515" cy="330" r="32"/>
+      <circle cx="150" cy="395" r="35"/>
+      <circle cx="230" cy="385" r="28"/>
+      <circle cx="305" cy="400" r="31"/>
+      <circle cx="385" cy="390" r="34"/>
+      <circle cx="465" cy="405" r="29"/>
+      <circle cx="540" cy="395" r="33"/>
+      <circle cx="125" cy="475" r="30"/>
+      <circle cx="205" cy="465" r="34"/>
+      <circle cx="285" cy="480" r="28"/>
+      <circle cx="365" cy="470" r="32"/>
+      <circle cx="445" cy="485" r="35"/>
+      <circle cx="525" cy="475" r="29"/>
+    </g>
+    <!-- Highlight a few darker pores -->
+    <g fill="#0e1117">
+      <circle cx="170" cy="200" r="6"/>
+      <circle cx="245" cy="195" r="5"/>
+      <circle cx="335" cy="210" r="7"/>
+      <circle cx="410" cy="200" r="6"/>
+      <circle cx="490" cy="215" r="5"/>
+      <circle cx="180" cy="280" r="7"/>
+      <circle cx="265" cy="275" r="6"/>
+      <circle cx="345" cy="285" r="5"/>
+      <circle cx="425" cy="280" r="7"/>
+      <circle cx="500" cy="290" r="6"/>
+      <circle cx="160" cy="355" r="6"/>
+      <circle cx="245" cy="355" r="7"/>
+      <circle cx="320" cy="365" r="5"/>
+      <circle cx="400" cy="358" r="6"/>
+      <circle cx="475" cy="370" r="7"/>
+      <circle cx="190" cy="435" r="6"/>
+      <circle cx="265" cy="430" r="5"/>
+      <circle cx="345" cy="445" r="7"/>
+      <circle cx="425" cy="435" r="6"/>
+      <circle cx="500" cy="445" r="5"/>
+    </g>
+    <!-- Caption -->
+    <text x="330" y="595" font-family="Inter, system-ui, sans-serif" font-size="22" font-weight="500"
+          fill="#e6edf3" text-anchor="middle">before flash</text>
+    <text x="330" y="625" font-family="Inter, system-ui, sans-serif" font-size="18"
+          fill="#8b949e" text-anchor="middle">porous green compact, ρ ≈ 60%</text>
+  </g>
+
+  <!-- Right panel: dense polycrystal Voronoi-style grains -->
+  <g>
+    <rect x="680" y="100" width="540" height="450" fill="#11161d" stroke="#30363d" stroke-width="1.5"/>
+    <!-- Voronoi-style polygonal grains, white boundaries on grey fill -->
+    <g fill="#c9d1d9" stroke="#0e1117" stroke-width="2.5" stroke-linejoin="round">
+      <polygon points="680,100 770,105 800,170 760,235 695,225"/>
+      <polygon points="770,105 870,100 905,175 800,170"/>
+      <polygon points="870,100 970,108 995,180 905,175"/>
+      <polygon points="970,108 1075,100 1100,165 995,180"/>
+      <polygon points="1075,100 1160,105 1180,170 1100,165"/>
+      <polygon points="1160,105 1220,100 1220,180 1180,170"/>
+      <polygon points="695,225 760,235 805,290 740,310 680,295"/>
+      <polygon points="760,235 800,170 905,175 880,260 805,290"/>
+      <polygon points="905,175 995,180 990,265 880,260"/>
+      <polygon points="995,180 1100,165 1130,250 990,265"/>
+      <polygon points="1100,165 1180,170 1200,255 1130,250"/>
+      <polygon points="1180,170 1220,180 1220,275 1200,255"/>
+      <polygon points="680,295 740,310 770,385 705,400"/>
+      <polygon points="740,310 805,290 880,260 875,355 770,385"/>
+      <polygon points="880,260 990,265 1000,365 875,355"/>
+      <polygon points="990,265 1130,250 1135,360 1000,365"/>
+      <polygon points="1130,250 1200,255 1220,275 1220,375 1135,360"/>
+      <polygon points="705,400 770,385 760,470 695,485"/>
+      <polygon points="770,385 875,355 880,455 760,470"/>
+      <polygon points="875,355 1000,365 1010,470 880,455"/>
+      <polygon points="1000,365 1135,360 1140,475 1010,470"/>
+      <polygon points="1135,360 1220,375 1220,490 1140,475"/>
+      <polygon points="695,485 760,470 765,550 680,550"/>
+      <polygon points="760,470 880,455 890,550 765,550"/>
+      <polygon points="880,455 1010,470 1010,550 890,550"/>
+      <polygon points="1010,470 1140,475 1140,550 1010,550"/>
+      <polygon points="1140,475 1220,490 1220,550 1140,550"/>
+    </g>
+    <!-- Caption -->
+    <text x="950" y="595" font-family="Inter, system-ui, sans-serif" font-size="22" font-weight="500"
+          fill="#e6edf3" text-anchor="middle">after 5 s flash</text>
+    <text x="950" y="625" font-family="Inter, system-ui, sans-serif" font-size="18"
+          fill="#8b949e" text-anchor="middle">dense polycrystal, ρ &gt; 95%</text>
+  </g>
+
+  <!-- Footer hint -->
+  <text x="640" y="685" font-family="Inter, system-ui, sans-serif" font-size="14"
+        fill="#586069" text-anchor="middle" font-style="italic">schematic SEM-style cartoon — grain boundaries shown as dark lines</text>
+</svg>

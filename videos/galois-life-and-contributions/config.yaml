@@ -1,0 +1,20 @@
+slug: galois-life-and-contributions
+paperSource:
+  kind: local
+  value: "(biographical — no source paper)"
+paperTitle: "Évariste Galois — A Life and a Theory"
+voice: pharaoh
+targetLengthMinutes: 20
+focusAreas:
+  - childhood and family in Bourg-la-Reine
+  - July Revolution & political turbulence
+  - permutations and symmetries of the roots
+  - the Galois group and solvability
+  - the impossibility of a quintic formula
+  - the night before the duel
+  - legacy: Abel, Jordan, modern algebra, physics, cryptography
+resolution:
+  width: 1920
+  height: 1080
+fps: 30
+captions: false

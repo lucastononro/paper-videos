@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <defs>
+    <linearGradient id="sky-funeral" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1a212e"/>
+      <stop offset="0.6" stop-color="#3a3340"/>
+      <stop offset="1" stop-color="#5a4a3a"/>
+    </linearGradient>
+    <linearGradient id="ground-funeral" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2a2418"/>
+      <stop offset="1" stop-color="#0e0c08"/>
+    </linearGradient>
+    <radialGradient id="vignette-funeral" cx="0.5" cy="0.5" r="0.8">
+      <stop offset="0.6" stop-color="#0e1117" stop-opacity="0"/>
+      <stop offset="1" stop-color="#0e1117" stop-opacity="0.85"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Sky -->
+  <rect x="0" y="0" width="1920" height="700" fill="url(#sky-funeral)"/>
+  <!-- Ground -->
+  <rect x="0" y="700" width="1920" height="380" fill="url(#ground-funeral)"/>
+
+  <!-- Distant church silhouette -->
+  <g fill="#0a0d12" opacity="0.95">
+    <rect x="820" y="380" width="180" height="320"/>
+    <polygon points="820,380 910,300 1000,380"/>
+    <polygon points="900,300 910,250 920,300"/>
+    <rect x="906" y="240" width="8" height="50"/>
+    <polygon points="900,240 910,225 920,240"/>
+  </g>
+
+  <!-- Tree silhouettes flanking -->
+  <g fill="#0a0d12" opacity="0.9">
+    <ellipse cx="240" cy="640" rx="160" ry="90"/>
+    <rect x="230" y="640" width="20" height="80"/>
+    <ellipse cx="1660" cy="660" rx="180" ry="100"/>
+    <rect x="1652" y="660" width="22" height="80"/>
+  </g>
+
+  <!-- Cortège: dark figures in a row, processing -->
+  <g fill="#070a10">
+    <!-- Coffin -->
+    <g transform="translate(900, 760)">
+      <rect x="-90" y="0" width="180" height="40" fill="#2a1d10"/>
+      <rect x="-86" y="-6" width="172" height="10" fill="#3a2c14"/>
+      <line x1="-90" y1="20" x2="90" y2="20" stroke="#5a4a30" stroke-width="1"/>
+    </g>
+    <!-- Pallbearers (silhouettes) -->
+    <g transform="translate(810, 740)">
+      <ellipse cx="0" cy="0" rx="14" ry="18"/>
+      <rect x="-12" y="14" width="24" height="56"/>
+    </g>
+    <g transform="translate(990, 740)">
+      <ellipse cx="0" cy="0" rx="14" ry="18"/>
+      <rect x="-12" y="14" width="24" height="56"/>
+    </g>
+    <g transform="translate(840, 740)">
+      <ellipse cx="0" cy="0" rx="14" ry="18"/>
+      <rect x="-12" y="14" width="24" height="56"/>
+    </g>
+    <g transform="translate(960, 740)">
+      <ellipse cx="0" cy="0" rx="14" ry="18"/>
+      <rect x="-12" y="14" width="24" height="56"/>
+    </g>
+    <!-- Crowd behind -->
+    <g transform="translate(700, 750)">
+      <ellipse cx="0" cy="0" rx="13" ry="17"/>
+      <rect x="-11" y="14" width="22" height="56"/>
+    </g>
+    <g transform="translate(650, 760)">
+      <ellipse cx="0" cy="0" rx="12" ry="16"/>
+      <rect x="-10" y="12" width="20" height="56"/>
+    </g>
+    <g transform="translate(1100, 750)">
+      <ellipse cx="0" cy="0" rx="13" ry="17"/>
+      <rect x="-11" y="14" width="22" height="56"/>
+    </g>
+    <g transform="translate(1150, 760)">
+      <ellipse cx="0" cy="0" rx="12" ry="16"/>
+      <rect x="-10" y="12" width="20" height="56"/>
+    </g>
+    <g transform="translate(560, 770)" opacity="0.75">
+      <ellipse cx="0" cy="0" rx="11" ry="15"/>
+      <rect x="-9" y="10" width="18" height="54"/>
+    </g>
+    <g transform="translate(520, 780)" opacity="0.6">
+      <ellipse cx="0" cy="0" rx="10" ry="14"/>
+      <rect x="-8" y="8" width="16" height="52"/>
+    </g>
+    <g transform="translate(1230, 770)" opacity="0.8">
+      <ellipse cx="0" cy="0" rx="11" ry="15"/>
+      <rect x="-9" y="10" width="18" height="54"/>
+    </g>
+    <g transform="translate(1280, 780)" opacity="0.65">
+      <ellipse cx="0" cy="0" rx="10" ry="14"/>
+      <rect x="-8" y="8" width="16" height="52"/>
+    </g>
+    <g transform="translate(1340, 790)" opacity="0.5">
+      <ellipse cx="0" cy="0" rx="9" ry="13"/>
+      <rect x="-7" y="6" width="14" height="50"/>
+    </g>
+  </g>
+
+  <!-- Stones being thrown (small streaks) -->
+  <g stroke="#a09080" stroke-width="2" stroke-linecap="round" opacity="0.55">
+    <path d="M380 400 L460 480"/>
+    <circle cx="460" cy="480" r="3" fill="#a09080" stroke="none"/>
+    <path d="M1500 460 L1420 520"/>
+    <circle cx="1420" cy="520" r="3" fill="#a09080" stroke="none"/>
+  </g>
+
+  <!-- Vignette -->
+  <rect width="1920" height="1080" fill="url(#vignette-funeral)"/>
+
+  <!-- Caption -->
+  <text x="960" y="1010" text-anchor="middle" font-family="Georgia, serif" font-size="26" font-style="italic" fill="#e6edf3" opacity="0.78">Funeral of Nicolas-Gabriel Galois · Bourg-la-Reine · July 1829</text>
+</svg>

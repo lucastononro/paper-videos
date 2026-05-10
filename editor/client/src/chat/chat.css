@@ -1,5 +1,13 @@
 /* Chat surface tokens — kept local to the chat panel so they don't leak. */
 .chat-panel {
+  /* Make sure the chat fills its grid cell exactly and lets MessageList
+     absorb overflow internally — the input row stays pinned to the bottom
+     no matter how tall the message list gets. */
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+
   --chat-border: #2a313c;
   --chat-bg: #161b22;
   --chat-surface: #1c2330;
@@ -213,7 +221,7 @@
   word-break: break-word;
 }
 .chat-text-assistant {
-  white-space: pre-wrap;
+  /* Markdown renders block elements — leave whitespace handling to it. */
   color: var(--chat-text);
   line-height: 1.55;
 }
@@ -255,6 +263,125 @@
 .chat-notice-success .chat-notice-dot { background: #7ee787; }
 .chat-notice-info    .chat-notice-dot { background: #79c0ff; }
 .chat-notice-text { white-space: pre-wrap; }
+
+/* ───────────────── markdown ───────────────── */
+.markdown {
+  color: var(--text);
+  line-height: 1.55;
+  font-size: 13px;
+  word-wrap: break-word;
+}
+.markdown > :first-child { margin-top: 0; }
+.markdown > :last-child { margin-bottom: 0; }
+
+.md-p { margin: 0 0 0.6em 0; }
+.md-p:last-child { margin-bottom: 0; }
+
+.md-h { margin: 0.8em 0 0.3em 0; line-height: 1.25; color: var(--text); font-weight: 600; }
+.md-h1 { font-size: 18px; }
+.md-h2 { font-size: 16px; }
+.md-h3 { font-size: 14px; color: var(--text); }
+.md-h4 { font-size: 13px; color: var(--text-mute); text-transform: uppercase; letter-spacing: 0.4px; }
+
+.md-ul, .md-ol { margin: 0.3em 0 0.7em 0; padding-left: 22px; }
+.md-li { margin: 0.15em 0; }
+.md-li > .md-p { margin-bottom: 0.15em; }
+
+.md-blockquote {
+  margin: 0.4em 0;
+  padding: 4px 12px;
+  border-left: 3px solid var(--border);
+  color: var(--text-mute);
+  background: rgba(139, 148, 158, 0.05);
+  border-radius: 0 4px 4px 0;
+}
+
+.md-link { color: #79c0ff; text-decoration: none; border-bottom: 1px dotted rgba(121,192,255,0.40); }
+.md-link:hover { color: #a8d6ff; border-bottom-color: rgba(121,192,255,0.80); }
+
+.md-code-inline {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.92em;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: rgba(121, 192, 255, 0.10);
+  color: #c2d8ff;
+  border: 1px solid rgba(121, 192, 255, 0.18);
+}
+
+.md-pre {
+  margin: 0.5em 0;
+  padding: 10px 12px;
+  background: #0e1117;
+  border: 1px solid var(--chat-border);
+  border-radius: 6px;
+  overflow-x: auto;
+  line-height: 1.45;
+}
+.md-pre .md-code-block {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 12px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: var(--text);
+  white-space: pre;
+}
+
+.md-hr {
+  border: none;
+  border-top: 1px solid var(--chat-border);
+  margin: 12px 0;
+}
+
+.md-table-wrap {
+  margin: 0.5em 0;
+  overflow-x: auto;
+  border: 1px solid var(--chat-border);
+  border-radius: 6px;
+}
+.md-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 12px;
+}
+.md-th, .md-td {
+  padding: 6px 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--chat-border);
+}
+.md-th {
+  background: var(--chat-surface);
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* Mention chips inside markdown text — `#beat-005`, `#vb-003`, `[selection …]` */
+.md-mention {
+  display: inline-block;
+  padding: 1px 7px;
+  margin: 0 1px;
+  border-radius: 999px;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.92em;
+  font-weight: 600;
+  border: 1px solid;
+  white-space: nowrap;
+}
+.md-mention.is-id {
+  color: #ffd866;
+  background: rgba(255, 217, 102, 0.10);
+  border-color: rgba(255, 217, 102, 0.35);
+}
+.md-mention.is-range {
+  color: #79c0ff;
+  background: rgba(121, 192, 255, 0.10);
+  border-color: rgba(121, 192, 255, 0.35);
+}
+
+/* User bubbles already use compact tone; keep their markdown tight. */
+.chat-bubble-user .markdown { color: var(--text); }
+.chat-bubble-user .md-p { margin: 0; }
 
 /* ──────── input ──────── */
 .chat-input-wrap {
@@ -347,3 +474,168 @@
   line-height: 1.55;
 }
 .chat-empty strong { color: var(--chat-text); display: block; margin-bottom: 4px; }
+
+/* ──────── AskUserQuestion card ──────── */
+.askq-card {
+  margin: 8px 0 12px 0;
+  border: 1px solid rgba(255, 216, 102, 0.40);
+  background: rgba(255, 216, 102, 0.04);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 13px;
+  color: var(--chat-text);
+}
+.askq-card.is-answered {
+  border-color: var(--chat-border);
+  background: transparent;
+  opacity: 0.85;
+}
+.askq-error { border-color: rgba(255,148,148,0.4); background: rgba(255,148,148,0.05); }
+.askq-error-text { color: #ff9494; font-weight: 600; margin-bottom: 6px; }
+.askq-error-pre {
+  background: var(--bg-elev-2);
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 11px;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--chat-text-mute);
+  margin: 0;
+}
+.askq-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.askq-icon {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #ffd866;
+  color: #0e1117;
+  font-weight: 700;
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.askq-title {
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #ffd866;
+  font-weight: 600;
+}
+.askq-answered-pill {
+  margin-left: auto;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--chat-text-mute);
+  border: 1px solid var(--chat-border);
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+.askq-question { margin-bottom: 8px; }
+.askq-question-text {
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--chat-text);
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+.askq-options {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.askq-option {
+  all: unset;
+  cursor: pointer;
+  display: block;
+  padding: 10px 12px;
+  border: 1px solid var(--chat-border);
+  border-radius: 8px;
+  background: var(--bg-elev-2);
+  transition: border-color 0.15s, background 0.15s, transform 0.05s;
+}
+.askq-option:hover:not(:disabled) {
+  border-color: rgba(255, 216, 102, 0.55);
+  background: rgba(255, 216, 102, 0.06);
+}
+.askq-option.is-selected {
+  border-color: #ffd866;
+  background: rgba(255, 216, 102, 0.10);
+}
+.askq-option:active:not(:disabled) { transform: translateY(1px); }
+.askq-option:disabled { cursor: default; opacity: 0.55; }
+.askq-option-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--chat-text);
+  margin-bottom: 2px;
+}
+.askq-option-desc {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--chat-text-mute);
+}
+.askq-other {
+  margin-top: 4px;
+  padding: 8px 10px;
+  border: 1px dashed var(--chat-border);
+  border-radius: 8px;
+}
+.askq-other-label {
+  font-size: 11px;
+  color: var(--chat-text-mute);
+  margin-bottom: 4px;
+  letter-spacing: 0.3px;
+}
+.askq-other-input {
+  width: 100%;
+  background: transparent;
+  color: var(--chat-text);
+  border: none;
+  outline: none;
+  font: inherit;
+  font-size: 13px;
+  resize: vertical;
+  min-height: 36px;
+}
+.askq-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  gap: 12px;
+}
+.askq-hint {
+  font-size: 11px;
+  color: var(--chat-text-mute);
+  flex: 1;
+}
+.askq-send {
+  all: unset;
+  cursor: pointer;
+  padding: 6px 14px;
+  border-radius: 6px;
+  background: #ffd866;
+  color: #0e1117;
+  font-size: 12px;
+  font-weight: 600;
+}
+.askq-send:hover:not(:disabled) { filter: brightness(1.05); }
+.askq-send:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.askq-your-pick {
+  margin-top: 8px;
+  padding: 6px 10px;
+  font-size: 12px;
+  color: var(--chat-text-mute);
+  border-top: 1px solid var(--chat-border);
+}

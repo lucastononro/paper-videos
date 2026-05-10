@@ -131,9 +131,11 @@ target_minutes: 12
 - **One** of these visual cues on the next line:
   - `[VISUAL: titleCard "..."]` or `[VISUAL: titleCard "..." subtitle="..."]`
   - `[VISUAL: paperPage page=N focus=top|center|bottom|all]` — full page (with optional gentle pan/zoom)
-  - `[VISUAL: paperPage page=N focus=center highlight="x,y,w,h"]` — page with a spotlight: dim everything outside the bbox, glow on it. `x,y,w,h` are normalized 0-1 of the page image (top-left origin). Use ~3-7 spotlights per 10 minutes of video. See `references/usage/storytelling/creative-patterns.md` section 1 for canonical bboxes.
-  - `[VISUAL: highlightedQuote pageIdx=N text="..."]` — quote pulled out beside the page
-  - `[VISUAL: highlightedQuote pageIdx=N text="..." bbox="x,y,w,h"]` — same, plus a spotlight on the page where the quote lives. Strongest for landmark claims.
+  - `[VISUAL: paperPage page=N quote="exact text on the page"]` — **preferred way to highlight a region**. The harness extracts the bbox from the PDF text layer at manifest-build time, so no pixel-coordinate guesswork. The `quote=` value must appear verbatim on page N (case- and punctuation-insensitive); a 4–10 word phrase taken straight from the paper is ideal. Use ~3-7 highlights per 10 minutes of video.
+  - `[VISUAL: paperPage page=N quote="..." zoom=true]` — same as above but the renderer crops to the highlight (with small padding) and scales it up to fill the canvas, with a tiny page-mini in the corner for spatial context. Use `zoom=true` when the highlighted text is small/dense and you want viewers to **read** it, not just see where it lives.
+  - `[VISUAL: paperPage page=N focus=center highlight="x,y,w,h"]` — manual bbox fallback. **Avoid unless `quote=` cannot work** (e.g., highlighting a figure or whitespace region). `x,y,w,h` are normalized 0-1 of the page image (top-left origin). Manual coords routinely miss by half a page; the resolver is far more reliable.
+  - `[VISUAL: highlightedQuote pageIdx=N text="..."]` — quote pulled out beside the page. **The harness auto-resolves the bbox from `text=`** — no manual `bbox=` needed. Strongest visual for landmark claims.
+  - `[VISUAL: highlightedQuote pageIdx=N text="..." bbox="x,y,w,h"]` — manual override bbox (only when the resolver misses).
   - `[VISUAL: equationCard equationId=eq-XXX reveal=stepwise|all]` — full equation (KaTeX). `stepwise` reveals row-by-row.
   - `[VISUAL: equationStep equationId=eq-XXX step=K]` — placeholder for fine-grained step reveal (currently renders the same as `equationCard reveal=stepwise`).
   - `[VISUAL: image src="img-001"]` *(asset-fetcher will resolve src to an actual file)*
@@ -236,9 +238,73 @@ beat-038 (closing)  [VISUAL: titleCard "Attention is all you need."]
 
 Notice: roughly 5 of 6 example beats have ZERO tags. Tags appear only when the narrator's tone is doing real semantic work.
 
+### Teaser pattern (mandatory cold open)
+
+Every video opens with a 5–8 beat teaser whose job is to keep the viewer's
+finger off "back". You take `brief.teaser` and turn it into a tight
+sequence. Canonical shape:
+
+1. **Hook beat** — the opening line from `brief.teaser.openingLine`. Strong visual: a Manim animation, a striking number, a paper-page spotlight on the headline claim. NO title card here. NO equations. NO jargon.
+2. **Stakes beat** — `brief.teaser.stakes` distilled into one sentence. What changed, what's at risk, what's surprising.
+3. **(Optional) Concretization beat** — one specific number, image, or quote that makes the stakes tangible. Skip if the hook already lands hard.
+4. **Open-loop beat** — `brief.teaser.openLoop` as a question the narrator asks aloud. The answer to this question IS the rest of the video. The visual lingers (often a `[PAUSE 0.6s]` follows).
+5. **Title-card beat** — the paper's title + author/year as the **payoff** to the open-loop. This is the "and here's the paper that answers it" moment. The card lands AFTER the hook has done its job, not before.
+
+After the title card, Act 1 ("Why care?") begins normally.
+
+Concrete example for "Attention Is All You Need":
+
+```
+## Act 0 — Teaser
+
+### beat-001
+[MANIM: rnn_recurrence_chain_falling_apart]
+"For twenty years, language models read one word at a time."
+
+### beat-002
+[VISUAL: paperPage page=0 quote="dispensing with recurrence and convolutions entirely"]
+"Then in 2017, eight researchers at Google threw all of that out."
+
+### beat-003
+[VISUAL: highlightedQuote pageIdx=0 text="The Transformer ... is the first transduction model relying entirely on self-attention"]
+"[curious] No recurrence. No convolution. Just attention."
+
+### beat-004
+[PAUSE 0.6s]
+(silent)
+
+### beat-005
+[MANIM: question_card_how_does_it_know_word_order]
+"How can a model that looks everywhere at once still know which word came first?"
+
+### beat-006
+[VISUAL: titleCard "Attention Is All You Need" subtitle="Vaswani et al., 2017"]
+(silent 1.4s)
+
+## Act 1 — Why care?
+
+### beat-007
+...
+```
+
+What makes this teaser work:
+
+- **Beat 1's narration is concrete and specific** ("twenty years", "one word at a time"), not "This paper introduces a new architecture for…".
+- **The title card is beat 6, not beat 1.** It's a payoff, not a header.
+- **There's an explicit open-loop question** in beat 5 that the rest of the video answers.
+- **The visuals escalate** from a paper-page spotlight (passive evidence) to a Manim question card (active framing) — primes the viewer for active watching.
+- **A `[PAUSE 0.6s]` lets the question land** before the title arrives.
+
+Anti-patterns to avoid:
+
+- Title card as beat 1 with the narrator reading the title — wastes the 5-second window.
+- A multi-sentence "summary" of the paper in beat 1. The teaser is a hook, not an abstract.
+- Equations or notation in the teaser. Save those for Act 1+.
+- Generic openers: *"In this video we'll explore…", "This paper introduces…", "Today we'll learn about…"*. Cut them. Lead with the surprise.
+
 ### Hard rules for structure
 
-- The first beat is always a `titleCard`.
+- **Every script opens with a teaser** (Act 0 — Teaser, 15-25 seconds, 5-8 beats). The teaser executes the showman pattern from `brief.teaser`: hook → stakes → open-loop question → title card landing as the payoff. The title card is NOT the very first beat — it's the **end** of the teaser. See "Teaser pattern" below for the canonical shape.
 - The last beat is always a `titleCard` with the paper's full title and arxiv id (the closing card).
 - Each act from `brief.json` becomes a `## Act N — <name>` heading. Beats inside live under `### beat-NNN`.
 - Total beat count for a 12-minute video typically lands around **120-200 beats**. Aim for variety: don't string 30 manim beats in a row; intersperse paper pages, quotes, pauses.

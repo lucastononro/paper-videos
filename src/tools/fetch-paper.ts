@@ -22,10 +22,11 @@ const program = new Command()
   .argument('<source>', 'arxiv id (e.g. 1706.03762), arxiv URL, https URL, or local PDF path')
   .argument('[slug]', 'optional slug (derived if omitted)')
   .option('--force', 'overwrite existing paper.pdf', false)
-  .option('--voice <alias>', 'voice alias for the default manifest', 'pharaoh');
+  .option('--voice <alias>', 'voice alias for the default manifest', 'pharaoh')
+  .option('--captions', 'render bottom captions over the video (default off)', false);
 
 program.parse();
-const opts = program.opts<{ force: boolean; voice: string }>();
+const opts = program.opts<{ force: boolean; voice: string; captions: boolean }>();
 const [sourceArg, slugArg] = program.args as [string, string | undefined];
 
 const source = classifySource(sourceArg);
@@ -40,7 +41,7 @@ if (fs.existsSync(targetPdf) && !opts.force) {
   await fetchPdf(source, targetPdf);
 }
 
-writeConfigYaml(slug, source, opts.voice);
+writeConfigYaml(slug, source, opts.voice, opts.captions);
 
 if (!manifestExists(slug)) {
   writeManifest(slug, defaultManifest({
@@ -48,6 +49,7 @@ if (!manifestExists(slug)) {
     paperSource: source,
     paperTitle: '(unknown — will be filled by paper-extractor)',
     voiceAlias: opts.voice,
+    captions: opts.captions,
   }));
 }
 
@@ -90,7 +92,12 @@ async function downloadTo(url: string, dest: string): Promise<void> {
   fs.writeFileSync(dest, buf);
 }
 
-function writeConfigYaml(slug: string, source: ReturnType<typeof classifySource>, voice: string): void {
+function writeConfigYaml(
+  slug: string,
+  source: ReturnType<typeof classifySource>,
+  voice: string,
+  captions: boolean,
+): void {
   const cfgPath = videoFile(slug, 'config.yaml');
   if (fs.existsSync(cfgPath)) return; // never clobber user-edited config
   const cfg = {
@@ -98,6 +105,7 @@ function writeConfigYaml(slug: string, source: ReturnType<typeof classifySource>
     paperSource: source,
     paperTitle: '(unknown — will be filled by paper-extractor)',
     voice,
+    captions,
     targetLengthMinutes: 12,
     focusAreas: [] as string[],
     resolution: { width: 1920, height: 1080 },

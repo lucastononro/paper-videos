@@ -1,0 +1,14 @@
+{
+  "id": "img-002",
+  "kind": "image",
+  "file": "images/img-002.png",
+  "scriptToken": "img-fig2a-bag",
+  "source": "paper Figure 2(a) (page 3) — left sub-panel, 'Examples of positive candidates'",
+  "sourceFile": "paper-md-assets/_page_2_Figure_0.jpeg",
+  "crop": "left half of Figure 2 (x: 0..825, y: 0..282 of the 1301x320 source)",
+  "caption": "Figure 2(a): Examples of positive candidates — for an anchor video clip x at 07:34, the bag P comprises five neighbouring narrations spanning 07:29–07:40. Most do not literally describe the action sanding.",
+  "license": "publication-fair-use",
+  "paperRef": "Miech, Alayrac, Smaira, Laptev, Sivic, Zisserman (2020) — arXiv:1912.06430",
+  "usedByBeats": ["beat-051"],
+  "transform": "Cropped left sub-panel of Figure 2 from paper-md-assets, centered on a 1920x1080 dark-navy (#0e1117) canvas."
+}

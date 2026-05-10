@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#1a2332"/>
+      <stop offset="100%" stop-color="#0e1117"/>
+    </radialGradient>
+    <linearGradient id="paper" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f4f0e3"/>
+      <stop offset="100%" stop-color="#dcd5be"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+
+  <!-- Journal page -->
+  <g transform="translate(610,80)">
+    <rect x="8" y="14" width="700" height="920" fill="#000" opacity="0.45" rx="2"/>
+    <rect width="700" height="920" fill="url(#paper)" rx="2"/>
+
+    <g font-family="Georgia, 'Times New Roman', serif" fill="#1c1810">
+      <!-- header -->
+      <text x="350" y="70" text-anchor="middle" font-size="14" letter-spacing="2">BULLETIN OF MATHEMATICAL BIOPHYSICS</text>
+      <text x="350" y="92" text-anchor="middle" font-size="14" font-style="italic">Volume 5, 1943</text>
+      <line x1="60" y1="115" x2="640" y2="115" stroke="#3a2e1d" stroke-width="0.8"/>
+
+      <!-- title -->
+      <text x="350" y="220" text-anchor="middle" font-size="32" font-weight="700" letter-spacing="2">A LOGICAL CALCULUS</text>
+      <text x="350" y="265" text-anchor="middle" font-size="28" letter-spacing="2">OF THE IDEAS IMMANENT</text>
+      <text x="350" y="305" text-anchor="middle" font-size="28" letter-spacing="2">IN NERVOUS ACTIVITY</text>
+
+      <!-- authors -->
+      <text x="350" y="380" text-anchor="middle" font-size="22" letter-spacing="2">WARREN S. McCULLOCH AND WALTER PITTS</text>
+      <text x="350" y="412" text-anchor="middle" font-size="16" font-style="italic">From the University of Illinois, College of Medicine,</text>
+      <text x="350" y="434" text-anchor="middle" font-size="16" font-style="italic">Department of Psychiatry at the Illinois Neuropsychiatric Institute,</text>
+      <text x="350" y="456" text-anchor="middle" font-size="16" font-style="italic">University of Chicago, Chicago, Illinois</text>
+
+      <!-- abstract block -->
+      <line x1="100" y1="500" x2="600" y2="500" stroke="#3a2e1d" stroke-width="0.5"/>
+      <text x="100" y="540" font-size="14">Because of the &#8220;all-or-none&#8221; character of nervous activity, neural events</text>
+      <text x="100" y="562" font-size="14">and the relations among them can be treated by means of propositional</text>
+      <text x="100" y="584" font-size="14">logic. It is found that the behavior of every net can be described in these</text>
+      <text x="100" y="606" font-size="14">terms, with the addition of more complicated logical means for nets</text>
+      <text x="100" y="628" font-size="14">containing circles; and that for any logical expression satisfying certain</text>
+      <text x="100" y="650" font-size="14">conditions, one can find a net behaving in the fashion it describes. ...</text>
+
+      <!-- I. INTRODUCTION -->
+      <text x="100" y="710" font-size="16" font-weight="700">I.&#160;&#160;INTRODUCTION</text>
+      <text x="100" y="744" font-size="14">Theoretical neurophysiology rests on certain cardinal assumptions. The</text>
+      <text x="100" y="766" font-size="14">nervous system is a net of neurons, each having a soma and an axon. Their</text>
+      <text x="100" y="788" font-size="14">adjunctions, or synapses, are always between the axon of one neuron and</text>
+      <text x="100" y="810" font-size="14">the soma of another. ...</text>
+
+      <!-- footer -->
+      <line x1="60" y1="870" x2="640" y2="870" stroke="#3a2e1d" stroke-width="0.5"/>
+      <text x="350" y="895" text-anchor="middle" font-size="12" font-style="italic">Bulletin of Mathematical Biophysics, 5, 115—133 (1943)</text>
+    </g>
+  </g>
+
+  <g text-anchor="middle" font-family="Georgia, serif" fill="#8b949e">
+    <text x="960" y="1040" font-size="24" font-style="italic">McCulloch &amp; Pitts &#8212; Bulletin of Mathematical Biophysics, 1943</text>
+  </g>
+</svg>

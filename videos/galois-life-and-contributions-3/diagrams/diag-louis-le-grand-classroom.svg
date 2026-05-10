@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <defs>
+    <linearGradient id="bg-classroom" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0e1117"/>
+      <stop offset="1" stop-color="#171c25"/>
+    </linearGradient>
+    <linearGradient id="window-glow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3a4a6a" stop-opacity="0.7"/>
+      <stop offset="1" stop-color="#1a2030" stop-opacity="0.2"/>
+    </linearGradient>
+    <filter id="soft-blur" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="1.4"/>
+    </filter>
+  </defs>
+
+  <rect width="1920" height="1080" fill="url(#bg-classroom)"/>
+
+  <!-- Floor perspective lines -->
+  <g stroke="#2a3340" stroke-width="1" opacity="0.45">
+    <line x1="0"    y1="780" x2="1920" y2="780"/>
+    <line x1="100"  y1="1080" x2="640" y2="780"/>
+    <line x1="500"  y1="1080" x2="820" y2="780"/>
+    <line x1="1420" y1="1080" x2="1100" y2="780"/>
+    <line x1="1820" y1="1080" x2="1280" y2="780"/>
+  </g>
+
+  <!-- Back wall with high windows -->
+  <rect x="200" y="180" width="1520" height="600" fill="#1a2030"/>
+  <rect x="200" y="180" width="1520" height="6" fill="#2a3340"/>
+
+  <!-- Six tall arched windows -->
+  <g>
+    <g transform="translate(320,210)">
+      <rect width="160" height="380" fill="url(#window-glow)"/>
+      <path d="M0 0 Q80 -60 160 0" fill="url(#window-glow)"/>
+      <line x1="80" y1="-40" x2="80" y2="380" stroke="#0e1117" stroke-width="3"/>
+      <line x1="0" y1="190" x2="160" y2="190" stroke="#0e1117" stroke-width="3"/>
+    </g>
+    <g transform="translate(560,210)">
+      <rect width="160" height="380" fill="url(#window-glow)"/>
+      <path d="M0 0 Q80 -60 160 0" fill="url(#window-glow)"/>
+      <line x1="80" y1="-40" x2="80" y2="380" stroke="#0e1117" stroke-width="3"/>
+      <line x1="0" y1="190" x2="160" y2="190" stroke="#0e1117" stroke-width="3"/>
+    </g>
+    <g transform="translate(800,210)">
+      <rect width="160" height="380" fill="url(#window-glow)"/>
+      <path d="M0 0 Q80 -60 160 0" fill="url(#window-glow)"/>
+      <line x1="80" y1="-40" x2="80" y2="380" stroke="#0e1117" stroke-width="3"/>
+      <line x1="0" y1="190" x2="160" y2="190" stroke="#0e1117" stroke-width="3"/>
+    </g>
+    <g transform="translate(1040,210)">
+      <rect width="160" height="380" fill="url(#window-glow)"/>
+      <path d="M0 0 Q80 -60 160 0" fill="url(#window-glow)"/>
+      <line x1="80" y1="-40" x2="80" y2="380" stroke="#0e1117" stroke-width="3"/>
+      <line x1="0" y1="190" x2="160" y2="190" stroke="#0e1117" stroke-width="3"/>
+    </g>
+    <g transform="translate(1280,210)">
+      <rect width="160" height="380" fill="url(#window-glow)"/>
+      <path d="M0 0 Q80 -60 160 0" fill="url(#window-glow)"/>
+      <line x1="80" y1="-40" x2="80" y2="380" stroke="#0e1117" stroke-width="3"/>
+      <line x1="0" y1="190" x2="160" y2="190" stroke="#0e1117" stroke-width="3"/>
+    </g>
+    <g transform="translate(1520,210)">
+      <rect width="160" height="380" fill="url(#window-glow)"/>
+      <path d="M0 0 Q80 -60 160 0" fill="url(#window-glow)"/>
+      <line x1="80" y1="-40" x2="80" y2="380" stroke="#0e1117" stroke-width="3"/>
+      <line x1="0" y1="190" x2="160" y2="190" stroke="#0e1117" stroke-width="3"/>
+    </g>
+  </g>
+
+  <!-- Blackboard -->
+  <rect x="700" y="640" width="520" height="120" fill="#0a0d12" stroke="#3d4a5e" stroke-width="2"/>
+  <text x="960" y="710" text-anchor="middle" font-family="Times New Roman, serif" font-size="46" font-style="italic" fill="#ffd866" opacity="0.85">x² − 5x + 6 = 0</text>
+
+  <!-- Rows of student silhouettes (desks) -->
+  <g fill="#2a2f3a">
+    <!-- Row 1 (back) -->
+    <g transform="translate(420, 820)" opacity="0.85">
+      <rect x="0" y="0" width="1080" height="14" fill="#3d4a5e"/>
+      <ellipse cx="80" cy="-30" rx="30" ry="40"/>
+      <ellipse cx="220" cy="-30" rx="30" ry="40"/>
+      <ellipse cx="360" cy="-30" rx="30" ry="40"/>
+      <ellipse cx="500" cy="-30" rx="30" ry="40"/>
+      <ellipse cx="640" cy="-30" rx="30" ry="40"/>
+      <ellipse cx="780" cy="-30" rx="30" ry="40"/>
+      <ellipse cx="920" cy="-30" rx="30" ry="40"/>
+      <ellipse cx="1020" cy="-30" rx="30" ry="40"/>
+    </g>
+    <!-- Row 2 (front) -->
+    <g transform="translate(280, 940)" opacity="1">
+      <rect x="0" y="0" width="1360" height="18" fill="#3d4a5e"/>
+      <ellipse cx="80" cy="-44" rx="38" ry="50"/>
+      <ellipse cx="240" cy="-44" rx="38" ry="50"/>
+      <ellipse cx="400" cy="-44" rx="38" ry="50"/>
+      <ellipse cx="560" cy="-44" rx="38" ry="50"/>
+      <ellipse cx="720" cy="-44" rx="38" ry="50"/>
+      <ellipse cx="880" cy="-44" rx="38" ry="50"/>
+      <ellipse cx="1040" cy="-44" rx="38" ry="50"/>
+      <ellipse cx="1200" cy="-44" rx="38" ry="50"/>
+      <ellipse cx="1300" cy="-44" rx="38" ry="50"/>
+    </g>
+  </g>
+
+  <!-- Subtle gold caption bar below -->
+  <text x="960" y="60" text-anchor="middle" font-family="Georgia, serif" font-size="28" fill="#e6edf3" opacity="0.7" letter-spacing="3">LYC É E   LOUIS - LE - GRAND</text>
+  <text x="960" y="100" text-anchor="middle" font-family="Georgia, serif" font-size="22" font-style="italic" fill="#ffd866" opacity="0.7">Monsieur Vernier's mathematics class · February 1827</text>
+</svg>
