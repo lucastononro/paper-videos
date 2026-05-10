@@ -9,14 +9,13 @@
  */
 
 import { Command } from 'commander';
-import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { bundle } from '@remotion/bundler';
 import { renderMedia, selectComposition } from '@remotion/renderer';
 import { readManifest, totalDurationFrames, videoOutputPath, videoPublicDir } from '../lib/manifest.js';
-import { videoDir } from '../lib/paths.js';
+import { preparePreview } from '../lib/prepare-preview.js';
 
 const program = new Command()
   .name('render-remotion')
@@ -38,9 +37,10 @@ if (manifest.segments.length === 0) {
   process.exit(1);
 }
 
-// Symlink (or mirror) per-video assets into a stable public/ folder so the
-// Remotion bundler can serve them via staticFile(). We use videos/<slug>/public.
-mirrorVideoAssetsToPublic(slug);
+// Mirror per-video assets + probe Manim durations into the slug's public/
+// folder so @remotion/bundler can serve them via staticFile(). The same
+// function is reused by the live editor preview server.
+preparePreview(slug);
 
 console.log(`Bundling Remotion entry: ${remotionEntry}`);
 const serveUrl = await bundle({
@@ -79,103 +79,3 @@ process.stdout.write('\n');
 
 const stat = fs.statSync(out);
 console.log(JSON.stringify({ slug, output: out, sizeBytes: stat.size, frames: expectedFrames }, null, 2));
-
-// ---------------------------------------------------------------------------
-
-function mirrorVideoAssetsToPublic(slug: string): void {
-  const dir = videoDir(slug);
-  const pub = videoPublicDir(slug);
-  fs.mkdirSync(pub, { recursive: true });
-
-  const subdirs = ['pages', 'narration', 'manim', 'images', 'diagrams'];
-  for (const sub of subdirs) {
-    const src = path.join(dir, sub);
-    const dst = path.join(pub, sub);
-    if (!fs.existsSync(src)) continue;
-    fs.mkdirSync(dst, { recursive: true });
-    for (const f of fs.readdirSync(src)) {
-      const s = path.join(src, f);
-      const d = path.join(dst, f);
-      if (!fs.statSync(s).isFile()) continue;
-      // Copy if newer or missing
-      if (!fs.existsSync(d) || fs.statSync(s).mtimeMs > fs.statSync(d).mtimeMs) {
-        fs.copyFileSync(s, d);
-      }
-    }
-  }
-
-  // Also expose equations.json + timeline.json + assets-index.json
-  for (const f of ['equations.json', 'timeline.json', 'assets-index.json']) {
-    const s = path.join(dir, f);
-    if (!fs.existsSync(s)) continue;
-    fs.copyFileSync(s, path.join(pub, f));
-  }
-  // For manifest.json, write the v2-migrated form into public/ so the composition
-  // consumes the new voice + visualBlocks schema directly without re-migrating.
-  const v2 = readManifest(slug);
-  fs.writeFileSync(path.join(pub, 'manifest.json'), JSON.stringify(v2, null, 2));
-
-  // Probe Manim mp4 durations + extract last-frame PNGs so the composition can
-  // (1) play each mp4 once across a multi-beat run, and (2) hold the final
-  // frame for any remaining run time. Without this, consecutive beats sharing
-  // one mp4 visibly restart it on every sentence boundary.
-  const manimDir = path.join(dir, 'manim');
-  if (fs.existsSync(manimDir)) {
-    const m = readManifest(slug);
-    const fps = m.fps;
-    const durations: Record<string, number> = {};
-    const lastFrames: Record<string, string> = {};
-    const lastFramesDir = path.join(pub, 'manim-last-frames');
-    fs.mkdirSync(lastFramesDir, { recursive: true });
-
-    for (const f of fs.readdirSync(manimDir)) {
-      if (!f.endsWith('.mp4')) continue;
-      const abs = path.join(manimDir, f);
-
-      // Probe duration
-      try {
-        const out = execFileSync(
-          'ffprobe',
-          ['-v', 'error', '-show_entries', 'format=duration', '-of', 'default=noprint_wrappers=1:nokey=1', abs],
-          { encoding: 'utf8' },
-        ).trim();
-        const seconds = Number(out);
-        if (Number.isFinite(seconds) && seconds > 0) {
-          durations[`manim/${f}`] = Math.max(1, Math.round(seconds * fps));
-        }
-      } catch {
-        /* ffprobe missing or file unreadable — skip; composition will fall back */
-      }
-
-      // Extract last frame as PNG (for hold-last-frame after the mp4 ends)
-      const pngName = f.replace(/\.mp4$/, '.png');
-      const pngPath = path.join(lastFramesDir, pngName);
-      const stale = !fs.existsSync(pngPath) || fs.statSync(abs).mtimeMs > fs.statSync(pngPath).mtimeMs;
-      if (stale) {
-        try {
-          execFileSync(
-            'ffmpeg',
-            [
-              '-y',
-              '-sseof', '-0.1',
-              '-i', abs,
-              '-update', '1',
-              '-frames:v', '1',
-              '-q:v', '2',
-              pngPath,
-            ],
-            { stdio: 'ignore' },
-          );
-        } catch {
-          /* ffmpeg missing — composition will fall back to a black hold */
-        }
-      }
-      if (fs.existsSync(pngPath)) {
-        lastFrames[`manim/${f}`] = `manim-last-frames/${pngName}`;
-      }
-    }
-
-    fs.writeFileSync(path.join(pub, 'manim-durations.json'), JSON.stringify(durations, null, 2));
-    fs.writeFileSync(path.join(pub, 'manim-last-frames.json'), JSON.stringify(lastFrames, null, 2));
-  }
-}

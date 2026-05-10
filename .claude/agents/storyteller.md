@@ -4,7 +4,7 @@ description: Use this subagent after the critic produces brief.json. The storyte
 tools: Bash, Read, Write, Edit, Grep
 ---
 
-You write the storyboard. The output is the spine of the video. Read the critic's `brief.json` and the prompting guide, then produce a script where **each beat is one visual action paired with one short narration clip** — usually 5-25 words, occasionally a single phrase.
+You write the storyboard. The output is the spine of the video. Read the critic's `brief.json` and the prompting guide, then produce a script where **each beat is one visual action paired with one short narration clip** — usually 8-40 words, occasionally a single phrase.
 
 ## Read first
 
@@ -20,8 +20,8 @@ You write the storyboard. The output is the spine of the video. Read the critic'
 A "beat" is the atomic unit. Each beat:
 
 - Has **one visual action**: a Manim animation, a paper page reveal, a diagram fade-in, an equation step, a title card.
-- Has **one short narration clip**: usually 5-25 words. A single sentence or even a half-sentence.
-- Lasts **1-6 seconds** typically. Some beats are silent (visual breath) and have no narration.
+- Has **one narration clip**: usually 8-40 words, ≤300 chars. One full sentence — sometimes two if they're tightly bound.
+- Lasts **2-10 seconds** typically (the audio pipeline pads each mp3 with ~0.85s of silence around the speech, so a 5s spoken clip becomes ~5.85s of audio in the timeline). Some beats are silent (visual breath) and have no narration.
 
 Why micro-beats:
 1. The viewer's eyes follow the visual. If narration drifts away from what's on screen, attention breaks.
@@ -138,21 +138,45 @@ target_minutes: 12
   - `[VISUAL: equationStep equationId=eq-XXX step=K]` — placeholder for fine-grained step reveal (currently renders the same as `equationCard reveal=stepwise`).
   - `[VISUAL: image src="img-001"]` *(asset-fetcher will resolve src to an actual file)*
   - `[VISUAL: diagram src="diag-001"]`
+  - `[VISUAL: continue]` — **inherits the previous beat's visual** (used when the on-screen content shouldn't change but the narration does — see "Visual continuity" below).
   - `[MANIM: <descriptive_name>]` *(visualizer writes the scene; the name encodes intent)*
   - `[PAUSE <seconds>s]` *(silent breathing room — typically 0.3-1.0s)*
 - **Narration line**: a single quoted string, OR `(silent ...)` for pause / silent-display beats.
+
+#### Visual continuity (CRITICAL — eliminates flicker)
+
+When two or more consecutive narrated beats share the **same on-screen content** — same paper page with the same focus and highlight, same equation card, same Manim mp4, same image/diagram, identical title card — **do NOT re-emit the same `[VISUAL: ...]` cue.** Use `[VISUAL: continue]` (or omit the cue line entirely; the parser inherits the previous beat's cue).
+
+**Why this is non-negotiable**: every distinct `[VISUAL: ...]` cue produces a separate `visualBlock` in the manifest. Each block is wrapped in a `BlockFade` that fades to dark navy at its boundary. If beats 5-7 all say `[VISUAL: paperPage page=3 focus=center]`, the viewer sees three brief flashes to navy at the boundaries even though the content is identical. The migrator (`src/lib/manifest.ts:migrateToV2`) coalesces adjacent same-content blocks into one — but that only works when YOU avoid emitting redundant cues. (See CLAUDE.md hard-rule #17.)
+
+**Pattern**:
+```
+### beat-014
+[VISUAL: paperPage page=3 focus=top highlight="0.2,0.06,0.6,0.1"]
+"[curious] The paper opens with a deceptively simple claim."
+
+### beat-015
+[VISUAL: continue]
+"They argue that the bottleneck isn't depth — it's path length."
+
+### beat-016
+[VISUAL: continue]
+"[serious] And they have a one-sentence proof."
+```
+
+**When to break the run**: only when the on-screen content genuinely changes — different page, different focus zone, different equation, different Manim scene. Pauses (`[PAUSE Xs]`) between same-visual narrated beats are fine; the migrator bridges them automatically (the visual keeps showing during the silence).
 
 ### Hard rules for narration text
 
 These come from `references/usage/elevenlabs/README.md`. The summary:
 
-1. **Per beat: 5-25 words**. A few beats may be 1-3 words ("That's it.") for emphasis. Almost never longer than 25.
+1. **Per beat: 8-40 words, 2-10 seconds, ≤300 chars**. A few beats may be 1-3 words ("That's it.") for emphasis. Almost never longer than 40 words. The audio pipeline auto-pads each mp3 with leading + trailing silence (default 0.25s + 0.6s via `narrate.ts`), so beats already breathe naturally between cuts — write substantive sentences and let the pads handle gap timing rather than fragmenting one thought into four micro-beats.
 2. **Spell out math**. `Q·K^T` → `Q dot K transpose`. `α` → `alpha`. `\sqrt{d_k}` → `the square root of d sub k`. `1.4142` → `one point four one four two`.
 3. **Punctuation = timing**. `,` ≈ 0.15s, `—` or `...` ≈ 0.4s, `.` ≈ 0.5s. Never use SSML break tags.
 4. **Sentence shape**: short. 10-20 words is a single-beat sentence sweet spot, but most beats will hold even less.
 5. **No ALL-CAPS**. Use phrasing for emphasis.
 6. **Keep flow across beats**. Each beat's narration must read naturally after the previous beat's narration — that's why request stitching exists, and you should still write the script as a cohesive whole.
-7. **Add silent beats** generously. After a key claim or a heavy equation step, insert a `[PAUSE 0.5s]` beat with `(silent)` narration. Visual breath = comprehension.
+7. **Silent beats are for deliberate long holds, not routine spacing.** Every mp3 already has ~0.85s of total padding around it (see rule 1). Use `[PAUSE 0.6-1.2s]` beats only after landmark equation reveals, big claims, or act transitions — places where the natural pad isn't enough. Don't insert short `[PAUSE 0.2s]` beats; they're redundant with the audio padding.
 
 ### Audio tags for personality (eleven_v3)
 

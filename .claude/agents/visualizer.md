@@ -32,9 +32,11 @@ Walk `script.md` for every `[MANIM: <name>]` beat. For each:
 
 ### Pacing rules (these are non-negotiable)
 
-- A Manim beat that pairs with a 3-second narration clip should have **2.7-2.9s** of animated content. Then `self.wait(0.3)` to settle. **Do NOT FadeOut at the end** — the composition holds the final mp4 frame, so the last frame must be the satisfying tableau, not black.
+- **Animation-first pacing.** Choose the Manim scene's animated content based on what the block needs to *show* — not by squeezing visuals into the audio's runtime. Audio fits the visual. If a block's `visualBlocks[k].description` lists 5 progressive steps, allocate ~2-4s per step of animated content + a `self.wait(1.5)` final tableau. The block's `durationFrames` will exceed the mp4 length when voice beats spanning the block sum longer; that's correct, the held last frame fills the rest.
+- **End every scene with `self.wait(1.5)` minimum** (longer if the visual carries narrative weight after the last animation). The composition holds the mp4's final frame for any block-time beyond mp4-time, but the *baked-in* tail makes the freeze unambiguously a tableau, not a broken render. **Do NOT FadeOut at the end** — held black is indistinguishable from a render error.
 - Use `LaggedStart(... lag_ratio=0.3)` whenever 2+ visuals appear in the same beat — staggers them readably.
-- A scene's total length should be ≤ its visualBlock's duration. Excess block time auto-fills with the held last frame.
+- A scene's total length should be ≤ its visualBlock's `durationFrames`. Excess block time auto-fills with the held last frame.
+- **Don't try to fit audio to a too-short Manim scene.** If you find a block whose voice beats sum to (say) 12s but your Manim scene is 8s, the answer is to extend the Manim scene's animations or `self.wait(...)` calls, never to ask the producer to compress the narration.
 - Never let a single sub-step exceed 8 seconds without intermediate movement.
 - **Avoid `LaggedStartMap` with `Write`** or any animation-class that decomposes Text into stroke paths. ManimCE 0.19+ deadlocks on multi-Text inputs. Use `LaggedStart(*[FadeIn(x) for x in collection], lag_ratio=...)` instead.
 
@@ -85,6 +87,10 @@ You DO touch it when:
 - Tweaking layout (e.g., paper page on left vs. right for one segment). Prefer per-component props over composition-level branching.
 - Fixing a regression. Always run `npm run typecheck` before invoking the renderer.
 
+**Soft transitions are baked in.** Every visualBlock is wrapped in `<BlockFade>` (in `PaperExplainer.tsx`). It fades the block's contents in over ~8 frames and out over ~9 frames against the dark-navy bg. Adjacent blocks therefore "erase and rewrite" rather than jump-cut — the whole video reads as one continuous canvas. Don't reintroduce hard cuts. If a transition feels too soft for a particular spot, lengthen the Manim scene's held tableau (more `self.wait(...)`) so the fade-out happens *after* the visual has finished saying what it has to say.
+
+**Coalescing-aware authoring (CRITICAL).** The migrator merges *adjacent same-content visualBlocks* into a single block (CLAUDE.md hard-rule #17). For your scenes: when several voice beats sit under the same `[MANIM: scene_name]`, the storyteller should be writing `[VISUAL: continue]` for the follow-on beats — not repeating `[MANIM: scene_name]`. Your job is to write **ONE** Manim scene that progresses through all the numbered steps in the block's `description`, ending on the cumulative tableau. If you ever see two adjacent visualBlocks pointing at the same `mp4` in a manifest, that's a regression of rule #17 — flag it back to the storyteller; don't render two identical scene files. The QA agent (`/.claude/agents/video-qa.md`) catches this as a `visual:flicker` issue.
+
 ### Manifest v2: visualBlocks drive your scene authoring
 
 The manifest is now decoupled into `voice[]` (narration beats) and `visualBlocks[]` (what's on screen). **Author Manim scenes against `visualBlocks`, not voice beats.** Each block carries:
@@ -95,9 +101,10 @@ The manifest is now decoupled into `voice[]` (narration beats) and `visualBlocks
 
 Your scene must:
 
-1. Be **as long as the block's `durationFrames`**, OR end on a held tableau and let the composition's hold-last-frame logic cover the rest (Remotion plays the mp4 once, then holds the final frame for the remaining block duration — no looping).
+1. Be **as long as the block's `durationFrames`**, OR end on a held tableau and let the composition's hold-last-frame logic cover the rest (Remotion plays the mp4 once, then holds the final frame for the remaining block duration — no looping). The block's `durationFrames` is determined by the spanned voice beats' total runtime — *don't* try to compress narration to match a too-short scene; instead extend the scene with longer animations or a longer `self.wait(...)` final tableau.
 2. **Progress through every numbered step in the description over time.** A 5-step description over a 20s block means roughly 4 seconds per step; let one stage settle before the next starts.
 3. Use `LaggedStart`, `TransformMatchingTex`, color-coded variables — the same 3b1b patterns as before — to make each transition land.
+4. End with a **`self.wait(1.5)` minimum** held tableau. The composition will fade the block out over the last ~9 frames against the dark-navy bg; that fade reads as "erasing this page" only if the scene is unambiguously still by the time the fade starts. A scene whose last animation is still moving as the fade begins looks like the renderer dropped frames.
 
 Example: if `visualBlocks[k].description` is a 5-step list and `durationFrames = 600` (20s @ 30fps), structure the scene as:
 

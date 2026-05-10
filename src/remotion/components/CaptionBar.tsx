@@ -104,20 +104,32 @@ export const CaptionBar: React.FC<{ timestampsSrc: string }> = ({ timestampsSrc 
         }}
       >
         {data.words.map((w, i) => {
+          // Guard against zero-duration words and any timestamp coincidences
+          // that would make the activation curve's input range non-monotonic
+          // (Remotion's `interpolate` rejects equal adjacent inputs).
+          const EPS = 1e-3;
+          const wEnd = Math.max(w.end, w.start + EPS);
+          const a0 = w.start - fadeS;
+          const a1 = Math.max(w.start, a0 + EPS);
+          const a2 = Math.max(wEnd, a1 + EPS);
+          const a3 = Math.max(wEnd + fadeS, a2 + EPS);
+
           // Activation curve: 0 → 1 over fadeS before w.start, hold at 1
           // through w.end, then 1 → 0 over fadeS after w.end. This produces
           // a smooth highlight ramp instead of a single-frame pop.
           const activation = interpolate(
             t,
-            [w.start - fadeS, w.start, w.end, w.end + fadeS],
+            [a0, a1, a2, a3],
             [0, 1, 1, 0],
             { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' },
           );
 
           // "Past-ness": once t > w.end + fadeS the word is fully past.
+          const p0 = wEnd;
+          const p1 = Math.max(wEnd + fadeS, p0 + EPS);
           const pastness = interpolate(
             t,
-            [w.end, w.end + fadeS],
+            [p0, p1],
             [0, 1],
             { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' },
           );

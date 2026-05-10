@@ -47,6 +47,10 @@ const ACT_RE = /^##\s+(.+)$/;
 const TITLE_RE = /^#\s+(.+)$/;
 // VISUAL/MANIM use colon (e.g. `[VISUAL: titleCard ...]`); PAUSE is bare (e.g. `[PAUSE 0.5s]`).
 const CUE_RE = /^\[(VISUAL|MANIM):\s*(.+)\]$|^\[(PAUSE)\s+(.+)\]$/i;
+// `[VISUAL: continue]` (or `[CONTINUE]`) inherits the previous beat's visual.
+// Empty / missing cue also inherits — keeps consecutive same-content beats from
+// fragmenting the visual timeline.
+const CONTINUE_RE = /^\[VISUAL:\s*continue\s*\]$|^\[CONTINUE\]$/i;
 const SILENT_RE = /^\(silent\b[^)]*\)$/i;
 const SILENT_WITH_DURATION_RE = /^\(silent\s+([\d.]+)\s*s?\)$/i;
 const NARRATION_RE = /^"(.+)"\s*$/;
@@ -86,9 +90,21 @@ export function parseScript(slug: string): ParsedScript {
   let currentBeatId: string | null = null;
   let currentVisualCue = '';
   let currentNarrationLines: string[] = [];
+  // Tracks the last non-pause visual cue across beats so `[VISUAL: continue]`
+  // (or an absent cue) inherits the previous visual. Eliminates false-positive
+  // "(missing cue)" beats and lets the manifest coalescer merge them.
+  let lastVisualCue = '';
 
   const flush = () => {
     if (!currentBeatId) return;
+    // Inherit previous visual when the beat is narrated and has no cue, or
+    // explicitly says continue.
+    if (
+      currentVisualCue.length === 0 ||
+      CONTINUE_RE.test(currentVisualCue.trim())
+    ) {
+      currentVisualCue = lastVisualCue;
+    }
     const cueLower = currentVisualCue.toLowerCase();
 
     // Pause beat: explicit [PAUSE Xs] cue, no visual.
@@ -145,6 +161,9 @@ export function parseScript(slug: string): ParsedScript {
         narration: text,
       });
     }
+    // Remember the last non-pause cue so a subsequent beat with no cue (or a
+    // `[VISUAL: continue]` cue) inherits the same visual moment.
+    if (currentVisualCue.length > 0) lastVisualCue = currentVisualCue;
     currentBeatId = null;
     currentVisualCue = '';
     currentNarrationLines = [];

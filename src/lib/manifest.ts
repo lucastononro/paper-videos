@@ -158,9 +158,22 @@ export function totalDurationFrames(manifest: Manifest): number {
 /**
  * Migrate a v1 manifest (segments-only) to v2 (voice + visualBlocks) in memory.
  * Voice beats are 1:1 with old segments minus the visual field.
- * VisualBlocks collapse consecutive same-mp4 manimClip segments (and their
- * adjacent pause segments) into single blocks. Other visual kinds (titleCard,
- * equationCard, image, ...) become individual single-segment blocks.
+ * VisualBlocks coalesce **all** kinds of consecutive same-content visuals into
+ * single blocks: same-mp4 manimClips, same-page paperPages with the same focus
+ * + highlightBBox, same-id images / diagrams, same-equation equationCards (full
+ * reveal), identical titleCards. An interleaved `pause` whose surrounding
+ * visuals match continues the run (the visual keeps showing during silence).
+ * Pauses that don't bridge same-content runs become solo pause blocks.
+ *
+ * Why this matters: BlockFade in PaperExplainerCore fades to navy at every
+ * block boundary. If the storyteller emits the same visual cue across N
+ * consecutive narrated beats without coalescing, you get N visible flashes
+ * even though the content is identical. The coalescer eliminates those
+ * spurious fades while preserving genuine scene changes.
+ *
+ * Things that NEVER coalesce: equationStep (each step is a deliberate moment),
+ * pause (silence is intentional). highlightedQuote coalesces only on exact text
+ * match (rare, but consistent).
  *
  * Idempotent: if the manifest already has voice/visualBlocks, returns as-is.
  */
@@ -179,60 +192,86 @@ export function migrateToV2(manifest: Manifest): Manifest {
   }));
 
   const blocks: VisualBlock[] = [];
-  let openManimRun: { mp4: string; sceneFile: string; segs: Segment[] } | null = null;
   let blockCounter = 0;
   const nextBlockId = () => `vb-${String(++blockCounter).padStart(3, '0')}`;
 
-  const flushManimRun = () => {
-    if (!openManimRun) return;
-    const first = openManimRun.segs[0]!;
-    const last = openManimRun.segs[openManimRun.segs.length - 1]!;
+  const isAdjacent = (a: Segment, b: Segment): boolean =>
+    a.startFrame + a.durationFrames === b.startFrame;
+
+  const pushBlockFromSegs = (visual: Visual, segs: Segment[]): void => {
+    const first = segs[0]!;
+    const last = segs[segs.length - 1]!;
     blocks.push({
       id: nextBlockId(),
       startFrame: first.startFrame,
       durationFrames: last.startFrame + last.durationFrames - first.startFrame,
       description: '',
-      visual: {
-        kind: 'manimClip',
-        sceneFile: openManimRun.sceneFile,
-        mp4: openManimRun.mp4,
-      },
+      visual,
     });
-    openManimRun = null;
   };
 
-  for (const seg of manifest.segments) {
-    const lastSeg = openManimRun ? openManimRun.segs[openManimRun.segs.length - 1] : null;
-    const adjacent = lastSeg
-      ? lastSeg.startFrame + lastSeg.durationFrames === seg.startFrame
-      : false;
+  const segs = manifest.segments;
+  let i = 0;
+  while (i < segs.length) {
+    const seg = segs[i]!;
 
-    if (seg.visual.kind === 'manimClip') {
-      if (openManimRun && adjacent && openManimRun.mp4 === seg.visual.mp4) {
-        openManimRun.segs.push(seg);
-      } else {
-        flushManimRun();
-        openManimRun = {
-          mp4: seg.visual.mp4,
-          sceneFile: seg.visual.sceneFile,
-          segs: [seg],
-        };
-      }
-    } else if (seg.visual.kind === 'pause' && openManimRun && adjacent) {
-      // Pause inside a manim run extends the block; the held mp4 keeps showing.
-      openManimRun.segs.push(seg);
-    } else {
-      flushManimRun();
-      blocks.push({
-        id: nextBlockId(),
-        startFrame: seg.startFrame,
-        durationFrames: seg.durationFrames,
-        description: '',
-        visual: seg.visual,
-      });
+    // Pause segments stand alone unless they bridge two same-fingerprint
+    // visuals (handled inside the run grow-loop below).
+    if (seg.visual.kind === 'pause') {
+      pushBlockFromSegs(seg.visual, [seg]);
+      i += 1;
+      continue;
     }
+
+    const fp = visualKey(seg.visual);
+    if (fp === null) {
+      // Never-coalesce kind (e.g. equationStep). Solo block.
+      pushBlockFromSegs(seg.visual, [seg]);
+      i += 1;
+      continue;
+    }
+
+    // Try to grow a run of same-fingerprint segments, optionally bridging
+    // contiguous pauses if a same-fingerprint segment follows them.
+    const runSegs: Segment[] = [seg];
+    let j = i + 1;
+    while (j < segs.length) {
+      const nxt = segs[j]!;
+      const prev = runSegs[runSegs.length - 1]!;
+      if (!isAdjacent(prev, nxt)) break;
+
+      if (nxt.visual.kind === 'pause') {
+        // Look past contiguous pauses for the next non-pause; only absorb if
+        // it continues the same fingerprint and is adjacent.
+        let k = j + 1;
+        while (k < segs.length && segs[k]!.visual.kind === 'pause' && isAdjacent(segs[k - 1]!, segs[k]!)) {
+          k += 1;
+        }
+        const peek = k < segs.length ? segs[k]! : null;
+        if (
+          peek &&
+          peek.visual.kind !== 'pause' &&
+          isAdjacent(segs[k - 1]!, peek) &&
+          visualKey(peek.visual) === fp
+        ) {
+          for (let p = j; p <= k; p += 1) runSegs.push(segs[p]!);
+          j = k + 1;
+          continue;
+        }
+        break;
+      }
+
+      if (visualKey(nxt.visual) === fp) {
+        runSegs.push(nxt);
+        j += 1;
+        continue;
+      }
+      break;
+    }
+
+    pushBlockFromSegs(seg.visual, runSegs);
+    i = j;
   }
-  flushManimRun();
 
   return {
     ...manifest,
@@ -240,6 +279,43 @@ export function migrateToV2(manifest: Manifest): Manifest {
     voice,
     visualBlocks: blocks,
   };
+}
+
+/**
+ * Fingerprint a visual for the coalescer. Two adjacent visuals with the same
+ * fingerprint string merge into a single visual block — fewer block boundaries
+ * means fewer BlockFade flashes for the same content. Returns `null` for kinds
+ * that should never coalesce (equationStep, pause).
+ */
+function visualKey(v: Visual): string | null {
+  switch (v.kind) {
+    case 'manimClip':
+      return `manim:${v.mp4}`;
+    case 'paperPage': {
+      const bb = v.highlightBBox;
+      const bbKey = bb ? `${bb.x},${bb.y},${bb.w},${bb.h}` : '_';
+      return `paperPage:${v.pageIdx}:${v.focus}:${bbKey}`;
+    }
+    case 'highlightedQuote': {
+      const bb = v.bbox;
+      const bbKey = bb ? `${bb.x},${bb.y},${bb.w},${bb.h}` : '_';
+      return `quote:${v.pageIdx}:${bbKey}:${v.text}`;
+    }
+    case 'equationCard':
+      // Full-reveal equation cards can hold across beats; stepwise reveals are
+      // deliberately per-step, so don't coalesce them.
+      return v.reveal === 'all' ? `eq:${v.equationId}` : null;
+    case 'equationStep':
+      return null;
+    case 'image':
+      return `image:${v.assetId}`;
+    case 'diagram':
+      return `diagram:${v.assetId}`;
+    case 'titleCard':
+      return `title:${v.text}|${v.subtitle ?? ''}`;
+    case 'pause':
+      return null;
+  }
 }
 
 export function defaultManifest(args: {

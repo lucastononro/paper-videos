@@ -18,7 +18,10 @@ program.parse();
 const [slug] = program.args as [string];
 
 const raw = readManifestRaw(slug);
-const v2 = migrateToV2(raw);
+// Force re-coalesce even if the manifest already has voice/visualBlocks: the
+// coalescer rules evolve (e.g. when generalized beyond manimClip) and we want
+// `npm run migrate-manifest-v2` to be the canonical "rebuild from segments" tool.
+const v2 = migrateToV2({ ...raw, voice: [], visualBlocks: [] });
 
 // Index beats from script.md by id so we can mine descriptions.
 const script = parseScript(slug);

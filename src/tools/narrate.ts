@@ -24,7 +24,10 @@
 
 import 'dotenv/config';
 import { Command } from 'commander';
+import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
 import { parse as parseYaml } from 'yaml';
 import { ensureSubdir, videoFile } from '../lib/paths.js';
 import { resolveVoice } from '../lib/voices.js';
@@ -37,15 +40,34 @@ import {
   writeTimestamps,
 } from '../lib/timeline.js';
 
+// Default silence pads applied around every generated mp3 so beats don't
+// feel clipped and the cuts between beats have breathing room. Word
+// timestamps are shifted by the leading pad so caption sync stays correct.
+// The trailing pad is the dominant gap between consecutive narrated beats:
+// 0.9s of trailing silence + the segment-build's 0.2s tail + 0.25s leading
+// silence on the next mp3 ≈ 1.35s between speech ends/starts. This is the
+// "audios don't step on each other" margin.
+const DEFAULT_PAD_LEADING_SEC = 0.25;
+const DEFAULT_PAD_TRAILING_SEC = 0.9;
+
 const program = new Command()
   .name('narrate')
   .argument('<slug>')
   .argument('[beat_id]', 'specific beat to render')
   .option('--all', 'generate every missing narrated beat in script.md', false)
-  .option('--force', 'overwrite existing audio files', false);
+  .option('--force', 'overwrite existing audio files', false)
+  .option('--pad-leading <seconds>', 'silence to prepend to each mp3', String(DEFAULT_PAD_LEADING_SEC))
+  .option('--pad-trailing <seconds>', 'silence to append to each mp3', String(DEFAULT_PAD_TRAILING_SEC));
 
 program.parse();
-const opts = program.opts<{ all: boolean; force: boolean }>();
+const opts = program.opts<{
+  all: boolean;
+  force: boolean;
+  padLeading: string;
+  padTrailing: string;
+}>();
+const padLeading = Math.max(0, parseFloat(opts.padLeading));
+const padTrailing = Math.max(0, parseFloat(opts.padTrailing));
 const [slug, beatArg] = program.args as [string, string | undefined];
 
 const apiKey = process.env['ELEVENLABS_API_KEY'];
@@ -90,8 +112,13 @@ for (const beatId of targets) {
   }
 
   // Request stitching: pull surrounding narrated beats.
-  const prev = idx > 0 ? allNarrated[idx - 1]!.narration : undefined;
-  const next = idx < allNarrated.length - 1 ? allNarrated[idx + 1]!.narration : undefined;
+  // Note: eleven_v3 does not currently support previous_text/next_text — the API
+  // returns 400 unsupported_model. Skip stitching on v3 to keep TTS working;
+  // prosody continuity comes from the per-beat audio tags instead.
+  const stitchable = voice.model_id !== 'eleven_v3';
+  const prev = stitchable && idx > 0 ? allNarrated[idx - 1]!.narration : undefined;
+  const next =
+    stitchable && idx < allNarrated.length - 1 ? allNarrated[idx + 1]!.narration : undefined;
 
   console.log(
     `Synthesizing ${beatId} (${beat.narration.length} chars) [voice=${voiceAlias}, prev=${!!prev}, next=${!!next}] ...`,
@@ -112,11 +139,20 @@ for (const beatId of targets) {
     },
     outputFormat: voice.output_format,
   });
-  fs.writeFileSync(mp3, audioMp3);
-  const words = charsToWords(charAlignment);
+  // Pad the raw mp3 with leading + trailing silence (if requested) and
+  // shift word timestamps by the leading pad so caption sync stays aligned.
+  const paddedMp3 = padMp3(audioMp3, padLeading, padTrailing);
+  fs.writeFileSync(mp3, paddedMp3);
+
+  const rawWords = charsToWords(charAlignment);
+  const words = rawWords.map((w) => ({
+    ...w,
+    start: w.start + padLeading,
+    end: w.end + padLeading,
+  }));
   const payload: SegmentTimestamps = {
     segmentId: beatId,
-    audioDurationSeconds: audioDurationSeconds(words),
+    audioDurationSeconds: audioDurationSeconds(words) + padTrailing,
     words,
   };
   writeTimestamps(ts, payload);
@@ -190,4 +226,45 @@ function readConfigYaml(slug: string): { voice?: string } {
   if (!fs.existsSync(p)) return {};
   const data = parseYaml(fs.readFileSync(p, 'utf8')) as { voice?: string };
   return data ?? {};
+}
+
+// Prepend `lead` and append `trail` seconds of silence to the given mp3
+// buffer using ffmpeg's adelay + apad filters. Returns the padded buffer.
+// If both pads are 0 (or ffmpeg is missing), returns the input unchanged.
+function padMp3(input: Buffer, lead: number, trail: number): Buffer {
+  if (lead <= 0 && trail <= 0) return input;
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'narrate-pad-'));
+  const inFile = path.join(tmp, 'in.mp3');
+  const outFile = path.join(tmp, 'out.mp3');
+  fs.writeFileSync(inFile, input);
+  // adelay expects ms, applied per channel — `=delays=Nms:all=1` pads the
+  // signal start with N ms of silence on every channel. apad with pad_dur
+  // appends N seconds of silence to the end of the stream.
+  const filters: string[] = [];
+  if (lead > 0) filters.push(`adelay=delays=${Math.round(lead * 1000)}:all=1`);
+  if (trail > 0) filters.push(`apad=pad_dur=${trail.toFixed(3)}`);
+  const args = [
+    '-y',
+    '-loglevel',
+    'error',
+    '-i',
+    inFile,
+    '-af',
+    filters.join(','),
+    '-c:a',
+    'libmp3lame',
+    '-q:a',
+    '2',
+    outFile,
+  ];
+  const r = spawnSync('ffmpeg', args, { stdio: 'pipe' });
+  if (r.status !== 0) {
+    fs.rmSync(tmp, { recursive: true, force: true });
+    throw new Error(
+      `ffmpeg failed (exit ${r.status}): ${r.stderr?.toString().slice(0, 500) ?? ''}`,
+    );
+  }
+  const out = fs.readFileSync(outFile);
+  fs.rmSync(tmp, { recursive: true, force: true });
+  return out;
 }

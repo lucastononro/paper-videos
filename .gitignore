@@ -32,6 +32,7 @@ videos/*/manim/
 videos/*/public/
 videos/*/output.*
 videos/*/.cache/
+videos/*/qa-report.json
 
 # Manim caches anywhere
 media/

@@ -7,6 +7,10 @@
   "engines": {
     "node": ">=20"
   },
+  "workspaces": [
+    "editor/server",
+    "editor/client"
+  ],
   "scripts": {
     "tool": "tsx",
     "fetch-paper": "tsx src/tools/fetch-paper.ts",
@@ -17,9 +21,13 @@
     "render-manim": "tsx src/tools/render-manim.ts",
     "render-remotion": "tsx src/tools/render-remotion.ts",
     "migrate-manifest-v2": "tsx src/tools/migrate-manifest-v2.ts",
+    "qa": "tsx src/tools/qa.ts",
     "remotion:studio": "remotion studio src/remotion/index.ts",
     "typecheck": "tsc --noEmit",
-    "format": "prettier --write \"src/**/*.{ts,tsx}\""
+    "format": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "editor:server": "tsx watch editor/server/src/index.ts",
+    "editor:client": "vite editor/client --port 5173",
+    "editor:dev": "concurrently -n server,client -c blue,green \"npm run editor:server\" \"npm run editor:client\""
   },
   "dependencies": {
     "@elevenlabs/elevenlabs-js": "^2.0.0",
@@ -42,6 +50,7 @@
     "@types/node": "^22.7.4",
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.0",
+    "concurrently": "^9.0.1",
     "prettier": "^3.3.3",
     "tsx": "^4.19.1",
     "typescript": "^5.6.2"

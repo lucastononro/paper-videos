@@ -21,7 +21,7 @@ Before generating any audio:
 2. **Model + tag compatibility**: confirm the resolved voice's `model_id` is `eleven_v3` (default) — required for audio tags to land. If the voice is on `eleven_multilingual_v2` and the script contains `[tag]` markers, ElevenLabs will read the brackets aloud. Either switch the voice's model to v3 in `voices.yaml`, or ask the storyteller to strip the tags. Don't generate audio with a mismatch.
 3. **API key**: confirm `ELEVENLABS_API_KEY` is set in `.env`. If not, stop and ask.
 4. **Cost estimate**: sum every quoted narration string's char count, including the bracketed tags (charged on input). Multiply by 1.05 (safety margin). If > 25 000 chars and the user hasn't confirmed, stop and ask.
-5. **Per-beat length check**: any narration line over 200 chars (excluding tags) is suspicious. Flag it back to the storyteller — beats should be 5-25 words.
+5. **Per-beat length check**: any narration line over 300 chars (excluding tags) is suspicious. Flag it back to the storyteller — beats should be 8-40 words.
 6. **Tag sanity check**: scan the script for tags outside the curated list in `references/usage/elevenlabs/README.md` section 3a. If you find `[laughs]`, `[shouts]`, accent tags, or any "theatrical" tag, flag back to the storyteller — academic content shouldn't use them.
 7. **Beat ordering**: every `### beat-NNN` is sequential, no gaps, no duplicates.
 
@@ -36,9 +36,12 @@ npm run narrate -- <slug> beat-NNN
 `narrate.ts` will:
 - Parse the beat's narration line from `script.md`.
 - Resolve the voice alias → ElevenLabs settings.
-- Auto-populate `previous_text` from the previous narrated beat and `next_text` from the next narrated beat (request stitching → prosody continuity across beat cuts).
+- Auto-populate `previous_text` from the previous narrated beat and `next_text` from the next narrated beat (request stitching → prosody continuity across beat cuts). On `eleven_v3` voices, stitching is disabled (API rejects it) and continuity rests on the embedded audio tags instead.
 - Call `text-to-speech/{voice_id}/with-timestamps`.
+- **Pad each generated mp3 with leading + trailing silence** via ffmpeg (defaults: `--pad-leading 0.25` + `--pad-trailing 0.6` seconds). The pads give every beat breathing room at the cuts and prevent the "rushed" feel of back-to-back synthesis. Word timestamps are shifted by the leading pad so caption sync stays correct, and `audioDurationSeconds` includes both pads so the manifest's beat duration grows naturally.
 - Write `narration/beat-NNN.mp3` + `narration/beat-NNN.timestamps.json`.
+
+**Adjusting the pads**: pass `--pad-leading <sec>` / `--pad-trailing <sec>` to `npm run narrate` if a particular video needs different defaults (e.g., `--pad-trailing 1.0` for a slower, more contemplative pace). Don't disable padding entirely without a strong reason — an unpadded mp3 sounds clipped.
 
 **Sequence the calls — never parallelize.** Stitching only works if previous_text refers to actually-spoken context, and ElevenLabs rate-limits.
 

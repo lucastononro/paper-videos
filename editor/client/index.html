@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><text y='52' font-size='52'>📄</text></svg>" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>paper-videos editor</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #0e1117;
+        --bg-elev: #161b22;
+        --bg-elev-2: #1c2330;
+        --border: #2a313c;
+        --text: #e6edf3;
+        --text-mute: #8b949e;
+        --accent: #ffd866;
+      }
+      * { box-sizing: border-box; }
+      html, body, #root { height: 100%; margin: 0; }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
