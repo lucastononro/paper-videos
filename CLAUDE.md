@@ -15,20 +15,29 @@ references/raw-packages/{manim,remotion,3b1b-videos}/  # Full upstream — grep 
 videos/<slug>/    # One folder per video; never write outputs anywhere else
 ```
 
-## The pipeline (six specialist agents in order)
+## The pipeline (specialist agents in order)
+
+Two modes:
 
 ```
-paper-extractor → critic → storyteller → asset-fetcher → producer → visualizer → output.mp4
+Paper mode (input = arxiv id / URL / PDF path):
+  fetch-paper → paper-extractor → critic → storyteller → asset-fetcher → producer → visualizer → output.mp4
+
+Topic mode (input = free-form prompt, e.g. "Galois theory"):
+  new-topic → critic → storyteller → asset-fetcher → producer → visualizer → output.mp4
+                  └─► (critic may opportunistically pull a paper mid-run → fetch-paper + paper-extractor → re-critic)
 ```
 
-| Agent | Reads | Writes |
-|---|---|---|
-| **paper-extractor** | `paper.pdf` | `paper.md`, `equations.json`, `pages/page-NNN.png`, `paper-md-assets/` |
-| **critic** | `paper.md`, `equations.json`, web | `brief.json` (creative brief: thesis, narrative arc, what to cut, what confuses, visual suggestions) |
-| **storyteller** | `brief.json`, `paper.md`, `equations.json` | `script.md` (beat-by-beat storyboard with one short narration clip per visual moment) |
-| **asset-fetcher** | `script.md`, `brief.json`, paper figures, web | `images/img-NNN.png`, `diagrams/diag-NNN.svg`, `assets-index.json` |
-| **producer** | `script.md`, `voices.yaml`, `.env` | `narration/beat-NNN.{mp3,timestamps.json}`, updated `manifest.json` |
-| **visualizer** | All of the above | `manim/beat-NNN.{py,mp4}`, final `output.mp4` via Remotion |
+`src/lib/slug.ts:classifySource` is the canonical router. Inputs are classified as `arxiv` / `url` / `local` (paper mode) or `topic` (topic mode).
+
+| Agent | Reads (paper mode) | Reads (topic mode) | Writes |
+|---|---|---|---|
+| **paper-extractor** | `paper.pdf` | (not invoked unless critic opts in via `pullPaper`) | `paper.md`, `equations.json`, `pages/page-NNN.png`, `paper-md-assets/` |
+| **critic** | `paper.md`, `equations.json`, web | `topic.md`, web (and writes `equations.json` from research) | `brief.json` (creative brief; may include `pullPaper` field in topic mode) |
+| **storyteller** | `brief.json`, `paper.md`, `equations.json` | `brief.json`, `topic.md`, `equations.json` (no `paperPage`/`highlightedQuote` cues) | `script.md` (beat-by-beat storyboard with one short narration clip per visual moment) |
+| **asset-fetcher** | `script.md`, `brief.json`, paper figures, web | `script.md`, `brief.json`, web (no `paper-md-assets/`) | `images/img-NNN.png`, `diagrams/diag-NNN.svg`, `assets-index.json` |
+| **producer** | `script.md`, `voices.yaml`, `.env` | (identical) | `narration/beat-NNN.{mp3,timestamps.json}`, updated `manifest.json` |
+| **visualizer** | All of the above | (identical) | `manim/beat-NNN.{py,mp4}`, final `output.mp4` via Remotion |
 
 The orchestrator (you) drives this top-to-bottom, delegating to subagents via the Task tool. Each subagent has its own context window — the brief / script / manifest in `videos/<slug>/` are the persistent contract between them.
 
@@ -49,7 +58,7 @@ A 12-minute video is typically **100-160 beats**, not 30 multi-sentence segments
 ## Hard rules
 
 1. **One video = one folder.** All artifacts for video X live in `videos/<X>/`.
-2. **Equations are sacred.** Pull LaTeX strings only from `equations.json`. Never type LaTeX from memory of the paper.
+2. **Equations are sacred.** Pull LaTeX strings only from `equations.json`. Never type LaTeX from memory of the paper. In topic mode `equations.json` is populated by the critic from their research (textbooks, canonical sources) rather than by Marker — same contract, different upstream.
 3. **Audio drives the timeline.** Every `<Sequence>` range in Remotion comes from word-level timestamps. Do not hand-pick frames.
 4. **Beats are sized for breathing.** 8-40 words of narration per beat, 2-10 seconds, ≤300 chars. Each generated mp3 is auto-padded with leading + trailing silence by `narrate.ts` (defaults 0.25s / 0.9s, configurable via `--pad-leading` / `--pad-trailing`). Word timestamps shift to keep caption sync. Effective gap between consecutive narrated beats: ~1.35s (0.9s trailing pad + 0.2s segment tail + 0.25s next-beat leading pad). Don't hand-write `[PAUSE 0.2s]` beats in addition to the natural pad — only use `[PAUSE Xs]` when you need a deliberately long beat (≥0.6s) for emphasis.
 5. **Tools are JSON in / JSON out.** After running a script, read its output before continuing.
@@ -84,6 +93,8 @@ A 12-minute video is typically **100-160 beats**, not 30 multi-sentence segments
 24. **Don't rename assets to defeat browser cache — overwrite in place.** When you regenerate `images/img-NNN.png`, `diagrams/diag-NNN.svg`, `pages/page-NNN.png`, or any Manim mp4, write the same filename. The harness handles cache-busting via two pieces: (a) the chokidar watcher (`editor/server/src/watch.ts`) covers `images/`, `diagrams/`, `paper-md-assets/`, `pages/`, `narration/`, `manim/*.mp4`, and `manifest.json` — any change in those paths fires a `preview:reload` event with a 600ms debounce; (b) the editor bumps a `cacheBustKey` on every reload and threads it through `PaperExplainerCore` as a `?v=<key>` query param appended to every resolved asset URL — so a regenerated file (same path, new bytes) always reaches the browser. Don't generate `img-NNN.v2.png` or rename `img-NNN.png → img-NNN-2026-05-10.png` and update `assets-index.json` — that's the old workaround from before the watcher and cache-bust were wired up. Stable filenames are an invariant the rest of the pipeline (assets-index, script.md, prepare-preview) relies on. If the player still shows stale bytes, the bug is in the watcher / cacheBustKey path, not in the asset name — report it.
 
 25. **Equation explanations get contour + breakdown — never leave the viewer scanning.** When a beat's narration names a sub-expression of an on-screen equation ("the softmax here", "this denominator", "the temperature parameter beta"), the Manim scene MUST visibly point at that sub-expression. Two patterns, both implemented as reusable helpers in `references/usage/manim/equation-explanation.py`: (a) **`contour_flash(scene, mob)`** — a rounded `SurroundingRectangle` traces around the named part in ~0.4s, holds ~1.2s, fades ~0.35s; use for passing references (the voice names the part and moves on). (b) **`explain_part(scene, equation, part, label)`** — the part slides off-center, scales up by 1.6×, a short Tex label appears below it; the rest of the equation dims to 30%; after `hold` seconds it slides back; use when the voice unpacks the part for 3+ seconds. The visualizer paste-imports these helpers at the top of the scene file (same pattern as `fit_to_frame`). The storyteller signals which via the `[MANIM: ...]` `description="..."` text: `contour: <part>` (passing) or `breakdown: <part> as "<label>"` (sustained). Without these, the viewer hears "the softmax here" and has to scan the equation to find it — comprehension lag breaks the lecture rhythm and is the single biggest tell that a video was assembled from generic narration rather than authored as an explanation. The QA layer doesn't catch this automatically (no schema marker for "should have a contour") — it's a doctrine the storyteller and visualizer enforce on each other.
+
+26. **Paper is optional. Two modes: paper and topic.** This framework produces educational explainer videos — academic papers are one input type, not a requirement. `src/lib/slug.ts:classifySource` routes input by shape: arxiv id / arxiv URL / http(s) URL ending in `.pdf` / local `.pdf` path → **paper mode** (`fetch-paper` → `paper-extractor` → ...). Anything else (`Galois theory`, `explain backpropagation`) → **topic mode** (`new-topic` scaffolds `topic.md` + `config.yaml` with `mode: topic` + manifest; paper-extractor is skipped). In topic mode the critic does its own web research, populates `equations.json` from canonical sources (textbooks, lecture notes, Wikipedia), and writes the brief. The critic MAY emit `pullPaper: { source: "...", whyItMatters: "..." }` in `brief.json` if a canonical paper would materially strengthen the explanation (Rumelhart-Hinton 1986 for backprop, Cox 1946 for Bayes' rule, etc.); the orchestrator then runs `fetch-paper` + `paper-extractor` mid-pipeline and re-delegates the critic to refine. The storyteller cannot emit `[VISUAL: paperPage]` or `[VISUAL: highlightedQuote]` cues in pure topic mode (no paper to point at) and instead leans on `[VISUAL: image src=...]`, `[VISUAL: diagram src=...]`, and `[MANIM: ...]`. The asset-fetcher draws from web + generated SVG only; there's no `paper-md-assets/` directory. Everything else (producer, visualizer, manifest schema, beat timing, captions) is identical between modes.
 
 ## How to invoke `/paper-video`
 

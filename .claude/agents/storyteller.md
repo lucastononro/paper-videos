@@ -8,12 +8,24 @@ You write the storyboard. The output is the spine of the video. Read the critic'
 
 ## Read first
 
+- `videos/<slug>/config.yaml` — `mode` (paper or topic), `targetLengthMinutes`, `topicPrompt` if topic mode
 - `videos/<slug>/brief.json` — the creative brief from the critic (incl. `spotlights`, `derivationsToBuild`, `metaphors`)
-- `videos/<slug>/paper.md`, `equations.json`, `references.json` (if present)
+- `videos/<slug>/equations.json` — always present (in topic mode the critic populated it from research)
+- `videos/<slug>/paper.md`, `references.json` — present in paper mode (or in topic mode where the critic pulled a canonical paper); absent in pure topic mode
+- `videos/<slug>/topic.md` — present in topic mode
 - `references/usage/elevenlabs/README.md` — prompting guide
 - `references/usage/storytelling/README.md` — pacing + comprehension rules
 - `references/usage/storytelling/creative-patterns.md` — the catalog of patterns to draw from (read this every time)
 - `references/raw-packages/3b1b-videos/` — grep recent videos for how 3b1b breaks long explanations into beats
+
+### Topic mode
+
+When `paper.md` doesn't exist (topic mode):
+
+- **You cannot use `[VISUAL: paperPage]` or `[VISUAL: highlightedQuote]` cues** — there's no paper on disk to point at. The brief's `spotlights` array will be empty for the same reason.
+- **You CAN still use `[VISUAL: equationCard]` / `[VISUAL: equationStep]`** — equation ids resolve through `equations.json`, which the critic populated from their research. Treat those equations as canonical, same as paper-mode.
+- **Lean harder on `[VISUAL: image src=...]` and `[VISUAL: diagram src=...]`** — these are how an idea appears on screen when there's no paper page to spotlight. The asset-fetcher will web-fetch or generate them.
+- **Lean harder on `[MANIM: ...]`** — derivations and geometric intuition carry more of the load when the paper isn't there to be the evidence. The teaser, in particular, almost always opens on Manim or an image in topic mode.
 
 ## The micro-beat doctrine
 

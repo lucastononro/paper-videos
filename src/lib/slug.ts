@@ -4,10 +4,21 @@ import path from 'node:path';
 const ARXIV_ID_RE = /^(\d{4}\.\d{4,5})(v\d+)?$/;
 const ARXIV_URL_RE = /arxiv\.org\/(?:abs|pdf)\/(\d{4}\.\d{4,5})(?:v\d+)?(?:\.pdf)?/i;
 
+/** A "source" for a video.
+ *
+ * `arxiv`, `url`, `local` are paper-mode sources — they point at a PDF the
+ * pipeline will fetch and feed through Marker / page rendering.
+ *
+ * `topic` is the open-ended educational-explainer mode: a free-form prompt
+ * like "Galois theory" or "explain backpropagation" routes here, skipping
+ * fetch-paper + paper-extractor. The critic may later opportunistically
+ * pull a canonical paper (e.g. Rumelhart-Hinton 1986 for backprop) in
+ * pipeline mid-flight — that happens in the critic, not at scaffold time. */
 export type PaperSource =
   | { kind: 'arxiv'; value: string; arxivId: string }
   | { kind: 'url'; value: string }
-  | { kind: 'local'; value: string };
+  | { kind: 'local'; value: string }
+  | { kind: 'topic'; value: string };
 
 export function classifySource(input: string): PaperSource {
   if (ARXIV_ID_RE.test(input)) {
@@ -18,10 +29,15 @@ export function classifySource(input: string): PaperSource {
   if (m && m[1]) {
     return { kind: 'arxiv', value: input, arxivId: m[1] };
   }
-  if (/^https?:\/\//.test(input)) {
+  if (/^https?:\/\//i.test(input)) {
     return { kind: 'url', value: input };
   }
-  return { kind: 'local', value: input };
+  // PDF-looking local paths route to paper mode; everything else is a free-form
+  // topic prompt for an educational-explainer video.
+  if (/\.pdf$/i.test(input) || /[/\\]/.test(input)) {
+    return { kind: 'local', value: input };
+  }
+  return { kind: 'topic', value: input };
 }
 
 export function kebab(input: string): string {
@@ -46,6 +62,8 @@ export function slugFromSource(source: PaperSource, title?: string): string {
       return slugFromTitle(path.basename(source.value, path.extname(source.value)));
     case 'url':
       return `url-${shortHash(source.value)}`;
+    case 'topic':
+      return slugFromTitle(source.value);
   }
 }
 

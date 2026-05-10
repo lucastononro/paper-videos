@@ -105,13 +105,28 @@ Visit http://localhost:5173. You see a thumbnail-card gallery of every video in 
 
 ### 3. Tell claude what to make
 
-The editor opens in **chat-only "draft" mode** — no canvas yet. Type something like:
+The editor opens in **chat-only "draft" mode** — no canvas yet. Two ways in:
+
+**Paper mode** — paste an arXiv id, URL, or local PDF path:
 
 ```
 make a video about "Attention Is All You Need" by Vaswani et al
+1706.03762
+~/Downloads/some-paper.pdf
 ```
 
-Or paste an arXiv id (`1706.03762`), URL, or local PDF path. Claude runs `/paper-video new <source> <slug>`, which fetches the PDF, runs the paper-extractor, and seeds `videos/<slug>/`. The player materializes the moment the manifest exists.
+Claude fetches the PDF, runs the paper-extractor, and seeds `videos/<slug>/`.
+
+**Topic mode** — give a free-form prompt with no paper attached:
+
+```
+make a video explaining backpropagation
+Galois theory in 10 minutes
+```
+
+Claude scaffolds `videos/<slug>/topic.md` and skips paper extraction. The critic does its own research (textbooks, web, canonical sources) and may opportunistically pull a canonical paper if one would materially strengthen the explanation. Topic mode is the path for educational explainers that aren't tied to a single paper.
+
+The player materializes the moment the manifest exists in either mode.
 
 Claude will ask one question early on: **"Render bottom captions over the video? (default no)"**. Pick from the in-panel question card; your answer flows back as the next chat turn. Captions are off by default.
 
@@ -234,7 +249,8 @@ The orchestrator's job ends after the visualizer has placed every Manim mp4. It 
 You can drive the whole pipeline from the CLI without the editor — useful for headless runs, CI, scripts.
 
 ```bash
-npm run fetch-paper -- <id|url|path> <slug>      # download PDF + seed config
+npm run fetch-paper -- <id|url|path> <slug>      # paper mode: download PDF + seed config
+npm run new-topic -- "<topic prompt>" <slug>     # topic mode: scaffold topic.md + manifest (no paper)
 npm run extract-paper -- <slug>                  # Marker → paper.md + equations.json
 npm run render-pages -- <slug>                   # pdfjs → pages/page-NNN.png
 npm run arxiv-search -- "<query>"                # arXiv search, JSON to stdout

@@ -32,6 +32,15 @@ const [sourceArg, slugArg] = program.args as [string, string | undefined];
 const source = classifySource(sourceArg);
 const slug = slugArg ?? slugFromSource(source);
 
+if (source.kind === 'topic') {
+  console.error(
+    `fetch-paper: input "${sourceArg}" looks like a topic prompt, not a paper.\n` +
+      `For topic-mode videos (no paper), use:\n` +
+      `    npm run new-topic -- "${sourceArg}" ${slug}\n`,
+  );
+  process.exit(1);
+}
+
 ensureVideoDir(slug);
 const targetPdf = videoFile(slug, 'paper.pdf');
 
@@ -77,6 +86,10 @@ async function fetchPdf(src: ReturnType<typeof classifySource>, dest: string): P
       fs.copyFileSync(abs, dest);
       return;
     }
+    case 'topic':
+      // Already filtered out at the top of this file; the case is here for
+      // exhaustiveness so TS narrows the discriminant correctly.
+      throw new Error('topic-mode sources cannot be fetched as a PDF');
   }
 }
 

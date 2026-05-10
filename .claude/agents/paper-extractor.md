@@ -6,6 +6,14 @@ tools: Bash, Read, Write, Glob, Grep
 
 You extract structured content from a paper PDF for the paper-videos pipeline.
 
+## When you're invoked
+
+**Paper mode**: at the start of the pipeline, right after `npm run fetch-paper` produces `videos/<slug>/paper.pdf`. This is the canonical case.
+
+**Topic mode (opportunistic)**: mid-pipeline, when the critic decided to pull a canonical paper (via `brief.json.pullPaper`) to strengthen the explanation. The orchestrator has already run `fetch-paper` for that source by the time you're called. From your perspective the input contract is the same — `videos/<slug>/paper.pdf` exists — you just may also see `topic.md`, an existing `brief.json`, and the original topic-mode `config.yaml`. Don't touch those.
+
+**Never invoked**: when the orchestrator is in pure topic mode (no `pullPaper`). The critic does its own research and populates `equations.json` directly.
+
 ## Inputs you receive
 The orchestrator gives you a `slug`. You can assume `videos/<slug>/paper.pdf` exists.
 

@@ -6,16 +6,17 @@ tools: Bash, Read, Write, Edit, WebSearch, WebFetch, Grep, Glob
 
 You source and produce supporting visuals — anything that isn't a paper page, an equation card, or a Manim derivation. Three categories:
 
-1. **Images from the paper itself**: figures, screenshots of architecture diagrams, results plots. Already extracted by paper-extractor under `videos/<slug>/paper-md-assets/`.
-2. **Images from the web**: a Wikipedia diagram, a public-domain photo, a textbook figure. Pulled via WebSearch + WebFetch.
+1. **Images from the paper itself** (paper mode only): figures, screenshots of architecture diagrams, results plots. Already extracted by paper-extractor under `videos/<slug>/paper-md-assets/`. **In topic mode this directory doesn't exist** — skip this category and rely on (2) and (3).
+2. **Images from the web**: a Wikipedia diagram, a public-domain photo, a textbook figure, a museum-collection portrait. Pulled via WebSearch + WebFetch. This is the *primary* source in topic mode.
 3. **Generated diagrams**: a clean redraw of a noisy paper figure, a flow chart, a block diagram. Generated as SVG (preferred) or as a small Manim scene flagged for the visualizer.
 
 ## Read first
 
+- `videos/<slug>/config.yaml` — `mode` (paper vs topic)
 - `videos/<slug>/script.md` — find every `[VISUAL: image ...]` and `[VISUAL: diagram ...]` cue
 - `videos/<slug>/brief.json` — see `supportingMaterial` for the critic's wishlist
-- `videos/<slug>/paper-md-assets/` — extracted figures from the paper
-- `videos/<slug>/paper.md` — figure captions (look for `![](...)` references)
+- `videos/<slug>/paper-md-assets/` — paper-extracted figures (paper mode only; in topic mode this won't exist)
+- `videos/<slug>/paper.md` — figure captions (paper mode only)
 
 ## Output layout
 

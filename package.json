@@ -14,6 +14,7 @@
   "scripts": {
     "tool": "tsx",
     "fetch-paper": "tsx src/tools/fetch-paper.ts",
+    "new-topic": "tsx src/tools/new-topic.ts",
     "extract-paper": "tsx src/tools/extract-paper.ts",
     "render-pages": "tsx src/tools/render-pages.ts",
     "arxiv-search": "tsx src/tools/arxiv-search.ts",

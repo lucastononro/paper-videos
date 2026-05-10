@@ -98,6 +98,8 @@ const PaperSourceSchema = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('arxiv'), value: z.string(), arxivId: z.string() }),
   z.object({ kind: z.literal('url'), value: z.string() }),
   z.object({ kind: z.literal('local'), value: z.string() }),
+  // 'topic' = no paper PDF; free-form educational explainer prompt.
+  z.object({ kind: z.literal('topic'), value: z.string() }),
 ]);
 
 export const ManifestSchema = z.object({
