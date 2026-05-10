@@ -387,13 +387,38 @@ export async function rebuildSegmentsFromScript(
   // Resolve a paperPage / highlightedQuote visual's bbox from its quote text
   // when one is present and no manual bbox was provided. Misses log a warning
   // and leave the visual without a highlight.
+  //
+  // Auto-zoom heuristic: when a paperPage highlight covers a small region of
+  // the page (a single-line caption, a subscript inside a figure, a margin
+  // note), the text inside is unreadable at full-page scale. We default to
+  // `zoom: true` for those — the renderer crops to the bbox and scales up,
+  // with the page-mini in the corner preserving spatial context. The
+  // storyteller can still set `zoom=false` explicitly to override.
+  //
+  // Threshold: the highlighted region must be tall enough OR cover enough
+  // page area to read at full-page scale. Empirically, h < 0.08 (single
+  // line of body text) or area < 0.04 (≈ 5cm² on letter paper) reads as
+  // tiny — auto-zoom kicks in.
+  const shouldAutoZoom = (bbox: { x: number; y: number; w: number; h: number }): boolean => {
+    return bbox.h < 0.08 || bbox.h * bbox.w < 0.04;
+  };
   const enrichVisual = async (v: Visual): Promise<Visual> => {
     if (v.kind === 'paperPage' && v.quote && !v.highlightBBox) {
       const bbox = await resolveBBox(slug, v.pageIdx + 1, v.quote);
-      if (bbox) return { ...v, highlightBBox: bbox };
+      if (bbox) {
+        const zoom = v.zoom !== undefined ? v.zoom : shouldAutoZoom(bbox);
+        return { ...v, highlightBBox: bbox, ...(zoom ? { zoom: true } : {}) };
+      }
       console.warn(
         `[resolve-bbox] quote not found on page ${v.pageIdx + 1}: "${v.quote.slice(0, 80)}…"`,
       );
+      return v;
+    }
+    // Already-highlighted paperPage with manual bbox: still apply auto-zoom
+    // when the manual bbox is small. Same logic; storyteller's explicit
+    // zoom setting wins.
+    if (v.kind === 'paperPage' && v.highlightBBox && v.zoom === undefined) {
+      if (shouldAutoZoom(v.highlightBBox)) return { ...v, zoom: true };
       return v;
     }
     if (v.kind === 'highlightedQuote' && v.text && !v.bbox) {

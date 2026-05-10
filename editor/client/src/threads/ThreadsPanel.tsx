@@ -38,40 +38,69 @@ export const ThreadsPanel: React.FC<{ slug: string; onClose: () => void }> = ({
   const selectThread = useThreadStore((s) => s.selectThread);
   const setDraft = useThreadStore((s) => s.setDraft);
 
-  const selected = threads.find((t) => t.id === selectedId) ?? null;
+  // Active tab: "draft" if the user is composing a brand-new spot-edit;
+  // otherwise the selected thread id; otherwise the most-recent thread.
+  const fallbackId = threads[threads.length - 1]?.id ?? null;
+  const activeThreadId = !draft ? (selectedId ?? fallbackId) : null;
+  const selected = threads.find((t) => t.id === activeThreadId) ?? null;
 
   return (
     <div className="threads-panel">
       <div className="threads-panel-header">
         <span className="threads-panel-title">Spot edits</span>
         <span className="threads-panel-count">
-          {threads.length === 0 ? 'no threads' : `${threads.length} thread${threads.length === 1 ? '' : 's'}`}
+          {threads.length === 0 && !draft
+            ? 'no threads'
+            : `${threads.length + (draft ? 1 : 0)} ${threads.length + (draft ? 1 : 0) === 1 ? 'thread' : 'threads'}`}
         </span>
         <span style={{ flex: 1 }} />
         <button type="button" className="threads-panel-close" onClick={onClose} title="Close">
           ✕
         </button>
       </div>
-      <div className="threads-panel-list">
-        {threads.length === 0 && !draft && (
-          <div className="threads-panel-empty">
-            Select a beat or block in the timeline below the player, then click&nbsp;
-            <strong>Spot-edit ↗</strong> to start an async thread scoped to it.
-          </div>
-        )}
-        {threads.map((t) => (
-          <ThreadCard
-            key={t.id}
-            thread={t}
-            selected={!draft && t.id === selectedId}
-            onSelect={() => selectThread(slug, t.id)}
-          />
-        ))}
-      </div>
-      {/* Draft composer takes priority over thread detail — the user just
-          opened a fresh "Spot-edit" affordance and is about to type their
-          ask. Selected thread stays in the list (collapsed) until composer
-          is dismissed or thread:created arrives. */}
+
+      {/* Horizontal tab strip — one tab per active spot-edit thread, plus
+          a "New" tab when a draft is in progress. Click a tab to switch
+          between concurrently-running spot-edits without losing the others'
+          state. The strip scrolls horizontally when there are too many. */}
+      {(threads.length > 0 || draft) && (
+        <div className="threads-panel-tabs">
+          {threads.map((t) => (
+            <ThreadTab
+              key={t.id}
+              thread={t}
+              active={!draft && t.id === activeThreadId}
+              onSelect={() => {
+                if (draft) setDraft(slug, null);
+                selectThread(slug, t.id);
+              }}
+            />
+          ))}
+          {draft && (
+            <button
+              type="button"
+              className="thread-tab is-active is-draft"
+              onClick={() => {
+                /* already active */
+              }}
+              title="New spot-edit being composed"
+            >
+              <span className="thread-pill tone-neutral">New</span>
+              <span className="thread-tab-label">{shortScope(draft.scope)}</span>
+            </button>
+          )}
+        </div>
+      )}
+
+      {threads.length === 0 && !draft && (
+        <div className="threads-panel-empty">
+          Drag a time crop on the filmstrip and click&nbsp;
+          <strong>↗ Spot-edit</strong> to start an async claude thread scoped to that range.
+        </div>
+      )}
+
+      {/* Detail of whichever tab is active. Drafts get the composer; an
+          active thread gets the chat detail. */}
       {draft ? (
         <ThreadComposer
           slug={slug}
@@ -85,6 +114,43 @@ export const ThreadsPanel: React.FC<{ slug: string; onClose: () => void }> = ({
     </div>
   );
 };
+
+/** Compact horizontal tab. Status pill + scope label. */
+const ThreadTab: React.FC<{
+  thread: ThreadView;
+  active: boolean;
+  onSelect: () => void;
+}> = ({ thread, active, onSelect }) => {
+  const tone = STATUS_TONE[thread.status];
+  return (
+    <button
+      type="button"
+      className={`thread-tab ${active ? 'is-active' : ''}`}
+      onClick={onSelect}
+      title={thread.initialAsk}
+    >
+      <span className={`thread-pill ${tone}`}>
+        {thread.status === 'running' && <span className="thread-pill-spinner" />}
+        {STATUS_LABEL[thread.status]}
+      </span>
+      <span className="thread-tab-label">
+        {thread.scope.label ||
+          [thread.scope.beatIds.join(','), thread.scope.blockIds.join(',')]
+            .filter(Boolean)
+            .join(' + ') ||
+          '(scope)'}
+      </span>
+    </button>
+  );
+};
+
+function shortScope(s: ThreadScope): string {
+  if (s.label) return s.label;
+  const parts: string[] = [];
+  if (s.beatIds.length) parts.push(s.beatIds.join(','));
+  if (s.blockIds.length) parts.push(s.blockIds.join(','));
+  return parts.join(' + ') || '(scope)';
+}
 
 /**
  * In-panel composer for a new thread. Replaces the old window.prompt popup —

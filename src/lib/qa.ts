@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { videoDir, videoFile } from './paths.js';
 import { readManifest, type Manifest, type Visual } from './manifest.js';
+import { isLatexBalanced, splitLatex } from './split-latex.js';
 
 export type Severity = 'error' | 'warning' | 'info';
 
@@ -50,6 +51,29 @@ export function runQa(slug: string): QaReport {
     try {
       const arr = JSON.parse(fs.readFileSync(equationsPath, 'utf8')) as Array<{ id: string; latex: string }>;
       equationsById = new Map(arr.map((e) => [e.id, { latex: e.latex }]));
+      // Regression guard for the matrix-tear bug: every equation rendered
+      // stepwise gets `splitLatex(latex)`-ed, and each fragment must have
+      // balanced `\begin{…}\end{…}`. If the splitter ever stops being
+      // depth-aware (or someone fixes a different bug by reverting it),
+      // this surfaces as an `equation:malformed-split` issue immediately
+      // rather than only showing up as red-text in the rendered mp4.
+      // History: a single Cauchy two-line `\begin{pmatrix}1,2,3\\3,1,2\end{pmatrix}`
+      // was being split at the row separator, producing fragments like
+      // `s_1\begin{pmatrix}1,2,3` (no closing `\end{pmatrix}`).
+      for (const [id, { latex }] of equationsById) {
+        const parts = splitLatex(latex);
+        for (const [idx, part] of parts.entries()) {
+          if (!isLatexBalanced(part)) {
+            issues.push({
+              severity: 'error',
+              kind: 'equation:malformed-split',
+              detail: { equationId: id, fragmentIndex: idx, totalFragments: parts.length, fragment: part.slice(0, 200) },
+              message: `${id} stepwise split produced an unbalanced fragment (\\begin/\\end mismatch) — fragment ${idx + 1}/${parts.length} starts: "${part.slice(0, 80)}…". Likely a regression in splitLatex (depth-aware matrix handling).`,
+              jumpFrame: 0,
+            });
+          }
+        }
+      }
     } catch {
       /* malformed — surface separately */
     }

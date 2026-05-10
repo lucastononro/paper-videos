@@ -14,9 +14,23 @@ export const PlayerPanel: React.FC<{
   slug: string;
   data: FullPreviewData;
   playerRef?: React.MutableRefObject<PlayerRef | null>;
-}> = ({ slug, data, playerRef }) => {
+  /** Cache-bust suffix forwarded to PaperExplainerCore so regenerated assets
+   *  (same filename, new bytes) defeat the browser cache. The editor passes
+   *  its `reloadTick` here. */
+  cacheBustKey?: string | number;
+}> = ({ slug, data, playerRef, cacheBustKey }) => {
   const { manifest } = data;
   const baseUrl = staticAssetBaseUrl(slug);
+  // Persist the user's chosen speed across mounts (per-tab, not per-slug —
+  // someone who likes 2× tends to like it everywhere).
+  const [playbackRate, setPlaybackRate] = React.useState<number>(() => {
+    const v = Number(sessionStorage.getItem('paper-videos:playbackRate'));
+    return Number.isFinite(v) && v > 0 ? v : 1;
+  });
+  const updatePlaybackRate = React.useCallback((rate: number) => {
+    setPlaybackRate(rate);
+    sessionStorage.setItem('paper-videos:playbackRate', String(rate));
+  }, []);
 
   // The manifest can exist but be empty — typical right after `/paper-video new`
   // before the storyteller / producer / visualizer have done anything. Render
@@ -107,15 +121,23 @@ export const PlayerPanel: React.FC<{
               manimDurations: data.manimDurations,
               manimLastFrames: data.manimLastFrames,
               assetBaseUrl: baseUrl,
+              cacheBustKey,
             }}
             durationInFrames={Math.max(1, manifest.totalFrames)}
             compositionWidth={manifest.resolution.width}
             compositionHeight={manifest.resolution.height}
             fps={manifest.fps}
+            playbackRate={playbackRate}
             controls
             clickToPlay
             doubleClickToFullscreen
-            spaceKeyToPlayOrPause
+            // Disable global key shortcuts — Remotion attaches them to
+            // `document`, so spacebar / arrows would intercept anything you
+            // type in the chat textarea (skipping the message, scrubbing
+            // frames, etc.). Click the play/pause button in the controls
+            // instead. Speed shortcuts ([ and ]) handled below scoped to
+            // the player wrapper.
+            spaceKeyToPlayOrPause={false}
             style={{ width: '100%', height: '100%' }}
             acknowledgeRemotionLicense
           />
@@ -128,7 +150,9 @@ export const PlayerPanel: React.FC<{
           fontSize: 12,
           color: 'var(--text-mute)',
           display: 'flex',
-          gap: 24,
+          gap: 16,
+          alignItems: 'center',
+          flexWrap: 'wrap',
         }}
       >
         <span>{manifest.paperTitle}</span>
@@ -136,7 +160,63 @@ export const PlayerPanel: React.FC<{
           {manifest.voice.length} voice beats · {manifest.visualBlocks.length} visual blocks ·{' '}
           {(manifest.totalFrames / manifest.fps).toFixed(1)}s @ {manifest.fps}fps
         </span>
+        <span style={{ flex: 1 }} />
+        <SpeedControl rate={playbackRate} onChange={updatePlaybackRate} />
       </div>
+    </div>
+  );
+};
+
+/**
+ * Compact speed picker — five preset rates that cover the useful range:
+ *   0.5× for studying, 1× normal, 1.5× / 2× / 4× to scrub through.
+ * The active rate gets the gold pill; sessionStorage persistence is in the
+ * parent so the choice survives reload-tick remounts.
+ */
+const SpeedControl: React.FC<{ rate: number; onChange: (r: number) => void }> = ({
+  rate,
+  onChange,
+}) => {
+  const presets = [0.5, 1, 1.5, 2, 4];
+  return (
+    <div
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 4,
+        padding: '2px 6px 2px 8px',
+        border: '1px solid var(--border)',
+        borderRadius: 6,
+        background: 'var(--bg)',
+      }}
+      title="Playback speed"
+    >
+      <span style={{ fontSize: 10, color: 'var(--text-mute)', textTransform: 'uppercase', letterSpacing: 0.4 }}>
+        speed
+      </span>
+      {presets.map((r) => {
+        const active = Math.abs(r - rate) < 0.001;
+        return (
+          <button
+            key={r}
+            type="button"
+            onClick={() => onChange(r)}
+            style={{
+              all: 'unset',
+              cursor: 'pointer',
+              padding: '2px 8px',
+              borderRadius: 4,
+              fontSize: 11,
+              fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
+              fontWeight: active ? 700 : 500,
+              color: active ? '#0e1117' : 'var(--text-mute)',
+              background: active ? '#ffd866' : 'transparent',
+            }}
+          >
+            {r}×
+          </button>
+        );
+      })}
     </div>
   );
 };

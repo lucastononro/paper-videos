@@ -24,6 +24,20 @@ type Session = {
   inFlight: ClaudeRunHandle | null;
   /** Connection ids currently subscribed to this slug's chat. */
   subscribers: Set<string>;
+  /**
+   * Timestamp (ms) up to which thread_notice events have been delivered
+   * into the parent agent's directive. Anything newer than this gets
+   * inlined as `<async_thread_context>` on the next turn and then this
+   * cursor is bumped. In-memory only — server restart redelivers all
+   * notices, which is desirable (the agent's session was reset too).
+   */
+  lastNoticeDeliveredTs: number;
+  /**
+   * Cursor-style message queue: messages typed while a turn is in-flight
+   * land here instead of interrupting. They drain FIFO when the active
+   * turn completes. In-memory only — server restart drops the queue.
+   */
+  queue: Array<{ id: string; text: string; ts: number }>;
 };
 
 type Listener = (slug: string | null, e: ChatEvent) => void;
@@ -99,29 +113,56 @@ class ChatStore {
   }
 
   /**
-   * Send a turn into the slug's chat. If a turn is already in flight, kill it
-   * and start the new one (interrupt-and-redirect, same as before). The raw
-   * user text is recorded as a `user_text` event so replays show it without
-   * needing the client to keep its own copy.
+   * Send a turn into the slug's chat. Cursor-style queuing:
+   *  - If no turn is in flight, the message starts a new turn immediately.
+   *  - If a turn IS in flight, the message is appended to the per-slug
+   *    queue and broadcast as a `chat:queue` event so the UI can render
+   *    a "queued" bubble. When the active turn completes, the queue
+   *    drains FIFO — the first queued message becomes the next turn.
+   *
+   * Old behaviour (interrupt-and-redirect) was lossy: a half-finished
+   * agent reply was killed and the new message often took a beat to echo
+   * back, making the user think the message disappeared.
+   *
+   * To genuinely interrupt the current turn (Stop button), call
+   * `cancel(slug)` separately. That path doesn't enqueue anything.
    */
   async turn(slug: string | null, userText: string): Promise<void> {
     const s = this.ensure(slug);
     if (s.inFlight) {
-      s.inFlight.cancel();
-      try {
-        await s.inFlight.wait;
-      } catch {
-        /* gone */
-      }
-      s.inFlight = null;
+      const id = `qm-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+      s.queue.push({ id, text: userText, ts: Date.now() });
+      this.emitQueue(slug, s);
+      return;
     }
+    await this.runTurn(slug, s, userText);
+  }
 
+  /**
+   * Internal: actually start a turn. Records the user_text event, builds
+   * the directive (with async-thread context), spawns claude, and on
+   * completion drains one item from the queue if anything is pending.
+   */
+  private async runTurn(slug: string | null, s: Session, userText: string): Promise<void> {
     const userEvent: ChatEvent = { kind: 'user_text', text: userText, ts: Date.now() };
     s.events.push(userEvent);
     if (slug) appendChatEvent(slug, userEvent);
     for (const fn of this.listeners) fn(slug, userEvent);
 
-    const directive = buildDirective(slug, userText);
+    // Prepend an `<async_thread_context>` block so the parent agent sees
+    // any pending spot-edit notices + active threads. Lazy import to avoid
+    // a circular dep at module-init time.
+    const pendingNotices = this.consumePendingNotices(slug);
+    let activeThreads: Array<{ scopeLabel: string; status: string }> = [];
+    if (slug) {
+      const { threadStore } = await import('../threads/store.js');
+      const { describeScope } = await import('../threads/directive.js');
+      activeThreads = threadStore.listActive(slug).map((t) => ({
+        scopeLabel: describeScope(t.scope),
+        status: t.status,
+      }));
+    }
+    const directive = buildDirective(slug, userText, { pendingNotices, activeThreads });
     const handle = spawnClaudeTurn({
       text: directive,
       resumeSessionId: s.sessionId,
@@ -135,19 +176,61 @@ class ChatStore {
     s.inFlight = handle;
     this.emitInFlight(slug, true);
 
-    // Don't await here — caller (WS handler) returns immediately so the
-    // socket can keep handling other frames while the turn runs.
+    // Don't await here — caller returns immediately so the WS hub can keep
+    // handling frames. Drain the queue FIFO when this turn completes.
     void handle.wait.finally(() => {
       if (s.inFlight === handle) s.inFlight = null;
       this.emitInFlight(slug, false);
+      const next = s.queue.shift();
+      if (next) {
+        // A queued message is now becoming the active turn. Broadcast the
+        // smaller queue first (so the UI removes it from the queued list),
+        // then start the turn — runTurn will emit user_text which the UI
+        // promotes to a real bubble.
+        this.emitQueue(slug, s);
+        void this.runTurn(slug, s, next.text).catch((err) => {
+          // eslint-disable-next-line no-console
+          console.error('[chat] queued runTurn failed', err);
+        });
+      }
     });
   }
 
-  /** Stop the current turn without sending another. */
+  /** Stop the current turn without sending another. Does NOT touch the queue. */
   cancel(slug: string | null): void {
     const s = this.sessions.get(slug);
     if (!s || !s.inFlight) return;
     s.inFlight.cancel();
+  }
+
+  /**
+   * Remove a queued message (or all of them) without affecting the
+   * currently-running turn. `id` omitted = clear the entire queue.
+   */
+  cancelQueued(slug: string | null, id?: string): void {
+    const s = this.sessions.get(slug);
+    if (!s) return;
+    if (id) {
+      s.queue = s.queue.filter((q) => q.id !== id);
+    } else {
+      s.queue = [];
+    }
+    this.emitQueue(slug, s);
+  }
+
+  /** Snapshot of the queued messages for a slug (for replay on resubscribe). */
+  queueSnapshot(slug: string | null): Array<{ id: string; text: string; ts: number }> {
+    const s = this.sessions.get(slug);
+    return s ? [...s.queue] : [];
+  }
+
+  private emitQueue(slug: string | null, s: Session): void {
+    const event: ChatEvent = {
+      kind: 'chat:queue',
+      slug: slug ?? null,
+      queue: s.queue.map((q) => ({ id: q.id, text: q.text, ts: q.ts })),
+    };
+    for (const fn of this.listeners) fn(slug, event);
   }
 
   /** Wipe a slug's chat (forget session, clear history). Used by reset/clear. */
@@ -158,8 +241,29 @@ class ChatStore {
     s.events = [];
     s.sessionId = null;
     s.inFlight = null;
+    s.queue = [];
     if (slug) clearChatHistory(slug);
     this.emitInFlight(slug, false);
+    this.emitQueue(slug, s);
+  }
+
+  /**
+   * Pull out thread_notice events that haven't been delivered to the parent
+   * agent yet, mark them delivered, and return them so the directive can
+   * inline them as `<async_thread_context>`. Mirrors simp's
+   * `consumePendingThreadNotices` pattern.
+   */
+  consumePendingNotices(slug: string | null): Array<Extract<ChatEvent, { kind: 'thread_notice' }>> {
+    if (!slug) return [];
+    const s = this.ensure(slug);
+    const cutoff = s.lastNoticeDeliveredTs;
+    const pending = s.events
+      .filter((e): e is Extract<ChatEvent, { kind: 'thread_notice' }> => e.kind === 'thread_notice')
+      .filter((e) => e.ts > cutoff);
+    if (pending.length > 0) {
+      s.lastNoticeDeliveredTs = Math.max(...pending.map((e) => e.ts));
+    }
+    return pending;
   }
 
   private ensure(slug: string | null): Session {
@@ -175,6 +279,11 @@ class ChatStore {
         sessionId: loaded.sessionId,
         inFlight: null,
         subscribers: new Set(),
+        // Start the cursor at 0 so any notices already in history (loaded
+        // from disk) get delivered to the parent on its next turn after
+        // the server restart.
+        lastNoticeDeliveredTs: 0,
+        queue: [],
       };
       this.sessions.set(slug, s);
     }

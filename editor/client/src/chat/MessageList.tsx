@@ -10,6 +10,12 @@ import { Markdown } from './Markdown';
  * parent owns: a parent-chat instance forwards it as `chat:turn`, a thread
  * detail forwards it as `thread:turn`. When omitted the card falls back to
  * a chat:turn against `slug`.
+ *
+ * `queued` is the Cursor-style outgoing-message queue: each entry renders
+ * as a "queued" bubble after the live items so the user sees the message
+ * landed even though it hasn't been sent to the agent yet (the server
+ * dequeues it FIFO when the active turn finishes). `onCancelQueued` lets
+ * the user remove a single queued item.
  */
 export const MessageList: React.FC<{
   items: ChatItem[];
@@ -17,11 +23,14 @@ export const MessageList: React.FC<{
   emptyHint?: React.ReactNode;
   slug?: string | null;
   onAnswer?: (text: string) => void;
-}> = ({ items, inFlight, emptyHint, slug, onAnswer }) => {
+  queued?: Array<{ id: string; text: string; ts: number }>;
+  onCancelQueued?: (id: string) => void;
+}> = ({ items, inFlight, emptyHint, slug, onAnswer, queued, onCancelQueued }) => {
   const ref = React.useRef<HTMLDivElement>(null);
+  const queuedKey = (queued ?? []).map((q) => q.id).join(',');
   React.useEffect(() => {
     if (ref.current) ref.current.scrollTop = ref.current.scrollHeight;
-  }, [items, inFlight]);
+  }, [items, inFlight, queuedKey]);
 
   // The "thinking" dots show only when the most recent activity is the user
   // (or a finished tool with no follow-up text yet) — i.e. claude has nothing
@@ -48,14 +57,34 @@ export const MessageList: React.FC<{
         lineHeight: 1.55,
       }}
     >
-      {items.length === 0 && !inFlight && emptyHint}
+      {items.length === 0 && !inFlight && (queued?.length ?? 0) === 0 && emptyHint}
       {items.map((it) => (
         <Item key={it.id} item={it} slug={slug ?? null} onAnswer={onAnswer} />
       ))}
       {(lastVisibleIsUser || lastIsAssistantToolOnly) && <ThinkingDots />}
+      {(queued ?? []).map((q) => (
+        <QueuedItem key={q.id} text={q.text} onCancel={() => onCancelQueued?.(q.id)} />
+      ))}
     </div>
   );
 };
+
+const QueuedItem: React.FC<{ text: string; onCancel: () => void }> = ({ text, onCancel }) => (
+  <div className="chat-msg">
+    <div className="chat-msg-label">queued</div>
+    <div className="chat-bubble-user is-queued" title="Will run after the current turn finishes.">
+      <div className="chat-queued-text">{text}</div>
+      <button
+        type="button"
+        className="chat-queued-cancel"
+        onClick={onCancel}
+        title="Discard this queued message"
+      >
+        ✕
+      </button>
+    </div>
+  </div>
+);
 
 const ThinkingDots: React.FC = () => (
   <div className="chat-thinking" aria-label="thinking">

@@ -208,6 +208,19 @@ export async function cancelRender(slug: string): Promise<void> {
   if (!res.ok) throw new Error(`DELETE render failed: ${res.status}`);
 }
 
+/**
+ * Delete a video folder and all its artifacts (paper, manifest, narration,
+ * Manim mp4s, output.mp4, chat history). Irreversible — the caller MUST
+ * confirm with the user before invoking this.
+ */
+export async function deleteProject(slug: string): Promise<void> {
+  const res = await fetch(`/api/projects/${encodeURIComponent(slug)}`, { method: 'DELETE' });
+  if (!res.ok) {
+    const body = await res.text();
+    throw new Error(`DELETE project failed: ${res.status} ${body.slice(0, 200)}`);
+  }
+}
+
 export function formatDuration(seconds: number): string {
   if (!isFinite(seconds) || seconds <= 0) return '—';
   const m = Math.floor(seconds / 60);

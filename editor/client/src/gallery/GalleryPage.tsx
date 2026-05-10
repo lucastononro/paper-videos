@@ -131,7 +131,13 @@ export const GalleryPage: React.FC = () => {
             }}
           >
             {projects.map((p) => (
-              <ProjectCard key={p.slug} project={p} />
+              <ProjectCard
+                key={p.slug}
+                project={p}
+                onDeleted={(slug) =>
+                  setProjects((prev) => (prev ? prev.filter((x) => x.slug !== slug) : prev))
+                }
+              />
             ))}
           </div>
         )}

@@ -2,6 +2,8 @@ import React from 'react';
 import type { PlayerRef } from '@remotion/player';
 import type { AssetsIndex, ManimLastFrames, Manifest, Visual } from '../api';
 import { staticAssetBaseUrl } from '../api';
+import { useSelection } from '../selection/selection';
+import { useThreadStore } from '../threads/store';
 
 const THUMB_W = 96;
 const THUMB_H = 54; // 16:9
@@ -79,8 +81,25 @@ export const Filmstrip: React.FC<{
   const containerRef = React.useRef<HTMLDivElement>(null);
   const playheadRef = React.useRef<HTMLDivElement>(null);
   const timeLabelRef = React.useRef<HTMLSpanElement>(null);
-  const dragRef = React.useRef(false);
+  // Pointer-gesture bookkeeping. `downFrame` is the frame the user pressed
+  // down at; `dragStarted` flips true once the user has moved more than
+  // DRAG_THRESHOLD_PX away from `downFrame`. Without that threshold every
+  // click would create a 0-frame "range" that's annoying to dismiss.
+  const downFrameRef = React.useRef<number | null>(null);
+  const dragStartedRef = React.useRef(false);
+  const downXRef = React.useRef(0);
   const [width, setWidth] = React.useState(0);
+
+  const sel = useSelection((s) => s.current);
+  const setSel = useSelection((s) => s.set);
+  const setDraft = useThreadStore((s) => s.setDraft);
+  const setPanelOpen = useThreadStore((s) => s.setPanelOpen);
+
+  const range = sel?.kind === 'range' ? sel : null;
+  const rangeStartPct = range ? (range.startFrame / total) * 100 : 0;
+  const rangeWidthPct = range
+    ? Math.max(0.4, ((range.endFrame - range.startFrame) / total) * 100)
+    : 0;
 
   React.useEffect(() => {
     if (!containerRef.current) return;
@@ -113,30 +132,55 @@ export const Filmstrip: React.FC<{
     return () => cancelAnimationFrame(raf);
   }, [total, fps, playerRef]);
 
-  const seekToX = (clientX: number) => {
+  const frameAtX = (clientX: number): number => {
     const rect = containerRef.current?.getBoundingClientRect();
-    if (!rect) return;
+    if (!rect) return 0;
     const x = Math.max(0, Math.min(rect.width, clientX - rect.left));
-    const frame = Math.round((x / rect.width) * (total - 1));
-    playerRef?.current?.seekTo(frame);
+    return Math.round((x / rect.width) * (total - 1));
+  };
+  const seekToX = (clientX: number) => {
+    playerRef?.current?.seekTo(frameAtX(clientX));
   };
 
+  const DRAG_THRESHOLD_PX = 4;
   const onPointerDown = (e: React.PointerEvent) => {
     e.preventDefault();
-    dragRef.current = true;
+    downFrameRef.current = frameAtX(e.clientX);
+    downXRef.current = e.clientX;
+    dragStartedRef.current = false;
     (e.target as HTMLElement).setPointerCapture(e.pointerId);
-    seekToX(e.clientX);
   };
   const onPointerMove = (e: React.PointerEvent) => {
-    if (dragRef.current) seekToX(e.clientX);
+    if (downFrameRef.current === null) return;
+    const moved = Math.abs(e.clientX - downXRef.current) > DRAG_THRESHOLD_PX;
+    if (!dragStartedRef.current && !moved) return;
+    if (!dragStartedRef.current) {
+      dragStartedRef.current = true;
+    }
+    // Live-update the selection range as the pointer moves so the gold band
+    // grows under it.
+    const a = downFrameRef.current;
+    const b = frameAtX(e.clientX);
+    const startFrame = Math.min(a, b);
+    const endFrame = Math.max(a, b);
+    setSel({ kind: 'range', startFrame, endFrame });
   };
   const onPointerUp = (e: React.PointerEvent) => {
-    dragRef.current = false;
     try {
       (e.target as HTMLElement).releasePointerCapture(e.pointerId);
     } catch {
       /* pointer already released */
     }
+    if (downFrameRef.current === null) return;
+    if (dragStartedRef.current) {
+      // Drag finished — selection is already set, leave it. Don't seek.
+    } else {
+      // No drag: this was a click. Seek and clear any prior range.
+      seekToX(e.clientX);
+      if (sel?.kind === 'range') setSel(null);
+    }
+    downFrameRef.current = null;
+    dragStartedRef.current = false;
   };
 
   const thumbCount = Math.max(8, Math.floor(width / THUMB_W));
@@ -179,7 +223,7 @@ export const Filmstrip: React.FC<{
         style={{
           display: 'flex',
           alignItems: 'center',
-          gap: 12,
+          gap: 8,
           marginBottom: 4,
           fontSize: 10,
           color: 'var(--text-mute)',
@@ -188,18 +232,86 @@ export const Filmstrip: React.FC<{
         }}
       >
         <span>filmstrip</span>
-        <span style={{ flex: 1 }} />
-        <span
-          ref={timeLabelRef}
-          style={{
-            fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
-            color: 'var(--text)',
-            textTransform: 'none',
-            letterSpacing: 0,
-          }}
-        >
-          {fmt(0)} / {fmt(totalSecs)}
+        <span style={{ color: 'var(--text-mute)', textTransform: 'none', letterSpacing: 0, fontStyle: 'italic' }}>
+          drag to select a time crop · click to seek
         </span>
+        <span style={{ flex: 1 }} />
+        {range && (
+          <>
+            <span
+              style={{
+                fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
+                color: '#ffd866',
+                textTransform: 'none',
+                letterSpacing: 0,
+                fontWeight: 600,
+              }}
+            >
+              {fmt(range.startFrame / fps)}→{fmt(range.endFrame / fps)} ·{' '}
+              {((range.endFrame - range.startFrame) / fps).toFixed(1)}s
+            </span>
+            <button
+              type="button"
+              onClick={() => {
+                setDraft(slug, {
+                  scope: {
+                    beatIds: [],
+                    blockIds: [],
+                    label: `${fmt(range.startFrame / fps)}→${fmt(range.endFrame / fps)}`,
+                    startFrame: range.startFrame,
+                    endFrame: range.endFrame,
+                  },
+                });
+                setPanelOpen(slug, true);
+              }}
+              title="Open a forked claude thread scoped to this time crop"
+              style={{
+                padding: '2px 8px',
+                background: 'rgba(255, 217, 102, 0.12)',
+                color: '#ffd866',
+                border: '1px solid rgba(255, 217, 102, 0.40)',
+                borderRadius: 4,
+                cursor: 'pointer',
+                fontFamily: 'inherit',
+                fontSize: 10,
+                fontWeight: 600,
+                letterSpacing: 0.4,
+              }}
+            >
+              ↗ Spot-edit
+            </button>
+            <button
+              type="button"
+              onClick={() => setSel(null)}
+              title="Clear selection"
+              style={{
+                padding: '2px 6px',
+                background: 'transparent',
+                color: 'var(--text-mute)',
+                border: '1px solid var(--border)',
+                borderRadius: 4,
+                cursor: 'pointer',
+                fontFamily: 'inherit',
+                fontSize: 10,
+              }}
+            >
+              ✕
+            </button>
+          </>
+        )}
+        {!range && (
+          <span
+            ref={timeLabelRef}
+            style={{
+              fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
+              color: 'var(--text)',
+              textTransform: 'none',
+              letterSpacing: 0,
+            }}
+          >
+            {fmt(0)} / {fmt(totalSecs)}
+          </span>
+        )}
       </div>
       <div
         ref={containerRef}
@@ -262,6 +374,22 @@ export const Filmstrip: React.FC<{
             ) : null}
           </div>
         ))}
+        {range && (
+          <div
+            aria-label="selection"
+            style={{
+              position: 'absolute',
+              top: 0,
+              bottom: 0,
+              left: `${rangeStartPct}%`,
+              width: `${rangeWidthPct}%`,
+              background: 'rgba(255, 217, 102, 0.18)',
+              borderLeft: '2px solid rgba(255, 217, 102, 0.85)',
+              borderRight: '2px solid rgba(255, 217, 102, 0.85)',
+              pointerEvents: 'none',
+            }}
+          />
+        )}
         <div
           ref={playheadRef}
           style={{

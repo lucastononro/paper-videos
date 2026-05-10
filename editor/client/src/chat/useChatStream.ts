@@ -27,11 +27,22 @@ type ChatState = {
    *  Used to gate the "reset on send" behavior; user echo is skipped while
    *  the server hasn't sent its first replay yet. */
   hydratedBySlug: Record<string, boolean>;
+  /**
+   * Cursor-style outgoing-message queue per slug. Populated by the server's
+   * `chat:queue` events when a turn is in flight and the user sends another
+   * message. Each entry renders as a "queued" bubble in the chat AND fuels
+   * the queue strip above the input. Drains FIFO server-side as turns
+   * complete.
+   */
+  queueBySlug: Record<string, Array<{ id: string; text: string; ts: number }>>;
   ingest: (slug: string, e: ServerEvent) => void;
   /** Server-driven replay (called on (re)subscribe). Resets the slug's buffer. */
   replay: (slug: string, events: ServerEvent[]) => void;
   setInFlight: (slug: string, v: boolean) => void;
+  setQueue: (slug: string, queue: Array<{ id: string; text: string; ts: number }>) => void;
   cancel: (slug: string) => void;
+  /** Cancel one queued message (or all of them when `id` is omitted). */
+  cancelQueued: (slug: string, id?: string) => void;
   /** Local-only — clears the visible chat without telling the server. Use the
    *  ChatPanel reset button (which fires `chat:reset` over WS) for a real reset. */
   clearLocal: (slug: string) => void;
@@ -41,7 +52,14 @@ export const useChatStore = create<ChatState>((set, get) => ({
   itemsBySlug: {},
   inFlightBySlug: {},
   hydratedBySlug: {},
+  queueBySlug: {},
   ingest: (slug, e) => {
+    // Queue events are routed separately so they don't try to land in the
+    // applyEvent reducer (which is for items, not pending sends).
+    if (e.kind === 'chat:queue') {
+      set((s) => ({ queueBySlug: { ...s.queueBySlug, [slug]: e.queue } }));
+      return;
+    }
     set((s) => {
       const items = s.itemsBySlug[slug] ?? [];
       const next = applyEvent(items, e);
@@ -68,6 +86,11 @@ export const useChatStore = create<ChatState>((set, get) => ({
   },
   setInFlight: (slug, v) =>
     set((s) => ({ inFlightBySlug: { ...s.inFlightBySlug, [slug]: v } })),
+  setQueue: (slug, queue) =>
+    set((s) => ({ queueBySlug: { ...s.queueBySlug, [slug]: queue } })),
+  cancelQueued: (slug, id) => {
+    ws.send({ kind: 'chat:cancel-queued', slug, ...(id ? { id } : {}) });
+  },
   cancel: (slug) => {
     ws.send({ kind: 'chat:cancel' });
     const items = get().itemsBySlug[slug] ?? [];
@@ -161,15 +184,27 @@ function applyEvent(items: ChatItem[], e: ServerEvent): ChatItem[] {
     case 'thread_notice': {
       // Persisted notice from a forked spot-edit thread. Server pushes this
       // into the slug's history so refresh / navigate-back replays it.
-      // Dedup on threadId so a live event + replay can't double-add.
-      if (items.some((it) => it.kind === 'notice' && it.id === `tn-${e.threadId}`)) return items;
+      // Two lifecycle notices per thread (start + end) — both should land,
+      // so the dedup id includes the status to allow both.
+      const noticeId = `tn-${e.threadId}-${e.status}`;
+      if (items.some((it) => it.kind === 'notice' && it.id === noticeId)) return items;
+      const verb =
+        e.status === 'started'
+          ? 'started'
+          : e.status === 'continued'
+            ? 'continued'
+            : e.status === 'completed'
+              ? 'completed'
+              : e.status === 'failed'
+                ? 'failed'
+                : 'ended';
       return [
         ...items,
         {
           kind: 'notice',
-          id: `tn-${e.threadId}`,
+          id: noticeId,
           ts: e.ts,
-          text: `Spot edit on ${e.scopeLabel} — ${e.summary}`,
+          text: `Spot edit on ${e.scopeLabel} — ${verb}: ${e.summary}`,
           tone: e.status === 'completed' ? 'success' : 'info',
         },
       ];
@@ -180,10 +215,12 @@ function applyEvent(items: ChatItem[], e: ServerEvent): ChatItem[] {
     case 'preview:reload':
     case 'system_raw':
     case 'chat:replay':
+    case 'chat:queue':
     case 'inflight:changed':
     case 'render:state':
     case 'render:progress':
     case 'render:done':
+    case 'qa:updated':
       return items;
     // Thread events are handled by the threads store, not the parent chat.
     case 'thread:created':

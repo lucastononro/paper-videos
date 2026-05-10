@@ -96,6 +96,14 @@ export type PaperExplainerCoreProps = {
    * `videos/<slug>/public/` at that path.
    */
   assetBaseUrl: string;
+  /**
+   * Optional cache-bust suffix appended as `?v=<key>` to every resolved
+   * asset URL. The editor bumps this on every preview:reload so a regenerated
+   * image / mp4 / page-PNG defeats the browser cache without needing a new
+   * filename. Offline renders pass nothing here (`undefined`) — staticFile
+   * resolves the bundled hash already.
+   */
+  cacheBustKey?: string | number;
 };
 
 /**
@@ -115,14 +123,22 @@ export const PaperExplainerCore: React.FC<PaperExplainerCoreProps> = ({
   manimDurations,
   manimLastFrames,
   assetBaseUrl,
+  cacheBustKey,
 }) => {
   const eqMap = React.useMemo(
     () => new Map(equations.map((e) => [e.id, e])),
     [equations],
   );
   const resolve = React.useCallback(
-    (rel: string) => `${assetBaseUrl}${rel}`,
-    [assetBaseUrl],
+    (rel: string) => {
+      const url = `${assetBaseUrl}${rel}`;
+      // Append `?v=<cacheBustKey>` so a regenerated asset (same filename,
+      // new bytes) defeats the browser cache. Skip when no key is set
+      // (offline render uses Remotion's content-hashed URLs already).
+      if (cacheBustKey === undefined || cacheBustKey === '') return url;
+      return url.includes('?') ? `${url}&v=${cacheBustKey}` : `${url}?v=${cacheBustKey}`;
+    },
+    [assetBaseUrl, cacheBustKey],
   );
 
   return (

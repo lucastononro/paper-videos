@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Manifest } from '../api';
+import { ws } from '../ws/client';
 
 type QaIssue = {
   severity: 'error' | 'warning' | 'info';
@@ -30,7 +31,6 @@ export const QABanner: React.FC<{
 }> = ({ slug, manifest, onJumpFrame, onMention }) => {
   const [report, setReport] = React.useState<QaReport | null>(null);
   const [open, setOpen] = React.useState(false);
-  const [busy, setBusy] = React.useState(false);
 
   const load = React.useCallback(async () => {
     const r = await fetch(`/api/projects/${encodeURIComponent(slug)}/qa-report`);
@@ -41,15 +41,14 @@ export const QABanner: React.FC<{
     void load();
   }, [load]);
 
-  const run = async () => {
-    setBusy(true);
-    try {
-      const r = await fetch(`/api/projects/${encodeURIComponent(slug)}/qa-report`, { method: 'POST' });
-      if (r.ok) setReport((await r.json()) as QaReport);
-    } finally {
-      setBusy(false);
-    }
-  };
+  // Refetch whenever the server's auto-QA runner reports a fresh run for
+  // this slug. The runner is debounced server-side, so this fires at most
+  // every ~1.5s while the user edits.
+  React.useEffect(() => {
+    return ws.on((e) => {
+      if (e.kind === 'qa:updated' && e.slug === slug) void load();
+    });
+  }, [slug, load]);
 
   const errs = report?.bySeverity.error ?? 0;
   const warns = report?.bySeverity.warning ?? 0;
@@ -79,27 +78,14 @@ export const QABanner: React.FC<{
           · {infos} info
         </span>
         <span style={{ flex: 1 }} />
-        <span style={{ color: 'var(--text-mute)', fontSize: 11 }}>
-          {report?.generatedAt ? `as of ${new Date(report.generatedAt).toLocaleTimeString()}` : 'not run yet'}
-        </span>
-        <button
-          type="button"
-          disabled={busy}
-          onClick={run}
-          style={{
-            padding: '4px 10px',
-            background: 'var(--accent)',
-            color: '#0e1117',
-            border: 'none',
-            borderRadius: 4,
-            cursor: busy ? 'wait' : 'pointer',
-            fontSize: 11,
-            fontWeight: 600,
-            opacity: busy ? 0.6 : 1,
-          }}
+        <span
+          title="Auto-runs on every manifest / narration / Manim change (debounced 1.5s)"
+          style={{ color: 'var(--text-mute)', fontSize: 11, fontStyle: 'italic' }}
         >
-          {busy ? 'Running…' : 'Run QA'}
-        </button>
+          {report?.generatedAt
+            ? `auto · as of ${new Date(report.generatedAt).toLocaleTimeString()}`
+            : 'auto · waiting for first run'}
+        </span>
         {report && report.issues.length > 0 && (
           <button
             type="button"

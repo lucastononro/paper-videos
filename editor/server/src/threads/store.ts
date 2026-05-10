@@ -4,6 +4,7 @@ import { chatStore } from '../chat/store.js';
 import { buildThreadDirective, buildFinishPrompt, extractSummary } from './directive.js';
 import type { Thread, ThreadScope, ThreadStatus, ThreadEvent } from './types.js';
 import type { ChatEvent } from '../chat/types.js';
+import { readManifest } from '../../../../src/lib/manifest.js';
 
 type ThreadRecord = Thread & {
   inFlight: ClaudeRunHandle | null;
@@ -31,6 +32,18 @@ class ThreadStore {
     return slug ? all.filter((t) => t.slug === slug) : all;
   }
 
+  /**
+   * Active = ready / running / awaiting_finish. Used to inject an
+   * "active threads" awareness block into the parent agent's directive
+   * so it knows what's running in parallel without having to re-derive
+   * from chat history.
+   */
+  listActive(slug: string): Thread[] {
+    return this.list(slug).filter(
+      (t) => t.status === 'ready' || t.status === 'running' || t.status === 'awaiting_finish',
+    );
+  }
+
   get(threadId: string): Thread | null {
     const t = this.threads.get(threadId);
     return t ? this.toPlain(t) : null;
@@ -55,11 +68,16 @@ class ThreadStore {
   }): Thread {
     const id = randomUUID();
     const now = Date.now();
+    // Derive overlapping beat / block ids from the time range when present.
+    // The user only selects a time crop on the filmstrip; the harness fills
+    // in beats/blocks so the agent has a finding aid pointing at the right
+    // files. (Older callers can still pass beatIds/blockIds directly.)
+    const enrichedScope = enrichScope(args.slug, args.scope);
     const rec: ThreadRecord = {
       id,
       parentConnId: args.parentConnId,
       slug: args.slug,
-      scope: args.scope,
+      scope: enrichedScope,
       status: 'ready',
       initialAsk: args.initialAsk,
       sessionId: null,
@@ -78,8 +96,21 @@ class ThreadStore {
     const userEvent: ChatEvent = { kind: 'user_text', text: args.initialAsk, ts: Date.now() };
     rec.events.push(userEvent);
     this.broadcast({ kind: 'thread:event', threadId: rec.id, event: userEvent });
+    // Persist a "started" notice in the PARENT chat so the main agent (and
+    // a reload-after-navigate) sees that a spot-edit thread was spawned and
+    // what its initial ask was. The summary slot carries the user's ask
+    // verbatim — short enough to read at a glance, long enough that the
+    // main agent can reason about whether other beats need similar work.
+    chatStore.recordEvent(args.slug, {
+      kind: 'thread_notice',
+      threadId: rec.id,
+      scopeLabel: scopeShortLabel(enrichedScope),
+      summary: args.initialAsk,
+      status: 'started',
+      ts: Date.now(),
+    });
     // Kick off the first turn synchronously.
-    this.runTurn(rec, buildThreadDirective(args.slug, args.scope, args.initialAsk));
+    this.runTurn(rec, buildThreadDirective(args.slug, enrichedScope, args.initialAsk));
     return this.toPlain(rec);
   }
 
@@ -92,6 +123,16 @@ class ThreadStore {
     const userEvent: ChatEvent = { kind: 'user_text', text, ts: Date.now() };
     rec.events.push(userEvent);
     this.broadcast({ kind: 'thread:event', threadId: rec.id, event: userEvent });
+    // Surface the continuation to the parent chat so the main agent stays
+    // aware of what the user has been asking the spot-edit thread to do.
+    chatStore.recordEvent(rec.slug, {
+      kind: 'thread_notice',
+      threadId: rec.id,
+      scopeLabel: scopeShortLabel(rec.scope),
+      summary: text,
+      status: 'continued',
+      ts: Date.now(),
+    });
     void this.cancelInFlight(rec);
     this.runTurn(rec, text);
     return true;
@@ -117,6 +158,16 @@ class ThreadStore {
     void this.cancelInFlight(rec);
     rec.finishPending = false;
     this.setStatus(rec, 'ended');
+    // Tell the parent agent the thread was force-ended so it doesn't keep
+    // expecting a handoff summary.
+    chatStore.recordEvent(rec.slug, {
+      kind: 'thread_notice',
+      threadId: rec.id,
+      scopeLabel: scopeShortLabel(rec.scope),
+      summary: '',
+      status: 'ended',
+      ts: Date.now(),
+    });
     return true;
   }
 
@@ -208,10 +259,17 @@ class ThreadStore {
   }
 
   private onTurnComplete(rec: ThreadRecord): void {
-    // If the user requested finish, parse the summary out of the last assistant
-    // message, complete the thread, and emit a parent notice.
-    if (rec.finishPending) {
-      const summary = extractSummary(rec.lastAssistantText) ?? rec.lastAssistantText.trim();
+    // Two paths to "completed":
+    //  1. The user clicked Finish (rec.finishPending = true) — explicit handoff.
+    //  2. The agent decided it's done and emitted a `SUMMARY: …` line on its
+    //     own — we treat that as auto-finish, no separate user click needed.
+    // The directive (see directive.ts) tells the agent it CAN do (2) when the
+    // task is genuinely complete, so the user doesn't have to babysit a
+    // "Finish" button for every spot-edit.
+    const spontaneousSummary = extractSummary(rec.lastAssistantText);
+    const shouldComplete = rec.finishPending || spontaneousSummary !== null;
+    if (shouldComplete) {
+      const summary = spontaneousSummary ?? rec.lastAssistantText.trim();
       rec.finishPending = false;
       this.setStatus(rec, 'completed', summary);
       this.broadcast({
@@ -222,10 +280,6 @@ class ThreadStore {
         scope: rec.scope,
         summary,
       });
-      // Persist the notice in the parent chat's history so a refresh /
-      // navigate-away-and-back replays the same notice the live UI showed.
-      // Without this the notice lives only on the client and disappears on
-      // remount.
       chatStore.recordEvent(rec.slug, {
         kind: 'thread_notice',
         threadId: rec.id,
@@ -257,6 +311,37 @@ function scopeShortLabel(s: ThreadScope): string {
   if (s.beatIds.length) parts.push(s.beatIds.join(', '));
   if (s.blockIds.length) parts.push(s.blockIds.join(', '));
   return parts.join(' + ') || 'video';
+}
+
+/**
+ * Fill in derived `beatIds`/`blockIds` from a time range. The user only
+ * selects a crop on the filmstrip; we resolve which manifest entries
+ * overlap so the spot-edit agent's directive can point at the right files.
+ *
+ * Idempotent: when the scope already carries beatIds/blockIds (older
+ * single-beat/single-block callers), we keep them unchanged.
+ */
+function enrichScope(slug: string, scope: ThreadScope): ThreadScope {
+  const hasRange =
+    typeof scope.startFrame === 'number' && typeof scope.endFrame === 'number';
+  const hasIds = scope.beatIds.length > 0 || scope.blockIds.length > 0;
+  if (!hasRange || hasIds) return scope;
+  let manifest;
+  try {
+    manifest = readManifest(slug);
+  } catch {
+    return scope;
+  }
+  const startFrame = scope.startFrame!;
+  const endFrame = scope.endFrame!;
+  const overlaps = (s: number, d: number) => s + d > startFrame && s < endFrame;
+  return {
+    ...scope,
+    beatIds: manifest.voice.filter((b) => overlaps(b.startFrame, b.durationFrames)).map((b) => b.id),
+    blockIds: manifest.visualBlocks
+      .filter((b) => overlaps(b.startFrame, b.durationFrames))
+      .map((b) => b.id),
+  };
 }
 
 export const threadStore = new ThreadStore();

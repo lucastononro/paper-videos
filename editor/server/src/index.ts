@@ -87,9 +87,31 @@ attachWs(server);
 // pick up edits without a manual refresh.
 startWatcher();
 
-server.listen(PORT, () => {
+// Bind explicitly to IPv4 loopback. Node 20+ defaults `listen(PORT)` to dual
+// stack on some platforms; Vite's proxy resolves `localhost` to `::1` first,
+// so a server that bound v6-only would refuse v4 proxied requests with
+// `AggregateError [ECONNREFUSED]` on every /static/* request. Pinning to
+// 127.0.0.1 here, and the client-side proxy to 127.0.0.1:5174, removes the
+// guesswork.
+server.listen(PORT, '127.0.0.1', () => {
   // eslint-disable-next-line no-console
-  console.log(`[editor-server] http://localhost:${PORT}  ws://localhost:${PORT}/ws`);
+  console.log(`[editor-server] http://127.0.0.1:${PORT}  ws://127.0.0.1:${PORT}/ws`);
   // eslint-disable-next-line no-console
   console.log(`[editor-server] serving videos from ${VIDEOS_DIR}`);
+});
+
+// Last-line-of-defense: log + survive any unhandled rejection or
+// uncaught exception. Node 20+ kills the process on unhandled rejections
+// by default, which would leave the editor / proxy with a dead backend
+// (the "ECONNREFUSED 127.0.0.1:5174" spam after sending a chat message).
+// We log loudly so the cause is visible in the [server] lane, then keep
+// serving. Real bugs still get fixed at the source; this just keeps an
+// active editor session usable while we diagnose.
+process.on('unhandledRejection', (reason) => {
+  // eslint-disable-next-line no-console
+  console.error('[editor-server] unhandledRejection:', reason);
+});
+process.on('uncaughtException', (err) => {
+  // eslint-disable-next-line no-console
+  console.error('[editor-server] uncaughtException:', err);
 });

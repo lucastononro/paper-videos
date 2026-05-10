@@ -325,6 +325,7 @@ export const EditorPage: React.FC<{ slug: string }> = ({ slug }) => {
                       slug={slug}
                       data={load.data}
                       playerRef={playerRef}
+                      cacheBustKey={reloadTick}
                     />
                   )}
                 </div>

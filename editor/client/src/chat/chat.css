@@ -383,6 +383,69 @@
 .chat-bubble-user .markdown { color: var(--text); }
 .chat-bubble-user .md-p { margin: 0; }
 
+/* Queued user bubble — Cursor-style. Shows the message landed but it
+   hasn't been sent to claude yet (waiting for the active turn to drain).
+   Dashed border + lower opacity makes the pending state legible at a
+   glance without competing with the live active bubble above. */
+.chat-bubble-user.is-queued {
+  background: rgba(255, 217, 102, 0.06);
+  border: 1px dashed rgba(255, 217, 102, 0.45);
+  color: var(--text-mute);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  position: relative;
+}
+.chat-queued-text {
+  flex: 1;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--text);
+  opacity: 0.85;
+}
+.chat-queued-cancel {
+  all: unset;
+  cursor: pointer;
+  color: var(--text-mute);
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.chat-queued-cancel:hover {
+  background: rgba(255, 148, 148, 0.12);
+  color: #ff9494;
+}
+
+/* Strip above the input that shows queue size + a clear-all action. */
+.chat-queue-strip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  padding: 6px 10px;
+  border: 1px dashed rgba(255, 217, 102, 0.45);
+  border-radius: 8px;
+  background: rgba(255, 217, 102, 0.04);
+  font-size: 11px;
+  color: var(--text-mute);
+}
+.chat-queue-icon { color: #ffd866; font-size: 12px; }
+.chat-queue-label { color: var(--text); font-weight: 500; }
+.chat-queue-clear {
+  all: unset;
+  cursor: pointer;
+  font-size: 11px;
+  color: var(--text-mute);
+  padding: 2px 8px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+.chat-queue-clear:hover {
+  border-color: rgba(255, 148, 148, 0.40);
+  color: #ff9494;
+}
+
 /* ──────── input ──────── */
 .chat-input-wrap {
   border-top: 1px solid var(--chat-border);
@@ -459,7 +522,8 @@
   opacity: 0.4;
   cursor: not-allowed;
 }
-.chat-pill-send.is-redirect {
+.chat-pill-send.is-redirect,
+.chat-pill-send.is-queue {
   background: #ffd866;
 }
 

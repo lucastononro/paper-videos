@@ -16,8 +16,13 @@ export type ChatEvent =
       threadId: string;
       scopeLabel: string;
       summary: string;
-      status: 'completed' | 'failed' | 'ended';
+      status: 'started' | 'continued' | 'completed' | 'failed' | 'ended';
       ts: number;
+    }
+  | {
+      kind: 'chat:queue';
+      slug: string | null;
+      queue: Array<{ id: string; text: string; ts: number }>;
     };
 
 export type ThreadStatus =
@@ -29,6 +34,10 @@ export type ThreadStatus =
   | 'ended';
 
 export type ThreadScope = {
+  /** Frame range the user selected on the filmstrip. */
+  startFrame?: number;
+  endFrame?: number;
+  /** Beats / blocks overlapping the range — derived; agent's finding aid. */
   beatIds: string[];
   blockIds: string[];
   label?: string;
@@ -68,12 +77,20 @@ export type ServerEvent =
   // and the editor can reflect the running state.
   | { kind: 'render:state'; slug: string; running: boolean; percent: number; startedAt: number | null }
   | { kind: 'render:progress'; slug: string; percent: number; line?: string }
-  | { kind: 'render:done'; slug: string; ok: boolean; code: number | null; durationMs: number; tailLog: string };
+  | { kind: 'render:done'; slug: string; ok: boolean; code: number | null; durationMs: number; tailLog: string }
+  | {
+      kind: 'qa:updated';
+      slug: string;
+      generatedAt: string;
+      bySeverity: { error: number; warning: number; info: number };
+      total: number;
+    };
 
 export type ClientFrame =
   | { kind: 'chat:turn'; slug: string | null; sessionId: string | null; text: string }
   | { kind: 'chat:cancel' }
   | { kind: 'chat:reset'; slug: string | null }
+  | { kind: 'chat:cancel-queued'; slug: string | null; id?: string }
   | { kind: 'subscribe:slug'; slug: string }
   | { kind: 'thread:create'; slug: string; scope: ThreadScope; initialAsk: string }
   | { kind: 'thread:turn'; threadId: string; text: string }

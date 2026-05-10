@@ -2,7 +2,6 @@ import React from 'react';
 import type { PlayerRef } from '@remotion/player';
 import type { Manifest, Visual } from '../api';
 import { useSelection } from '../selection/selection';
-import { useThreadStore } from '../threads/store';
 
 const KIND_COLORS: Record<Visual['kind'], string> = {
   titleCard: '#8b5cf6',
@@ -16,37 +15,47 @@ const KIND_COLORS: Record<Visual['kind'], string> = {
   pause: '#3a414e',
 };
 
+/**
+ * Visual-blocks + voice-beats lanes under the filmstrip. Clicking a chip:
+ *   - seeks the player to the chip's start
+ *   - sets the time-range selection to the chip's [startFrame, startFrame+duration]
+ *
+ * The latter is what makes "spot-edit on a single beat" still cheap: click
+ * a chip in the voice lane → range pre-selected → click ↗ Spot-edit in the
+ * filmstrip toolbar. We removed the per-chip spot-edit / pin buttons that
+ * encouraged the old beat-id-as-scope workflow; spot-edits are time-crop-
+ * driven now (filmstrip drag → range → toolbar action).
+ */
 export const BeatStrip: React.FC<{
   slug: string;
   manifest: Manifest;
   playerRef?: React.MutableRefObject<PlayerRef | null>;
   onMention: (token: string) => void;
-}> = ({ slug, manifest, playerRef, onMention }) => {
+}> = ({ slug: _slug, manifest, playerRef, onMention: _onMention }) => {
   const totalFrames = Math.max(1, manifest.totalFrames);
   const sel = useSelection((s) => s.current);
   const setSel = useSelection((s) => s.set);
-  const setPanelOpen = useThreadStore((s) => s.setPanelOpen);
-  const setDraft = useThreadStore((s) => s.setDraft);
 
   const seekTo = (frame: number) => {
     playerRef?.current?.seekTo(Math.max(0, Math.min(totalFrames - 1, frame)));
   };
 
-  // Seed a draft thread in the side panel and open it. The actual
-  // `thread:create` is sent from the panel's composer when the user types
-  // their ask there — never via a window.prompt popup.
-  const startSpotEdit = (kind: 'beat' | 'block', id: string) => {
-    const scope = kind === 'beat'
-      ? { beatIds: [id], blockIds: [] as string[], label: id }
-      : { beatIds: [] as string[], blockIds: [id], label: id };
-    setDraft(slug, { scope });
-    setPanelOpen(slug, true);
+  const selectChip = (startFrame: number, durationFrames: number) => {
+    seekTo(startFrame);
+    setSel({
+      kind: 'range',
+      startFrame,
+      endFrame: Math.min(totalFrames, startFrame + durationFrames),
+    });
   };
 
-  // Detect if a single-beat or single-block selection is active so we can show
-  // a "Spot-edit" affordance in the row labels too.
-  const selBeatId = sel?.kind === 'beat' ? sel.beatId : null;
-  const selBlockId = sel?.kind === 'block' ? sel.blockId : null;
+  // Highlight chip when its frame range matches the current selection — keeps
+  // the visual feedback consistent with the filmstrip's gold band above.
+  const isChipSelected = (startFrame: number, durationFrames: number): boolean => {
+    if (sel?.kind !== 'range') return false;
+    return sel.startFrame === startFrame &&
+      sel.endFrame === Math.min(totalFrames, startFrame + durationFrames);
+  };
 
   return (
     <div
@@ -57,64 +66,6 @@ export const BeatStrip: React.FC<{
         userSelect: 'none',
       }}
     >
-      {(selBeatId || selBlockId) && (
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 8,
-            marginBottom: 6,
-            fontSize: 11,
-          }}
-        >
-          <span style={{ color: 'var(--text-mute)' }}>selected:</span>
-          <code
-            style={{
-              fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
-              color: 'var(--text)',
-            }}
-          >
-            {selBeatId ?? selBlockId}
-          </code>
-          <button
-            type="button"
-            onClick={() =>
-              startSpotEdit(selBeatId ? 'beat' : 'block', (selBeatId ?? selBlockId)!)
-            }
-            style={{
-              padding: '3px 10px',
-              background: 'transparent',
-              color: '#ffd866',
-              border: '1px solid rgba(255, 217, 102, 0.40)',
-              borderRadius: 5,
-              cursor: 'pointer',
-              fontFamily: 'inherit',
-              fontSize: 11,
-              fontWeight: 600,
-            }}
-            title="Open an async claude thread scoped to this beat/block"
-          >
-            ↗ Spot-edit
-          </button>
-          <button
-            type="button"
-            onClick={() => onMention(`#${selBeatId ?? selBlockId}`)}
-            style={{
-              padding: '3px 10px',
-              background: 'transparent',
-              color: 'var(--text-mute)',
-              border: '1px solid var(--border)',
-              borderRadius: 5,
-              cursor: 'pointer',
-              fontFamily: 'inherit',
-              fontSize: 11,
-            }}
-            title="Append the beat id as a mention into the main chat input"
-          >
-            📌 Pin to chat
-          </button>
-        </div>
-      )}
       <Row label="visual blocks" muted>
         {manifest.visualBlocks.map((block) => (
           <BeatChip
@@ -125,12 +76,8 @@ export const BeatStrip: React.FC<{
             totalFrames={totalFrames}
             color={KIND_COLORS[block.visual.kind] ?? 'var(--text-mute)'}
             label={`${block.id} · ${block.visual.kind}`}
-            selected={sel?.kind === 'block' && sel.blockId === block.id}
-            onClick={() => {
-              setSel({ kind: 'block', blockId: block.id });
-              seekTo(block.startFrame);
-            }}
-            onPin={() => onMention(`#${block.id}`)}
+            selected={isChipSelected(block.startFrame, block.durationFrames)}
+            onClick={() => selectChip(block.startFrame, block.durationFrames)}
           />
         ))}
       </Row>
@@ -144,12 +91,8 @@ export const BeatStrip: React.FC<{
             totalFrames={totalFrames}
             color={beat.audioFile ? '#7ee787' : '#3a414e'}
             label={`${beat.id}${beat.text ? ` · ${beat.text.slice(0, 60)}` : ''}`}
-            selected={sel?.kind === 'beat' && sel.beatId === beat.id}
-            onClick={() => {
-              setSel({ kind: 'beat', beatId: beat.id });
-              seekTo(beat.startFrame);
-            }}
-            onPin={() => onMention(`#${beat.id}`)}
+            selected={isChipSelected(beat.startFrame, beat.durationFrames)}
+            onClick={() => selectChip(beat.startFrame, beat.durationFrames)}
           />
         ))}
       </Row>
@@ -198,16 +141,14 @@ const BeatChip: React.FC<{
   label: string;
   selected: boolean;
   onClick: () => void;
-  onPin: () => void;
-}> = ({ id, startFrame, durationFrames, totalFrames, color, label, selected, onClick, onPin }) => {
+}> = ({ id, startFrame, durationFrames, totalFrames, color, label, selected, onClick }) => {
   const left = (startFrame / totalFrames) * 100;
   const width = (durationFrames / totalFrames) * 100;
   return (
     <button
       type="button"
       onClick={onClick}
-      onDoubleClick={onPin}
-      title={`${label} — click to seek, double-click to mention in chat`}
+      title={`${label} — click to seek + select this range`}
       style={{
         all: 'unset',
         position: 'absolute',

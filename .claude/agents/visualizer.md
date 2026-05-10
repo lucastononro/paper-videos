@@ -131,6 +131,46 @@ class LeitmotifFlow(Scene):
 
 Use `MathTex(latex_string)` for every formula. Read `equations.json` for the canonical LaTeX of each equation; never type LaTeX from memory. **Do NOT** use `Text("vₜ(x)")` with Unicode subscripts — Manim's default font lacks many Unicode codepoints (U+209C and friends), so subscripts/superscripts/Greek letters render as yellow `[20 9C]` placeholder boxes. If LaTeX is unavailable on the host, stop and tell the orchestrator to install BasicTeX rather than fall back to Unicode.
 
+### Equations MUST fit the frame (fit_to_frame is mandatory)
+
+Long equations like `Att(Q,K,V) = D⁻¹AV, A = exp(QK^T/√d), D = diag(A1_L)` rendered with raw `MathTex` are wider than `config.frame_width` and **get cropped on both sides** at render time — the user sees `;t↔(Q,K,V) = ...` instead of the full equation. This is the single most common visualizer regression. Three rules:
+
+1. **Always paste this helper at the top of every scene file** that renders an equation:
+
+   ```python
+   def fit_to_frame(mob, w_ratio=0.85, h_ratio=0.85):
+       """Scale a Mobject down (never up) so it fits the frame with margins.
+       Idempotent: a second call is a no-op if the mobject is already small enough."""
+       max_w = config.frame_width * w_ratio
+       max_h = config.frame_height * h_ratio
+       sx = max_w / mob.width if mob.width > max_w else 1.0
+       sy = max_h / mob.height if mob.height > max_h else 1.0
+       s = min(sx, sy)
+       if s < 1.0:
+           mob.scale(s)
+       return mob
+   ```
+
+2. **Wrap every `MathTex(...)` in `fit_to_frame(...)` before adding it to the scene.** No exceptions for "small" equations — the helper is a no-op when nothing needs to scale, so cost is zero, and you don't have to predict which equation will overflow.
+
+   ```python
+   eq = fit_to_frame(MathTex(r"\text{Att}(Q,K,V) = D^{-1} A V, \quad A = \exp(Q K^\top / \sqrt{d}), \quad D = \text{diag}(A 1_L)"))
+   ```
+
+3. **Break very long equations onto multiple lines** instead of relying on fit_to_frame to shrink them past readability. After fit_to_frame, if the equation's font is uncomfortably small, split at natural boundaries:
+
+   ```python
+   eq = MathTex(
+       r"\text{Att}(Q,K,V) = D^{-1} A V \\",
+       r"A = \exp(Q K^\top / \sqrt{d}), \quad D = \text{diag}(A 1_L)"
+   )
+   fit_to_frame(eq)
+   ```
+
+   `\\` in a single TeX string OR multiple `MathTex` arranged with `VGroup(...).arrange(DOWN, buff=0.3)` both work. Prefer the latter when you want to highlight pieces independently with `SurroundingRectangle`.
+
+The `cyb-e-2014-07-0677-r2-article` scenes (`binary_entropy_curve.py`, `chaotic_regime_caveat.py`, etc.) use this pattern — copy from there as a reference.
+
 ### Captions
 
 If you ever modify `src/remotion/components/CaptionBar.tsx`, follow `references/usage/visualization/best-practices.md` section 11. The non-negotiables:

@@ -21,9 +21,13 @@ export default defineConfig({
       allow: [repoRoot],
     },
     proxy: {
-      '/api': { target: 'http://localhost:5174', changeOrigin: true },
-      '/static': { target: 'http://localhost:5174', changeOrigin: true },
-      '/ws': { target: 'ws://localhost:5174', ws: true, changeOrigin: true },
+      // 127.0.0.1 (not 'localhost') — Node 20+'s DNS resolves localhost to
+      // `::1` first on macOS, which would AggregateError ECONNREFUSED if the
+      // server bound to v4 only. Server is pinned to 127.0.0.1 too — see
+      // editor/server/src/index.ts.
+      '/api': { target: 'http://127.0.0.1:5174', changeOrigin: true },
+      '/static': { target: 'http://127.0.0.1:5174', changeOrigin: true },
+      '/ws': { target: 'ws://127.0.0.1:5174', ws: true, changeOrigin: true },
     },
   },
 });

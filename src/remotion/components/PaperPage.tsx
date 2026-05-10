@@ -70,7 +70,7 @@ export const PaperPage: React.FC<{
               maxWidth: '100%',
             }}
           />
-          {highlightBBox && <HighlightOverlay bbox={highlightBBox} />}
+          {highlightBBox && <HighlightOverlay bbox={highlightBBox} dimmed />}
         </div>
       </div>
     </AbsoluteFill>
@@ -82,6 +82,19 @@ export const PaperPage: React.FC<{
  * `bbox + padding` fills the canvas. A small mini-page in the corner shows
  * the original page with the same bbox marked, so the viewer keeps spatial
  * context.
+ *
+ * Aspect-FILL, not aspect-FIT: we use `Math.max(scaleX, scaleY)` so that the
+ * smaller of the two bbox dimensions reaches the canvas edges first, and
+ * the bigger one overflows (cropped). Aspect-FIT (the previous min-of-two
+ * approach) failed for thin captions: a single-line highlight has a wide,
+ * thin bbox; min-of-two picks the horizontal scale, which is already ~1×
+ * because the width already fills, so the user got no real zoom and
+ * couldn't read the text. With max-of-two, vertical fill dominates,
+ * the caption blows up to readable size, and the side margins crop. The
+ * PageMini in the corner gives back the spatial context.
+ *
+ * MAX_SCALE caps how far we'll zoom in (avoids upscaling page-PNG pixels
+ * past what's legible).
  */
 const ZoomedPaperPage: React.FC<{ src: string; bbox: BBox }> = ({ src, bbox }) => {
   // Pad the bbox by ~3% of the page so the highlighted text doesn't bleed to
@@ -92,17 +105,18 @@ const ZoomedPaperPage: React.FC<{ src: string; bbox: BBox }> = ({ src, bbox }) =
   const pW = Math.min(1 - pX, bbox.w + 2 * PAD);
   const pH = Math.min(1 - pY, bbox.h + 2 * PAD);
 
-  // We want the padded region to fit inside the visible frame (90% of
-  // canvas). Compute scale so the longer of (pW * canvasAspect / pageAspect,
-  // pH) maps to 90%. Done via CSS: we render the image at a multiple of the
-  // viewport then translate to center the padded region.
-  // The math: if the page-image fills a 90vh-tall box at aspect = imgW/imgH,
-  // and we want pH (fraction) of it to fill 90% of canvas height, scale =
-  // 0.9 / pH. Same in width.
-  const FILL = 0.9;
+  // Zoom policy: aspect-FILL via Math.max so thin captions blow up to readable
+  // size (rule #22b). The cap is adaptive on bbox width — past ~4× a near-
+  // full-width caption gets cropped enough that the start and end of the line
+  // disappear, and the viewer can't follow the highlighted text. Narrow bboxes
+  // (margin notes, sub-equations) keep a higher cap so they're still legible.
+  // The page-mini in the corner restores spatial context independently, so the
+  // in-canvas dim overlay is dropped during zoom (see `dimmed` prop below).
+  const FILL = 0.85;
+  const widthCap = bbox.w > 0.5 ? 3.2 : bbox.w > 0.35 ? 4.2 : 5.5;
   const scaleX = FILL / pW;
   const scaleY = FILL / pH;
-  const scale = Math.min(scaleX, scaleY);
+  const scale = Math.min(widthCap, Math.max(scaleX, scaleY));
 
   // Center coordinates in [0,1] of the padded region we want at canvas center.
   const cx = pX + pW / 2;
@@ -143,7 +157,7 @@ const ZoomedPaperPage: React.FC<{ src: string; bbox: BBox }> = ({ src, bbox }) =
               maxWidth: 'none',
             }}
           />
-          <HighlightOverlay bbox={bbox} />
+          <HighlightOverlay bbox={bbox} dimmed={false} />
         </div>
       </div>
       {/* Page-mini: tiny preview of the full page with the bbox marked, so
@@ -186,10 +200,12 @@ const PageMini: React.FC<{ src: string; bbox: BBox }> = ({ src, bbox }) => (
 );
 
 /**
- * Dim everything except the bbox region; draw a solid yellow border around it.
- * No animation — both the dim and the border are static.
+ * Highlight overlay. With `dimmed=true` (default page mode) the surrounding
+ * area is dimmed and a yellow border frames the bbox. With `dimmed=false`
+ * (zoom mode) only the border is drawn — the crop already focuses attention,
+ * and dimming would hide context the viewer needs to read at high zoom.
  */
-const HighlightOverlay: React.FC<{ bbox: BBox }> = ({ bbox }) => {
+const HighlightOverlay: React.FC<{ bbox: BBox; dimmed: boolean }> = ({ bbox, dimmed }) => {
   const dim = 0.55;
   const xPct = bbox.x * 100;
   const yPct = bbox.y * 100;
@@ -198,50 +214,50 @@ const HighlightOverlay: React.FC<{ bbox: BBox }> = ({ bbox }) => {
 
   return (
     <>
-      {/* top dim strip */}
-      <div
-        style={{
-          position: 'absolute',
-          left: 0,
-          right: 0,
-          top: 0,
-          height: `${yPct}%`,
-          backgroundColor: `rgba(13,17,23,${dim})`,
-        }}
-      />
-      {/* bottom dim strip */}
-      <div
-        style={{
-          position: 'absolute',
-          left: 0,
-          right: 0,
-          top: `${yPct + hPct}%`,
-          bottom: 0,
-          backgroundColor: `rgba(13,17,23,${dim})`,
-        }}
-      />
-      {/* left dim strip (only between top+bottom strips) */}
-      <div
-        style={{
-          position: 'absolute',
-          left: 0,
-          width: `${xPct}%`,
-          top: `${yPct}%`,
-          height: `${hPct}%`,
-          backgroundColor: `rgba(13,17,23,${dim})`,
-        }}
-      />
-      {/* right dim strip */}
-      <div
-        style={{
-          position: 'absolute',
-          left: `${xPct + wPct}%`,
-          right: 0,
-          top: `${yPct}%`,
-          height: `${hPct}%`,
-          backgroundColor: `rgba(13,17,23,${dim})`,
-        }}
-      />
+      {dimmed && (
+        <>
+          <div
+            style={{
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              top: 0,
+              height: `${yPct}%`,
+              backgroundColor: `rgba(13,17,23,${dim})`,
+            }}
+          />
+          <div
+            style={{
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              top: `${yPct + hPct}%`,
+              bottom: 0,
+              backgroundColor: `rgba(13,17,23,${dim})`,
+            }}
+          />
+          <div
+            style={{
+              position: 'absolute',
+              left: 0,
+              width: `${xPct}%`,
+              top: `${yPct}%`,
+              height: `${hPct}%`,
+              backgroundColor: `rgba(13,17,23,${dim})`,
+            }}
+          />
+          <div
+            style={{
+              position: 'absolute',
+              left: `${xPct + wPct}%`,
+              right: 0,
+              top: `${yPct}%`,
+              height: `${hPct}%`,
+              backgroundColor: `rgba(13,17,23,${dim})`,
+            }}
+          />
+        </>
+      )}
       {/* solid border around the highlighted region */}
       <div
         style={{

@@ -5,6 +5,7 @@ import { ws } from '../ws/client';
 import './chat.css';
 
 const EMPTY_ITEMS: never[] = [];
+const EMPTY_QUEUE: never[] = [];
 
 export const ChatPanel: React.FC<{
   slug: string;
@@ -19,7 +20,9 @@ export const ChatPanel: React.FC<{
   // (and `useShallow` if/when we need element-wise equality).
   const items = useChatStore((s) => s.itemsBySlug[slug] ?? EMPTY_ITEMS);
   const inFlight = useChatStore((s) => Boolean(s.inFlightBySlug[slug]));
+  const queue = useChatStore((s) => s.queueBySlug[slug] ?? EMPTY_QUEUE);
   const cancel = useChatStore((s) => s.cancel);
+  const cancelQueued = useChatStore((s) => s.cancelQueued);
   const localRef = React.useRef<HTMLTextAreaElement | null>(null);
   const ref = inputRef ?? localRef;
 
@@ -28,9 +31,9 @@ export const ChatPanel: React.FC<{
     if (!text) return;
     // The server echoes the user message back as a `user_text` event, so we
     // do not append a local copy here. That keeps the timeline replay-stable
-    // across page refreshes (the server's history is the single source).
-    // Server also interrupts any in-flight turn automatically — simp's
-    // "send to interrupt & redirect" pattern.
+    // across page refreshes. The server queues this message instead of
+    // interrupting if a turn is already in flight (Cursor-style); the user
+    // sees it as a "queued" bubble immediately via the `chat:queue` event.
     ws.send({ kind: 'chat:turn', slug, sessionId: null, text });
     setDraft('');
     autosize(ref.current);
@@ -77,9 +80,33 @@ export const ChatPanel: React.FC<{
         <span>chat — {slug}</span>
       </div>
 
-      <MessageList items={items} inFlight={inFlight} emptyHint={emptyHint} slug={slug} />
+      <MessageList
+        items={items}
+        inFlight={inFlight}
+        emptyHint={emptyHint}
+        slug={slug}
+        queued={queue}
+        onCancelQueued={(id) => cancelQueued(slug, id)}
+      />
 
       <div className="chat-input-wrap">
+        {queue.length > 0 && (
+          <div className="chat-queue-strip" title="Messages queued — will run after the active turn completes.">
+            <span className="chat-queue-icon">⌚</span>
+            <span className="chat-queue-label">
+              {queue.length} message{queue.length === 1 ? '' : 's'} queued · runs after current turn
+            </span>
+            <span style={{ flex: 1 }} />
+            <button
+              type="button"
+              className="chat-queue-clear"
+              onClick={() => cancelQueued(slug)}
+              title="Discard all queued messages"
+            >
+              clear
+            </button>
+          </div>
+        )}
         <div className={`chat-input-area ${inFlight ? 'is-running' : ''}`}>
           <textarea
             ref={ref}
@@ -87,7 +114,7 @@ export const ChatPanel: React.FC<{
             value={draft}
             placeholder={
               inFlight
-                ? 'Send to interrupt & redirect…'
+                ? 'Type to queue — sends after the current turn finishes…'
                 : 'Tell claude what to do · Enter to send · Shift+Enter for newline'
             }
             onChange={onChange}
@@ -100,19 +127,19 @@ export const ChatPanel: React.FC<{
                 type="button"
                 className="chat-pill chat-pill-stop"
                 onClick={() => cancel(slug)}
-                title="Stop"
+                title="Stop the current turn (does not affect queued messages)"
               >
                 ■ Stop
               </button>
             )}
             <button
               type="button"
-              className={`chat-pill chat-pill-send ${inFlight ? 'is-redirect' : ''}`}
+              className={`chat-pill chat-pill-send ${inFlight ? 'is-queue' : ''}`}
               onClick={send}
               disabled={!draft.trim()}
-              title={inFlight ? 'Interrupt & redirect' : 'Send'}
+              title={inFlight ? 'Queue — runs after the current turn' : 'Send'}
             >
-              {inFlight ? 'Redirect ↵' : 'Send ↵'}
+              {inFlight ? 'Queue ↵' : 'Send ↵'}
             </button>
           </div>
         </div>

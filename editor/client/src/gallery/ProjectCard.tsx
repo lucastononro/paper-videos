@@ -1,14 +1,48 @@
 import React from 'react';
-import { type ProjectSummary, formatDuration, formatRelativeTime, thumbUrl } from '../api';
+import { type ProjectSummary, deleteProject, formatDuration, formatRelativeTime, thumbUrl } from '../api';
 import { navigate } from '../router';
 
-export const ProjectCard: React.FC<{ project: ProjectSummary }> = ({ project }) => {
+export const ProjectCard: React.FC<{
+  project: ProjectSummary;
+  onDeleted?: (slug: string) => void;
+}> = ({ project, onDeleted }) => {
+  const [busy, setBusy] = React.useState(false);
+
+  const handleDelete = async (e: React.MouseEvent) => {
+    // Stop the card's onClick from navigating into the editor.
+    e.stopPropagation();
+    if (busy) return;
+    const ok = window.confirm(
+      `Delete "${project.slug}" and ALL its files (paper, narration, manim, output.mp4, chat history)?\n\nThis is irreversible.`,
+    );
+    if (!ok) return;
+    setBusy(true);
+    try {
+      await deleteProject(project.slug);
+      onDeleted?.(project.slug);
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error('[delete-project]', err);
+      window.alert(`Failed to delete: ${(err as Error).message}`);
+    } finally {
+      setBusy(false);
+    }
+  };
+
   return (
-    <button
-      type="button"
+    // Outer is a <div role="button"> rather than <button> so we can nest
+    // the delete <button> inside it (invalid HTML otherwise).
+    <div
+      role="button"
+      tabIndex={0}
       onClick={() => navigate({ kind: 'editor', slug: project.slug })}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          navigate({ kind: 'editor', slug: project.slug });
+        }
+      }}
       style={{
-        all: 'unset',
         cursor: 'pointer',
         display: 'flex',
         flexDirection: 'column',
@@ -17,6 +51,8 @@ export const ProjectCard: React.FC<{ project: ProjectSummary }> = ({ project }) 
         borderRadius: 10,
         overflow: 'hidden',
         transition: 'border-color 0.15s, transform 0.15s',
+        opacity: busy ? 0.55 : 1,
+        pointerEvents: busy ? 'none' : 'auto',
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.borderColor = 'var(--accent)';
@@ -37,6 +73,18 @@ export const ProjectCard: React.FC<{ project: ProjectSummary }> = ({ project }) 
           position: 'relative',
         }}
       >
+        {/* Delete affordance — visible on hover only so the card stays
+            clean. Confirms via window.confirm before firing the DELETE
+            request. */}
+        <button
+          type="button"
+          onClick={handleDelete}
+          className="project-card-delete"
+          title="Delete this video and all its files"
+          aria-label={`Delete ${project.slug}`}
+        >
+          ✕
+        </button>
         {project.hasOutputMp4 && !project.inFlight && (
           <span
             style={{
@@ -121,6 +169,6 @@ export const ProjectCard: React.FC<{ project: ProjectSummary }> = ({ project }) 
           {project.lastModified > 0 && <span>· {formatRelativeTime(project.lastModified)}</span>}
         </div>
       </div>
-    </button>
+    </div>
   );
 };

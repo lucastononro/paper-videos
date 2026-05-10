@@ -175,6 +175,15 @@ function applyChatEventToItems(items: ChatItem[], e: ChatEvent): ChatItem[] {
   // Mirrors logic in chat/useChatStream.ts:applyEvent. Kept local so we don't
   // accidentally cross-mutate the parent chat store.
   switch (e.kind) {
+    case 'user_text':
+      // The server echoes follow-up user turns into the thread as a
+      // user_text event (so reconnect-replays show them). Without this
+      // case the message never lands on the panel and the user thinks the
+      // thread "swallowed" their follow-up.
+      return [
+        ...items,
+        { kind: 'user', id: `tu-${e.ts}-${Math.random()}`, text: e.text, ts: e.ts },
+      ];
     case 'text': {
       const last = items[items.length - 1];
       if (last && last.kind === 'assistant' && last.id === e.messageId) {

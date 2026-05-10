@@ -6,6 +6,7 @@ import type { ChatEvent, ClientFrame } from './chat/types.js';
 import { threadStore } from './threads/store.js';
 import type { ThreadClientFrame, ThreadEvent } from './threads/types.js';
 import { renderStore } from './render/store.js';
+import { qaAutoRunner } from './qa/auto.js';
 
 type AnyClientFrame = ClientFrame | ThreadClientFrame;
 
@@ -30,6 +31,15 @@ chatStore.onInFlightChange((slug, inFlight) => {
   if (slug === null) return;
   for (const conn of conns.values()) {
     sendRaw(conn, { kind: 'inflight:changed', slug, inFlight });
+  }
+});
+
+// Auto-QA events go to every conn subscribed to that slug. Banners refetch
+// the full report on demand; gallery cards (future) can use the byseverity
+// counts directly.
+qaAutoRunner.subscribe((e) => {
+  for (const conn of conns.values()) {
+    if (conn.subscribedSlug === e.slug) sendRaw(conn, e);
   }
 });
 
@@ -149,6 +159,14 @@ async function handleClientFrame(conn: Conn, msg: AnyClientFrame): Promise<void>
         inFlight: chatStore.isInFlight(msg.slug),
       });
 
+      // Replay the current outgoing-message queue so a refresh / navigate-back
+      // re-renders any messages still waiting for the active turn to drain.
+      sendRaw(conn, {
+        kind: 'chat:queue',
+        slug: msg.slug ?? null,
+        queue: chatStore.queueSnapshot(msg.slug),
+      });
+
       // Render state — so reconnecting mid-render picks up the running flag.
       if (msg.slug) {
         const r = renderStore.state(msg.slug);
@@ -169,7 +187,15 @@ async function handleClientFrame(conn: Conn, msg: AnyClientFrame): Promise<void>
       return;
 
     case 'chat:turn':
-      void chatStore.turn(msg.slug, msg.text);
+      // `void` + .catch keeps an unexpected rejection from poisoning the
+      // process. Without the .catch, Node 20+ kills the server on the next
+      // microtask and every subsequent /api/* and /static/* request shows
+      // up as ECONNREFUSED until tsx-watch restarts.
+      void chatStore.turn(msg.slug, msg.text).catch((err) => {
+        // eslint-disable-next-line no-console
+        console.error('[chat] turn failed:', err);
+        sendRaw(conn, { kind: 'error', message: `chat turn failed: ${(err as Error).message}` });
+      });
       return;
 
     case 'chat:reset':
@@ -180,6 +206,10 @@ async function handleClientFrame(conn: Conn, msg: AnyClientFrame): Promise<void>
           sendRaw(c, { kind: 'chat:replay', slug: msg.slug, events: [] });
         }
       }
+      return;
+
+    case 'chat:cancel-queued':
+      chatStore.cancelQueued(msg.slug, msg.id);
       return;
 
     // ---- threads (forked spot-edit sessions) ----
@@ -216,7 +246,27 @@ async function handleClientFrame(conn: Conn, msg: AnyClientFrame): Promise<void>
 
 function sendRaw(conn: Conn, e: unknown): void {
   if (conn.socket.readyState !== conn.socket.OPEN) return;
-  conn.socket.send(JSON.stringify(e));
+  // Wrap both JSON.stringify (can throw on circular refs / bigints) and
+  // socket.send (can throw if the socket transitioned to closing mid-call).
+  // Without this, a single bad payload OR a stale conn in the listener-loop
+  // bubbles up to chatStore.turn's caller — which is `void` in ws.ts → the
+  // promise rejection is unhandled → Node 20+ crashes the process. That's
+  // exactly the failure mode the user hits on session restart (the chat
+  // event listener iterates many subscribers and any one of them can throw).
+  let payload: string;
+  try {
+    payload = JSON.stringify(e);
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.warn('[ws] sendRaw stringify failed:', (err as Error).message);
+    return;
+  }
+  try {
+    conn.socket.send(payload);
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.warn('[ws] sendRaw socket.send failed:', (err as Error).message);
+  }
 }
 
 /** Broadcast `preview:reload` to every connection currently subscribed to a slug. */

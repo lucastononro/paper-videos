@@ -26,58 +26,59 @@ Initial release — alpha. The pipeline produces real videos end-to-end (see `vi
 
 ## Setup
 
-### 1. System dependencies
-
-You need Node.js 20+, Python (managed by `uv`), `ffmpeg`, and the `claude` CLI.
+### One-shot install
 
 ```bash
-# Node 20+
-node --version
-
-# uv (Python package/runtime manager)
-curl -LsSf https://astral.sh/uv/install.sh | sh
-
-# ffmpeg (Remotion + Manim both need it)
-brew install ffmpeg          # macOS
-# or: sudo apt-get install ffmpeg   # Debian/Ubuntu
-
-# Claude Code CLI (the orchestrator + the editor's chat backend)
-# https://docs.claude.com/claude-code
-# After install: `claude /login`
+./install.sh   # idempotent — re-run any time
 ```
 
-### 2. Install project deps
+The script:
+- checks Node 20+ (you install it yourself if missing)
+- installs **uv** (Python runtime manager) if missing
+- installs **ffmpeg** via `brew` (macOS) or `apt-get` (Debian/Ubuntu) if missing
+- runs `npm install`, `uv sync` (Manim + Marker + PyMuPDF), and `npx remotion browser ensure`
+- copies `.env.example` → `.env` so you can fill in `ELEVENLABS_API_KEY`
+- installs **TinyTeX** + the LaTeX packages Manim's `MathTex` needs (skip with `./install.sh --quick`)
+- updates git submodules if `.gitmodules` is present
+
+After it finishes, do these once:
 
 ```bash
+claude /login            # OAuth into Claude Code (the orchestrator + chat backend)
+$EDITOR .env             # paste your ElevenLabs API key
+./run.sh                 # start the editor
+```
+
+The `claude` CLI itself isn't auto-installed (it has its own OAuth flow) — get it from <https://docs.claude.com/claude-code>.
+
+### Manual setup (alternative)
+
+If you'd rather drive the install yourself, the steps `install.sh` runs are:
+
+```bash
+# 1. system deps
+node --version                                   # need 20+
+curl -LsSf https://astral.sh/uv/install.sh | sh  # uv (Python)
+brew install ffmpeg                              # or: sudo apt-get install ffmpeg
+# Claude Code CLI: https://docs.claude.com/claude-code
+
+# 2. project deps
 npm install
-uv sync                                          # installs Manim, Marker, PyMuPDF
-npx remotion browser ensure                      # downloads Chrome Headless Shell
-git submodule update --init --depth 1            # optional: vendor Manim/Remotion source for grep
-```
+uv sync                                          # Manim, Marker, PyMuPDF
+npx remotion browser ensure                      # Chrome Headless Shell
+git submodule update --init --depth 1            # optional
 
-### 3. Configure
+# 3. configure
+cp .env.example .env                             # then paste ELEVENLABS_API_KEY
 
-```bash
-cp .env.example .env
-# Edit .env and fill in ELEVENLABS_API_KEY
-```
-
-ElevenLabs voices live in `references/usage/elevenlabs/voices.yaml`. The default alias is `pharaoh`; add your own voice ids there if you want to switch.
-
-Claude Code itself uses your existing `claude /login` OAuth session — no key in `.env`.
-
-### 4. LaTeX (required by Manim's `MathTex`)
-
-Without LaTeX, Manim falls back to Unicode and the default font shows broken yellow `[20 9C]` boxes for subscripts and Greek letters. Install **TinyTeX** (user-space, no sudo):
-
-```bash
+# 4. TinyTeX (required by Manim's MathTex; without it equations fall back to broken Unicode)
 curl -sL "https://yihui.org/tinytex/install-bin-unix.sh" | sh
 ~/Library/TinyTeX/bin/universal-darwin/tlmgr install \
   standalone preview dvisvgm xcolor amsmath amsfonts \
   physics mathtools wasysym jknapltx fontspec babel-english
 ```
 
-`src/tools/render-manim.ts` auto-prepends `~/Library/TinyTeX/bin/universal-darwin` to `PATH`, so `npm run render-manim` finds it without further configuration.
+ElevenLabs voices live in `references/usage/elevenlabs/voices.yaml`. The default alias is `pharaoh`; add your own voice ids there if you want to switch. `src/tools/render-manim.ts` auto-prepends `~/Library/TinyTeX/bin/universal-darwin` to `PATH`, so `npm run render-manim` finds TinyTeX without further configuration. Claude Code itself uses your existing `claude /login` OAuth session — no key in `.env`.
 
 ## Quickstart — your first video in ~30 minutes
 
@@ -98,7 +99,9 @@ Ctrl+C kills both cleanly.
 
 ### 2. Open the gallery
 
-Visit http://localhost:5173. You see a thumbnail-card gallery of every video in `videos/`. Click **+ New video**, give it a slug (kebab-case), and you land on the editor view.
+Visit http://localhost:5173. You see a thumbnail-card gallery of every video in `videos/` — each card showing the paper title, slug, duration, beat / block counts, and a **`✓ rendered`** pill on videos whose `output.mp4` exists. Cards with a running pipeline show a blue **`running`** pill instead. Click **+ New video** in the top-right, give it a slug (kebab-case), and you land on the editor view. Hovering a card reveals an **✕** delete button (top-left of the thumbnail) — click it and confirm to wipe the video folder and all its artifacts.
+
+![Gallery view](docs/images/gallery-example.png)
 
 ### 3. Tell claude what to make
 
@@ -114,21 +117,37 @@ Claude will ask one question early on: **"Render bottom captions over the video?
 
 ### 4. Watch the video build live
 
-When the pipeline runs, the producer + visualizer call `npm run sync-manifest` after **every single beat** — so the player shows new beats appearing one-by-one with the **teaser landing first** (see [Doctrine § 20-21](#doctrine-the-twenty-one-rules) below). You can scrub the partial timeline at any moment.
+When the pipeline runs, the producer + visualizer call `npm run sync-manifest` after **every single beat** — so the player shows new beats appearing one-by-one with the **teaser landing first** (see [Doctrine § 20-24](#doctrine-the-twenty-four-rules) below). You can scrub the partial timeline at any moment.
 
 Each beat that has audio but is still waiting on its Manim mp4 shows a "Rendering: <scene>…" placeholder card while the audio still plays — voice never blocks waiting on visuals.
 
-### 5. Spot-edit any beat
+### 5. Spot-edit a time crop
 
-Below the player are two timeline lanes (visual blocks + voice beats). Click any beat → it highlights and the player seeks to it. Click **↗ Spot-edit** → the right-side **Spot edits** panel opens with an in-panel composer. Type "shorten this by 30%" or "rewrite this without jargon" → press Enter → a forked claude session, scoped to just that beat, runs in parallel without disrupting the parent chat. When it finishes, a notice card lands in the parent chat with the agent's summary.
+Spot-edits are **time-crop scoped**, not beat-scoped: drag a horizontal selection on the filmstrip and a gold band appears with the time range (e.g. `1:28→1:36 · 7.8s`) plus a **↗ Spot-edit** pill in the toolbar.
+
+![Filmstrip with a time-crop selection](docs/images/spot-edit-example-1.png)
+
+Click **↗ Spot-edit** → the right-side **Spot edits** panel opens with an in-panel composer pre-scoped to that crop. Type "shorten this by 30%" or "rewrite this without jargon" → press Enter → a forked claude session runs in parallel without disrupting the parent chat. The harness pre-resolves which voice beats and visual blocks overlap the crop and passes them to the agent as a finding aid (not a hard constraint). When the thread finishes, a `Spot edit on 1:28→1:36 — completed: …` notice card lands in the parent chat with the agent's summary, and the parent agent receives the same notice as part of its next-turn directive (so the main thread stays in sync).
+
+You can spawn **multiple concurrent spot-edits** — each one becomes its own tab at the top of the panel. Click between tabs to follow each thread independently.
+
+![Editor with spot-edit threads panel](docs/images/spot-edit-example-2.png)
 
 ### 6. Render the final mp4
 
-When you're satisfied, click **▶ Render** in the editor header. The button fills with a green progress bar (`Rendering 42%`) and tail-tooltips the latest log line. On success it flashes green, the player auto-refreshes with the new mp4, and the file lands at `videos/<slug>/output.mp4`.
+When you're satisfied, click the gold **▶ Render** button in the editor header.
+
+![Reload + Render buttons](docs/images/render-button.png)
+
+The button fills with a green progress bar (`Rendering 42%`) and tooltips the latest log line. On success it flashes green, the player auto-refreshes with the new mp4, and the file lands at `videos/<slug>/output.mp4`. On failure the tooltip carries the tail of the log so you can see what broke.
 
 Render is button-driven only — agents do not run `render-remotion` themselves (see [§ Render is a button, not an agent action](#render-is-a-button-not-an-agent-action)).
 
 ## The editor in detail
+
+![Full editor view](docs/images/interface-example.png)
+
+Layout:
 
 ```
 ┌────────── header ──────────────────────────────────────────────────────────────┐
@@ -170,7 +189,7 @@ Each agent has its own context window. The `videos/<slug>/` folder is the persis
 
 The orchestrator (the agent running in the editor's chat) drives this top-to-bottom, delegating to subagents via the Task tool. Each delegate has its own short, focused prompt in `.claude/agents/`.
 
-## Doctrine — the twenty-one rules
+## Doctrine — the twenty-four rules
 
 `CLAUDE.md` codifies the operating rules. Highlights:
 
@@ -195,6 +214,8 @@ The orchestrator (the agent running in the editor's chat) drives this top-to-bot
 19. **Highlight by quote, not coordinates.** `quote="exact text on the page"` — the harness extracts the bbox from the PDF text layer. Add `zoom=true` for small-text excerpts to crop+scale into the canvas.
 20. **Every video opens with a teaser.** Acts: `act-0` (Teaser, 15-25 seconds, 5-8 beats) → `act-1` (Why care?) → `act-2` (Setup) → ... The title card is the LAST beat of the teaser, not the first. Generic openers (`"This paper introduces..."`, `"In this video we'll explore..."`) are banned.
 21. **Live preview: sync the manifest after every per-beat operation.** Producer runs `npm run sync-manifest` after every narrate; visualizer runs it after every render-manim. The editor's chokidar watcher fires `preview:reload` on every manifest write → the user sees the video grow live.
+22. **Equations fit the frame; small highlights auto-zoom.** Every Manim equation wraps in `fit_to_frame(...)` (idempotent, scales down only if the mobject overflows). The harness auto-applies `zoom: true` to paperPage highlights whose resolved bbox covers `h < 0.08` or area < 4% of the page (single-line captions, sub-equations inside figures). The zoom mode uses aspect-FILL with a 6× cap so thin captions reach readable size; the corner page-mini preserves spatial context.
+23. **Render is button-driven.** The orchestrator's job ends after the visualizer places every Manim mp4. The user clicks **▶ Render** in the editor header to produce `output.mp4`. Agents do not run `npm run render-remotion` themselves.
 
 Full text in [`CLAUDE.md`](CLAUDE.md).
 

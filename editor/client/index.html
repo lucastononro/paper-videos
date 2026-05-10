@@ -45,6 +45,38 @@
         0%, 100% { opacity: 0.4; }
         50%      { opacity: 1; }
       }
+      /* Per-card delete affordance on the gallery — hidden by default,
+         revealed on card hover. Sits top-left of the thumbnail. */
+      .project-card-delete {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        width: 26px;
+        height: 26px;
+        border-radius: 999px;
+        background: rgba(13,17,23,0.85);
+        color: #ff9494;
+        border: 1px solid rgba(255,148,148,0.40);
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.12s, background 0.12s;
+        font-family: inherit;
+        line-height: 1;
+        padding: 0;
+      }
+      [role="button"]:hover .project-card-delete,
+      .project-card-delete:focus-visible {
+        opacity: 1;
+      }
+      .project-card-delete:hover {
+        background: rgba(255,107,107,0.85);
+        color: #fff;
+      }
     </style>
   </head>
   <body>

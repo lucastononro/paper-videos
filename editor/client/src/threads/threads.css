@@ -52,10 +52,61 @@
 .threads-panel-empty {
   color: var(--text-mute);
   font-size: 12px;
-  padding: 14px 10px;
+  margin: 12px;
+  padding: 14px 12px;
   line-height: 1.5;
   border: 1px dashed var(--border);
   border-radius: 8px;
+}
+
+/* ── horizontal tab strip — one tab per active spot-edit thread ── */
+.threads-panel-tabs {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+}
+.threads-panel-tabs::-webkit-scrollbar { height: 6px; }
+.threads-panel-tabs::-webkit-scrollbar-thumb {
+  background: var(--bg-elev-2);
+  border-radius: 3px;
+}
+.thread-tab {
+  all: unset;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: transparent;
+  font-size: 11px;
+  color: var(--text-mute);
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+  max-width: 240px;
+}
+.thread-tab:hover { background: var(--bg-elev-2); color: var(--text); }
+.thread-tab.is-active {
+  background: var(--bg);
+  color: var(--text);
+  border-color: rgba(255, 217, 102, 0.45);
+}
+.thread-tab.is-draft {
+  border-style: dashed;
+  border-color: rgba(255, 217, 102, 0.55);
+}
+.thread-tab-label {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ── thread card (list item) ── */

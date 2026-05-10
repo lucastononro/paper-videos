@@ -74,3 +74,38 @@ projectsRouter.get('/:slug/manifest', (req: Request, res: Response) => {
     res.status(500).json({ error: (err as Error).message });
   }
 });
+
+/**
+ * DELETE /api/projects/:slug — remove the entire video folder and any chat
+ * history persisted under videos/<slug>/.cache. This is irreversible; the
+ * client gates it behind a confirm dialog so it's never a one-misclick away.
+ *
+ * Validates the slug shape to make absolutely sure we don't escape VIDEOS_DIR
+ * (path-traversal defence). Empty trim AND `..`/`/` are rejected.
+ */
+projectsRouter.delete('/:slug', (req: Request, res: Response) => {
+  const slug = String(req.params['slug'] ?? '').trim();
+  if (!slug || slug.includes('/') || slug.includes('..') || slug.startsWith('.')) {
+    res.status(400).json({ error: 'invalid slug' });
+    return;
+  }
+  const dir = path.join(VIDEOS_DIR, slug);
+  // Resolve+normalize to verify the target stays under VIDEOS_DIR even if a
+  // weird slug somehow slipped past the validation above.
+  const resolved = path.resolve(dir);
+  const root = path.resolve(VIDEOS_DIR);
+  if (!resolved.startsWith(root + path.sep)) {
+    res.status(400).json({ error: 'slug escapes videos dir' });
+    return;
+  }
+  if (!fs.existsSync(resolved)) {
+    res.status(404).json({ error: `slug "${slug}" not found` });
+    return;
+  }
+  try {
+    fs.rmSync(resolved, { recursive: true, force: true });
+    res.json({ slug, deleted: true });
+  } catch (err) {
+    res.status(500).json({ error: (err as Error).message });
+  }
+});

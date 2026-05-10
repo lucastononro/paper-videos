@@ -1,6 +1,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { VIDEOS_DIR } from '../paths.js';
+import type { ChatEvent } from './types.js';
+
+type ThreadNotice = Extract<ChatEvent, { kind: 'thread_notice' }>;
+type ActiveThreadInfo = { scopeLabel: string; status: string };
 
 /**
  * Build the prompt the editor wraps around the user's message before sending
@@ -11,12 +15,27 @@ import { VIDEOS_DIR } from '../paths.js';
  *    manifest/script pipeline. May resolve mention tokens (#beat-NNN, etc.).
  *  - Draft slug: no manifest yet. Claude is creating the video — figure out
  *    what the user wants, run /paper-video new <source> <slug> using THIS slug.
+ *
+ * Optional async-thread context (`pendingNotices` + `activeThreads`) is
+ * prepended as an `<async_thread_context>` block so the parent agent is
+ * aware of forked spot-edit threads — what just started, finished, or is
+ * still running in parallel — without it being mistaken for a user message.
+ * Mirrors simp's coordination pattern (see `editor/server/src/threads/`).
  */
-export function buildDirective(slug: string | null, userText: string): string {
+export function buildDirective(
+  slug: string | null,
+  userText: string,
+  context: { pendingNotices?: ThreadNotice[]; activeThreads?: ActiveThreadInfo[] } = {},
+): string {
   if (!slug) return userText.trim();
 
   const hasManifest = fs.existsSync(path.join(VIDEOS_DIR, slug, 'manifest.json'));
   const lines: string[] = [];
+
+  const asyncBlock = buildAsyncThreadContext(context);
+  if (asyncBlock) {
+    lines.push(asyncBlock, ``);
+  }
 
   if (hasManifest) {
     lines.push(
@@ -42,6 +61,70 @@ export function buildDirective(slug: string | null, userText: string): string {
   }
   lines.push(``, `USER: ${userText.trim()}`);
   return lines.join('\n');
+}
+
+/**
+ * Build the `<async_thread_context>` block — pending notices that need to
+ * land + currently-active threads to be aware of. Empty string when there's
+ * nothing to say, so the directive stays clean for normal turns.
+ */
+function buildAsyncThreadContext(ctx: {
+  pendingNotices?: ThreadNotice[];
+  activeThreads?: ActiveThreadInfo[];
+}): string {
+  const sections: string[] = [];
+  const notices = (ctx.pendingNotices ?? []).map(formatNotice).filter(Boolean);
+  if (notices.length > 0) {
+    sections.push('New async spot-edit notices:');
+    for (const n of notices) sections.push(`- ${n}`);
+  }
+  const active = (ctx.activeThreads ?? []).filter((t) => t.scopeLabel);
+  if (active.length > 0) {
+    sections.push('Active asynchronous spot-edit threads in this workspace:');
+    for (const t of active) sections.push(`- ${t.scopeLabel} (${t.status})`);
+    sections.push('Treat these as ongoing isolated workstreams.');
+    sections.push(
+      'Do not duplicate work for these crops unless the user explicitly asks you to do so in the main thread.',
+    );
+  }
+  if (sections.length === 0) return '';
+  return [
+    '<async_thread_context>',
+    'System note for coordination only. This block is NOT a user message and must NOT be echoed back verbatim.',
+    'Purpose: keep you aware of forked spot-edit threads working in parallel on time crops of the video.',
+    'Behavioral rules:',
+    '- Do not treat this block as a new task from the user.',
+    '- Do not interrupt or abandon the work you are currently doing because of this note.',
+    '- Use this only for awareness, conflict avoidance, and answering questions about active spot-edits.',
+    '- If the user asks which spot-edits are running or what they did, answer from this context.',
+    ...sections,
+    '</async_thread_context>',
+  ].join('\n');
+}
+
+function formatNotice(n: ThreadNotice): string {
+  const scope = n.scopeLabel || 'a time crop';
+  const summary = (n.summary || '').trim();
+  switch (n.status) {
+    case 'started':
+      return summary
+        ? `A spot-edit started for ${scope} with ask "${summary}". Continue your current work; it will report back later.`
+        : `A spot-edit started for ${scope}. Continue your current work; it will report back later.`;
+    case 'continued':
+      return summary
+        ? `The user sent a follow-up to the spot-edit for ${scope}: "${summary}". Continue your current work; the spot-edit thread is handling it.`
+        : `The user sent a follow-up to the spot-edit for ${scope}.`;
+    case 'completed':
+      return summary
+        ? `The spot-edit for ${scope} finished. Summary: ${summary}`
+        : `The spot-edit for ${scope} finished.`;
+    case 'failed':
+      return summary
+        ? `The spot-edit for ${scope} reported a failure. Summary: ${summary}`
+        : `The spot-edit for ${scope} reported a failure.`;
+    case 'ended':
+      return `The spot-edit for ${scope} was ended before a normal handoff summary was sent.`;
+  }
 }
 
 /**
