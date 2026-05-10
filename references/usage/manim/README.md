@@ -62,6 +62,15 @@ NEUTRAL   = GREY_B      # axes, grid, supporting text
 
 ## Where to look for examples
 
-- This folder's `equation-derivation.py`, `geometric-intuition.py` — canonical patterns.
+- This folder's `equation-derivation.py`, `geometric-intuition.py`, `equation-explanation.py` — canonical patterns.
 - `references/raw-packages/manim/example_scenes/` — upstream gallery.
 - 3Blue1Brown's `videos` repo (not vendored) at https://github.com/3b1b/videos for style inspiration.
+
+## Explaining parts of an equation (use the helpers)
+
+When the narration names a sub-expression ("the softmax here", "the denominator", "this temperature term"), the viewer must know which symbol on screen is meant — they cannot scan. Two helpers in `equation-explanation.py` solve this. **Paste them at the top of every scene file that explains an equation, alongside `fit_to_frame`.**
+
+- `contour_flash(scene, mob)` — soft rounded `SurroundingRectangle` traces around `mob` in ~0.4s, holds ~1.2s, fades ~0.35s. Use for *passing references* (the narration names the part but moves on).
+- `explain_part(scene, equation, part, label)` — the part slides left, scales up, a label appears below it; rest of equation dims. After `hold` seconds the part slides back and the equation un-dims. Use when the narration *unpacks* the part for 3+ seconds.
+
+See `equation-explanation.py` for the canonical implementation and a worked example walking through `softmax(s)_i = exp(s_i) / sum_j exp(s_j)`.

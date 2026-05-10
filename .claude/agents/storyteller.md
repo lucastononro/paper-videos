@@ -168,6 +168,48 @@ When two or more consecutive narrated beats share the **same on-screen content**
 
 **When to break the run**: only when the on-screen content genuinely changes — different page, different focus zone, different equation, different Manim scene. Pauses (`[PAUSE Xs]`) between same-visual narrated beats are fine; the migrator bridges them automatically (the visual keeps showing during the silence).
 
+#### Equation explanation cues (point the viewer at the right symbol)
+
+When narration names a sub-expression of an on-screen equation ("the softmax here", "this denominator", "the temperature parameter beta"), the viewer cannot scan the equation for the meant symbol — they will get lost. CLAUDE.md hard-rule #25 requires the Manim scene to either **contour** the sub-expression (passing reference) or **break it down** (sustained unpacking). YOU signal which via the `[MANIM: ...]` `description=` text; the visualizer translates each cue into a helper call (`contour_flash` / `explain_part`).
+
+**Signal syntax** inside `description="..."`:
+
+- `contour: <which part>` — for beats whose narration names the part but moves on (~1-3s on that part). The Manim helper takes ~2s.
+- `breakdown: <which part> as "<short label>"` — for beats whose narration *unpacks* the part for 3+ seconds. The label is what shows below the magnified copy.
+
+Use both in sequence across consecutive beats of a shared Manim scene:
+
+```
+### beat-042
+[MANIM: softmax_walkthrough description="Show softmax(s)_i = exp(s_i)/sum_j exp(s_j). Beat 1: write the whole equation."]
+"[curious] Softmax. It turns a vector of scores into a probability distribution."
+
+### beat-043
+[VISUAL: continue]
+"The numerator is just exp of the i-th score —"
+# scene cue extends in the visualizer's view: "Beat 2: contour: numerator exp(s_i)."
+
+### beat-044
+[VISUAL: continue]
+"— normalized by the total exponentiated score across the vector."
+# scene cue extends: "Beat 3: breakdown: denominator as 'sum over every score'."
+
+### beat-045
+[VISUAL: continue]
+"[emphasized] Every output sums to one."
+# scene cue extends: "Beat 4: hold the full equation."
+```
+
+When the visualizer authors `softmax_walkthrough.py`, they concatenate the per-beat steps from the migrated block description into one scene that does `Write` → `contour_flash` → `explain_part` → `wait` over the block's duration.
+
+**Rules of thumb:**
+
+- ≤1 `contour:` cue per beat. Two contours in 2 seconds reads as flicker.
+- Use `breakdown:` only for beats with 3+ seconds of voice on the same part. Otherwise `contour:`.
+- Don't break down the *whole* equation — break down a *part* of it. The breakdown's value is "this symbol means X"; if the whole equation needs explaining, that's a sequence of beats with their own contours, not one giant breakdown.
+- Label text is 3-6 words. "sum over every score in the vector" — yes. "the denominator, which is sum over all scores and acts as a normalization constant" — no, that's a beat in itself.
+- If you find yourself wanting to contour the same part across 3+ beats, you've over-fragmented — collapse those beats into one beat with `[long pause]` mid-sentence.
+
 ### Hard rules for narration text
 
 These come from `references/usage/elevenlabs/README.md`. The summary:

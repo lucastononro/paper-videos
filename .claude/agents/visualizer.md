@@ -171,6 +171,46 @@ Long equations like `Att(Q,K,V) = D⁻¹AV, A = exp(QK^T/√d), D = diag(A1_L)` 
 
 The `cyb-e-2014-07-0677-r2-article` scenes (`binary_entropy_curve.py`, `chaotic_regime_caveat.py`, etc.) use this pattern — copy from there as a reference.
 
+### Equation explanations: contour + breakdown (mandatory when narration names a part)
+
+When a beat's narration names a sub-expression of an on-screen equation ("the softmax here", "this denominator", "the temperature parameter beta", "the term that comes from the prior"), the viewer cannot be left scanning the equation for which symbol the voice means. CLAUDE.md hard-rule #25 requires one of two patterns; both are reusable helpers that **you paste at the top of every equation-explanation scene file, alongside `fit_to_frame`** — they live as canonical implementations in `references/usage/manim/equation-explanation.py`.
+
+**(a) `contour_flash(scene, mob)`** — a soft rounded `SurroundingRectangle` traces around the named sub-expression in ~0.4s, holds for ~1.2s, fades over ~0.35s. Total ~2s. Use when the narration *names* the sub-expression in passing — a single phrase like "the softmax here" — and moves on.
+
+```python
+contour_flash(self, eq[2])   # `eq[2]` is the numerator if eq was built as
+                              # MathTex(r"\mathrm{softmax}(s)_i", r"=", r"\exp(s_i)", r"\over", r"\sum_j \exp(s_j)")
+```
+
+**(b) `explain_part(scene, equation, part, label)`** — the named part slides to a destination off-center (default `LEFT * 2.8 + UP * 0.4`), scales up by 1.6×, a short Tex label appears below it; the rest of the equation dims to 30% opacity. After `hold` seconds (default 3.5s) the part slides back and the equation restores. Use when the narration *unpacks* the sub-expression for 3+ seconds.
+
+```python
+explain_part(
+    self,
+    eq,
+    eq[4],                                     # the denominator
+    r"sum over every score in the vector",     # short label, 3-6 words
+    hold=3.0,
+)
+```
+
+**Build equations as separately-addressable pieces.** `MathTex(r"\alpha", r"+", r"\beta")` gives you `eq[0]`, `eq[1]`, `eq[2]`. This is the cleanest way to address parts — `equation.get_parts_by_tex(r"\beta")` works but is fragile when the symbol appears multiple times (the helper accepts either form). For equations with named subscripts (`\exp(s_i)`, `\sum_j \exp(s_j)`), prefer indexed access.
+
+**How the storyteller signals which helper to use.** The cue's `description="..."` will say either `contour: <part>` for a passing reference, `breakdown: <part> as "<label>"` for a sustained unpacking, or both in sequence. Example:
+
+```
+[MANIM: softmax_walkthrough description="Show softmax(s)_i = exp(s_i)/sum_j exp(s_j). Beat 1: write the whole equation. Beat 2: contour: numerator exp(s_i). Beat 3: breakdown: denominator as 'sum over every score in the vector'. Beat 4: hold."]
+```
+
+Translate each `contour:` / `breakdown:` step into the corresponding helper call inside the scene's `construct()`. The voice timeline determines `hold` — read `narration/beat-NNN.timestamps.json` for the explaining beat's `audioDurationSeconds` and set `hold ≈ audioDurationSeconds - 1.2` (slide-in + slide-out cost ~1.2s combined).
+
+**Anti-patterns:**
+- Don't `contour_flash` every part of an equation in a single beat — it becomes a flicker show. One contour per beat is the ceiling; two if they're sequential and at least 1.5s apart.
+- Don't `explain_part` for less than 2.5s of voice — the slide is wasted. Use `contour_flash` instead.
+- Don't end the scene with the equation dimmed or a part still magnified — the held last frame must be the *whole equation*, undimmed (rule #14: scenes end on a satisfying tableau, never a transient state).
+
+The canonical worked example in `references/usage/manim/equation-explanation.py` walks through softmax start-to-finish: `Write(eq)` → `contour_flash(numerator)` → `explain_part(denominator, label)` → 2.5s hold. Open and read that file before writing your first explanation scene; it's faster than re-deriving the pacing.
+
 ### Captions
 
 If you ever modify `src/remotion/components/CaptionBar.tsx`, follow `references/usage/visualization/best-practices.md` section 11. The non-negotiables:
