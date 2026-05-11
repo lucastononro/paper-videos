@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <rect width="1920" height="1080" fill="#0e1117"/>
+  <text x="960" y="80" font-family="Inter, sans-serif" font-size="42" fill="#e6edf3" text-anchor="middle" font-weight="700">Carbon-ceramic brake disc</text>
+  <text x="960" y="120" font-family="Inter, sans-serif" font-size="22" fill="#8b949e" text-anchor="middle">SiC matrix + carbon fibres — densified via reactive sintering</text>
+
+  <!-- main disc, side view (almost circular) -->
+  <g transform="translate(960, 580)">
+    <!-- outer ring -->
+    <circle cx="0" cy="0" r="340" fill="#222226" stroke="#444" stroke-width="3"/>
+    <!-- inner hub area -->
+    <circle cx="0" cy="0" r="130" fill="#161b22" stroke="#444" stroke-width="2"/>
+    <circle cx="0" cy="0" r="40" fill="#0e1117"/>
+    <!-- hub bolts -->
+    <g fill="#666">
+      <circle cx="0" cy="-80" r="10"/><circle cx="69" cy="-40" r="10"/><circle cx="69" cy="40" r="10"/><circle cx="0" cy="80" r="10"/><circle cx="-69" cy="40" r="10"/><circle cx="-69" cy="-40" r="10"/>
+    </g>
+    <!-- drilled holes around the disc -->
+    <g fill="#0e1117">
+      <circle cx="0" cy="-240" r="14"/><circle cx="100" cy="-220" r="14"/><circle cx="190" cy="-160" r="14"/><circle cx="240" cy="-50" r="14"/><circle cx="240" cy="50" r="14"/><circle cx="190" cy="160" r="14"/><circle cx="100" cy="220" r="14"/><circle cx="0" cy="240" r="14"/>
+      <circle cx="-100" cy="220" r="14"/><circle cx="-190" cy="160" r="14"/><circle cx="-240" cy="50" r="14"/><circle cx="-240" cy="-50" r="14"/><circle cx="-190" cy="-160" r="14"/><circle cx="-100" cy="-220" r="14"/>
+    </g>
+    <!-- ventilation grooves -->
+    <g stroke="#5a5a5e" stroke-width="2" fill="none">
+      <path d="M 60 -300 L 80 -270"/>
+      <path d="M 160 -240 L 180 -210"/>
+      <path d="M 240 -180 L 260 -150"/>
+      <path d="M 290 -100 L 310 -70"/>
+    </g>
+    <!-- bright spot top -->
+    <ellipse cx="-60" cy="-220" rx="100" ry="30" fill="#999" opacity="0.18"/>
+  </g>
+
+  <!-- caliper hint -->
+  <g transform="translate(1380, 580)">
+    <rect x="-60" y="-100" width="120" height="200" rx="14" fill="#a02a2a" stroke="#601818" stroke-width="3"/>
+    <text x="0" y="0" font-family="Inter, sans-serif" font-size="20" fill="#fff" text-anchor="middle" font-weight="700">CALIPER</text>
+  </g>
+
+  <!-- annotation -->
+  <g>
+    <text x="200" y="900" font-family="Inter, sans-serif" font-size="22" fill="#58a6ff">SiC/C-SiC disc</text>
+    <text x="200" y="930" font-family="Inter, sans-serif" font-size="20" fill="#c9d1d9">infiltrated, sintered, 60% lighter than cast iron</text>
+  </g>
+</svg>

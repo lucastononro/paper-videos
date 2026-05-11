@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <defs>
+    <linearGradient id="bg-rsa" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0e1117"/>
+      <stop offset="1" stop-color="#171c25"/>
+    </linearGradient>
+    <linearGradient id="lock-gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f9d96a"/>
+      <stop offset="1" stop-color="#a07a1c"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1920" height="1080" fill="url(#bg-rsa)"/>
+
+  <text x="960" y="100" text-anchor="middle" font-family="Georgia, serif" font-size="42" fill="#e6edf3" letter-spacing="3">PUBLIC-KEY CRYPTOGRAPHY</text>
+  <text x="960" y="148" text-anchor="middle" font-family="Georgia, serif" font-size="22" font-style="italic" fill="#ffd866" opacity="0.85">RSA · Diffie-Hellman · elliptic curves  —  arithmetic in finite groups</text>
+
+  <!-- Padlock icon -->
+  <g transform="translate(960, 540)">
+    <!-- Shackle -->
+    <path d="M-110 -40 L-110 -150 Q-110 -250 0 -250 Q110 -250 110 -150 L110 -40" stroke="url(#lock-gold)" stroke-width="36" fill="none" stroke-linecap="round"/>
+    <!-- Body -->
+    <rect x="-180" y="-40" width="360" height="280" rx="34" fill="url(#lock-gold)" stroke="#3a2614" stroke-width="3"/>
+    <!-- Keyhole -->
+    <circle cx="0" cy="80" r="26" fill="#0e1117"/>
+    <rect x="-10" y="80" width="20" height="80" fill="#0e1117"/>
+  </g>
+
+  <!-- Hex stream of digits — left -->
+  <g font-family="Courier New, monospace" font-size="22" fill="#58a6ff" opacity="0.78">
+    <text x="100" y="260">3A 7F 1B 9C E4 5D 02 81</text>
+    <text x="100" y="296">4F E1 88 6A 30 BB 7C 95</text>
+    <text x="100" y="332">D5 14 A8 CE F2 71 28 6F</text>
+    <text x="100" y="368">81 33 9E 4A 51 70 B7 2C</text>
+    <text x="100" y="404">EE 99 03 11 7C 8B 24 7F</text>
+    <text x="100" y="440">A0 6F 23 91 4D 65 09 BC</text>
+    <text x="100" y="476">88 5A C2 9F EE 12 67 33</text>
+    <text x="100" y="512">71 0B EE 89 4F 28 13 A2</text>
+    <text x="100" y="548">3A 4D 9C 71 FF 65 80 12</text>
+    <text x="100" y="584">81 9E 23 7B EE 94 50 6F</text>
+    <text x="100" y="620">D5 C2 0A 41 65 33 1F BB</text>
+    <text x="100" y="656">88 24 6B 9E 12 4D 91 F2</text>
+    <text x="100" y="692">A0 33 EE 70 88 1F 4D B7</text>
+    <text x="100" y="728">23 8B 4D 91 EE 12 33 9C</text>
+    <text x="100" y="764">F0 5A 1B 9F E4 23 86 11</text>
+  </g>
+
+  <!-- Hex stream of digits — right -->
+  <g font-family="Courier New, monospace" font-size="22" fill="#f97583" opacity="0.78">
+    <text x="1380" y="260">EE 23 6F 14 9C 30 7B 88</text>
+    <text x="1380" y="296">A0 51 EE 33 7F 14 6F 9C</text>
+    <text x="1380" y="332">12 8B 70 5A 9E 33 BB EE</text>
+    <text x="1380" y="368">81 28 6F 41 D5 23 EE 71</text>
+    <text x="1380" y="404">3A 88 4D 91 65 EE 23 6F</text>
+    <text x="1380" y="440">7C 14 33 9C 70 1B 88 5A</text>
+    <text x="1380" y="476">EE 91 4D 23 65 33 9C 70</text>
+    <text x="1380" y="512">A0 12 8B 33 EE 6F 91 4D</text>
+    <text x="1380" y="548">D5 4D 71 88 24 6B 9E 12</text>
+    <text x="1380" y="584">88 EE 23 6F 14 9C 30 7B</text>
+    <text x="1380" y="620">1F 4D EE 12 8B 70 5A 9E</text>
+    <text x="1380" y="656">33 7F 14 6F 9C EE A0 51</text>
+    <text x="1380" y="692">9C 12 4D 91 EE 12 33 9C</text>
+    <text x="1380" y="728">F0 5A 33 9C 7C 14 33 9C</text>
+    <text x="1380" y="764">23 86 11 88 4D 91 65 EE</text>
+  </g>
+
+  <!-- Math caption boxes -->
+  <g font-family="Times New Roman, serif" font-style="italic" fill="#e6edf3">
+    <text x="960" y="900" text-anchor="middle" font-size="34">c = m<tspan baseline-shift="super" font-size="22">e</tspan>  mod  N</text>
+    <text x="960" y="950" text-anchor="middle" font-size="22" fill="#ffd866" opacity="0.85">multiplication in (ℤ/Nℤ)*  —  a finite abelian group</text>
+  </g>
+
+  <text x="960" y="1020" text-anchor="middle" font-family="Georgia, serif" font-size="20" font-style="italic" fill="#e6edf3" opacity="0.65">Galois fields, finite groups, and elliptic curves protect every connection</text>
+</svg>

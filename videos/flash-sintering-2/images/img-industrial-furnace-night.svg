@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <rect width="1920" height="1080" fill="#05080d"/>
+  <text x="960" y="80" font-family="Inter, sans-serif" font-size="42" fill="#e6edf3" text-anchor="middle" font-weight="700">Industrial ceramics plant — at night</text>
+  <text x="960" y="120" font-family="Inter, sans-serif" font-size="22" fill="#8b949e" text-anchor="middle">"draws the daily electricity of a small town"</text>
+
+  <!-- night sky -->
+  <rect x="0" y="160" width="1920" height="540" fill="#0a1020"/>
+
+  <!-- moon -->
+  <circle cx="240" cy="240" r="40" fill="#e6e6dc" opacity="0.85"/>
+  <circle cx="226" cy="232" r="6" fill="#a8a8a0" opacity="0.5"/>
+  <circle cx="252" cy="252" r="4" fill="#a8a8a0" opacity="0.5"/>
+
+  <!-- ground -->
+  <rect x="0" y="700" width="1920" height="380" fill="#0a0e15"/>
+
+  <!-- factory complex silhouette -->
+  <g fill="#1a1d24" stroke="#30363d" stroke-width="2">
+    <!-- main warehouse -->
+    <rect x="120" y="500" width="640" height="200"/>
+    <!-- second building -->
+    <rect x="780" y="450" width="480" height="250"/>
+    <!-- third -->
+    <rect x="1280" y="520" width="500" height="180"/>
+  </g>
+
+  <!-- chimneys -->
+  <g fill="#10141b" stroke="#30363d" stroke-width="2">
+    <rect x="280" y="300" width="60" height="200"/>
+    <rect x="540" y="280" width="80" height="220"/>
+    <rect x="900" y="200" width="80" height="250"/>
+    <rect x="1080" y="240" width="70" height="210"/>
+    <rect x="1500" y="320" width="70" height="200"/>
+  </g>
+
+  <!-- smoke + steam (night look) -->
+  <g fill="#3a4055" opacity="0.45">
+    <ellipse cx="310" cy="260" rx="40" ry="22"/>
+    <ellipse cx="580" cy="220" rx="60" ry="30"/>
+    <ellipse cx="940" cy="140" rx="80" ry="40"/>
+    <ellipse cx="1115" cy="180" rx="55" ry="28"/>
+    <ellipse cx="1535" cy="280" rx="50" ry="25"/>
+  </g>
+
+  <!-- glowing windows (yellow/orange — kiln light) -->
+  <g fill="#ffa040" opacity="0.85">
+    <rect x="160" y="540" width="40" height="40"/><rect x="220" y="540" width="40" height="40"/><rect x="280" y="540" width="40" height="40"/><rect x="340" y="540" width="40" height="40"/><rect x="400" y="540" width="40" height="40"/><rect x="460" y="540" width="40" height="40"/><rect x="520" y="540" width="40" height="40"/><rect x="580" y="540" width="40" height="40"/><rect x="640" y="540" width="40" height="40"/><rect x="700" y="540" width="40" height="40"/>
+    <rect x="160" y="610" width="40" height="40"/><rect x="220" y="610" width="40" height="40"/><rect x="280" y="610" width="40" height="40"/><rect x="340" y="610" width="40" height="40"/><rect x="400" y="610" width="40" height="40"/><rect x="460" y="610" width="40" height="40"/><rect x="520" y="610" width="40" height="40"/><rect x="580" y="610" width="40" height="40"/><rect x="640" y="610" width="40" height="40"/><rect x="700" y="610" width="40" height="40"/>
+
+    <rect x="820" y="500" width="40" height="40"/><rect x="880" y="500" width="40" height="40"/><rect x="940" y="500" width="40" height="40"/><rect x="1000" y="500" width="40" height="40"/><rect x="1060" y="500" width="40" height="40"/><rect x="1120" y="500" width="40" height="40"/><rect x="1180" y="500" width="40" height="40"/>
+    <rect x="820" y="570" width="40" height="40"/><rect x="880" y="570" width="40" height="40"/><rect x="940" y="570" width="40" height="40"/><rect x="1000" y="570" width="40" height="40"/><rect x="1060" y="570" width="40" height="40"/><rect x="1120" y="570" width="40" height="40"/><rect x="1180" y="570" width="40" height="40"/>
+    <rect x="820" y="640" width="40" height="40"/><rect x="880" y="640" width="40" height="40"/><rect x="940" y="640" width="40" height="40"/><rect x="1000" y="640" width="40" height="40"/><rect x="1060" y="640" width="40" height="40"/><rect x="1120" y="640" width="40" height="40"/><rect x="1180" y="640" width="40" height="40"/>
+
+    <rect x="1320" y="560" width="40" height="40"/><rect x="1380" y="560" width="40" height="40"/><rect x="1440" y="560" width="40" height="40"/><rect x="1500" y="560" width="40" height="40"/><rect x="1560" y="560" width="40" height="40"/><rect x="1620" y="560" width="40" height="40"/><rect x="1680" y="560" width="40" height="40"/><rect x="1740" y="560" width="40" height="40"/>
+    <rect x="1320" y="630" width="40" height="40"/><rect x="1380" y="630" width="40" height="40"/><rect x="1440" y="630" width="40" height="40"/><rect x="1500" y="630" width="40" height="40"/><rect x="1560" y="630" width="40" height="40"/><rect x="1620" y="630" width="40" height="40"/><rect x="1680" y="630" width="40" height="40"/><rect x="1740" y="630" width="40" height="40"/>
+  </g>
+
+  <!-- soft atmospheric glow over factory -->
+  <ellipse cx="960" cy="700" rx="900" ry="60" fill="#ffa040" opacity="0.05"/>
+
+  <text x="960" y="1020" font-family="Inter, sans-serif" font-size="20" fill="#8b949e" text-anchor="middle">Hours, megawatts. The energy backstory of a coffee mug.</text>
+</svg>

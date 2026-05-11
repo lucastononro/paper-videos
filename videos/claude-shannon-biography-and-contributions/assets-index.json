@@ -1,0 +1,170 @@
+{
+  "img-petoskey-michigan-1916": {
+    "kind": "image",
+    "file": "images/img-petoskey-michigan-1916.jpg",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Petoskey,_Michigan_from_the_harbor_(NBY_2798).jpg",
+    "license": "Public Domain (published in the U.S. before 1931)",
+    "attribution": "Detroit Publishing Company; via Wikimedia Commons / NBY 2798",
+    "notes": "Period view of Petoskey, Michigan from the harbor (Detroit Publishing Co. postcard, ca. 1900s). Shannon was born in Petoskey on April 30, 1916. The town's small-harbor character is preserved in this PD postcard image."
+  },
+  "img-gaylord-michigan-mainstreet-1920s": {
+    "kind": "image",
+    "file": "images/img-gaylord-michigan-mainstreet-1920s.jpg",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Detroit_Publishing_-_Suburban_station,_Petoskey,_Mich..jpg",
+    "license": "Public Domain (Library of Congress, no known restrictions)",
+    "attribution": "Detroit Publishing Company, ca. 1906; via Wikimedia Commons",
+    "notes": "SUBSTITUTION: Gaylord, Michigan has no early-20th-century photos on Wikimedia Commons. Used the Detroit Publishing Co. Petoskey suburban station photo (ca. 1906) as a period-appropriate northern-Michigan small-town stand-in. The two towns are 35 miles apart and architecturally similar in this era."
+  },
+  "img-shannon-young-boy-portrait": {
+    "kind": "image",
+    "file": "images/img-shannon-young-boy-portrait.png",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Claude_Shannon_c1930.png",
+    "license": "Public Domain in the United States (published before January 1, 1931)",
+    "attribution": "Photographer unknown; portrait of Claude E. Shannon Jr. at his Gaylord, Michigan home, ca. 1930; via Wikimedia Commons",
+    "notes": "Authentic young portrait of Shannon (~age 14) in formal attire at home in Gaylord. This is the canonical PD young-Shannon image."
+  },
+  "img-thomas-edison-portrait-young": {
+    "kind": "image",
+    "file": "images/img-thomas-edison-portrait-young.jpg",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Young_Thomas_Edison.jpg",
+    "license": "Public Domain in the United States (published before January 1, 1931)",
+    "attribution": "Portrait of Thomas A. Edison at age 14 (1861); via Wikimedia Commons",
+    "notes": "Young Edison portrait — Shannon idolized Edison and learned in 1932 that they were distant cousins. This is the canonical young-Edison PD photo."
+  },
+  "img-erector-set-1920s": {
+    "kind": "image",
+    "file": "images/img-erector-set-1920s.jpg",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Erector_Set.JPG",
+    "license": "CC BY-SA 3.0",
+    "attribution": "User 'Mosmas' on Wikimedia Commons",
+    "notes": "Vintage A.C. Gilbert Erector Set, the actual toy Shannon's father supplied him with. Brief in script asks for 1920s erector set — this is a representative period set."
+  },
+  "img-university-michigan-1932": {
+    "kind": "image",
+    "file": "images/img-university-michigan-1932.jpg",
+    "source_url": "https://commons.wikimedia.org/wiki/File:AngellHall2010.JPG",
+    "license": "CC BY 3.0",
+    "attribution": "User 'AndrewHorne' on Wikimedia Commons (2010)",
+    "notes": "SUBSTITUTION: No high-quality PD 1932-era U-M campus photos on Wikimedia. Angell Hall (built 1924, the central liberal arts building Shannon would have attended classes in) photographed in 2010. Architecturally identical to 1932."
+  },
+  "img-shannon-michigan-graduate-1936": {
+    "kind": "image",
+    "file": "images/img-shannon-michigan-graduate-1936.png",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Claude_Shannon_c1930.png",
+    "license": "Public Domain in the United States (published before January 1, 1931)",
+    "attribution": "Photographer unknown; portrait of Claude E. Shannon Jr. ca. 1930; via Wikimedia Commons",
+    "notes": "SUBSTITUTION: No PD 1936 graduate-era Shannon photo exists. Reusing the c.1930 young Shannon portrait — closest defensible PD image of Shannon as a young man."
+  },
+  "img-george-boole-portrait": {
+    "kind": "image",
+    "file": "images/img-george-boole-portrait.jpg",
+    "source_url": "https://commons.wikimedia.org/wiki/File:George_Boole_color.jpg",
+    "license": "Public Domain (Creative Commons Public Domain Mark 1.0)",
+    "attribution": "Portrait of George Boole (1815-1864), ca. 1864; via Wikimedia Commons",
+    "notes": "The canonical Boole portrait. Boole's algebra of logic underlies Shannon's 1937 master's thesis."
+  },
+  "img-mit-differential-analyzer": {
+    "kind": "image",
+    "file": "images/img-mit-differential-analyzer.jpg",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Cambridge_differential_analyser.jpg",
+    "license": "CC BY 2.0",
+    "attribution": "University of Cambridge Computer Laboratory; via Wikimedia Commons",
+    "notes": "SUBSTITUTION: No PD photo of Bush's MIT differential analyzer is available on Wikimedia. The Cambridge differential analyser (1938) is a near-replica of Bush's 1931 MIT machine — same mechanical design, built by Hartree under Bush's direction. Good period analog computer image."
+  },
+  "img-shannon-mit-thesis-1937": {
+    "kind": "image",
+    "file": "images/img-shannon-mit-thesis-1937.png",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Claude_Shannon_c1930.png",
+    "license": "Public Domain in the United States (published before January 1, 1931)",
+    "attribution": "Portrait of Claude E. Shannon Jr. ca. 1930; via Wikimedia Commons",
+    "notes": "SUBSTITUTION: No PD 1937 thesis-era Shannon photo exists. Reusing the c.1930 young Shannon portrait — same person, ~7 years before the thesis defense."
+  },
+  "img-cold-spring-harbor-1940": {
+    "kind": "image",
+    "file": "images/img-cold-spring-harbor-1940.jpg",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Cold_Spring_Harbor_Laboratory_building_by_inner_harbor.jpg",
+    "license": "CC BY-SA 4.0",
+    "attribution": "User 'Jim.henderson' on Wikimedia Commons (2022)",
+    "notes": "SUBSTITUTION: No PD 1940-era CSHL photo on Wikimedia. The historic Cold Spring Harbor Laboratory main building (where Shannon worked summer 1939 on his PhD genetics research) photographed in 2022. The building itself dates to before 1940."
+  },
+  "img-shannon-bell-labs-1941": {
+    "kind": "image",
+    "file": "images/img-shannon-bell-labs-1941.jpg",
+    "source_url": "https://commons.wikimedia.org/wiki/File:C.E._Shannon._Tekniska_museet_43069.jpg",
+    "license": "CC BY 2.0",
+    "attribution": "Tekniska museet (Sweden's National Museum of Science and Technology), item 43069; via Wikimedia Commons",
+    "notes": "Portrait of Claude Shannon from the Tekniska museet collection. Date of original photograph not recorded but visually consistent with his Bell Labs prime (1940s-50s). One of the few CC-licensed Shannon portraits."
+  },
+  "img-bell-labs-murray-hill-1940s": {
+    "kind": "image",
+    "file": "images/img-bell-labs-murray-hill-1940s.jpg",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Alcatel-Lucent_Murray_Hill.JPG",
+    "license": "CC BY-SA 3.0 / GFDL / Public Domain (multi-licensed)",
+    "attribution": "Christian Kaack; via Wikimedia Commons (2010)",
+    "notes": "SUBSTITUTION: No PD 1940s photo of Bell Labs Murray Hill on Wikimedia. The original Building 1 (opened 1942, where Shannon worked) is part of this complex; this 2010 photograph shows the same building Shannon entered each day."
+  },
+  "img-alan-turing-portrait": {
+    "kind": "image",
+    "file": "images/img-alan-turing-portrait.jpg",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Alan_Turing_Aged_16.jpg",
+    "license": "Public Domain (Creative Commons Public Domain Mark 1.0)",
+    "attribution": "Photographer possibly Arthur Reginald Chaffin; passport photo of Alan Turing aged 16, ca. 1928-1929; via Wikimedia Commons",
+    "notes": "The canonical PD young-Turing portrait. Turing visited Bell Labs in 1943 and met with Shannon on cryptography work."
+  },
+  "img-shannon-betty-moore-wedding-1949": {
+    "kind": "image",
+    "file": "images/img-shannon-betty-moore-wedding-1949.svg",
+    "source_url": "generated",
+    "license": "generated SVG",
+    "attribution": "Hand-authored SVG title card",
+    "notes": "SUBSTITUTION: No PD wedding photograph of Claude and Betty Shannon exists. Per video doctrine, NOT generating an AI image of a historical figure. Replaced with a hand-authored typographic title card 'Claude & Mary Elizabeth (Betty) Shannon — Married March 27, 1949' on the dark navy palette."
+  },
+  "img-theseus-maze-mouse-1950": {
+    "kind": "image",
+    "file": "images/img-theseus-maze-mouse-1950.jpg",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Theseus_Maze_by_Claude_Shannon,_1952_-_MIT_Museum_-_DSC03702.JPG",
+    "license": "CC0 1.0 Public Domain Dedication",
+    "attribution": "Photographer 'Daderot'; MIT Museum exhibit (2013); via Wikimedia Commons",
+    "notes": "Photograph of the actual Theseus maze (Shannon's 1950 maze-solving electromechanical mouse) on display at the MIT Museum. The authentic original device."
+  },
+  "img-ultimate-machine-useless-box": {
+    "kind": "image",
+    "file": "images/img-ultimate-machine-useless-box.png",
+    "source_url": "https://commons.wikimedia.org/wiki/File:UselessMachine.png",
+    "license": "CC BY-SA 4.0",
+    "attribution": "Wikimedia Commons user (modern commercial reproduction)",
+    "notes": "SUBSTITUTION: No PD photo of Shannon's original Ultimate Machine exists. This is a modern commercial reproduction of the same design Minsky proposed and Shannon built in 1952 — mechanically identical."
+  },
+  "img-shannon-juggling-unicycle": {
+    "kind": "image",
+    "file": "images/img-shannon-juggling-unicycle.svg",
+    "source_url": "https://commons.wikimedia.org/wiki/File:CEShannon_juggling.svg",
+    "license": "CC0 1.0 Public Domain Dedication",
+    "attribution": "Hand-illustrated SVG of Claude Shannon juggling binary numerals; via Wikimedia Commons",
+    "notes": "SUBSTITUTION: The famous 1962 photo of Shannon on a unicycle juggling (by H. Lebrecht / Bell Labs) is not in the public domain. This CC0 vector illustration shows Shannon juggling binary 0s and 1s — captures the same anecdote without copyright issue or AI fabrication."
+  },
+  "img-shannon-mit-faculty-1956": {
+    "kind": "image",
+    "file": "images/img-shannon-mit-faculty-1956.jpg",
+    "source_url": "https://commons.wikimedia.org/wiki/File:C.E._Shannon._Tekniska_museet_43069_(2x3_crop).jpg",
+    "license": "CC BY 2.0",
+    "attribution": "Tekniska museet (Sweden's National Museum of Science and Technology), item 43069 (cropped 2x3); via Wikimedia Commons",
+    "notes": "Cropped Tekniska museet portrait of Shannon (ca. 1950s). Period-appropriate for his 1956 return to MIT as faculty."
+  },
+  "img-voyager-spacecraft-nasa": {
+    "kind": "image",
+    "file": "images/img-voyager-spacecraft-nasa.jpg",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Voyager.jpg",
+    "license": "Public Domain (NASA, PD-USGov-NASA)",
+    "attribution": "NASA / JPL; via Wikimedia Commons",
+    "notes": "NASA photograph of a Voyager probe (launched 1977). Voyager's deep-space communication relies on Shannon-limit coding, the script's bridge from theory to interstellar reality."
+  },
+  "img-shannon-elderly-mit-1990s": {
+    "kind": "image",
+    "file": "images/img-shannon-elderly-mit-1990s.jpg",
+    "source_url": "https://commons.wikimedia.org/wiki/File:ClaudeShannon_MFO3807.jpg",
+    "license": "CC BY-SA 2.0 DE",
+    "attribution": "Konrad Jacobs; Mathematisches Forschungsinstitut Oberwolfach (MFO); via Wikimedia Commons",
+    "notes": "Portrait of an older Claude Shannon by mathematician-photographer Konrad Jacobs (1928-2015) at the Oberwolfach Research Institute. Date of original photo not recorded; visually consistent with Shannon in his 60s-70s (1980s-early 1990s, before his Alzheimer's progressed)."
+  }
+}

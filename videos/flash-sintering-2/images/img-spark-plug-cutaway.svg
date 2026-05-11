@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <rect width="1920" height="1080" fill="#0e1117"/>
+  <text x="960" y="80" font-family="Inter, sans-serif" font-size="42" fill="#e6edf3" text-anchor="middle" font-weight="700">Spark plug — ceramic insulator inside</text>
+  <text x="960" y="120" font-family="Inter, sans-serif" font-size="22" fill="#8b949e" text-anchor="middle">the white core is sintered high-alumina ceramic</text>
+
+  <g transform="translate(960, 580)">
+    <!-- terminal nut top -->
+    <rect x="-60" y="-380" width="120" height="80" fill="#999999" stroke="#666" stroke-width="2"/>
+    <!-- ceramic insulator (white) -->
+    <path d="M -70 -300 L 70 -300 L 110 -200 L 110 -50 L 70 50 L -70 50 L -110 -50 L -110 -200 Z" fill="#e6e6dc" stroke="#bbbbac" stroke-width="3"/>
+    <!-- insulator ridges -->
+    <ellipse cx="0" cy="-220" rx="115" ry="14" fill="none" stroke="#bbbbac" stroke-width="2"/>
+    <ellipse cx="0" cy="-160" rx="118" ry="14" fill="none" stroke="#bbbbac" stroke-width="2"/>
+    <ellipse cx="0" cy="-100" rx="118" ry="14" fill="none" stroke="#bbbbac" stroke-width="2"/>
+    <!-- metal shell hex nut -->
+    <path d="M -130 50 L 130 50 L 150 100 L 150 170 L 130 220 L -130 220 L -150 170 L -150 100 Z" fill="#5a5a5a" stroke="#3a3a3a" stroke-width="3"/>
+    <!-- threaded shell -->
+    <rect x="-100" y="220" width="200" height="180" fill="#777" stroke="#444" stroke-width="2"/>
+    <g stroke="#444" stroke-width="2" fill="none">
+      <line x1="-100" y1="240" x2="100" y2="240"/>
+      <line x1="-100" y1="260" x2="100" y2="260"/>
+      <line x1="-100" y1="280" x2="100" y2="280"/>
+      <line x1="-100" y1="300" x2="100" y2="300"/>
+      <line x1="-100" y1="320" x2="100" y2="320"/>
+      <line x1="-100" y1="340" x2="100" y2="340"/>
+      <line x1="-100" y1="360" x2="100" y2="360"/>
+      <line x1="-100" y1="380" x2="100" y2="380"/>
+    </g>
+    <!-- center electrode and tip -->
+    <rect x="-8" y="50" width="16" height="380" fill="#888"/>
+    <path d="M -40 410 L 40 410 L 40 450 L -40 450 Z" fill="#aaa"/>
+    <!-- gap -->
+    <path d="M -45 460 L -10 460 L -10 480 L 10 480 L 10 460 L 45 460 L 45 470 L 30 470 L 0 490 L -30 470 L -45 470 Z" fill="#5a5a5a"/>
+
+    <!-- cutaway dashed line -->
+    <line x1="-200" y1="-300" x2="200" y2="-300" stroke="#58a6ff" stroke-width="2" stroke-dasharray="6 6"/>
+  </g>
+
+  <!-- annotations -->
+  <g>
+    <line x1="1080" y1="380" x2="1340" y2="280" stroke="#58a6ff" stroke-width="2"/>
+    <circle cx="1080" cy="380" r="6" fill="#58a6ff"/>
+    <text x="1355" y="280" font-family="Inter, sans-serif" font-size="22" fill="#58a6ff" font-weight="700">ceramic insulator</text>
+    <text x="1355" y="310" font-family="Inter, sans-serif" font-size="20" fill="#c9d1d9">sintered Al₂O₃ at ~1600 °C</text>
+    <text x="1355" y="335" font-family="Inter, sans-serif" font-size="20" fill="#c9d1d9">isolates 30,000 V</text>
+
+    <line x1="840" y1="800" x2="540" y2="780" stroke="#ffd866" stroke-width="2"/>
+    <circle cx="840" cy="800" r="6" fill="#ffd866"/>
+    <text x="525" y="775" font-family="Inter, sans-serif" font-size="22" fill="#ffd866" text-anchor="end" font-weight="700">threaded shell</text>
+    <text x="525" y="800" font-family="Inter, sans-serif" font-size="20" fill="#c9d1d9" text-anchor="end">steel, screws into block</text>
+  </g>
+</svg>

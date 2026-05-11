@@ -29,7 +29,7 @@ target_minutes: 20
 (silent)
 
 ### beat-006 | act-0 | est. 8.5 sec
-[VISUAL: MANIM: S3SymbolFlash description="Step 1: dark navy. Step 2: the six elements of S_3 — Id, s_1, s_2, t_1, t_2, t_3 — fade in one by one in a horizontal row, glowing pale gold against navy. Step 3: hold tableau, slow gentle pulse on the row."]
+[MANIM: s3_symbol_flash description="Step 1: dark navy. Step 2: the six elements of S_3 — Id, s_1, s_2, t_1, t_2, t_3 — fade in one by one in a horizontal row, glowing pale gold against navy. Step 3: hold tableau, slow gentle pulse on the row."]
 "[curious] How does a boy who failed his entrance exam twice — invent the language of symmetry?"
 
 ### beat-007 | act-0 | est. 4.5 sec
@@ -127,15 +127,15 @@ target_minutes: 20
 "That's what mathematicians mean by 'solvable by radicals.' You can write the roots."
 
 ### beat-029 | act-3 | est. 9.0 sec
-[VISUAL: MANIM: CardanoCubicScroll description="Step 1: scroll showing 'x³ + px + q = 0' top-left. Step 2: a long expression with nested cube roots and square roots fades in below — Cardano's formula, deliberately intimidating but legible. Step 3: subtitle 'Cardano, 1545' fades in. Step 4: hold tableau, faint sepia glow."]
+[MANIM: cardano_cubic_scroll description="Step 1: scroll showing 'x³ + px + q = 0' top-left. Step 2: a long expression with nested cube roots and square roots fades in below — Cardano's formula, deliberately intimidating but legible. Step 3: subtitle 'Cardano, 1545' fades in. Step 4: hold tableau, faint sepia glow."]
 "In 1545, an Italian named Cardano cracked the cubic. The formula is hideous — but it exists."
 
 ### beat-030 | act-3 | est. 8.0 sec
-[VISUAL: MANIM: FerrariQuartic description="Step 1: scroll panel beside Cardano's, labeled 'Ferrari, 1545'. Step 2: nested radicals expression for the quartic fades in. Step 3: subtitle 'degree 4 — solved'. Step 4: hold tableau."]
+[MANIM: ferrari_quartic description="Step 1: scroll panel beside Cardano's, labeled 'Ferrari, 1545'. Step 2: nested radicals expression for the quartic fades in. Step 3: subtitle 'degree 4 — solved'. Step 4: hold tableau."]
 "That same year, Cardano's student Ferrari cracked the quartic. Degree four — done."
 
 ### beat-031 | act-3 | est. 8.0 sec
-[VISUAL: MANIM: QuinticQuestionMark description="Step 1: a clean 'x⁵ + a₄x⁴ + … + a₀ = 0' fades in centered. Step 2: a giant question mark in pale gold fades in above it. Step 3: hold tableau."]
+[MANIM: quintic_question_mark description="Step 1: a clean 'x⁵ + a₄x⁴ + … + a₀ = 0' fades in centered. Step 2: a giant question mark in pale gold fades in above it. Step 3: hold tableau."]
 "And then — the quintic. For two hundred and fifty years, Europe's best mathematicians tried."
 
 ### beat-032 | act-3 | est. 6.0 sec
@@ -263,15 +263,15 @@ target_minutes: 20
 ## Act 5 — Permutations: the symmetries you already know
 
 ### beat-062 | act-5 | est. 8.5 sec
-[VISUAL: MANIM: QuadraticExample description="Step 1: 'x² − 5x + 6 = 0' fades in centered, large white text. Step 2: hold."]
+[MANIM: quadratic_example description="Step 1: 'x² − 5x + 6 = 0' fades in centered, large white text. Step 2: hold."]
 "Now — let me show you what Galois actually saw. Pause here. We start small."
 
 ### beat-063 | act-5 | est. 8.5 sec
-[VISUAL: MANIM: QuadraticFactor description="Step 1: equation 'x² − 5x + 6'. Step 2: arrow down. Step 3: factored form '(x − 2)(x − 3)' appears below. Step 4: hold."]
+[MANIM: quadratic_factor description="Step 1: equation 'x² − 5x + 6'. Step 2: arrow down. Step 3: factored form '(x − 2)(x − 3)' appears below. Step 4: hold."]
 "X squared minus five x plus six. It factors. The roots are two and three."
 
 ### beat-064 | act-5 | est. 9.5 sec
-[VISUAL: MANIM: QuadraticSwap description="Step 1: '(x − 2)(x − 3)' centered. Step 2: arrow swap, the 2 and 3 trade places. Step 3: '(x − 3)(x − 2)' below. Step 4: equals sign joining them. Step 5: both expand to 'x² − 5x + 6' — identical. Step 6: hold."]
+[MANIM: quadratic_swap description="Step 1: '(x − 2)(x − 3)' centered. Step 2: arrow swap, the 2 and 3 trade places. Step 3: '(x − 3)(x − 2)' below. Step 4: equals sign joining them. Step 5: both expand to 'x² − 5x + 6' — identical. Step 6: hold."]
 "What if I write it as x minus three, times x minus two? [pause] Same polynomial. The labels are interchangeable."
 
 ### beat-065 | act-5 | est. 8.0 sec
@@ -283,7 +283,7 @@ target_minutes: 20
 (silent)
 
 ### beat-067 | act-5 | est. 9.5 sec
-[VISUAL: MANIM: CubicSixOrderings description="Step 1: '(x − 1)(x − 2)(x − 3)' fades in. Step 2: three labeled dots appear beneath. Step 3: six different orderings appear in sequence — (1,2,3), (1,3,2), (2,1,3), (2,3,1), (3,1,2), (3,2,1) — each briefly highlighted. Step 4: counter '6 = 3!' fades in beside. Step 5: hold."]
+[MANIM: cubic_six_orderings description="Step 1: '(x − 1)(x − 2)(x − 3)' fades in. Step 2: three labeled dots appear beneath. Step 3: six different orderings appear in sequence — (1,2,3), (1,3,2), (2,1,3), (2,3,1), (3,1,2), (3,2,1) — each briefly highlighted. Step 4: counter '6 = 3!' fades in beside. Step 5: hold."]
 "Move up to a cubic. Three roots — one, two, three. Six ways to list them. All produce the same polynomial."
 
 ### beat-068 | act-5 | est. 7.5 sec
@@ -291,7 +291,7 @@ target_minutes: 20
 "Six. Three factorial. The polynomial is invariant under all six rearrangements."
 
 ### beat-069 | act-5 | est. 8.5 sec
-[VISUAL: MANIM: PermutationArrows description="Step 1: three dots labeled 1, 2, 3 in a row. Step 2: arrows show one full permutation — (1,2,3) → (3,1,2). Step 3: each arrow lights up sequentially. Step 4: hold."]
+[MANIM: permutation_arrows description="Step 1: three dots labeled 1, 2, 3 in a row. Step 2: arrows show one full permutation — (1,2,3) → (3,1,2). Step 3: each arrow lights up sequentially. Step 4: hold."]
 "A permutation is just a way of moving labels around. From this list to that list."
 
 ### beat-070 | act-5 | est. 9.0 sec
@@ -327,7 +327,7 @@ target_minutes: 20
 (silent)
 
 ### beat-078 | act-5 | est. 9.5 sec
-[VISUAL: MANIM: ComposeSwaps description="Step 1: three dots 1, 2, 3. Step 2: apply t_1 — swap 2 and 3. Step 3: now apply s_1 on the result. Step 4: trace the net effect with a colored arrow. Step 5: result is t_2 — show its two-line notation appearing on the right. Step 6: hold."]
+[MANIM: compose_swaps description="Step 1: three dots 1, 2, 3. Step 2: apply t_1 — swap 2 and 3. Step 3: now apply s_1 on the result. Step 4: trace the net effect with a colored arrow. Step 5: result is t_2 — show its two-line notation appearing on the right. Step 6: hold."]
 "Now — apply one swap, then another. The result is a third swap, already in the list. You never escape the set."
 
 ### beat-079 | act-5 | est. 9.5 sec
@@ -335,7 +335,7 @@ target_minutes: 20
 "Galois lays it out as a six-by-six table. Rows are 'first move'. Columns are 'second'. Entries are the result."
 
 ### beat-080 | act-5 | est. 9.0 sec
-[VISUAL: MANIM: S3CayleyTable description="Step 1: six-by-six grid materializes, headers 'Id, s_1, s_2, t_1, t_2, t_3' across top and left. Step 2: cells fill in row by row using MathTex labels — matching the paper's table. Step 3: diagonal of identities highlights briefly. Step 4: hold tableau."]
+[MANIM: s3_cayley_table description="Step 1: six-by-six grid materializes, headers 'Id, s_1, s_2, t_1, t_2, t_3' across top and left. Step 2: cells fill in row by row using MathTex labels — matching the paper's table. Step 3: diagonal of identities highlights briefly. Step 4: hold tableau."]
 "Closed under composition. Has an identity. Has inverses. Associative."
 
 ### beat-081 | act-5 | est. 8.0 sec
@@ -353,40 +353,48 @@ target_minutes: 20
 ## Act 6 — Adjoining, normal subgroups, and the great unscrewing
 
 ### beat-084 | act-6 | est. 9.5 sec
-[VISUAL: MANIM: QuarticFactor description="Step 1: 'x⁴ − 5x² + 6 = 0' fades in. Step 2: arrow down. Step 3: '(x² − 2)(x² − 3)' appears. Step 4: four roots ±√2, ±√3 appear as four labeled dots. Step 5: hold."]
+[MANIM: quartic_factor description="Step 1: 'x⁴ − 5x² + 6 = 0' fades in. Step 2: arrow down. Step 3: '(x² − 2)(x² − 3)' appears. Step 4: four roots ±√2, ±√3 appear as four labeled dots. Step 5: hold."]
 "Take the quartic. X to the fourth, minus five x squared, plus six. Four roots — plus or minus root two, plus or minus root three."
 
-### beat-085 | act-6 | est. 9.5 sec
-[VISUAL: MANIM: V4FourSymmetries description="Step 1: four labeled dots ±√2, ±√3 arranged at corners of a square. Step 2: 'Id' label. Step 3: 'X' as horizontal flip. Step 4: 'Y' as vertical flip. Step 5: 'Z = X∘Y' as 180° rotation. Step 6: hold."]
-"There are four symmetries. Identity. Flip the root-twos. Flip the root-threes. Or do both."
+### beat-085 | act-6 | est. 10.0 sec
+[MANIM: v4_four_symmetries description="Step 1: four labeled dots ±√2, ±√3 arranged at corners of a square. Step 2: 'Id' label. Step 3: 'X' as horizontal flip swapping ±√2. Step 4: 'Y' as vertical flip swapping ±√3. Step 5: 'Z = X∘Y' as 180° rotation swapping both pairs. Step 6: hold all four labels visible."]
+"There are exactly four symmetries — and they get names. Call them Id, X, Y, and Z."
 
-### beat-086 | act-6 | est. 8.0 sec
+### beat-086 | act-6 | est. 9.5 sec
 [VISUAL: continue]
-"This little group of four — mathematicians call it the Klein four-group."
+"X swaps the two root-twos and leaves the root-threes alone. Y is the mirror — it swaps the root-threes."
 
-### beat-087 | act-6 | est. 0.7 sec
-[PAUSE 0.7s]
-(silent)
+### beat-087 | act-6 | est. 11.0 sec
+[VISUAL: continue]
+"Z does both at once. And Id, of course, does nothing. Four moves you can compose, chain, and undo — that's all a *group* really is. Ours is the Klein four-group."
 
-### beat-088 | act-6 | est. 9.5 sec
+### beat-203 | act-6 | est. 10.0 sec
+[VISUAL: continue]
+"But why exactly those four and no others? Look at the equation. It only sees x squared. Flip the sign of root two — x squared doesn't notice. [emphasized] The equation is unchanged. That's what symmetry means here."
+
+### beat-088 | act-6 | est. 10.0 sec
 [VISUAL: paperPage page=1 quote="When we thus agree to regard certain quantities as shown, we shall say that we adjoin them"]
-"[curious] Now — Galois's central word. Adjoin. To agree to regard a new quantity as known."
+"[curious] Now — Galois's central word. Adjoin. To adjoin a number is to agree, by fiat, that we now know it."
 
-### beat-089 | act-6 | est. 9.0 sec
-[VISUAL: MANIM: FieldLadder description="Step 1: rectangle labeled 'Q' bottom-left. Step 2: a larger rectangle 'Q[√3]' fades in containing it. Step 3: numbers like '2 + 5√3' light up inside the new band. Step 4: hold."]
-"Start with the rationals. Adjoin root three. You get a larger world — numbers like two plus five root three."
+### beat-204 | act-6 | est. 9.5 sec
+[VISUAL: titleCard text="A field" subtitle="a number-system closed under  +   −   ×   ÷"]
+"And the playground we adjoin numbers TO has a name — a *field*. A number-system where you can freely add, subtract, multiply, and divide. The rationals are one. The reals are one."
 
-### beat-090 | act-6 | est. 9.5 sec
-[VISUAL: MANIM: V4ToZ2 description="Step 1: V_4 lattice on left — Id, X, Y, Z arranged in 2x2. Step 2: a wash of pale gold over Y and Z. Step 3: Y and Z fade to grey. Step 4: only Id and X remain bright. Step 5: counter '4 → 2'. Step 6: hold."]
-"In this larger world, two of our four symmetries — Y and Z — no longer leave the equation invariant. Only Identity and X survive."
+### beat-089 | act-6 | est. 9.5 sec
+[MANIM: field_ladder description="Step 1: rectangle labeled 'Q' bottom-left, with the caption 'a field — closed under +, −, ×, ÷'. Step 2: a larger rectangle 'Q[√3]' fades in containing it. Step 3: numbers like '2 + 5√3' light up inside the new band. Step 4: hold."]
+"Start with the field of rationals. Adjoin root three. Now numbers like two plus five root three live inside a new, bigger field."
+
+### beat-090 | act-6 | est. 10.0 sec
+[MANIM: v4_to_z2 description="Step 1: V_4 lattice on left — Id, X, Y, Z arranged in 2x2. Step 2: a wash of pale gold over Y and Z. Step 3: Y and Z fade to grey, with small captions 'Y: scrambles √3' and 'Z: scrambles both' fading with them. Step 4: only Id and X remain bright. Step 5: counter '4 → 2'. Step 6: hold."]
+"Once we know root-three, Y and Z are caught — they swap a value we now recognise. They die. Only Id and X — which never touched the root-threes — survive."
 
 ### beat-091 | act-6 | est. 7.5 sec
 [VISUAL: continue]
 "The group has been cut in half. From four elements to two."
 
-### beat-092 | act-6 | est. 9.5 sec
-[VISUAL: MANIM: AdjoinSqrt2 description="Step 1: continue from previous — Id and X visible. Step 2: 'Q[√3]' rectangle expands further into 'Q[√2, √3]'. Step 3: X fades to grey, only Id remains. Step 4: counter '2 → 1'. Step 5: hold."]
-"Now adjoin root two as well. Even X no longer survives. The group shrinks to one element."
+### beat-092 | act-6 | est. 10.0 sec
+[MANIM: adjoin_sqrt2 description="Step 1: continue from previous — Id and X visible. Step 2: 'Q[√3]' rectangle expands further into 'Q[√2, √3]'. Step 3: X fades to grey with caption 'X: scrambles √2'. Step 4: counter '2 → 1', only Id remains. Step 5: hold."]
+"Now adjoin root two. X — the last survivor — gets caught too. The group collapses to a single element: Id alone."
 
 ### beat-093 | act-6 | est. 7.5 sec
 [VISUAL: continue]
@@ -397,7 +405,7 @@ target_minutes: 20
 (silent)
 
 ### beat-095 | act-6 | est. 9.5 sec
-[VISUAL: MANIM: TwinLadder description="Step 1: split screen. Left side — fields growing UP: Q at bottom, Q[√3] above, Q[√2,√3] above. Right side — group shrinking DOWN: V_4 at top, {Id, X} below, {Id} below. Step 2: arrows pair the rungs across — each adjunction zaps a row. Step 3: held tableau — twin ladders frozen, pale gold."]
+[MANIM: twin_ladder description="Step 1: split screen. Left side — fields growing UP: Q at bottom, Q[√3] above, Q[√2,√3] above. Right side — group shrinking DOWN: V_4 at top, {Id, X} below, {Id} below. Step 2: arrows pair the rungs across — each adjunction zaps a row. Step 3: held tableau — twin ladders frozen, pale gold."]
 "Watch this. On one side, fields grow upward as we adjoin radicals. On the other, the group shrinks downward."
 
 ### beat-096 | act-6 | est. 7.5 sec
@@ -413,7 +421,7 @@ target_minutes: 20
 (silent)
 
 ### beat-099 | act-6 | est. 9.5 sec
-[VISUAL: MANIM: NormalSubgroupFold description="Step 1: V_4 drawn as four dots on a sheet. Step 2: a fold-line appears between {Id, X} and {Y, Z}. Step 3: the sheet folds along the line — the two halves match up cleanly. Step 4: hold."]
+[MANIM: normal_subgroup_fold description="Step 1: V_4 drawn as four dots on a sheet. Step 2: a fold-line appears between {Id, X} and {Y, Z}. Step 3: the sheet folds along the line — the two halves match up cleanly. Step 4: hold."]
 "There is a name for the kind of subgroup you are allowed to mod out by. A subgroup along which the group can be folded cleanly."
 
 ### beat-100 | act-6 | est. 7.0 sec
@@ -429,19 +437,19 @@ target_minutes: 20
 (silent)
 
 ### beat-103 | act-6 | est. 8.0 sec
-[VISUAL: MANIM: QuinticEnter description="Step 1: 'x⁵ − x − 1 = 0' fades in large. Step 2: subtitle 'a generic quintic'. Step 3: hold."]
+[MANIM: quintic_enter description="Step 1: 'x⁵ − x − 1 = 0' fades in large. Step 2: subtitle 'a generic quintic'. Step 3: hold."]
 "Now — at last — the quintic. X to the fifth, minus x, minus one."
 
 ### beat-104 | act-6 | est. 8.5 sec
-[VISUAL: MANIM: S5GroupSize description="Step 1: equation top. Step 2: '|S_5| = 5! = 120' below. Step 3: a swarm of 120 small dots representing elements. Step 4: hold."]
+[MANIM: s5_group_size description="Step 1: equation top. Step 2: '|S_5| = 5! = 120' below. Step 3: a swarm of 120 small dots representing elements. Step 4: hold."]
 "Its symmetry group is S five — all permutations of five things. One hundred and twenty elements."
 
 ### beat-105 | act-6 | est. 8.5 sec
-[VISUAL: MANIM: S5ToA5 description="Step 1: cloud of 120 elements. Step 2: arrow labeled 'normal subgroup'. Step 3: a subset of 60 fades to bright gold — labeled A_5. Step 4: hold."]
+[MANIM: s5_to_a5 description="Step 1: cloud of 120 elements. Step 2: arrow labeled 'normal subgroup'. Step 3: a subset of 60 fades to bright gold — labeled A_5. Step 4: hold."]
 "S five has exactly one large normal subgroup. We call it A five — the alternating group of order sixty."
 
 ### beat-106 | act-6 | est. 9.5 sec
-[VISUAL: MANIM: A5SimpleBounce description="Step 1: A_5 highlighted, 60 dots tightly packed. Step 2: a fold-line attempts to appear. Step 3: the fold-line shudders, refuses, bounces off. Step 4: bold label 'SIMPLE — no fold-lines' appears beside. Step 5: hold."]
+[MANIM: a5_simple_bounce description="Step 1: A_5 highlighted, 60 dots tightly packed. Step 2: a fold-line attempts to appear. Step 3: the fold-line shudders, refuses, bounces off. Step 4: bold label 'SIMPLE — no fold-lines' appears beside. Step 5: hold."]
 "And A five — [serious] A five refuses to fold. It has no normal subgroups. Mathematicians call this — simple."
 
 ### beat-107 | act-6 | est. 7.0 sec
@@ -453,7 +461,7 @@ target_minutes: 20
 (silent)
 
 ### beat-109 | act-6 | est. 9.5 sec
-[VISUAL: MANIM: NoQuinticFormula description="Step 1: twin-ladder image returns — but the group ladder gets stuck. Step 2: A_5 sits as a cube that cannot break. Step 3: the field ladder above it has no rung. Step 4: bold final tableau: 'No tower of radicals reaches the roots.' Step 5: hold."]
+[MANIM: no_quintic_formula description="Step 1: twin-ladder image returns — but the group ladder gets stuck. Step 2: A_5 sits as a cube that cannot break. Step 3: the field ladder above it has no rung. Step 4: bold final tableau: 'No tower of radicals reaches the roots.' Step 5: hold."]
 "No tower of radicals can ever climb past A five. The group cannot be unscrewed all the way down."
 
 ### beat-110 | act-6 | est. 8.5 sec

@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <rect width="1920" height="1080" fill="#0e1117"/>
+  <text x="960" y="80" font-family="Inter, sans-serif" font-size="42" fill="#e6edf3" text-anchor="middle" font-weight="700">Solid oxide fuel cell — stack</text>
+  <text x="960" y="120" font-family="Inter, sans-serif" font-size="22" fill="#8b949e" text-anchor="middle">YSZ electrolyte sandwiched between Ni-anode and LSCF-cathode, repeated</text>
+
+  <!-- isometric stack -->
+  <g transform="translate(960, 600)">
+    <g>
+      <!-- bottom layer back -->
+      <g>
+        <!-- 6 layers, each a thin parallelepiped -->
+        <!-- layer 6 (top) -->
+        <polygon points="-360,-280 360,-280 460,-220 -260,-220" fill="#3a4055" stroke="#5a6072" stroke-width="2"/>
+        <polygon points="460,-220 460,-180 -260,-180 -260,-220" fill="#2a3140" stroke="#5a6072" stroke-width="2"/>
+        <polygon points="360,-280 360,-240 460,-180 460,-220" fill="#5a6072" stroke="#5a6072" stroke-width="2"/>
+
+        <polygon points="-360,-180 360,-180 460,-120 -260,-120" fill="#a04a78" stroke="#c06490" stroke-width="2"/>
+        <polygon points="460,-120 460,-80 -260,-80 -260,-120" fill="#7a3a5a" stroke="#c06490" stroke-width="2"/>
+
+        <polygon points="-360,-80 360,-80 460,-20 -260,-20" fill="#3a4055" stroke="#5a6072" stroke-width="2"/>
+        <polygon points="460,-20 460,20 -260,20 -260,-20" fill="#2a3140" stroke="#5a6072" stroke-width="2"/>
+
+        <polygon points="-360,20 360,20 460,80 -260,80" fill="#a04a78" stroke="#c06490" stroke-width="2"/>
+        <polygon points="460,80 460,120 -260,120 -260,80" fill="#7a3a5a" stroke="#c06490" stroke-width="2"/>
+
+        <polygon points="-360,120 360,120 460,180 -260,180" fill="#3a4055" stroke="#5a6072" stroke-width="2"/>
+        <polygon points="460,180 460,220 -260,220 -260,180" fill="#2a3140" stroke="#5a6072" stroke-width="2"/>
+
+        <polygon points="-360,220 360,220 460,280 -260,280" fill="#a04a78" stroke="#c06490" stroke-width="2"/>
+        <polygon points="460,280 460,320 -260,320 -260,280" fill="#7a3a5a" stroke="#c06490" stroke-width="2"/>
+      </g>
+    </g>
+
+    <!-- gas channels: arrow on right -->
+    <g transform="translate(540, 0)">
+      <text x="0" y="-30" font-family="JetBrains Mono, monospace" font-size="20" fill="#7ee787">H₂ ⟶</text>
+      <text x="0" y="0" font-family="JetBrains Mono, monospace" font-size="20" fill="#58a6ff">⟵ O₂</text>
+      <text x="0" y="30" font-family="JetBrains Mono, monospace" font-size="20" fill="#c9d1d9">e⁻ → load</text>
+    </g>
+  </g>
+
+  <!-- legend -->
+  <g transform="translate(160, 500)">
+    <rect x="0" y="0" width="40" height="20" fill="#3a4055" stroke="#5a6072"/>
+    <text x="50" y="16" font-family="Inter, sans-serif" font-size="20" fill="#c9d1d9">YSZ electrolyte (sintered)</text>
+    <rect x="0" y="40" width="40" height="20" fill="#a04a78" stroke="#c06490"/>
+    <text x="50" y="56" font-family="Inter, sans-serif" font-size="20" fill="#c9d1d9">Ni-YSZ anode / LSCF cathode</text>
+  </g>
+
+  <text x="960" y="1010" font-family="Inter, sans-serif" font-size="20" fill="#8b949e" text-anchor="middle">Each electrolyte layer must be dense, thin, defect-free. Conventional sintering kills the grain. Flash sintering does not.</text>
+</svg>

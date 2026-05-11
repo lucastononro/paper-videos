@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <rect width="1920" height="1080" fill="#0e1117"/>
+  <text x="960" y="80" font-family="Inter, sans-serif" font-size="42" fill="#e6edf3" text-anchor="middle" font-weight="700">Marco Cologna</text>
+  <text x="960" y="120" font-family="Inter, sans-serif" font-size="22" fill="#8b949e" text-anchor="middle">visiting graduate student from Trento (2009–2012), first author on the 2010 paper</text>
+
+  <g transform="translate(960, 600)">
+    <rect x="-220" y="-280" width="440" height="540" rx="14" fill="#161b22" stroke="#ff8c42" stroke-width="3"/>
+    <circle cx="0" cy="-110" r="92" fill="#2a3140" stroke="#ff8c42" stroke-width="2"/>
+    <path d="M -180 240 Q -180 30 -110 -10 Q -60 30 0 30 Q 60 30 110 -10 Q 180 30 180 240 Z" fill="#2a3140" stroke="#ff8c42" stroke-width="2"/>
+  </g>
+
+  <g transform="translate(1280, 420)">
+    <text x="0" y="0" font-family="Inter, sans-serif" font-size="28" fill="#ff8c42" font-weight="700">Marco Cologna</text>
+    <text x="0" y="40" font-family="Inter, sans-serif" font-size="22" fill="#c9d1d9">PhD student, U. of Trento → CU Boulder</text>
+    <line x1="0" y1="70" x2="320" y2="70" stroke="#30363d" stroke-width="2"/>
+    <text x="0" y="110" font-family="Inter, sans-serif" font-size="20" fill="#8b949e">Arrived in Boulder late 2009</text>
+    <text x="0" y="140" font-family="Inter, sans-serif" font-size="20" fill="#8b949e">First author on Cologna, Rashkova, Raj (2010)</text>
+    <text x="0" y="170" font-family="Inter, sans-serif" font-size="20" fill="#8b949e">Now at European Commission JRC (Karlsruhe)</text>
+  </g>
+
+  <text x="960" y="990" font-family="JetBrains Mono, monospace" font-size="18" fill="#8b949e" text-anchor="middle">Stylized portrait</text>
+</svg>

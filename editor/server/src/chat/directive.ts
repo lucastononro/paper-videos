@@ -20,7 +20,6 @@ type ActiveThreadInfo = { scopeLabel: string; status: string };
  * prepended as an `<async_thread_context>` block so the parent agent is
  * aware of forked spot-edit threads — what just started, finished, or is
  * still running in parallel — without it being mistaken for a user message.
- * Mirrors simp's coordination pattern (see `editor/server/src/threads/`).
  */
 export function buildDirective(
   slug: string | null,

@@ -1,0 +1,387 @@
+{
+  "_doc": "Maps each [VISUAL: image src=...] / [VISUAL: diagram src=...] semantic id from script.md to a file under videos/galois-life-and-contributions-3/. Some semantic ids point to the same physical file when the visual context is the same (e.g. all manuscript-* cues use the actual Galois letter to Chevalier; the recurring 'galois-sketch-portrait' is one file referenced 6 times).",
+
+  "galois-sketch-portrait": {
+    "kind": "image",
+    "file": "images/img-galois-sketch-portrait.jpeg",
+    "source": "paper-md-assets/_page_0_Picture_3.jpeg (Ehrhardt 2010, BibNum)",
+    "caption": "Posthumous portrait of Évariste Galois drawn from memory by his brother Alfred Galois, c.1848.",
+    "license": "PD-old"
+  },
+  "manuscript-page-marginalia": {
+    "kind": "image",
+    "file": "images/img-manuscript-page-marginalia.jpeg",
+    "source": "paper-md-assets/_page_12_Picture_0.jpeg (BibNum, Figure 3)",
+    "caption": "An example of one of Galois's extant drafts (some are much clearer).",
+    "license": "PD-old"
+  },
+
+  "paris-pond-dawn-corot": {
+    "kind": "image",
+    "file": "images/img-paris-pond-dawn-corot.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:%27Pond_at_Ville-d%27Avray%27_by_Camille_Corot,_late_1860s.JPG",
+    "caption": "'Pond at Ville-d'Avray' by Camille Corot, late 1860s — used as visual stand-in for the dawn pond near the Faultrier pension.",
+    "license": "PD-art (public domain — Corot d.1875)",
+    "attribution": "Jean-Baptiste-Camille Corot, public domain"
+  },
+  "manuscript-je-nai-pas-le-temps": {
+    "kind": "image",
+    "file": "images/img-manuscript-letter-to-chevalier.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:E._Galois_Letter.jpg",
+    "caption": "Final page of Galois's mathematical testament (letter to Auguste Chevalier, 29 May 1832), in his own hand. Contains the phrase often paraphrased as 'Je n'ai pas le temps'.",
+    "license": "PD-old (Galois d.1832)",
+    "alias_for": "manuscript-letter-to-chevalier"
+  },
+  "bourg-la-reine-engraving": {
+    "kind": "image",
+    "file": "images/img-bourg-la-reine-engraving.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Carte_postale_-_Bourg-la-Reine_-_L%27Eglise_et_la_Mairie_-_9FI-BRG_60.jpg",
+    "caption": "Bourg-la-Reine, l'Église et la Mairie. Antique postcard of Galois's birth-town town centre.",
+    "license": "PD-old (vintage postcard)",
+    "attribution": "Postcard, Archives départementales des Hauts-de-Seine, public domain"
+  },
+  "napoleon-hundred-days": {
+    "kind": "image",
+    "file": "images/img-napoleon-hundred-days.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Beaume_-_Napol%C3%A9on_Ier_quittant_l%27%C3%AEle_d%27Elbe_-_1836.jpg",
+    "caption": "Joseph Beaume, 'Napoléon Ier quittant l'île d'Elbe' (1836). Visual stand-in for the Hundred Days of 1815.",
+    "license": "PD-art (Beaume d.1885)",
+    "attribution": "Joseph Beaume, public domain"
+  },
+  "restoration-france-engraving": {
+    "kind": "image",
+    "file": "images/img-restoration-france-engraving.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Charles_X_distribuant_des_r%C3%A9compenses_aux_artistes_exposants_du_salon_de_1824_au_Louvre,_le_15_Janvier_1825_(by_Fran%C3%A7ois_Joseph_Heim).jpg",
+    "caption": "François Joseph Heim, 'Charles X distributing awards to artists at the 1824 Salon, January 15, 1825' (1827). Iconic image of the Bourbon Restoration.",
+    "license": "PD-art",
+    "attribution": "François Joseph Heim, public domain"
+  },
+  "paris-1823-louis-le-grand-engraving": {
+    "kind": "image",
+    "file": "images/img-louis-le-grand-engraving.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Cour_d%27honneur_du_lyc%C3%A9e_Louis-le-Grand._D.13561.jpg",
+    "caption": "Cour d'honneur du Lycée Louis-le-Grand. Used at beat-015 as Galois enters the school in 1823.",
+    "license": "PD / CC-BY (Mediathèque du Patrimoine)",
+    "attribution": "Wikimedia Commons",
+    "alias_for": "louis-le-grand-engraving"
+  },
+  "louis-le-grand-engraving": {
+    "kind": "image",
+    "file": "images/img-louis-le-grand-engraving.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Cour_d%27honneur_du_lyc%C3%A9e_Louis-le-Grand._D.13561.jpg",
+    "caption": "Cour d'honneur du Lycée Louis-le-Grand.",
+    "license": "PD / CC-BY",
+    "attribution": "Wikimedia Commons"
+  },
+  "louis-le-grand-classroom": {
+    "kind": "diagram",
+    "file": "diagrams/diag-louis-le-grand-classroom.svg",
+    "source": "generated",
+    "method": "hand-coded SVG, 1920x1080, period-style classroom with arched windows, blackboard reading 'x² − 5x + 6 = 0', silhouetted students. Caption: Vernier's first mathematics class, February 1827."
+  },
+  "legendre-geometry-page": {
+    "kind": "diagram",
+    "file": "diagrams/diag-legendre-geometry-page.svg",
+    "source": "generated",
+    "method": "hand-coded SVG mock title page of Legendre's 'Élémens de Géométrie' (1794 ed), with period typography, ornament rules and a small geometric figure. Used because no clean Wikimedia scan exists."
+  },
+  "lagrange-portrait": {
+    "kind": "image",
+    "file": "images/img-lagrange-portrait.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Lagrange_portrait.jpg",
+    "caption": "Joseph-Louis Lagrange (1736–1813).",
+    "license": "PD-old"
+  },
+  "ruffini-portrait": {
+    "kind": "image",
+    "file": "images/img-ruffini-portrait-magnanini.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Ruffini-paolo-colour.webp",
+    "caption": "Paolo Ruffini (1765–1822). Portrait by Biagio Magnanini (Modena). Italian mathematician who in 1799 attempted a proof that the quintic is unsolvable by radicals.",
+    "license": "PD-old"
+  },
+  "abel-portrait": {
+    "kind": "image",
+    "file": "images/img-abel-portrait.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Niels_Henrik_Abel_(1802_-_1829).jpg",
+    "caption": "Niels Henrik Abel (1802–1829), lithograph after a drawing by Johan Gørbitz.",
+    "license": "PD-old / CC-BY-2.0 (digitization)",
+    "attribution": "Trondheim Municipal Archives, via Wikimedia Commons"
+  },
+  "academy-of-sciences-paris": {
+    "kind": "image",
+    "file": "images/img-academy-of-sciences-paris.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:The_Acad%C3%A9mie_des_Sciences_et_des_Beaux_Arts,_Paris;_showing_Wellcome_V0014259.jpg",
+    "caption": "L'Académie des Sciences et des Beaux Arts, Paris. 19th-century engraving.",
+    "license": "PD-art / CC0",
+    "attribution": "Wellcome Collection, V0014259"
+  },
+  "cauchy-portrait": {
+    "kind": "image",
+    "file": "images/img-cauchy-portrait.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Cauchy_Augustin_Louis_dibner_coll_SIL14-C2-03a.jpg",
+    "caption": "Augustin-Louis Cauchy (1789–1857), lithograph by Rudolph Hoffmann after a photograph by Bertsch, 1856.",
+    "license": "PD-old",
+    "attribution": "Smithsonian Libraries Dibner Collection, via Wikimedia Commons"
+  },
+  "taton-letter-1971": {
+    "kind": "image",
+    "file": "images/img-taton-letter-1971.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Ren%C3%A9_Taton_(IHCM).jpg",
+    "caption": "René Taton (1915–2004), the historian of science whose 1971 archival find rehabilitated Cauchy's reputation regarding Galois's manuscript.",
+    "license": "CC-BY-SA-4.0",
+    "attribution": "International Academy of the History of Science (Académie Internationale d'Histoire des Sciences), via Wikimedia Commons"
+  },
+  "paris-rue-jean-de-beauvais": {
+    "kind": "image",
+    "file": "images/img-paris-rue-jean-de-beauvais.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Charles_Marville,_Rue_Jean-de-Beauvais.jpg",
+    "caption": "Charles Marville, 'Rue Jean-de-Beauvais', Paris (c.1865). The street where Nicolas-Gabriel Galois ended his life, two steps from Louis-le-Grand.",
+    "license": "PD-old",
+    "attribution": "Charles Marville (1813–1879), public domain"
+  },
+  "bourg-la-reine-funeral": {
+    "kind": "diagram",
+    "file": "diagrams/diag-bourg-la-reine-funeral.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. Period-style cortège silhouette: small church, dark figures bearing a coffin, faint stones being thrown, Bourg-la-Reine caption. No specific Wikimedia image of Nicolas-Gabriel Galois's funeral exists."
+  },
+  "ecole-polytechnique-engraving": {
+    "kind": "image",
+    "file": "images/img-ecole-polytechnique-engraving.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:%C3%89cole_polytechnique_(fa%C3%A7ade)_-_btv1b530627402.jpg",
+    "caption": "École polytechnique — façade. Period photograph from BnF Gallica.",
+    "license": "PD",
+    "attribution": "BnF / Gallica btv1b530627402, public domain"
+  },
+  "ecole-normale-superieure": {
+    "kind": "image",
+    "file": "images/img-ecole-normale-superieure.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Ecole_Normale_Rue_d%27Ulm_-_dessin_-_H._Clerget_-_btv1b84561405.jpg",
+    "caption": "École Normale, Rue d'Ulm — dessin par H. Clerget. 19th-century architectural drawing.",
+    "license": "PD-old",
+    "attribution": "H. Clerget, BnF Gallica, public domain"
+  },
+  "fourier-portrait": {
+    "kind": "image",
+    "file": "images/img-fourier-portrait.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Joseph_Fourier.jpg",
+    "caption": "Joseph Fourier (1768–1830). Galois's 1830 Grand Prize entry was sent to him; Fourier died in April, manuscript lost.",
+    "license": "PD-old"
+  },
+  "liberty-leading-the-people-delacroix": {
+    "kind": "image",
+    "file": "images/img-liberty-leading-the-people-delacroix.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Eug%C3%A8ne_Delacroix_-_La_libert%C3%A9_guidant_le_peuple.jpg",
+    "caption": "Eugène Delacroix, 'La Liberté guidant le peuple' (1830). Commemorates the July Revolution / Trois Glorieuses.",
+    "license": "PD-art",
+    "attribution": "Eugène Delacroix (1798–1863), Musée du Louvre, public domain"
+  },
+  "gazette-des-ecoles": {
+    "kind": "image",
+    "file": "images/img-gazette-des-ecoles.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:E.Galois_article_1829.JPG",
+    "caption": "Galois's first published article (1829) — used as period-stand-in for the 1830 Gazette des Écoles open letter.",
+    "license": "PD-old"
+  },
+  "artillery-national-guard-uniform": {
+    "kind": "diagram",
+    "file": "diagrams/diag-artillery-national-guard-uniform.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. Stylized Artillerie de la Garde Nationale uniform, c.1830: bicorne with red plume, navy coat with red lapels, white sash, crossed-cannon insignia, sabre. With annotation lines."
+  },
+  "vendanges-bourgogne-banquet": {
+    "kind": "diagram",
+    "file": "diagrams/diag-vendanges-bourgogne-banquet.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. Long banquet table under a hanging lamp: silhouettes of guests, Galois standing centre with knife and glass, Dumas leaping toward window. Caption: Vendanges des Bourgogne, May 9 1831."
+  },
+  "alexandre-dumas-portrait": {
+    "kind": "image",
+    "file": "images/img-alexandre-dumas-portrait.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Alexander_Dumas_p%C3%A8re_par_Nadar_-_Google_Art_Project.jpg",
+    "caption": "Alexandre Dumas père, photograph by Félix Nadar, 1855.",
+    "license": "PD-old",
+    "attribution": "Nadar, Google Art Project, public domain"
+  },
+  "paris-1831-arrest": {
+    "kind": "diagram",
+    "file": "diagrams/diag-paris-1831-arrest.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. Night scene: building façade with two lit windows, lamp post, two dark agent figures escorting a smaller silhouette. Caption: Paris, May 10, 1831."
+  },
+  "bastille-day-1831": {
+    "kind": "diagram",
+    "file": "diagrams/diag-bastille-day-1831.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. July Column silhouette with Génie statue, lone figure in National Guard Artillery uniform with rifle/pistols/dagger. Caption: Bastille Day, July 14, 1831."
+  },
+  "sainte-pelagie-prison": {
+    "kind": "image",
+    "file": "images/img-sainte-pelagie-prison.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:La_prison_de_Sainte-P%C3%A9lagie_Le_Greffe._Paris_Mus%C3%A9es_20231009114221.jpg",
+    "caption": "La prison de Sainte-Pélagie — Le Greffe (the registry).",
+    "license": "CC0",
+    "attribution": "Paris Musées, Musée Carnavalet"
+  },
+  "raspail-portrait": {
+    "kind": "image",
+    "file": "images/img-raspail-portrait.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Fran%C3%A7ois-Vincent_Raspail_03.jpg",
+    "caption": "François-Vincent Raspail (1794–1878), republican prisoner who kept letters from Sainte-Pélagie.",
+    "license": "PD-old"
+  },
+  "poisson-portrait": {
+    "kind": "image",
+    "file": "images/img-poisson-portrait.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:E._Marcellot_Sim%C3%A9on-Denis_Poisson_1804.jpg",
+    "caption": "E. Marcellot, Portrait of Siméon-Denis Poisson, 1804.",
+    "license": "PD-old"
+  },
+  "manuscript-preface": {
+    "kind": "image",
+    "file": "images/img-manuscript-letter-to-chevalier.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:E._Galois_Letter.jpg",
+    "caption": "Reuse of the Galois letter image as visual stand-in for the December 1831 Préface (no separate facsimile of the Préface page is on Wikimedia).",
+    "license": "PD-old",
+    "alias_for": "manuscript-letter-to-chevalier"
+  },
+  "paris-1832-cholera": {
+    "kind": "image",
+    "file": "images/img-paris-1832-cholera.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Alfred_Rethel_Der_Tod_als_W%C3%BCrger.jpg",
+    "caption": "Alfred Rethel, 'Der Tod als Würger' / 'Death the Strangler — Cholera's First Appearance at a Masked Ball in Paris 1831'. Iconic period print of the 1832 cholera epidemic.",
+    "license": "PD-art",
+    "attribution": "Alfred Rethel (1816–1859), public domain"
+  },
+  "manuscript-erased-name": {
+    "kind": "image",
+    "file": "images/img-manuscript-letter-to-chevalier.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:E._Galois_Letter.jpg",
+    "caption": "The Galois letter — used here as stand-in for the manuscripts on which Infantozzi (1968) read Stéphanie's name beneath erasures.",
+    "license": "PD-old",
+    "alias_for": "manuscript-letter-to-chevalier"
+  },
+  "stephanie-letters-on-back-of-math-paper": {
+    "kind": "image",
+    "file": "images/img-manuscript-letter-to-chevalier.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:E._Galois_Letter.jpg",
+    "caption": "Galois's mathematical manuscript page (last letter) — visual stand-in for the math manuscript onto which Galois copied Stéphanie's letters.",
+    "license": "PD-old",
+    "alias_for": "manuscript-letter-to-chevalier"
+  },
+  "manuscript-letter-to-chevalier": {
+    "kind": "image",
+    "file": "images/img-manuscript-letter-to-chevalier.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:E._Galois_Letter.jpg",
+    "caption": "Final page of Évariste Galois's letter to Auguste Chevalier, written 29 May 1832, containing the bulk of his mathematical testament.",
+    "license": "PD-old (Galois d.1832)"
+  },
+  "je-nai-pas-le-temps-marginalia": {
+    "kind": "image",
+    "file": "images/img-manuscript-letter-to-chevalier.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:E._Galois_Letter.jpg",
+    "caption": "Galois's letter — the famous 'Je n'ai pas le temps' margin annotation appears once on this manuscript. Cue uses zoom=true to crop in on the marginalia.",
+    "license": "PD-old",
+    "alias_for": "manuscript-letter-to-chevalier"
+  },
+  "pescheux-dherbinville": {
+    "kind": "diagram",
+    "file": "diagrams/diag-pescheux-dherbinville.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. Empty oval portrait frame in 19th-century style with anonymous silhouette and faint question mark — no portrait of Pescheux d'Herbinville survives."
+  },
+  "hospital-cochin-19th-century": {
+    "kind": "image",
+    "file": "images/img-hospital-cochin-19th-century.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Entr%C3%A9e_historique_h%C3%B4pital_Cochin.JPG",
+    "caption": "Historic entrance of Hôpital Cochin, Paris (where Galois died on June 1, 1832).",
+    "license": "CC-BY-SA",
+    "attribution": "Wikimedia Commons"
+  },
+  "paris-funeral-1832": {
+    "kind": "diagram",
+    "file": "diagrams/diag-paris-funeral-1832.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. Vast crowd silhouette under twilight sky with Notre-Dame skyline, two layers of mourners. Caption: June 2, 1832, Montparnasse."
+  },
+  "manuscript-stack-on-desk": {
+    "kind": "image",
+    "file": "images/img-manuscript-stack-on-desk.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Galois-1830.JPG",
+    "caption": "1830 contract — visual stand-in for the bundle of Galois manuscripts left to Alfred and Chevalier.",
+    "license": "PD-old"
+  },
+  "liouville-portrait": {
+    "kind": "image",
+    "file": "images/img-liouville-portrait.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Photo_of_Joseph_Liouville_1868.jpg",
+    "caption": "Joseph Liouville, photograph 1868.",
+    "license": "PD-old"
+  },
+  "journal-de-liouville-1846": {
+    "kind": "image",
+    "file": "images/img-journal-de-liouville-1846.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Journal_math_liouville.jpg",
+    "caption": "Title page of the Journal de Mathématiques pures et appliquées (Journal de Liouville). Galois's memoir was published here in 1846.",
+    "license": "PD-old"
+  },
+  "cayley-portrait": {
+    "kind": "image",
+    "file": "images/img-cayley-portrait.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Portrait_of_Arthur_Cayley_(1821-1895),_Mathematician_and_Astronomer_(2550745041).jpg",
+    "caption": "Portrait of Arthur Cayley (1821–1895).",
+    "license": "PD-old / Flickr Commons"
+  },
+  "jordan-traite-1870": {
+    "kind": "diagram",
+    "file": "diagrams/diag-jordan-traite-1870.svg",
+    "source": "generated",
+    "method": "hand-coded SVG mock title page of Camille Jordan's 'Traité des substitutions et des équations algébriques' (Paris: Gauthier-Villars, MDCCCLXX). Includes a centred composition-series ornament G > H > K > ⋯ > {e}."
+  },
+  "erlangen-programme": {
+    "kind": "image",
+    "file": "images/img-erlangen-programme.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Felix_Christian_Klein.jpg",
+    "caption": "Felix Klein (1849–1925), the father of the Erlangen Programme (1872).",
+    "license": "PD-old"
+  },
+  "emmy-noether-portrait": {
+    "kind": "image",
+    "file": "images/img-emmy-noether-portrait.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Emmy_Noether_(3x4_cropped).jpg",
+    "caption": "Emmy Noether (1882–1935), photograph c.1900–1910.",
+    "license": "PD-old"
+  },
+  "conservation-laws-symmetries": {
+    "kind": "diagram",
+    "file": "diagrams/diag-conservation-laws-symmetries.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. Three columns: time-translation→energy, space-translation→momentum, U(1) phase rotation→charge. Visualizes Noether's 1918 theorem."
+  },
+  "standard-model-lagrangian": {
+    "kind": "diagram",
+    "file": "diagrams/diag-standard-model-lagrangian.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. SU(3) × SU(2) × U(1) tile row plus expanded Standard Model Lagrangian beneath, with each gauge term colour-tagged to its group."
+  },
+  "qr-code-and-cd": {
+    "kind": "diagram",
+    "file": "diagrams/diag-qr-code-and-cd.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. QR code on the left, rainbow CD on the right, central GF(2⁸) box. Reed–Solomon caption."
+  },
+  "rsa-key-visualization": {
+    "kind": "diagram",
+    "file": "diagrams/diag-rsa-key-visualization.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. Gold padlock, two columns of streaming hex digits (cipher streams), modular-exponentiation formula c = m^e mod N, caption about (ℤ/Nℤ)*."
+  },
+  "wiles-fermat-portrait": {
+    "kind": "image",
+    "file": "images/img-wiles-fermat-portrait.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Andrew_Wiles,_Boston_1995.JPG",
+    "caption": "Andrew Wiles, Boston 1995. Photo by Klaus Barner.",
+    "license": "CC-BY-SA-3.0",
+    "attribution": "Klaus Barner, via Wikimedia Commons"
+  }
+}

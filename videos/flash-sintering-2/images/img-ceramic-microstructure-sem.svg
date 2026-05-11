@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <rect width="1920" height="1080" fill="#0e1117"/>
+  <text x="960" y="80" font-family="Inter, sans-serif" font-size="42" fill="#e6edf3" text-anchor="middle" font-weight="700">Sintered ceramic microstructure</text>
+  <text x="960" y="120" font-family="Inter, sans-serif" font-size="22" fill="#8b949e" text-anchor="middle">grain growth — slow heating hands microstructure to thermodynamics</text>
+
+  <rect x="240" y="180" width="1440" height="780" fill="#1a1d24" stroke="#30363d" stroke-width="3"/>
+
+  <!-- polygonal grains, larger -->
+  <g stroke="#8b949e" stroke-width="2.5">
+    <polygon points="240,180 360,210 440,300 360,400 250,360" fill="#5a606c"/>
+    <polygon points="360,210 540,170 600,280 500,330 440,300" fill="#666c78"/>
+    <polygon points="540,170 740,200 760,330 600,340 600,280" fill="#5a606c"/>
+    <polygon points="740,200 900,180 940,320 780,360 760,330" fill="#666c78"/>
+    <polygon points="900,180 1080,210 1100,330 940,320" fill="#6a707c"/>
+    <polygon points="1080,210 1280,180 1300,310 1140,340 1100,330" fill="#5a606c"/>
+    <polygon points="1280,180 1480,200 1500,330 1320,340 1300,310" fill="#666c78"/>
+    <polygon points="1480,200 1680,180 1680,320 1500,330" fill="#5a606c"/>
+    <polygon points="250,360 440,400 480,520 320,540" fill="#666c78"/>
+    <polygon points="440,400 600,420 660,550 480,520" fill="#5a606c"/>
+    <polygon points="600,420 780,440 820,560 660,550" fill="#666c78"/>
+    <polygon points="780,440 940,420 1000,560 820,560" fill="#6a707c"/>
+    <polygon points="940,420 1140,460 1140,580 1000,560" fill="#5a606c"/>
+    <polygon points="1140,460 1320,440 1360,560 1140,580" fill="#666c78"/>
+    <polygon points="1320,440 1500,460 1520,580 1360,560" fill="#5a606c"/>
+    <polygon points="1500,460 1680,440 1680,580 1520,580" fill="#666c78"/>
+    <polygon points="320,540 480,560 500,700 360,720" fill="#5a606c"/>
+    <polygon points="480,560 660,580 700,720 500,700" fill="#666c78"/>
+    <polygon points="660,580 820,600 860,740 700,720" fill="#5a606c"/>
+    <polygon points="820,600 1000,580 1040,740 860,740" fill="#6a707c"/>
+    <polygon points="1000,580 1140,620 1180,740 1040,740" fill="#5a606c"/>
+    <polygon points="1140,620 1360,600 1380,740 1180,740" fill="#666c78"/>
+    <polygon points="1360,600 1520,620 1540,740 1380,740" fill="#5a606c"/>
+    <polygon points="1520,620 1680,600 1680,740 1540,740" fill="#666c78"/>
+    <polygon points="360,720 500,700 540,860 380,880" fill="#666c78"/>
+    <polygon points="500,700 700,720 720,860 540,860" fill="#5a606c"/>
+    <polygon points="700,720 860,740 900,880 720,860" fill="#666c78"/>
+    <polygon points="860,740 1040,740 1080,880 900,880" fill="#6a707c"/>
+    <polygon points="1040,740 1180,740 1220,880 1080,880" fill="#5a606c"/>
+    <polygon points="1180,740 1380,740 1400,880 1220,880" fill="#666c78"/>
+    <polygon points="1380,740 1540,740 1560,880 1400,880" fill="#5a606c"/>
+    <polygon points="1540,740 1680,740 1680,880 1560,880" fill="#666c78"/>
+  </g>
+
+  <!-- residual pores at triple-junctions -->
+  <g fill="#0e1117">
+    <circle cx="600" cy="280" r="6"/>
+    <circle cx="1000" cy="420" r="7"/>
+    <circle cx="780" cy="560" r="5"/>
+    <circle cx="500" cy="700" r="6"/>
+    <circle cx="1180" cy="620" r="5"/>
+  </g>
+
+  <!-- scale bar -->
+  <g>
+    <line x1="1480" y1="920" x2="1620" y2="920" stroke="#e6edf3" stroke-width="3"/>
+    <text x="1550" y="950" font-family="JetBrains Mono, monospace" font-size="18" fill="#e6edf3" text-anchor="middle">5 µm</text>
+  </g>
+  <text x="270" y="950" font-family="JetBrains Mono, monospace" font-size="18" fill="#8b949e">SEM · post-sintering · stylized</text>
+</svg>

@@ -1,0 +1,14 @@
+{
+  "id": "img-shannon-portrait",
+  "kind": "image",
+  "file": "images/img-shannon-portrait.jpg",
+  "source": "https://commons.wikimedia.org/wiki/File:C.E._Shannon._Tekniska_museet_43069_(2x3_crop).jpg",
+  "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c1/C.E._Shannon._Tekniska_museet_43069_%282x3_crop%29.jpg",
+  "license": "CC-BY-2.0",
+  "attribution": "Tekniska museet (Swedish National Museum of Science and Technology), via Wikimedia Commons, CC BY 2.0",
+  "subject": "Claude E. Shannon, c. 1950s portrait",
+  "dimensions": "1465x2196",
+  "format": "JPEG",
+  "usedInBeats": ["beat-066", "beat-067", "beat-068"],
+  "notes": "Canonical Shannon portrait from the Swedish Technical Museum collection. Used for the Act 5 outro celebrating Shannon's 1948 A Mathematical Theory of Communication."
+}

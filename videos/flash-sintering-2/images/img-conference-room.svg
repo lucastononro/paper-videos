@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <rect width="1920" height="1080" fill="#0e1117"/>
+  <text x="960" y="80" font-family="Inter, sans-serif" font-size="42" fill="#e6edf3" text-anchor="middle" font-weight="700">"For about a year, the result was greeted with polite silence."</text>
+
+  <!-- conference room: rows of chairs, presenter at front -->
+  <!-- ceiling lights -->
+  <g fill="#1a1d24">
+    <rect x="200" y="160" width="120" height="20"/>
+    <rect x="600" y="160" width="120" height="20"/>
+    <rect x="1000" y="160" width="120" height="20"/>
+    <rect x="1400" y="160" width="120" height="20"/>
+  </g>
+  <g fill="#ffd866" opacity="0.4">
+    <rect x="220" y="180" width="80" height="6"/>
+    <rect x="620" y="180" width="80" height="6"/>
+    <rect x="1020" y="180" width="80" height="6"/>
+    <rect x="1420" y="180" width="80" height="6"/>
+  </g>
+
+  <!-- front wall and screen -->
+  <rect x="240" y="200" width="1440" height="280" fill="#1a1d24" stroke="#30363d" stroke-width="2"/>
+  <rect x="380" y="240" width="1160" height="200" fill="#10141b" stroke="#58a6ff" stroke-width="2"/>
+  <text x="960" y="320" font-family="Inter, sans-serif" font-size="32" fill="#58a6ff" text-anchor="middle" font-weight="700">FLASH-SINTERING OF YSZ</text>
+  <text x="960" y="370" font-family="Inter, sans-serif" font-size="22" fill="#c9d1d9" text-anchor="middle">5 s · 850 °C · 99% density</text>
+  <text x="960" y="410" font-family="Inter, sans-serif" font-size="18" fill="#8b949e" text-anchor="middle">M. Cologna, B. Rashkova, R. Raj — JACS 93[11] 2010</text>
+
+  <!-- presenter silhouette near the screen -->
+  <g transform="translate(200, 580)" fill="#2a3140" stroke="#58a6ff" stroke-width="1">
+    <ellipse cx="0" cy="0" rx="22" ry="22"/>
+    <path d="M -34 130 Q -34 30 0 30 Q 34 30 34 130 Z"/>
+  </g>
+
+  <!-- audience: many silhouettes in rows, mostly turned away/looking at phones -->
+  <g fill="#222831" stroke="#3a4252" stroke-width="1">
+    <!-- row 1 -->
+    <g transform="translate(360, 700)"><ellipse cx="0" cy="0" rx="20" ry="20"/><path d="M -32 80 Q -32 -10 0 -10 Q 32 -10 32 80 Z"/></g>
+    <g transform="translate(490, 700)"><ellipse cx="0" cy="0" rx="20" ry="20"/><path d="M -32 80 Q -32 -10 0 -10 Q 32 -10 32 80 Z"/></g>
+    <g transform="translate(620, 700)"><ellipse cx="0" cy="0" rx="20" ry="20"/><path d="M -32 80 Q -32 -10 0 -10 Q 32 -10 32 80 Z"/></g>
+    <g transform="translate(750, 700)"><ellipse cx="0" cy="0" rx="20" ry="20"/><path d="M -32 80 Q -32 -10 0 -10 Q 32 -10 32 80 Z"/></g>
+    <g transform="translate(880, 700)"><ellipse cx="0" cy="0" rx="20" ry="20"/><path d="M -32 80 Q -32 -10 0 -10 Q 32 -10 32 80 Z"/></g>
+    <g transform="translate(1010, 700)"><ellipse cx="0" cy="0" rx="20" ry="20"/><path d="M -32 80 Q -32 -10 0 -10 Q 32 -10 32 80 Z"/></g>
+    <g transform="translate(1140, 700)"><ellipse cx="0" cy="0" rx="20" ry="20"/><path d="M -32 80 Q -32 -10 0 -10 Q 32 -10 32 80 Z"/></g>
+    <g transform="translate(1270, 700)"><ellipse cx="0" cy="0" rx="20" ry="20"/><path d="M -32 80 Q -32 -10 0 -10 Q 32 -10 32 80 Z"/></g>
+    <g transform="translate(1400, 700)"><ellipse cx="0" cy="0" rx="20" ry="20"/><path d="M -32 80 Q -32 -10 0 -10 Q 32 -10 32 80 Z"/></g>
+    <!-- row 2 -->
+    <g transform="translate(380, 850)" opacity="0.85"><ellipse cx="0" cy="0" rx="22" ry="22"/><path d="M -34 90 Q -34 -10 0 -10 Q 34 -10 34 90 Z"/></g>
+    <g transform="translate(530, 850)" opacity="0.85"><ellipse cx="0" cy="0" rx="22" ry="22"/><path d="M -34 90 Q -34 -10 0 -10 Q 34 -10 34 90 Z"/></g>
+    <g transform="translate(680, 850)" opacity="0.85"><ellipse cx="0" cy="0" rx="22" ry="22"/><path d="M -34 90 Q -34 -10 0 -10 Q 34 -10 34 90 Z"/></g>
+    <g transform="translate(830, 850)" opacity="0.85"><ellipse cx="0" cy="0" rx="22" ry="22"/><path d="M -34 90 Q -34 -10 0 -10 Q 34 -10 34 90 Z"/></g>
+    <g transform="translate(980, 850)" opacity="0.85"><ellipse cx="0" cy="0" rx="22" ry="22"/><path d="M -34 90 Q -34 -10 0 -10 Q 34 -10 34 90 Z"/></g>
+    <g transform="translate(1130, 850)" opacity="0.85"><ellipse cx="0" cy="0" rx="22" ry="22"/><path d="M -34 90 Q -34 -10 0 -10 Q 34 -10 34 90 Z"/></g>
+    <g transform="translate(1280, 850)" opacity="0.85"><ellipse cx="0" cy="0" rx="22" ry="22"/><path d="M -34 90 Q -34 -10 0 -10 Q 34 -10 34 90 Z"/></g>
+    <g transform="translate(1430, 850)" opacity="0.85"><ellipse cx="0" cy="0" rx="22" ry="22"/><path d="M -34 90 Q -34 -10 0 -10 Q 34 -10 34 90 Z"/></g>
+  </g>
+
+  <!-- few phone glows -->
+  <g fill="#58a6ff" opacity="0.5">
+    <rect x="510" y="715" width="14" height="20"/>
+    <rect x="990" y="715" width="14" height="20"/>
+    <rect x="1280" y="715" width="14" height="20"/>
+  </g>
+
+  <text x="960" y="1020" font-family="Inter, sans-serif" font-size="22" fill="#8b949e" text-anchor="middle">silence ≠ acceptance</text>
+</svg>

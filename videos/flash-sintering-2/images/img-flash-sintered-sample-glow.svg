@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <rect width="1920" height="1080" fill="#0e1117"/>
+  <text x="960" y="80" font-family="Inter, sans-serif" font-size="42" fill="#e6edf3" text-anchor="middle" font-weight="700">Flash-sintered sample, mid-event</text>
+  <text x="960" y="120" font-family="Inter, sans-serif" font-size="22" fill="#8b949e" text-anchor="middle">disc glowing white-orange — visibly shrinking, fully dense in seconds</text>
+
+  <!-- dark furnace cavity -->
+  <g transform="translate(960, 600)">
+    <ellipse cx="0" cy="0" rx="540" ry="360" fill="#0e1117" stroke="#30363d" stroke-width="3"/>
+    <ellipse cx="0" cy="0" rx="500" ry="320" fill="#1a1d24"/>
+
+    <!-- wires from top and bottom -->
+    <line x1="0" y1="-320" x2="0" y2="-100" stroke="#a0a8b4" stroke-width="6"/>
+    <line x1="0" y1="100" x2="0" y2="320" stroke="#a0a8b4" stroke-width="6"/>
+
+    <!-- glow halo around the disc (large) -->
+    <ellipse cx="0" cy="0" rx="380" ry="220" fill="#a04a1a" opacity="0.18"/>
+    <ellipse cx="0" cy="0" rx="320" ry="180" fill="#cc6a20" opacity="0.25"/>
+    <ellipse cx="0" cy="0" rx="260" ry="150" fill="#ff8c42" opacity="0.3"/>
+    <ellipse cx="0" cy="0" rx="200" ry="120" fill="#ffa040" opacity="0.4"/>
+
+    <!-- top electrode -->
+    <ellipse cx="0" cy="-100" rx="170" ry="14" fill="#c9d1d9" stroke="#5a5a5a" stroke-width="2"/>
+    <!-- disc body (glowing) -->
+    <path d="M -170 -100 L -170 100 A 170 14 0 0 0 170 100 L 170 -100" fill="#ff8c42" stroke="#cc4a18" stroke-width="2"/>
+    <ellipse cx="0" cy="-100" rx="170" ry="14" fill="#ffd866"/>
+    <!-- core hot point -->
+    <ellipse cx="0" cy="0" rx="100" ry="60" fill="#fff3a8" opacity="0.85"/>
+    <ellipse cx="0" cy="0" rx="50" ry="30" fill="#ffffff" opacity="0.9"/>
+
+    <!-- bottom electrode -->
+    <path d="M -170 100 L -170 110 A 170 14 0 0 0 170 110 L 170 100 Z" fill="#a0a8b4"/>
+    <ellipse cx="0" cy="110" rx="170" ry="14" fill="#c9d1d9" stroke="#5a5a5a" stroke-width="2"/>
+  </g>
+
+  <!-- annotations -->
+  <g>
+    <line x1="1130" y1="600" x2="1380" y2="540" stroke="#ffd866" stroke-width="2"/>
+    <circle cx="1130" cy="600" r="6" fill="#ffd866"/>
+    <text x="1395" y="540" font-family="Inter, sans-serif" font-size="22" fill="#ffd866" font-weight="700">~2000 K core</text>
+    <text x="1395" y="568" font-family="Inter, sans-serif" font-size="20" fill="#c9d1d9">while furnace wall reads 850 °C</text>
+
+    <line x1="790" y1="600" x2="540" y2="660" stroke="#58a6ff" stroke-width="2"/>
+    <circle cx="790" cy="600" r="6" fill="#58a6ff"/>
+    <text x="525" y="660" font-family="Inter, sans-serif" font-size="22" fill="#58a6ff" text-anchor="end" font-weight="700">disc shrinks ~20%</text>
+    <text x="525" y="688" font-family="Inter, sans-serif" font-size="20" fill="#c9d1d9" text-anchor="end">in &lt;5 seconds</text>
+  </g>
+</svg>

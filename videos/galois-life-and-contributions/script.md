@@ -299,24 +299,24 @@ target_minutes: 20
 (silent 1.0s)
 
 ### beat-070
-[MANIM: closet_metaphor description="A large red region labeled G fills most of the canvas. Inside it, a smaller blue rectangular region labeled N — the 'closet'. Two small icon-people stand outside the blue region, watching."]
-"Suppose, inside our group of moves, there is a smaller collection — a closet."
+[MANIM: closet_metaphor description="Stage the closet. A title says 'G — symmetries of a triangle'. Six labelled chips appear: rotations (e, r, r²) on the left inside a blue rounded region — the 'closet' N — and reflections (s, sr, sr²) on the right, outside it."]
+"[curious] Take a small example. G is the six symmetries of a triangle. Inside G, three of them — the rotations — form a smaller collection. A closet."
 
 ### beat-071
-[MANIM: closet_metaphor description="A move from inside the blue closet executes — a small blue arrow loops within the closet. Then a move from outside (red arrow) crosses out of the closet, then back in, performing a 'conjugation'. The result lands back inside the closet, blue."]
-"You step in, do a move, step out, undo your step. If you always end up inside the closet — no matter what step you took —"
+[VISUAL: continue]
+"Pick any move outside the closet — call it g. Pick any move inside — call it n. And run this little journey: apply g, then n, then undo g."
 
 ### beat-072
-[MANIM: closet_metaphor description="The blue closet glows; a label appears: 'N is normal in G'. The conjugation arrow gNg-inverse appears as text below, equating to N."]
-"[emphasized] the closet is what we call a normal subgroup."
+[VISUAL: continue]
+"For every g, the result lands back inside N. [emphasized] When that happens, we call N a normal subgroup."
 
 ### beat-073
 [VISUAL: equationCard equationId=eq-011 reveal=all]
-"In symbols: g times N times g inverse equals N, for every g in the bigger group."
+"In symbols — g times N times g inverse equals N, for every g in the bigger group."
 
 ### beat-074
-[MANIM: closet_metaphor description="The blue closet detaches from the red region and floats into a separate space — a smaller, simpler shape. A new label appears: 'G mod N — the quotient'. The original red region greys out."]
-"[curious] Only a normal closet can be collapsed. Treat the whole closet as one move, and you build a smaller group out of what's left. The quotient."
+[MANIM: closet_quotient description="The closet picture restated; then the rotation chips collapse into a single dot labelled [N], and the reflections collapse into a second dot labelled [gN]. A title 'G/N' appears with '|G/N| = 2' below. This is the quotient — a brand-new group built from the closet."]
+"[curious] And only a normal closet can be collapsed. Treat the whole closet as one move, treat the leftovers as another, and you have a brand-new, smaller group. The quotient."
 
 ## Act 3g — The headline theorem
 
@@ -856,7 +856,7 @@ target_minutes: 20
 
 ### beat-206
 [VISUAL: equationCard equationId=eq-025 reveal=all]
-(silent 2.0s)
+"[wistful] Je n'ai pas le temps."
 
 ### beat-207
 [PAUSE 1.0s]

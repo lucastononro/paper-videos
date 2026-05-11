@@ -250,8 +250,7 @@ class ChatStore {
   /**
    * Pull out thread_notice events that haven't been delivered to the parent
    * agent yet, mark them delivered, and return them so the directive can
-   * inline them as `<async_thread_context>`. Mirrors simp's
-   * `consumePendingThreadNotices` pattern.
+   * inline them as `<async_thread_context>`.
    */
   consumePendingNotices(slug: string | null): Array<Extract<ChatEvent, { kind: 'thread_notice' }>> {
     if (!slug) return [];

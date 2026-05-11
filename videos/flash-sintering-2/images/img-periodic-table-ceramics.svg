@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <rect width="1920" height="1080" fill="#0e1117"/>
+  <text x="960" y="80" font-family="Inter, sans-serif" font-size="42" fill="#e6edf3" text-anchor="middle" font-weight="700">The flashing oxides — a periodic-table view</text>
+  <text x="960" y="120" font-family="Inter, sans-serif" font-size="22" fill="#8b949e" text-anchor="middle">elements whose oxides have been flash-sintered (highlighted)</text>
+
+  <!-- mini periodic table grid: 10 cols x 7 rows + lanthanides row -->
+  <g transform="translate(160, 200)">
+    <!-- common cells (grey) -->
+    <g font-family="JetBrains Mono, monospace" font-size="18" fill="#c9d1d9" text-anchor="middle">
+      <!-- generate cells programmatically would be ideal; we'll hardcode key ones -->
+
+      <!-- Row 1 -->
+      <g><rect x="0" y="0" width="80" height="80" fill="#1a1d24" stroke="#30363d" stroke-width="2"/><text x="40" y="50">H</text></g>
+      <g><rect x="1440" y="0" width="80" height="80" fill="#1a1d24" stroke="#30363d" stroke-width="2"/><text x="1480" y="50">He</text></g>
+
+      <!-- Row 2 -->
+      <g><rect x="0" y="100" width="80" height="80" fill="#1a1d24" stroke="#30363d"/><text x="40" y="150">Li</text></g>
+      <g><rect x="80" y="100" width="80" height="80" fill="#1a1d24" stroke="#30363d"/><text x="120" y="150">Be</text></g>
+      <g><rect x="960" y="100" width="80" height="80" fill="#1a1d24" stroke="#30363d"/><text x="1000" y="150">B</text></g>
+      <g><rect x="1040" y="100" width="80" height="80" fill="#1a1d24" stroke="#30363d"/><text x="1080" y="150">C</text></g>
+      <g><rect x="1120" y="100" width="80" height="80" fill="#1a1d24" stroke="#30363d"/><text x="1160" y="150">N</text></g>
+      <g><rect x="1200" y="100" width="80" height="80" fill="#1a1d24" stroke="#30363d"/><text x="1240" y="150">O</text></g>
+      <g><rect x="1280" y="100" width="80" height="80" fill="#1a1d24" stroke="#30363d"/><text x="1320" y="150">F</text></g>
+      <g><rect x="1440" y="100" width="80" height="80" fill="#1a1d24" stroke="#30363d"/><text x="1480" y="150">Ne</text></g>
+
+      <!-- Row 3 -->
+      <g><rect x="0" y="200" width="80" height="80" fill="#1a1d24" stroke="#30363d"/><text x="40" y="250">Na</text></g>
+      <g><rect x="80" y="200" width="80" height="80" fill="#1a1d24" stroke="#30363d"/><text x="120" y="250">Mg</text></g>
+      <g><rect x="960" y="200" width="80" height="80" fill="#5a3a18" stroke="#ffd866" stroke-width="2"/><text x="1000" y="250" fill="#ffd866">Al</text></g>
+      <g><rect x="1040" y="200" width="80" height="80" fill="#1a1d24" stroke="#30363d"/><text x="1080" y="250">Si</text></g>
+
+      <!-- Row 4 -->
+      <g><rect x="0" y="300" width="80" height="80" fill="#1a1d24" stroke="#30363d"/><text x="40" y="350">K</text></g>
+      <g><rect x="80" y="300" width="80" height="80" fill="#1a1d24" stroke="#30363d"/><text x="120" y="350">Ca</text></g>
+      <g><rect x="160" y="300" width="80" height="80" fill="#1a1d24" stroke="#30363d"/><text x="200" y="350">Sc</text></g>
+      <g><rect x="240" y="300" width="80" height="80" fill="#5a3a18" stroke="#ff8c42" stroke-width="3"/><text x="280" y="350" fill="#ff8c42">Ti</text></g>
+      <g><rect x="320" y="300" width="80" height="80" fill="#1a1d24" stroke="#30363d"/><text x="360" y="350">V</text></g>
+      <g><rect x="400" y="300" width="80" height="80" fill="#1a1d24" stroke="#30363d"/><text x="440" y="350">Cr</text></g>
+      <g><rect x="480" y="300" width="80" height="80" fill="#5a3a18" stroke="#ff8c42" stroke-width="3"/><text x="520" y="350" fill="#ff8c42">Mn</text></g>
+      <g><rect x="560" y="300" width="80" height="80" fill="#1a1d24" stroke="#30363d"/><text x="600" y="350">Fe</text></g>
+      <g><rect x="640" y="300" width="80" height="80" fill="#5a3a18" stroke="#ff8c42" stroke-width="3"/><text x="680" y="350" fill="#ff8c42">Co</text></g>
+      <g><rect x="720" y="300" width="80" height="80" fill="#1a1d24" stroke="#30363d"/><text x="760" y="350">Ni</text></g>
+      <g><rect x="800" y="300" width="80" height="80" fill="#1a1d24" stroke="#30363d"/><text x="840" y="350">Cu</text></g>
+      <g><rect x="880" y="300" width="80" height="80" fill="#5a3a18" stroke="#ff8c42" stroke-width="3"/><text x="920" y="350" fill="#ff8c42">Zn</text></g>
+
+      <!-- Row 5 -->
+      <g><rect x="0" y="400" width="80" height="80" fill="#1a1d24" stroke="#30363d"/><text x="40" y="450">Rb</text></g>
+      <g><rect x="80" y="400" width="80" height="80" fill="#5a3a18" stroke="#ff8c42" stroke-width="3"/><text x="120" y="450" fill="#ff8c42">Sr</text></g>
+      <g><rect x="160" y="400" width="80" height="80" fill="#1a1d24" stroke="#30363d"/><text x="200" y="450">Y</text></g>
+      <g><rect x="240" y="400" width="80" height="80" fill="#5a3a18" stroke="#ff8c42" stroke-width="3"/><text x="280" y="450" fill="#ff8c42">Zr</text></g>
+      <g><rect x="320" y="400" width="80" height="80" fill="#1a1d24" stroke="#30363d"/><text x="360" y="450">Nb</text></g>
+
+      <!-- Row 6 -->
+      <g><rect x="0" y="500" width="80" height="80" fill="#1a1d24" stroke="#30363d"/><text x="40" y="550">Cs</text></g>
+      <g><rect x="80" y="500" width="80" height="80" fill="#1a1d24" stroke="#30363d"/><text x="120" y="550">Ba</text></g>
+
+      <!-- Lanthanide row inset -->
+      <g><rect x="240" y="640" width="80" height="80" fill="#5a3a18" stroke="#ff8c42" stroke-width="3"/><text x="280" y="690" fill="#ff8c42">Ce</text></g>
+      <g><rect x="320" y="640" width="80" height="80" fill="#1a1d24" stroke="#30363d"/><text x="360" y="690">Pr</text></g>
+      <g><rect x="400" y="640" width="80" height="80" fill="#1a1d24" stroke="#30363d"/><text x="440" y="690">Nd</text></g>
+
+      <!-- legend -->
+      <g transform="translate(900, 540)">
+        <rect x="0" y="0" width="50" height="40" fill="#5a3a18" stroke="#ff8c42" stroke-width="3"/>
+        <text x="60" y="28" font-family="Inter, sans-serif" font-size="20" fill="#c9d1d9" text-anchor="start">flashes — steep Arrhenius σ(T)</text>
+
+        <rect x="0" y="60" width="50" height="40" fill="#1a1d24" stroke="#30363d"/>
+        <text x="60" y="88" font-family="Inter, sans-serif" font-size="20" fill="#c9d1d9" text-anchor="start">does not flash (or unknown)</text>
+
+        <rect x="0" y="120" width="50" height="40" fill="#5a3a18" stroke="#ffd866" stroke-width="2"/>
+        <text x="60" y="148" font-family="Inter, sans-serif" font-size="20" fill="#c9d1d9" text-anchor="start">refuses (Al₂O₃) — flat σ(T)</text>
+      </g>
+    </g>
+  </g>
+
+  <text x="960" y="1020" font-family="Inter, sans-serif" font-size="20" fill="#8b949e" text-anchor="middle">Highlighted cells: oxides with documented flash sintering — Cologna, Yoshida, Sglavo, Grasso et al.</text>
+</svg>

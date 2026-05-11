@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <rect width="1920" height="1080" fill="#0e1117"/>
+  <text x="960" y="80" font-family="Inter, sans-serif" font-size="42" fill="#fff" text-anchor="middle" font-weight="700">TiO₂ — titania</text>
+  <text x="960" y="120" font-family="Inter, sans-serif" font-size="22" fill="#8b949e" text-anchor="middle">flashes near 700 °C — beautifully</text>
+
+  <!-- bottle of white powder -->
+  <g transform="translate(560, 600)">
+    <!-- jar body -->
+    <rect x="-140" y="-160" width="280" height="320" rx="14" fill="#1a1d24" stroke="#58a6ff" stroke-width="3"/>
+    <rect x="-140" y="-160" width="280" height="80" fill="#0e1117"/>
+    <!-- powder -->
+    <rect x="-130" y="-70" width="260" height="220" fill="#f5f5f0"/>
+    <ellipse cx="0" cy="-70" rx="130" ry="14" fill="#dcdcd4"/>
+    <text x="0" y="-200" font-family="JetBrains Mono, monospace" font-size="22" fill="#58a6ff" text-anchor="middle">TiO₂ powder · anatase</text>
+  </g>
+
+  <!-- pressed disc -->
+  <g transform="translate(1280, 600)">
+    <ellipse cx="0" cy="170" rx="180" ry="20" fill="#000" opacity="0.5"/>
+    <ellipse cx="0" cy="0" rx="180" ry="180" fill="#f0f0e8" stroke="#a0a098" stroke-width="3"/>
+    <ellipse cx="-40" cy="-40" rx="50" ry="25" fill="#fff" opacity="0.5"/>
+    <text x="0" y="-200" font-family="JetBrains Mono, monospace" font-size="22" fill="#fff" text-anchor="middle">flash-sintered disc</text>
+  </g>
+
+  <text x="960" y="950" font-family="Inter, sans-serif" font-size="20" fill="#8b949e" text-anchor="middle">Bandgap 3.0 eV · activation E ~150 kJ/mol · steep σ(T)</text>
+</svg>

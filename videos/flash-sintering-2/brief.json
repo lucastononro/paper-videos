@@ -1,0 +1,392 @@
+{
+  "thesisInOneSentence": "In 2010 a stubborn ceramic that normally needed hours at 1450 C densified in five seconds at 850 C the moment electricity was switched on, and that single experiment forced ceramicists to rewrite their textbooks around a runaway feedback loop between heat, current, and matter that we still do not fully understand.",
+  "audience": "Curious viewers with high-school physics. We assume Ohm's law and the idea that hot things conduct better; we do NOT assume materials science, sintering vocabulary, or PDEs. The Hewitt/Lacey/Todd math is the spine, not the syllabus.",
+  "hook": "A button is pressed. Within five seconds, a ceramic puck that should still be loose powder glows white-hot, snaps to full density, and the whole field of ceramics realizes nobody knows exactly why.",
+  "teaser": {
+    "openingLine": "In 2010, three researchers at Boulder watched a ceramic that normally takes hours at 1450 degrees turn solid in under five seconds at 850.",
+    "stakes": "The result was so impossible that for a year other labs assumed the experiment was wrong; when it replicated, it punched a hole in a hundred-year-old picture of how matter moves at high temperature.",
+    "openLoop": "How can flipping on a small voltage replace a sixteen-hundred-degree furnace and an entire afternoon of sintering, and why, fifteen years later, do the people who study this for a living still argue about what is actually happening inside the sample?",
+    "visualConcept": "A black screen. A digital timer ticks: 0.0s. A grey ceramic disc. The timer hits 0.5s and a current trace on the right of the screen spikes; the disc blooms orange-white. By 4.7s the trace plateaus, the disc has visibly shrunk, the timer freezes. Cut to a thermometer reading 850 C beside an old pyrometer reading 1450 C with a red X drawn through it. Title card lands LAST: 'FLASH SINTERING — and the equation that almost explains it.'",
+    "estSeconds": 20
+  },
+  "narrativeArc": [
+    {
+      "actId": "act-0",
+      "name": "Teaser — five seconds at 850",
+      "estSeconds": 20,
+      "purpose": "Cold-open showman pattern: hook (the 5-second result), stakes (a field rewritten), open-loop question (how is this possible, and why is it still contested?), title card landing as payoff. 6-7 micro-beats. No equations, no jargon, no academic register. The viewer's finger should be off the back button before this beat ends.",
+      "targetBeats": 7
+    },
+    {
+      "actId": "act-1",
+      "name": "What sintering actually is, and why ceramics are stubborn",
+      "estSeconds": 150,
+      "purpose": "Ground the viewer. Sintering is the slow art of turning powder into pottery, brake discs, dental crowns, and the white inside of a spark plug. We zoom into a powder compact and watch atoms creep across grain boundaries by diffusion at 1400-1700 C — for hours. Establish WHY ceramics need this brute-force approach (covalent bonds, no melting trick, brittle), and what we lose by doing it that way (energy, time, microstructure control, big factories). End with the implicit promise: there has to be a better way.",
+      "targetBeats": 32
+    },
+    {
+      "actId": "act-2",
+      "name": "Boulder, 2010 — the accidental discovery",
+      "estSeconds": 180,
+      "purpose": "Tell the story. Rishi Raj's group at the University of Colorado Boulder had been studying how electric fields affect defects in ceramics for years. Marco Cologna, a visiting student, and post-doc Boriana Rashkova were running yet another field-assisted experiment on yttria-stabilized zirconia. The voltage went up, the temperature was held at 850 C, and the sample collapsed to full density in under five seconds with a power spike that nearly tripped the supply. The 2010 J. Am. Ceram. Soc. paper landed and the field went quiet, then loud. Frame this as a 'they were not looking for it' moment — the kind of accidental result that defines a decade.",
+      "targetBeats": 36
+    },
+    {
+      "actId": "act-3",
+      "name": "The runaway — heat, current, conductivity, repeat",
+      "estSeconds": 360,
+      "purpose": "The math act. This is where Hewitt/Lacey/Todd lives. Build the feedback loop step by step: a ceramic at 850 C is barely conductive, but conductivity rises exponentially with temperature (Arrhenius). Push current through it: P = I^2 R deposits heat. Heat raises T. Higher T raises conductivity. More current flows for the same voltage. More heat. More conductivity. The loop closes on itself and the sample 'blows up' — mathematically, the temperature equation has no steady state above a critical voltage. Show the bulk heat balance dtheta/dt = f(theta) - g(theta), the heating curve that sweeps past the radiative cooling line, and the moment they kiss tangentially: that is the flash criterion. End with the experimental rescue — the operator caps the current, the runaway converts to a hot, dense, glowing equilibrium, sintering is done. This is the 'aha' — flash sintering is a controlled bomb.",
+      "targetBeats": 56
+    },
+    {
+      "actId": "act-4",
+      "name": "But Joule heating cannot explain everything (the mechanism war)",
+      "estSeconds": 240,
+      "purpose": "The honest act. Richard Todd at Oxford and the Hewitt model say: it is just runaway Joule heating, full stop. Rishi Raj and collaborators say: the temperatures we estimate from blackbody glow do NOT account for the speed of densification — something else is happening at the grain boundaries. Survey the contenders: Frenkel-pair avalanches (electron-driven defect cascades), electrochemical reduction at the cathode, local hot spots at grain contacts (Yanhao Dong, I-Wei Chen), liquid-film mechanisms, dislocation nucleation. This is a live, unresolved scientific argument with strong personalities and good experiments on every side. Do not pretend it is settled. The viewer should leave understanding that 'we can do this and not fully know why' is the actual state of the field.",
+      "targetBeats": 40
+    },
+    {
+      "actId": "act-5",
+      "name": "Which materials flash, and which refuse",
+      "estSeconds": 130,
+      "purpose": "Pattern-match across the periodic table. Anything with a steeply rising conductivity-vs-temperature curve is a candidate: zirconia (the original), titania, strontium titanate, ZnO, ceria, MnCo2O4 (which flashes at 325 C!), tungsten carbide. Insulators with flat conductivity (pure alumina) resist the trick — until you cheat with composites, or move to flash-spark-plasma hybrids (Olevsky, Manière). One paragraph payoff: the conductivity curve is the gate, and you can engineer materials to walk through it.",
+      "targetBeats": 22
+    },
+    {
+      "actId": "act-6",
+      "name": "Why anyone should care — the energy and manufacturing payoff",
+      "estSeconds": 130,
+      "purpose": "Stakes upgrade. Conventional sintering is one of the most energy-intensive steps in industrial ceramics; it heats giant furnaces for hours. Flash sintering can in principle cut furnace energy by 90+%, shrink processing time from hours to seconds, and unlock thin-film electrolytes for solid oxide fuel cells, denser cathodes for next-gen batteries, and 3D-printed ceramic components that current furnaces cannot densify cleanly. Touch lightly on commercial efforts (Lucideon, NIMS Japan, the patents). End on the framing: this is one of those rare lab curiosities that, if scaled, changes the energy footprint of an entire industrial process.",
+      "targetBeats": 22
+    },
+    {
+      "actId": "act-7",
+      "name": "Outro — the equation that opened the door",
+      "estSeconds": 90,
+      "purpose": "Return to the math. The Hewitt/Lacey/Todd condition lambda > (2/e)(beta + delta^2 alpha) collapses the entire flash phenomenon into a competition between heating and cooling — concrete, predictive, falsifiable. Show that this single inequality reproduces Cologna's 2010 zirconia data point on a regime diagram. Close with the open question: can the same equation explain alumina, the metal flashes, the room-temperature titania experiments — or are those genuinely new physics? End on the paper title card and the arxiv link.",
+      "targetBeats": 16
+    }
+  ],
+  "conceptsToVisualize": [
+    {
+      "id": "c-001",
+      "concept": "powder-to-solid via diffusion (conventional sintering)",
+      "whyItMatters": "Without a clear picture of the slow process, the viewer has nothing to compare flash sintering to.",
+      "currentConfusion": "people imagine sintering as 'melting'. It is not — it is solid-state diffusion across grain boundaries below the melting point.",
+      "visualSuggestion": "Manim — start with a 2D pile of grey discs (grains) with visible necks; advance time, watch necks thicken, pores shrink, density bar climb from 60% to 99%. Label the dominant mechanisms (grain-boundary diffusion, lattice diffusion).",
+      "associatedActs": ["act-1"],
+      "associatedEquationIds": []
+    },
+    {
+      "id": "c-002",
+      "concept": "Arrhenius conductivity rise",
+      "whyItMatters": "Without sigma(T) = A exp(-E/RT) the runaway is impossible. This is the gate that decides which materials can flash.",
+      "currentConfusion": "people think 'conductivity' is a fixed material property; in ceramics it varies by orders of magnitude over a few hundred Kelvin.",
+      "visualSuggestion": "Manim — plot log(sigma) vs 1/T with the iconic Arrhenius straight line, then sweep three different ceramics (zirconia, titania, alumina) showing alumina's near-flat curve vs zirconia's steep rise; explain in one sentence why alumina refuses to flash.",
+      "associatedActs": ["act-3", "act-5"],
+      "associatedEquationIds": ["eq-008"]
+    },
+    {
+      "id": "c-003",
+      "concept": "Joule heating P = sigma |grad phi|^2 inside a ceramic",
+      "whyItMatters": "The energy input that drives the runaway. Different geometry from a simple resistor — the heat is volumetric.",
+      "currentConfusion": "people think Joule heating is a wire-and-bulb phenomenon; here it is happening throughout the ceramic body, fastest where it is hottest.",
+      "visualSuggestion": "Manim — show a 2D ceramic disc with electrodes top/bottom; current arrows fill the body; color map of heat density blooms from the center outward as conductivity locally jumps.",
+      "associatedActs": ["act-3"],
+      "associatedEquationIds": ["eq-005"]
+    },
+    {
+      "id": "c-004",
+      "concept": "the runaway feedback loop",
+      "whyItMatters": "This IS the phenomenon. Five arrows in a circle: voltage to current to heat to temperature to conductivity to (more) current.",
+      "currentConfusion": "viewers will conflate this with thermal runaway in batteries or transistors; we should embrace the analogy and then sharpen it (here it is intentional, controlled, useful).",
+      "visualSuggestion": "Manim — draw the five-node cycle, light up each arrow in sequence as a voltage knob is turned up; once it closes, the whole diagram blooms red and a 'BLOW-UP' label appears with t -> 1/lambda from eq-037.",
+      "associatedActs": ["act-3"],
+      "associatedEquationIds": ["eq-037", "eq-038", "eq-039"]
+    },
+    {
+      "id": "c-005",
+      "concept": "heating vs cooling — the f(theta) and g(theta) intersection",
+      "whyItMatters": "The single picture in the entire paper that explains when flash happens and when it does not. It IS the flash criterion.",
+      "currentConfusion": "viewers will not intuit that 'no intersection' equals 'runaway'. Build it step by step.",
+      "visualSuggestion": "Manim — animate the heating curve f(theta) (red exponential) sweeping up as voltage rises, while the cooling line g(theta) (linear, black) stays fixed. At the critical voltage they kiss tangentially — that is the flash threshold. Below: stable equilibrium. Above: blow-up. Reproduce Figure 8 of the paper, but cleaner.",
+      "associatedActs": ["act-3", "act-7"],
+      "associatedEquationIds": ["eq-038", "eq-039", "eq-040"]
+    },
+    {
+      "id": "c-006",
+      "concept": "voltage-control to current-control switch",
+      "whyItMatters": "This is what turns a runaway into a usable industrial process. Without it, you would just blow up the sample.",
+      "currentConfusion": "viewers do not know that lab power supplies have two modes; explain plainly.",
+      "visualSuggestion": "Manim or paper-page spotlight on Figure 5: top panel current shoots up and clips at I_0; bottom panel temperature shoots up then plateaus. Animate the moment of the switch with a label.",
+      "associatedActs": ["act-3"],
+      "associatedEquationIds": ["eq-021", "eq-024"]
+    },
+    {
+      "id": "c-007",
+      "concept": "the flash regime diagram (V/L vs T_furnace)",
+      "whyItMatters": "Predictive, falsifiable, and directly hits the Cologna 2010 data point. The single most cite-able equation in the paper.",
+      "currentConfusion": "the inequality looks intimidating; unpack it as 'heating coefficient times voltage-squared exceeds critical cooling coefficient'.",
+      "visualSuggestion": "Paper-page Ken-Burns of Figure 9, then redraw cleanly in Manim: T-axis horizontal, V/L vertical, grey 'flash' region above the curve, red crosses for the experimental data points sitting right on the boundary.",
+      "associatedActs": ["act-7"],
+      "associatedEquationIds": ["eq-046"]
+    },
+    {
+      "id": "c-008",
+      "concept": "the mechanism debate — Joule alone vs new physics",
+      "whyItMatters": "Honest framing of an open argument. Documentaries earn trust by showing controversy, not hiding it.",
+      "currentConfusion": "viewers want a clean answer; deny them. The clean answer is 'we are still arguing'.",
+      "visualSuggestion": "Split screen — left: Todd/Hewitt 'just Joule heating' camp with the temperature plot and the f-vs-g intersection; right: Raj/Naik 'something else at the grain boundary' camp with a cartoon of Frenkel-pair avalanches and electrochemical reduction at the cathode. Animate them as two plates of a balance, neither tipping. End with a question mark.",
+      "associatedActs": ["act-4"],
+      "associatedEquationIds": []
+    }
+  ],
+  "questionsToAnswerOnScreen": [
+    "What does it actually mean to 'sinter' a ceramic?",
+    "Why does it normally take hours at 1400-1700 C?",
+    "Who discovered flash sintering, and what were they actually trying to do?",
+    "Why does the conductivity of a ceramic depend so dramatically on temperature?",
+    "What is the runaway loop, in one picture?",
+    "When does it run away, and when does it just settle to a warm equilibrium?",
+    "Why does the operator switch from voltage control to current control mid-experiment?",
+    "Is this 'just Joule heating' or is something genuinely new happening at the grain boundary?",
+    "Which materials flash, and which refuse?",
+    "Why should anyone outside materials science care?"
+  ],
+  "thingsToCutOrSkip": [
+    "The full asymptotic analysis of blow-up profiles (theta ~ -2 ln r + ln(-ln r)) — beautiful math, zero documentary value.",
+    "The four limiting reduced models (insulating electrodes, insulating sides, small alpha-beta-lambda, high aspect ratio) — pick ONE (insulating electrodes, the 'most appropriate' per the authors) and bury the others.",
+    "The non-local versus local reaction-diffusion classification and the references to Friedman/McLeod/Bebernes — pure PDE inside baseball.",
+    "The dimensionless parameter table in full — show maybe lambda and beta, hide the rest.",
+    "The thermistor-problem analogy from Cimatti/Fowler — interesting but a tangent for a 20-min documentary.",
+    "Equations eq-009 through eq-019 (the non-dimensionalization machinery) — say 'they rescale to make the math tractable' and move on.",
+    "The forward-looking 'non-uniform cross-section' future-work paragraph.",
+    "Bone-shaped sample geometry — the paper itself uses cylindrical, so do we."
+  ],
+  "priorWork": [
+    {
+      "title": "Flash Sintering of Nanograin Zirconia in <5 s at 850 C",
+      "authors": "Cologna, Rashkova, Raj",
+      "venue": "Journal of the American Ceramic Society 93 (11), 2010",
+      "year": 2010,
+      "whyRelevant": "THE founding paper. The 5-second result IS our hook. Cite by name; show the title page if possible."
+    },
+    {
+      "title": "Joule heating during flash-sintering",
+      "authors": "Raj",
+      "venue": "Journal of the European Ceramic Society 32, 2012",
+      "year": 2012,
+      "whyRelevant": "Raj's own argument that Joule heating alone is insufficient — sets up the mechanism debate of Act 4."
+    },
+    {
+      "title": "Electrical characteristics of flash sintering: thermal runaway of Joule heating",
+      "authors": "Todd, Zapata-Solvas, Bonilla, Sneddon, Wilshaw",
+      "venue": "Journal of the European Ceramic Society, 2015",
+      "year": 2015,
+      "whyRelevant": "The Oxford counter-argument — Joule heating IS sufficient. The Hewitt/Lacey/Todd model is the mathematical backbone of this position."
+    },
+    {
+      "title": "Onset Criterion for Flash Sintering",
+      "authors": "Dong, Chen",
+      "venue": "Journal of the American Ceramic Society 98, 2015",
+      "year": 2015,
+      "whyRelevant": "Independent thermal-runaway model from the Penn / Tsinghua side; predicts onset across many materials."
+    },
+    {
+      "title": "Flash sintering of ceramics (review)",
+      "authors": "Biesuz, Sglavo",
+      "venue": "Journal of the European Ceramic Society, 2019",
+      "year": 2019,
+      "whyRelevant": "Most-cited modern review; mechanism survey including Frenkel pairs, liquid film, hot spots."
+    },
+    {
+      "title": "Review of flash sintering: materials, mechanisms and modelling",
+      "authors": "Yu, Grasso, McKinnon, Saunders, Reece",
+      "venue": "Advances in Applied Ceramics 116, 2017",
+      "year": 2017,
+      "whyRelevant": "Materials sweep — which oxides flash, which do not, with conductivity correlations."
+    },
+    {
+      "title": "Flash sintering as a nucleation phenomenon and a model thereof",
+      "authors": "Naik, Sglavo, Raj",
+      "venue": "Journal of the European Ceramic Society 34, 2014",
+      "year": 2014,
+      "whyRelevant": "Raj-camp alternative model invoking defect (Frenkel-pair) avalanches; key citation for Act 4's other side."
+    },
+    {
+      "title": "All-Materials-Inclusive Flash Spark Plasma Sintering",
+      "authors": "Manière, Lee, Olevsky",
+      "venue": "Scientific Reports 7, 2017",
+      "year": 2017,
+      "whyRelevant": "The hybrid that lets even insulators 'flash' — closes Act 5 nicely."
+    }
+  ],
+  "supportingMaterial": [
+    { "kind": "image", "needsToFind": "Rishi Raj portrait at CU Boulder (university press photo, public)", "preferredSource": "colorado.edu mechanical engineering faculty page" },
+    { "kind": "image", "needsToFind": "ceramic powder compact / green body before sintering", "preferredSource": "American Ceramic Society stock or Wikipedia commons" },
+    { "kind": "image", "needsToFind": "industrial sintering furnace (large tunnel kiln)", "preferredSource": "Wikipedia commons / public industrial photos" },
+    { "kind": "image", "needsToFind": "SEM micrograph: zirconia before vs after flash sintering, grain structure visible", "preferredSource": "Cologna 2010 paper figures (cite) or Biesuz/Sglavo review" },
+    { "kind": "image", "needsToFind": "photograph of a flash-sintered sample glowing white-hot in the furnace mid-flash", "preferredSource": "Raj group press images / Lucideon case studies" },
+    { "kind": "image", "needsToFind": "solid oxide fuel cell schematic / a real SOFC stack", "preferredSource": "DOE / NREL / Wikipedia commons" },
+    { "kind": "diagram", "needsToGenerate": "the 5-arrow runaway-loop infographic (V -> I -> P=I^2R -> T -> sigma(T) -> back to I)" },
+    { "kind": "diagram", "needsToGenerate": "the f(theta) vs g(theta) tangency diagram (clean redraw of paper Figure 8)" },
+    { "kind": "diagram", "needsToGenerate": "regime diagram V/L vs T_furnace with Cologna data point overlaid (clean redraw of Figure 9)" },
+    { "kind": "diagram", "needsToGenerate": "two-camp split-screen for the mechanism debate (Joule-only vs new-physics)" }
+  ],
+  "spotlights": [
+    { "label": "abstract — 'runaway heating that could facilitate and explain the rapid sintering'", "pageIdx": 0, "bboxApprox": "0.10,0.32,0.80,0.10", "whyItMatters": "the paper's own thesis lands here in plain English; quote it directly" },
+    { "label": "introduction — '5 seconds at 850 C vs hours at 1450 C'", "pageIdx": 0, "bboxApprox": "0.10,0.62,0.80,0.10", "whyItMatters": "the paper says the hook for us" },
+    { "label": "introduction — '1900 C would be required to enable such rapid conventional sintering'", "pageIdx": 0, "bboxApprox": "0.10,0.72,0.80,0.06", "whyItMatters": "the impossible-by-conventional-means anchor" },
+    { "label": "Arrhenius law eq-008", "pageIdx": 2, "bboxApprox": "0.30,0.55,0.40,0.06", "whyItMatters": "the gate equation that decides which materials flash" },
+    { "label": "Figure 1 — the cylindrical compact between electrodes", "pageIdx": 1, "bboxApprox": "0.20,0.10,0.60,0.30", "whyItMatters": "establishes the geometry the math lives in" },
+    { "label": "Figure 5 — current/voltage/temperature time series", "pageIdx": 6, "bboxApprox": "0.10,0.08,0.80,0.42", "whyItMatters": "the canonical experimental signature of flash; show before deriving" },
+    { "label": "Figure 8 — heating-vs-cooling tangency", "pageIdx": 8, "bboxApprox": "0.20,0.10,0.60,0.40", "whyItMatters": "the single most explanatory figure in the paper; spend airtime here" },
+    { "label": "Figure 9 — flash regime diagram with experimental crosses", "pageIdx": 10, "bboxApprox": "0.20,0.10,0.60,0.42", "whyItMatters": "predictive payoff: theory vs experiment on one chart" },
+    { "label": "dimensional flash criterion eq-046", "pageIdx": 9, "bboxApprox": "0.15,0.62,0.70,0.08", "whyItMatters": "the inequality the whole paper exists to derive; show as the closing mathematical sentence" }
+  ],
+  "derivationsToBuild": [
+    {
+      "concept": "the runaway feedback loop, written as one ODE",
+      "openingQuestion": "If conductivity rises with temperature, and heating rises with conductivity, what does the temperature equation actually do?",
+      "stepsToShow": [
+        "Start with Ohm's law in 3D: current density = sigma(T) times electric field.",
+        "Power dissipated per volume = sigma(T) |grad phi|^2 (eq-005, the heat source term).",
+        "Insert Arrhenius sigma(T) = A exp(-E/RT) (eq-008) — show the curve climbing.",
+        "Write the temperature ODE in the simplest possible form: dtheta/dt = lambda exp(theta) - cooling.",
+        "In the bulk (uniform sample) limit, drop the diffusion term and get dtheta/dt = lambda exp(theta) — pure exponential blow-up.",
+        "Solve: theta = -ln(1 - lambda t). Mark the singular time t = 1/lambda on the x-axis. The temperature explodes in finite time.",
+        "Add cooling g(theta) = 2(beta + delta^2 alpha) theta. The heat balance becomes f(theta) - g(theta) = 0.",
+        "Plot f and g; show that for small lambda they intersect (steady state); for large lambda they do not (flash).",
+        "The critical condition: lambda > (2/e)(beta + delta^2 alpha). Land on this inequality."
+      ],
+      "estBeats": 22,
+      "associatedEquationIds": ["eq-005", "eq-008", "eq-022", "eq-037", "eq-038", "eq-039", "eq-040"]
+    },
+    {
+      "concept": "from dimensionless inequality back to the lab",
+      "openingQuestion": "Great, lambda > (2/e)(beta + delta^2 alpha). What does that mean for the engineer choosing voltage and furnace temperature?",
+      "stepsToShow": [
+        "Substitute the definitions of lambda (heating) and beta (cooling) back in.",
+        "Get the dimensional inequality eq-046: (R^2 A E / k R_g T_inf^2) (V/L)^2 exp(-E/(R_g T_inf)) > lambda_c (R h_s + 4 R epsilon S T_inf^3)/k.",
+        "Translate verbally: 'voltage-squared times the Arrhenius factor at furnace temperature must exceed a critical cooling-rate product'.",
+        "Plot it as a regime diagram: x = T_furnace, y = V/L. Grey region above curve = flash.",
+        "Drop in the Cologna 2010 experimental crosses. They sit on the boundary. Theory works."
+      ],
+      "estBeats": 10,
+      "associatedEquationIds": ["eq-046"]
+    }
+  ],
+  "metaphors": [
+    {
+      "concept": "the runaway loop",
+      "metaphor": "a snowball rolling downhill through dry powder snow — the bigger it gets, the more snow it picks up, the bigger it gets. Apply electricity to a hot ceramic and you start the snowball; the ceramic IS the hill AND the snow.",
+      "whenToDeploy": "right at the start of Act 3, before any equations. Drop it once the dtheta/dt = f(theta) - g(theta) picture is on screen — the metaphor is scaffolding, not load-bearing."
+    },
+    {
+      "concept": "the voltage-to-current switch",
+      "metaphor": "a circuit breaker that intentionally trips at the peak of an explosion to convert it into a controlled fire — the runaway becomes the process.",
+      "whenToDeploy": "at the moment the current trace clips in Figure 5; explains why a flash that 'should' destroy the sample instead sinters it."
+    },
+    {
+      "concept": "Arrhenius conductivity gating which materials can flash",
+      "metaphor": "every ceramic has a 'fuse temperature' written into its conductivity curve — some are short fuses (zirconia), some are long fuses (alumina), some have no fuse at all. The flash event is the moment the fuse burns through.",
+      "whenToDeploy": "Act 5, when surveying which materials work; ties the periodic-table sweep back to the Arrhenius curve from Act 3."
+    }
+  ],
+  "narrativeAngles": [
+    "Frame the whole video as a detective story: a 5-second result that should be impossible, followed by 15 years of arguing over what actually happened.",
+    "Frame Acts 3-4 as 'the math that explains it' versus 'the math that doesn't quite' — show one mathematical model that works on the macro scale and admit it leaves micro-scale puzzles open.",
+    "Frame the contributors as a cast — Raj the originator, Todd the skeptic, Dong the modeler, Olevsky the integrator, Cologna the lucky student. Use real names, real affiliations, real years.",
+    "Treat the paper itself as a character: it is the math that almost closes the case, and the regime diagram is its closing argument."
+  ],
+  "criticisms": [
+    "The paper gives the dimensionless inequality without ever showing the snowball-loop intuition that makes it obvious — we MUST build the runaway loop visually before any equation appears.",
+    "The paper hand-waves on which experimental case to use (it lists four reductions); pick the 'thermally insulating electrodes' case explicitly and stick to it.",
+    "Figure 8 in the paper is small and unlabeled — redraw it big in Manim, animate the heating curve sweeping up as voltage rises, freeze at the tangency. Do NOT just spotlight the original.",
+    "The paper barely mentions the mechanism war (one paragraph in the intro). The documentary MUST give that war a full act — it is the scientifically honest thing to do and it is more interesting than the math.",
+    "The paper treats the Joule-heating-only side as the obvious answer; we should not. Give Raj/Naik's defect-avalanche hypothesis equal screen time in Act 4 and let the viewer hold the tension."
+  ],
+  "contributors": [
+    { "name": "Rishi Raj", "affiliation": "University of Colorado Boulder", "role": "Originator. PI on the 2010 discovery; vocal advocate that Joule heating alone is insufficient and that defect-mediated mechanisms are essential." },
+    { "name": "Marco Cologna", "affiliation": "CU Boulder (visiting student, 2010); now European Commission JRC Karlsruhe", "role": "First author of the 2010 J. Am. Ceram. Soc. paper. The student who actually ran the 5-second zirconia experiment." },
+    { "name": "Boriana Rashkova", "affiliation": "CU Boulder (post-doc, 2010); now Montanuniversität Leoben", "role": "Co-author of the 2010 paper; microstructural characterization of the flash-sintered samples." },
+    { "name": "Richard I. Todd", "affiliation": "University of Oxford, Department of Materials", "role": "Lead Joule-heating-is-sufficient camp. Co-author of the 2015 paper that argues thermal runaway alone explains the experimental signatures." },
+    { "name": "Ian J. Hewitt", "affiliation": "Mathematical Institute, Oxford", "role": "First author of the math paper that anchors Act 3 and Act 7 — formalized flash as a thermistor-type blow-up problem." },
+    { "name": "Andrew A. Lacey", "affiliation": "Heriot-Watt University, Maxwell Institute", "role": "Coauthor; expert on non-local reaction-diffusion blow-up theory cited throughout the paper." },
+    { "name": "John S. C. Francis", "affiliation": "CU Boulder (Raj group, ~2012-2013)", "role": "Particle-size effects, isothermal flash, current-limit studies — major early Boulder follow-ups." },
+    { "name": "Yanhao Dong", "affiliation": "U. Pennsylvania / Tsinghua University (with I.-Wei Chen)", "role": "Onset criterion for flash sintering (2015); thermal runaway model applicable across material families." },
+    { "name": "I.-Wei Chen", "affiliation": "U. Pennsylvania", "role": "Co-developer with Dong of the thermal-runaway onset criterion; senior figure in sintering theory." },
+    { "name": "Eugene Olevsky", "affiliation": "San Diego State University", "role": "Bridges flash sintering and spark-plasma / FAST community; co-developed all-materials flash-SPS to extend the technique to insulators." },
+    { "name": "Charles Manière", "affiliation": "SDSU / now CNRS-CRISMAT Caen", "role": "Co-author on flash-SPS hybrid that closes Act 5; modeling of temperature gradients in field-assisted sintering." },
+    { "name": "Mattia Biesuz", "affiliation": "University of Trento (with V. M. Sglavo)", "role": "First author of the 2019 review that anchors the 'mechanisms still debated' framing of Act 4." },
+    { "name": "Vincenzo M. Sglavo", "affiliation": "University of Trento", "role": "Senior co-author with Biesuz; long-running European program on flash sintering of oxides." },
+    { "name": "Hidehiro Yoshida", "affiliation": "NIMS Japan", "role": "Field-assisted / FAST community in Japan; brings the spark-plasma history that flash sintering grew alongside." },
+    { "name": "Salvatore Grasso", "affiliation": "Queen Mary University of London / Southwest Jiaotong U.", "role": "Flash-SPS pioneer; co-authored numerical models of flash-sintered zirconia cited inside the Hewitt paper." },
+    { "name": "Rohit Bonilla / E. Zapata-Solvas / P.R. Wilshaw", "affiliation": "Oxford", "role": "Co-authors on the Todd 2015 paper providing the experimental data that the Hewitt model fits." }
+  ],
+  "equationPicks": [
+    {
+      "equationId": "eq-008",
+      "label": "Arrhenius conductivity",
+      "act": "act-3",
+      "whyItDeservesAirtime": "The single line of math that decides whether a material can flash at all. Without an exponentially rising sigma(T), no runaway. Show this BEFORE any derivation; it is the gate.",
+      "howToIntroduce": "Plot sigma(T) on a log-linear axis next to a thermometer; sweep the thermometer up and watch the line shoot up. THEN write the equation. Visual first, math second."
+    },
+    {
+      "equationId": "eq-005",
+      "label": "Heat equation with Joule source",
+      "act": "act-3",
+      "whyItDeservesAirtime": "The energy bookkeeping. Heat in = sigma(T) |grad phi|^2; heat out = conduction + radiation + convection. Without it the runaway is just hand-waving.",
+      "howToIntroduce": "Write rho c T_t = grad . (k grad T) + sigma(T) |grad phi|^2 with each term color-coded: storage (left), diffusion (middle), source (right, glowing red). Pause on the source term — that is where electricity becomes heat."
+    },
+    {
+      "equationId": "eq-037",
+      "label": "Pure-blow-up solution theta = -ln(1 - lambda t)",
+      "act": "act-3",
+      "whyItDeservesAirtime": "The bare-bones runaway: drop ALL cooling and the temperature literally goes to infinity in finite time t = 1/lambda. Visceral and minimal.",
+      "howToIntroduce": "Plot the function. Mark t = 1/lambda with a vertical asymptote. Caption: 'No cooling, no current limit — the math says the sample explodes in 1/lambda seconds. The current limit is what saves you.'"
+    },
+    {
+      "equationId": "eq-038",
+      "label": "Bulk heat-balance ODE",
+      "act": "act-3",
+      "whyItDeservesAirtime": "The cleanest equation in the paper. dtheta/dt = f(theta) - g(theta). This is Hewitt/Lacey/Todd's whole story compressed to seven symbols.",
+      "howToIntroduce": "Pair it with the f-vs-g graph. Animate the curves moving as voltage rises until they kiss tangentially — that is the flash threshold."
+    },
+    {
+      "equationId": "eq-040",
+      "label": "Flash criterion lambda > (2/e)(beta + delta^2 alpha)",
+      "act": "act-3",
+      "whyItDeservesAirtime": "The actual prediction. A simple inequality the experimentalist can plug numbers into. This is what makes the paper engineering, not just math.",
+      "howToIntroduce": "Land it after the f-vs-g tangency animation. State it in words: 'heating must beat cooling by a factor of 2/e for flash to occur'."
+    },
+    {
+      "equationId": "eq-046",
+      "label": "Dimensional flash inequality (V/L vs T_furnace)",
+      "act": "act-7",
+      "whyItDeservesAirtime": "The closing mathematical sentence. Translates the abstract inequality into something an experimentalist sets on a power supply. Pairs directly with the regime diagram (Figure 9) and the Cologna 2010 data point.",
+      "howToIntroduce": "Write it big. Highlight the V/L term as 'what you control', the exp(-E/RT) term as 'what the material gives you', and the right-hand-side as 'what the furnace and geometry let escape'. End on the regime diagram."
+    }
+  ],
+  "pacingNotes": {
+    "totalBeatTarget": 230,
+    "perActTargets": {
+      "act-0": 7,
+      "act-1": 32,
+      "act-2": 36,
+      "act-3": 56,
+      "act-4": 40,
+      "act-5": 22,
+      "act-6": 22,
+      "act-7": 16
+    },
+    "rhythm": "Documentary, not lecture. Acts 1, 2, 5, 6 should breathe — let images linger, narration wander, names land. Act 3 is the only 'classroom' act and should slow down further during the derivation (insert [PAUSE 0.6-1.0s] beats after each equation). Act 4 should feel like an honest debate — alternate camps every 4-6 beats, do not let either side dominate. Act 7 should accelerate slightly, then close on a long held tableau of the regime diagram with the Cologna cross sitting on the boundary.",
+    "totalTimeCheck": "20 acts beat estimate sums to 230 beats; at average ~5.2 sec/beat that lands at ~1196 sec = 19.9 min. Within +/-10% of the 1200 sec target. Act-second sums (20+150+180+360+240+130+130+90) = 1300 sec — slightly over; trim Act 3 derivation by ~30s and Act 4 mechanism war by ~30s if needed. Acceptable spread.",
+    "teaserDoctrine": "5-7 micro-beats. Beat 1: timer + ceramic disc (silent or one-line). Beat 2: the openingLine (specific numbers). Beat 3: visual payoff of the 5-second collapse. Beat 4: the stakes ('a hundred-year-old picture'). Beat 5: the open-loop question. Beat 6: title card landing as payoff. NEVER lead with the title card."
+  },
+  "openQuestionsForUser": [
+    "Do you want the mechanism debate (Act 4) to take a side, or stay strictly neutral? My instinct is neutral — but a 'the evidence currently leans toward X' framing is defensible if you have strong feelings.",
+    "How much screen time for spark-plasma sintering history (Olevsky, Yoshida, NIMS)? Right now it lives as a cameo at the end of Act 5; a sequel video could give it its own ~10 minutes.",
+    "Should the closing title card include a 'what would change your mind' coda — i.e., 'if we ever measure the sample's true core temperature in real time, the debate ends'?"
+  ]
+}

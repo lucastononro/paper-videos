@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <rect width="1920" height="1080" fill="#0e1117"/>
+  <text x="960" y="80" font-family="Inter, sans-serif" font-size="42" fill="#e6edf3" text-anchor="middle" font-weight="700">Dental crown</text>
+  <text x="960" y="120" font-family="Inter, sans-serif" font-size="22" fill="#8b949e" text-anchor="middle">sintered zirconia — the modern replacement for porcelain</text>
+
+  <!-- pedestal -->
+  <ellipse cx="960" cy="920" rx="280" ry="22" fill="#000" opacity="0.5"/>
+
+  <!-- crown silhouette: tooth-shaped -->
+  <g transform="translate(960, 580)">
+    <!-- main tooth body -->
+    <path d="M -160 -320 Q -140 -340 -80 -340 Q -40 -350 0 -340 Q 40 -350 80 -340 Q 140 -340 160 -320 L 180 -100 Q 180 50 140 180 Q 100 280 60 310 Q 30 325 0 325 Q -30 325 -60 310 Q -100 280 -140 180 Q -180 50 -180 -100 Z"
+      fill="#f5f3ed" stroke="#bbb8a8" stroke-width="3"/>
+    <!-- shading -->
+    <path d="M -160 -320 Q -100 -310 -60 -260 Q -40 -160 -60 -60 Q -90 80 -130 200 Q -160 270 -140 290"
+      fill="none" stroke="#d4d0c0" stroke-width="2"/>
+    <path d="M 160 -320 Q 100 -310 60 -260 Q 40 -160 60 -60 Q 90 80 130 200 Q 160 270 140 290"
+      fill="none" stroke="#d4d0c0" stroke-width="2"/>
+    <!-- highlights -->
+    <ellipse cx="-50" cy="-180" rx="22" ry="60" fill="#fff" opacity="0.6"/>
+    <ellipse cx="40" cy="-120" rx="14" ry="40" fill="#fff" opacity="0.4"/>
+    <!-- cusps -->
+    <path d="M -120 -300 Q -80 -260 -40 -310" fill="none" stroke="#d4d0c0" stroke-width="2"/>
+    <path d="M -40 -310 Q 0 -260 40 -310" fill="none" stroke="#d4d0c0" stroke-width="2"/>
+    <path d="M 40 -310 Q 80 -260 120 -300" fill="none" stroke="#d4d0c0" stroke-width="2"/>
+  </g>
+
+  <!-- annotations -->
+  <g>
+    <line x1="1140" y1="500" x2="1380" y2="400" stroke="#58a6ff" stroke-width="2"/>
+    <circle cx="1140" cy="500" r="6" fill="#58a6ff"/>
+    <text x="1395" y="400" font-family="Inter, sans-serif" font-size="22" fill="#58a6ff" font-weight="700">CAD/CAM zirconia crown</text>
+    <text x="1395" y="430" font-family="Inter, sans-serif" font-size="20" fill="#c9d1d9">milled, then sintered 1500 °C / 2 h</text>
+    <text x="1395" y="455" font-family="Inter, sans-serif" font-size="20" fill="#c9d1d9">shrinks ~20% in the oven</text>
+  </g>
+</svg>

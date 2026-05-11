@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <rect width="1920" height="1080" fill="#0e1117"/>
+  <text x="960" y="80" font-family="Inter, sans-serif" font-size="42" fill="#e6edf3" text-anchor="middle" font-weight="700">The original 2010 sample</text>
+  <text x="960" y="120" font-family="Inter, sans-serif" font-size="22" fill="#8b949e" text-anchor="middle">YSZ disc, 850 °C, &lt;5 s — the puck that started a field</text>
+
+  <!-- pedestal -->
+  <ellipse cx="960" cy="800" rx="240" ry="22" fill="#000" opacity="0.5"/>
+  <rect x="660" y="800" width="600" height="60" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+
+  <!-- Display tag -->
+  <g transform="translate(960, 720)">
+    <rect x="-180" y="0" width="360" height="80" rx="6" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+    <text x="0" y="32" font-family="Inter, sans-serif" font-size="20" fill="#e6edf3" text-anchor="middle">M. Cologna 2010 — YSZ disc</text>
+    <text x="0" y="58" font-family="JetBrains Mono, monospace" font-size="16" fill="#8b949e" text-anchor="middle">University of Colorado Boulder</text>
+  </g>
+
+  <!-- the puck itself -->
+  <g transform="translate(960, 540)">
+    <ellipse cx="0" cy="240" rx="200" ry="20" fill="#000" opacity="0.5"/>
+    <ellipse cx="0" cy="0" rx="200" ry="200" fill="#a8a8a4" stroke="#5a5a5a" stroke-width="3"/>
+    <ellipse cx="-50" cy="-50" rx="55" ry="28" fill="#fff" opacity="0.4"/>
+    <!-- electrode marks -->
+    <ellipse cx="0" cy="-160" rx="30" ry="6" fill="#ffd866" opacity="0.8"/>
+    <ellipse cx="0" cy="160" rx="30" ry="6" fill="#ffd866" opacity="0.8"/>
+  </g>
+
+  <!-- Behind-museum label -->
+  <text x="960" y="980" font-family="JetBrains Mono, monospace" font-size="18" fill="#8b949e" text-anchor="middle">Stylized portrait of the canonical specimen</text>
+</svg>

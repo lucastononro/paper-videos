@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <rect width="1920" height="1080" fill="#0e1117"/>
+  <text x="960" y="80" font-family="Inter, sans-serif" font-size="42" fill="#e6edf3" text-anchor="middle" font-weight="700">Industrial tunnel kiln</text>
+  <text x="960" y="120" font-family="Inter, sans-serif" font-size="22" fill="#8b949e" text-anchor="middle">100+ m long, continuous-firing, draws MW of power</text>
+
+  <!-- perspective receding tunnel -->
+  <!-- ground -->
+  <rect x="0" y="800" width="1920" height="280" fill="#161b22"/>
+  <line x1="0" y1="800" x2="1920" y2="800" stroke="#30363d" stroke-width="2"/>
+
+  <!-- tunnel exterior outer rectangle near, recede to vanishing point -->
+  <g>
+    <!-- left wall -->
+    <polygon points="200,260 200,800 760,720 760,440" fill="#2a2a2a" stroke="#4a4a4a" stroke-width="2"/>
+    <!-- right wall -->
+    <polygon points="1720,260 1720,800 1160,720 1160,440" fill="#2a2a2a" stroke="#4a4a4a" stroke-width="2"/>
+    <!-- top -->
+    <polygon points="200,260 1720,260 1160,440 760,440" fill="#3a3a3a" stroke="#4a4a4a" stroke-width="2"/>
+
+    <!-- entrance arch (large rect) -->
+    <rect x="220" y="280" width="1480" height="500" fill="none" stroke="#5a5a5a" stroke-width="2"/>
+
+    <!-- glow inside (orange) -->
+    <path d="M 760 440 L 1160 440 L 1160 720 L 760 720 Z" fill="#5a2a1a"/>
+    <path d="M 800 460 L 1120 460 L 1120 700 L 800 700 Z" fill="#a04a1a"/>
+    <path d="M 840 480 L 1080 480 L 1080 680 L 840 680 Z" fill="#cc6a20" opacity="0.85"/>
+    <path d="M 880 500 L 1040 500 L 1040 660 L 880 660 Z" fill="#ffa040" opacity="0.7"/>
+    <path d="M 920 520 L 1000 520 L 1000 640 L 920 640 Z" fill="#ffd866" opacity="0.7"/>
+
+    <!-- product on a roller cart inside, silhouettes -->
+    <g fill="#1a1a18" stroke="#0e1117" stroke-width="1">
+      <rect x="700" y="700" width="80" height="20"/>
+      <rect x="600" y="720" width="120" height="20"/>
+      <rect x="400" y="740" width="200" height="22"/>
+    </g>
+
+    <!-- vent stacks rising from top -->
+    <g>
+      <rect x="500" y="160" width="80" height="100" fill="#3a3a3a" stroke="#4a4a4a" stroke-width="2"/>
+      <rect x="700" y="120" width="80" height="140" fill="#3a3a3a" stroke="#4a4a4a" stroke-width="2"/>
+      <rect x="900" y="100" width="80" height="160" fill="#3a3a3a" stroke="#4a4a4a" stroke-width="2"/>
+      <rect x="1100" y="120" width="80" height="140" fill="#3a3a3a" stroke="#4a4a4a" stroke-width="2"/>
+      <rect x="1340" y="160" width="80" height="100" fill="#3a3a3a" stroke="#4a4a4a" stroke-width="2"/>
+    </g>
+    <!-- smoke -->
+    <g fill="#5a5a5a" opacity="0.5">
+      <ellipse cx="540" cy="120" rx="40" ry="20"/>
+      <ellipse cx="740" cy="80" rx="50" ry="25"/>
+      <ellipse cx="940" cy="60" rx="60" ry="30"/>
+      <ellipse cx="1140" cy="80" rx="50" ry="25"/>
+      <ellipse cx="1380" cy="120" rx="40" ry="20"/>
+    </g>
+  </g>
+
+  <!-- labels -->
+  <g>
+    <text x="200" y="940" font-family="Inter, sans-serif" font-size="22" fill="#58a6ff">Roller-hearth tunnel kiln</text>
+    <text x="200" y="970" font-family="Inter, sans-serif" font-size="20" fill="#c9d1d9">~24 h dwell · 1400–1700 °C peak · MW-scale draw</text>
+  </g>
+</svg>

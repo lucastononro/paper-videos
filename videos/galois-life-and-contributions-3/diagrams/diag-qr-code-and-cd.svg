@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <defs>
+    <linearGradient id="bg-qr" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0e1117"/>
+      <stop offset="1" stop-color="#171c25"/>
+    </linearGradient>
+    <radialGradient id="cd-rainbow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#a4d6e8" stop-opacity="0.9"/>
+      <stop offset="0.3" stop-color="#c9e4a4" stop-opacity="0.8"/>
+      <stop offset="0.5" stop-color="#ffd866" stop-opacity="0.85"/>
+      <stop offset="0.7" stop-color="#f97583" stop-opacity="0.8"/>
+      <stop offset="1" stop-color="#7a4ad6" stop-opacity="0.7"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1920" height="1080" fill="url(#bg-qr)"/>
+
+  <!-- Title -->
+  <text x="960" y="100" text-anchor="middle" font-family="Georgia, serif" font-size="42" fill="#e6edf3" letter-spacing="3">REED-SOLOMON CODES</text>
+  <text x="960" y="148" text-anchor="middle" font-family="Georgia, serif" font-size="22" font-style="italic" fill="#ffd866" opacity="0.85">Polynomials over a Galois field  —  every QR code, every CD, every Voyager bit</text>
+
+  <!-- Left: QR code -->
+  <g transform="translate(280, 280)">
+    <rect width="520" height="520" fill="#e6edf3" rx="10"/>
+    <!-- QR pattern: simulated 21x21 cells -->
+    <g fill="#0e1117">
+      <!-- Position markers -->
+      <rect x="40" y="40" width="120" height="120"/>
+      <rect x="60" y="60" width="80" height="80" fill="#e6edf3"/>
+      <rect x="80" y="80" width="40" height="40"/>
+
+      <rect x="360" y="40" width="120" height="120"/>
+      <rect x="380" y="60" width="80" height="80" fill="#e6edf3"/>
+      <rect x="400" y="80" width="40" height="40"/>
+
+      <rect x="40" y="360" width="120" height="120"/>
+      <rect x="60" y="380" width="80" height="80" fill="#e6edf3"/>
+      <rect x="80" y="400" width="40" height="40"/>
+
+      <!-- Random data cells -->
+      <g>
+        <rect x="200" y="40" width="20" height="20"/><rect x="240" y="40" width="20" height="20"/>
+        <rect x="280" y="40" width="20" height="20"/><rect x="320" y="40" width="20" height="20"/>
+        <rect x="200" y="80" width="20" height="20"/><rect x="260" y="80" width="20" height="20"/>
+        <rect x="320" y="80" width="20" height="20"/>
+        <rect x="180" y="120" width="20" height="20"/><rect x="220" y="120" width="20" height="20"/>
+        <rect x="280" y="120" width="20" height="20"/>
+        <rect x="200" y="180" width="20" height="20"/><rect x="240" y="180" width="20" height="20"/>
+        <rect x="280" y="180" width="20" height="20"/><rect x="340" y="180" width="20" height="20"/>
+        <rect x="380" y="180" width="20" height="20"/><rect x="420" y="180" width="20" height="20"/>
+        <rect x="180" y="220" width="20" height="20"/><rect x="240" y="220" width="20" height="20"/>
+        <rect x="320" y="220" width="20" height="20"/><rect x="400" y="220" width="20" height="20"/>
+        <rect x="460" y="220" width="20" height="20"/>
+        <rect x="200" y="260" width="20" height="20"/><rect x="280" y="260" width="20" height="20"/>
+        <rect x="360" y="260" width="20" height="20"/><rect x="420" y="260" width="20" height="20"/>
+        <rect x="180" y="300" width="20" height="20"/><rect x="220" y="300" width="20" height="20"/>
+        <rect x="300" y="300" width="20" height="20"/><rect x="380" y="300" width="20" height="20"/>
+        <rect x="440" y="300" width="20" height="20"/>
+        <rect x="200" y="340" width="20" height="20"/><rect x="260" y="340" width="20" height="20"/>
+        <rect x="340" y="340" width="20" height="20"/><rect x="420" y="340" width="20" height="20"/>
+        <rect x="180" y="380" width="20" height="20"/><rect x="220" y="380" width="20" height="20"/>
+        <rect x="280" y="380" width="20" height="20"/><rect x="360" y="380" width="20" height="20"/>
+        <rect x="420" y="380" width="20" height="20"/><rect x="460" y="380" width="20" height="20"/>
+        <rect x="200" y="420" width="20" height="20"/><rect x="280" y="420" width="20" height="20"/>
+        <rect x="320" y="420" width="20" height="20"/><rect x="400" y="420" width="20" height="20"/>
+        <rect x="180" y="460" width="20" height="20"/><rect x="260" y="460" width="20" height="20"/>
+        <rect x="320" y="460" width="20" height="20"/><rect x="380" y="460" width="20" height="20"/>
+        <rect x="440" y="460" width="20" height="20"/>
+      </g>
+    </g>
+    <text x="260" y="600" text-anchor="middle" font-family="Georgia, serif" font-size="24" fill="#e6edf3" opacity="0.85">QR code</text>
+  </g>
+
+  <!-- Right: CD/disc -->
+  <g transform="translate(1380, 540)">
+    <circle cx="0" cy="0" r="260" fill="url(#cd-rainbow)"/>
+    <circle cx="0" cy="0" r="260" fill="none" stroke="#3a4658" stroke-width="3"/>
+    <!-- Concentric tracks -->
+    <g fill="none" stroke="#0e1117" stroke-width="0.7" opacity="0.4">
+      <circle cx="0" cy="0" r="220"/>
+      <circle cx="0" cy="0" r="200"/>
+      <circle cx="0" cy="0" r="180"/>
+      <circle cx="0" cy="0" r="160"/>
+      <circle cx="0" cy="0" r="140"/>
+      <circle cx="0" cy="0" r="120"/>
+      <circle cx="0" cy="0" r="100"/>
+    </g>
+    <!-- Inner hole -->
+    <circle cx="0" cy="0" r="40" fill="#0e1117"/>
+    <circle cx="0" cy="0" r="40" fill="none" stroke="#3a4658" stroke-width="2"/>
+    <circle cx="0" cy="0" r="80" fill="none" stroke="#0e1117" stroke-width="2" opacity="0.5"/>
+
+    <text x="0" y="320" text-anchor="middle" font-family="Georgia, serif" font-size="24" fill="#e6edf3" opacity="0.85">CD · DVD · Voyager</text>
+  </g>
+
+  <!-- Center: GF formula -->
+  <g transform="translate(960, 540)" text-anchor="middle">
+    <rect x="-180" y="-100" width="360" height="200" fill="#1a212e" stroke="#ffd866" stroke-width="2" rx="14"/>
+    <text y="-30" font-family="Times New Roman, serif" font-size="44" font-style="italic" fill="#ffd866">GF(2⁸)</text>
+    <text y="20" font-family="Georgia, serif" font-size="20" fill="#e6edf3" opacity="0.85">256-element field</text>
+    <text y="56" font-family="Georgia, serif" font-size="20" fill="#e6edf3" opacity="0.85">polynomial arithmetic</text>
+  </g>
+
+  <!-- Connecting lines -->
+  <g stroke="#ffd866" stroke-width="1.5" opacity="0.6" fill="none">
+    <line x1="800" y1="540" x2="800" y2="540"/>
+    <path d="M810 540 L770 540" stroke-dasharray="6 6"/>
+    <path d="M1140 540 L1100 540" stroke-dasharray="6 6"/>
+  </g>
+
+  <text x="960" y="1010" text-anchor="middle" font-family="Georgia, serif" font-size="22" font-style="italic" fill="#e6edf3" opacity="0.7">Reed–Solomon (1960) · errors are corrected by polynomial interpolation in a Galois field</text>
+</svg>

@@ -1,0 +1,502 @@
+{
+  "thesisInOneSentence": "Claude Shannon — a juggling, unicycle-riding tinkerer from northern Michigan — invented the mathematics of information itself, turning the vague word 'message' into a number that still sets the speed limit of every WiFi signal, satellite call, MP3, JPEG, and AI model on Earth.",
+  "audience": "General curious audience. Assumes high-school math and familiarity with the idea of a digital signal; assumes nothing about logarithms, probability, or electrical engineering. The viewer should leave able to explain, in plain English, what entropy is, why noise has a limit, and why the 1948 paper still matters in 2026.",
+  "hook": "Every digital thing in your life — the photo you just sent, the song streaming in your ear, the satellite phone call from a mountainside, the AI you typed into this morning — owes its existence to one man who wrote one paper in 1948, and rode a unicycle while juggling four balls down the halls of Bell Labs.",
+  "teaser": {
+    "openingLine": "In 1948, a thirty-two-year-old engineer at Bell Labs published a paper that quietly set the speed limit of every internet connection on Earth — past, present, and future.",
+    "stakes": "Every WiFi packet, every satellite call, every MP3, every line of an AI model — all of it sits underneath one equation written by a man who also rode a unicycle while juggling four balls.",
+    "openLoop": "How did one playful tinkerer from a small town in Michigan turn the word 'information' — a vague, almost philosophical word — into a hard number that still binds every device we own?",
+    "visualConcept": "Open on a fast cascade of modern digital artifacts (a JPEG resolving from blocks, a streaming-bar progress, a 5G icon, a chatbot reply, a Voyager telemetry pulse) — then HARD CUT to grainy black-and-white footage feel of a man on a unicycle juggling. Hold on the contradiction. End the teaser with a clean title card: 'CLAUDE SHANNON — The Man Who Invented Information' over the dark navy.",
+    "estSeconds": 22
+  },
+  "narrativeArc": [
+    {
+      "actId": "act-0",
+      "name": "Teaser",
+      "estSeconds": 22,
+      "purpose": "Cold-open hook executing hook -> stakes -> contradiction (modern digital world vs. unicycle juggler) -> open-loop question (what is information?) -> title card as payoff. ~6 beats. No equations. No jargon."
+    },
+    {
+      "actId": "act-1",
+      "name": "What is information, really?",
+      "estSeconds": 90,
+      "purpose": "Plant the central question the whole video answers: before Shannon, 'information' was a word that meant everything and nothing — newspapers, telegrams, gossip, smoke signals. Engineers in the 1940s could build telegraph and telephone systems but could not say, mathematically, what they were transmitting or how much of it. Set up that the answer requires a particular mind: a tinkerer who treats math like a toy. Foreshadow Bell Labs, the 1948 paper, and the playful inventor we'll meet."
+    },
+    {
+      "actId": "act-2",
+      "name": "A boy in northern Michigan",
+      "estSeconds": 120,
+      "purpose": "Biography from birth (Petoskey, April 30, 1916) through Gaylord childhood: the barbed-wire telegraph he built to a friend's house half a mile away, his hero Thomas Edison (later discovered to be a distant cousin), models of planes and a radio-controlled boat. Establish two themes that will recur for the whole video: (a) Shannon doesn't separate 'play' from 'work' — he never has, even as a kid, and (b) he saw electricity not as a utility but as a medium for messages. Land on him entering the University of Michigan in 1932."
+    },
+    {
+      "actId": "act-3",
+      "name": "Switches that think — the 1937 thesis",
+      "estSeconds": 150,
+      "purpose": "University of Michigan: Shannon graduates in 1936 with a double bachelor's in math + electrical engineering, encounters Boole's algebra of true/false in a philosophy course. To MIT, where he runs Vannevar Bush's differential analyzer. Build the central insight visually: the analyzer's control circuits look like a chaos of relays — Shannon notices that a relay is just a switch, and a switch is just a TRUE/FALSE. Boolean AND = relays in series; OR = relays in parallel; NOT = an inverter relay. Show a small circuit (A AND B) OR C wired up with three switches and a lamp; make the lamp light up. The 1937 master's thesis (filed Aug 10, 1937; published 1938) is later called 'the most significant master's thesis of the 20th century'. The punchline: every digital chip on Earth is a descendant of those relays. End with a 1940 PhD at MIT — An Algebra for Theoretical Genetics, completed at Cold Spring Harbor under Vannevar Bush's prodding — to show his range and his slight restlessness."
+    },
+    {
+      "actId": "act-4",
+      "name": "Bell Labs, war, and the question of meaning",
+      "estSeconds": 150,
+      "purpose": "1941: Shannon joins Bell Labs full time. WWII pulls him into classified cryptography work — proving mathematically that the one-time pad is unbreakable. The classified 1945 memorandum 'A Mathematical Theory of Cryptography' would become the public 1949 paper 'Communication Theory of Secrecy Systems'. Two crucial things happen here: (1) cryptography forces him to think rigorously about what can and cannot be inferred from a transmitted signal — i.e., about UNCERTAINTY; (2) he meets Alan Turing in 1943 over tea at Bell Labs and they discuss machines that think. By the end of the war, Shannon has the question that will become the 1948 paper: forget meaning. How much UNCERTAINTY does a message resolve? Set up Act 5."
+    },
+    {
+      "actId": "act-5",
+      "name": "Entropy — turning surprise into a number",
+      "estSeconds": 210,
+      "purpose": "The mathematical heart of the video. Build entropy from intuition, not from the equation backward. (i) A fair coin flip vs. a biased one: which outcome surprises you more? (ii) Define information as expected surprise. (iii) Derive (without scaring anyone) H = -sum p_i log p_i — eq-017. (iv) Crucially: explain WHY log. The log makes 'information adds up' — two independent coin flips give exactly twice the surprise. (v) Land on: information has a unit. Shannon, on a suggestion from John Tukey, calls it the BIT — binary digit. (vi) Show that English text has roughly one bit of entropy per letter, even though there are 26 letters. (vii) Land the bigger claim: the entropy of a source is the absolute lower bound on how compactly you can encode it. Every JPEG, every ZIP, every MP3 is squeezing toward that bound. This is the act where the viewer should feel the 'click'."
+    },
+    {
+      "actId": "act-6",
+      "name": "Noise has a limit — channel capacity",
+      "estSeconds": 180,
+      "purpose": "The second half of the 1948 paper. (i) Draw the iconic source -> encoder -> CHANNEL (with NOISE injected) -> decoder -> destination diagram from page 1 of Shannon's paper. (ii) Pose the engineer's question of the 1940s: 'Surely if the line is noisy enough, you must lose information?' Shannon's astonishing answer: NO. (iii) Define channel capacity C as the maximum mutual information between input and output (eq-075/076), then specialize to the most famous version: the Shannon-Hartley theorem, C = W log(1 + P/N) — eq-240. Walk through it geometrically: bandwidth W, signal power P, noise power N. (iv) State the noisy-channel coding theorem in plain English: BELOW capacity, you can transmit with as small an error rate as you want — by adding redundancy cleverly. ABOVE capacity, you cannot, no matter how clever. (v) The punchline: this is not just a theorem about telephones. It is a LAW OF NATURE about communication. Your 5G modem, every spacecraft uplink, every fiber-optic cable, every CD's error-correction layer — all of them sit at the bottom of this curve, trying to climb toward C."
+    },
+    {
+      "actId": "act-7",
+      "name": "Back to the playful tinkerer",
+      "estSeconds": 110,
+      "purpose": "Crucial breath act after the math. Pivot back to Shannon as a person. 1949 — he marries Mary Elizabeth 'Betty' Moore, a numerical analyst at Bell Labs; she helps build many of his later inventions. 1950 — Theseus, the maze-solving mouse (one of the earliest physical demonstrations of machine learning, using telephone relays for memory). The Ultimate Machine — a box whose only function is to turn itself off, an idea his student Marvin Minsky proposed and Shannon built and put on his desk. The juggling theorem: B/H = (D+F)/(D+E). The unicycle in the Bell Labs corridors. Flame-throwing trumpets, a rocket-powered Frisbee, plastic foam shoes for walking on water, Shannon's basement 'toy room.' The thesis of the act: the playfulness was not a SIDE of Shannon. It WAS Shannon. The same mind that turned uncertainty into mathematics treated machines and puzzles as things to play with."
+    },
+    {
+      "actId": "act-8",
+      "name": "The world Shannon left us",
+      "estSeconds": 140,
+      "purpose": "Legacy. 1956: returns to MIT as faculty (Donner Professor of Science 1958-78). His ideas spread through every digital technology of the next 70 years: lossless compression (Huffman coding, ZIP, FLAC), lossy compression (JPEG, MP3, AAC), error-correcting codes (CDs, Blu-ray, deep-space telemetry — Voyager 1 still beaming back data from interstellar space using error-correcting codes whose feasibility Shannon proved possible), the entire internet protocol stack, modems, WiFi, 5G, satellite communications, modern cryptography, and yes — the information-theoretic objectives that train neural networks (cross-entropy loss is literally Shannon's H, repurposed). Each of these is one or two beats: a name, a visual, the line 'this is Shannon's theorem at work.' Quiet ending: Shannon develops Alzheimer's in his last years. He dies February 24, 2001, at 84. He never quite saw the internet take over — but the internet was already running on his math."
+    },
+    {
+      "actId": "act-9",
+      "name": "Outro — uncertainty as a thing to play with",
+      "estSeconds": 78,
+      "purpose": "No 'thanks for watching.' Land the bigger idea the user asked for. Shannon did something most scientists never do: he took something the world thought was unmeasurable — information, surprise, uncertainty itself — and made it a number. He could only do that because he treated mathematics, machines, and the world the way he treated juggling: as a puzzle, a toy, a thing to take apart with your hands and put back together better. The closing image: a single bit toggling 0 -> 1 -> 0 -> 1 on a black screen. Then the title card: 'Claude Shannon, 1916-2001 — A Mathematical Theory of Communication, Bell System Technical Journal, 1948.'"
+    }
+  ],
+  "conceptsToVisualize": [
+    {
+      "id": "c-001",
+      "concept": "Boolean algebra realized in physical relays (AND = series, OR = parallel, NOT = inverter)",
+      "actId": "act-3",
+      "whyItMatters": "This is the conceptual ancestor of every transistor on every chip. Without it, no computer. The viewer must SEE switches click, lamps light, and feel that logic is suddenly a physical thing.",
+      "currentConfusion": "People hear 'Boolean algebra' and freeze. Show it as wires and switches first; name it second.",
+      "visualSuggestion": "Manim animation: three switches labeled A, B, C feeding a lamp. Toggle them; show the lamp respond to (A AND B) OR C. Then morph the circuit into a logic-gate diagram with the same labels.",
+      "associatedEquationIds": []
+    },
+    {
+      "id": "c-002",
+      "concept": "Surprise as the building block of information",
+      "actId": "act-5",
+      "whyItMatters": "Entropy is unintelligible if you derive it from the formula. It is OBVIOUS if you derive it from 'how surprised should I be?'",
+      "currentConfusion": "Viewers conflate 'information' with 'meaning' and bounce off the formula.",
+      "visualSuggestion": "Manim: two coins side by side. Coin 1 is 50/50; coin 2 is 99/1. Flip both 20 times. Tally the outcomes. Show that coin 2 is boring — its outcomes are predictable — while coin 1 carries a full bit per flip. Then formally: surprise of an outcome is -log p; expected surprise is sum p (-log p) = H. Equation eq-017 lands as the inevitable summary, not the starting point.",
+      "associatedEquationIds": [
+        "eq-017"
+      ]
+    },
+    {
+      "id": "c-003",
+      "concept": "The bit as the unit of information",
+      "actId": "act-5",
+      "whyItMatters": "Naming a unit is half the discovery. The bit is to information what the meter is to length.",
+      "currentConfusion": "Viewers assume a 'bit' is just a 0 or 1. They miss that it's a unit of UNCERTAINTY — one bit is the surprise of a fair coin flip.",
+      "visualSuggestion": "Hold the equation H = -sum p_i log_2 p_i; substitute p_1 = p_2 = 1/2; the right-hand side resolves to exactly 1. A single coin: one bit. Then show: a six-sided die: log_2 6 ~ 2.58 bits. English: ~1 bit per letter. Bridge to the Tukey naming anecdote in narration.",
+      "associatedEquationIds": [
+        "eq-017"
+      ]
+    },
+    {
+      "id": "c-004",
+      "concept": "Source -> Encoder -> Channel + Noise -> Decoder -> Destination (the iconic block diagram)",
+      "actId": "act-6",
+      "whyItMatters": "This single picture, drawn on page 2 of the 1948 paper, is the mental model every communications engineer carries to this day. Show it cleanly.",
+      "currentConfusion": "The original figure is busy. Redraw in Manim with five clean boxes and a noise arrow.",
+      "visualSuggestion": "Manim block diagram. Build it left to right while narrating each box. Inject a wiggly red 'noise' arrow into the channel. Optionally show a small message ('HELLO') being encoded into bits, getting a few flipped by the noise, and being decoded.",
+      "associatedEquationIds": []
+    },
+    {
+      "id": "c-005",
+      "concept": "Channel capacity as a maximum mutual information",
+      "actId": "act-6",
+      "whyItMatters": "C = max [H(x) - H_y(x)] is Shannon's general definition; the viewer should see it as 'the most uncertainty about input that the output resolves.'",
+      "currentConfusion": "Mutual information is genuinely hard. Translate H(x) - H_y(x) as 'uncertainty before seeing y, minus the uncertainty that remains after seeing y.'",
+      "visualSuggestion": "Manim: two overlapping circles labeled H(x) and H(y); the intersection IS mutual information / channel capacity. Animate noise growing -> intersection shrinking -> capacity dropping.",
+      "associatedEquationIds": [
+        "eq-075",
+        "eq-076"
+      ]
+    },
+    {
+      "id": "c-006",
+      "concept": "Shannon-Hartley: C = W log(1 + P/N)",
+      "actId": "act-6",
+      "whyItMatters": "This is THE concrete formula viewers will remember. It says: bandwidth W and signal-to-noise ratio P/N together set the maximum bits-per-second you can ever send.",
+      "currentConfusion": "Viewers want to know what each letter means physically. Spell it out: W is bandwidth in Hz, P is signal power, N is noise power. Don't let the log scare them.",
+      "visualSuggestion": "Manim: write the equation centered on screen. Use the contour_flash helper to point at W, then at P/N, then at the log. Then a 2D plot of C vs P/N with W fixed; show the curve climbs slowly (log!) — doubling power barely adds capacity. Bridge to: this is why engineers fight for spectrum.",
+      "associatedEquationIds": [
+        "eq-240"
+      ]
+    },
+    {
+      "id": "c-007",
+      "concept": "Theseus the maze-mouse and learning-by-relays",
+      "actId": "act-7",
+      "whyItMatters": "Visceral demonstration that Shannon was not just thinking abstractly — he built one of the first physical learning machines, in 1950, out of telephone relays.",
+      "currentConfusion": "Viewers will think 'machine learning = neural networks.' Show that the idea of a machine that REMEMBERS its way through a maze predates the field by decades.",
+      "visualSuggestion": "Use the actual archival 1950s footage of Shannon demonstrating Theseus (linked in sources). Cut to a clean Manim diagram of the maze grid showing a path being learned and re-traversed faster the second time.",
+      "associatedEquationIds": []
+    },
+    {
+      "id": "c-008",
+      "concept": "Shannon's juggling theorem B/H = (D + F)/(D + E)",
+      "actId": "act-7",
+      "whyItMatters": "Concrete proof that Shannon turned every interest into mathematics. Charming, rigorous, and short.",
+      "currentConfusion": "Don't let it become a digression. State, parse, move on.",
+      "visualSuggestion": "Manim: B balls in motion overhead, H hands below, label D (in-hand time), F (in-flight time), E (empty-hand time). The equation drops in below.",
+      "associatedEquationIds": []
+    }
+  ],
+  "questionsToAnswerOnScreen": [
+    "What is 'information', mathematically?",
+    "Why is a coin flip exactly one bit?",
+    "Why does the formula for entropy have a logarithm in it?",
+    "What does it mean for a channel to have a 'capacity'?",
+    "If a channel is noisy, why doesn't error build up forever?",
+    "Why did Shannon's 1937 master's thesis matter so much?",
+    "How does Theseus 'learn' a maze with no software?",
+    "Why do we call them 'bits'?"
+  ],
+  "thingsToCutOrSkip": [
+    "Continuous channels and the differential entropy chapter of the 1948 paper — gestured at, but no derivations. Stay with the discrete case.",
+    "Markov chain / ergodic source modeling from the paper's middle sections (eq-009 through eq-016 territory). Mentioned in one sentence, not derived.",
+    "The full mathematical content of the 1949 cryptography paper. We name it; we do not derive the unicity distance.",
+    "Shannon's stock-market and portfolio-theory work with John Kelly. Interesting but not on the critical path.",
+    "Sampling theorem details (it's in the 1948 paper but is more cleanly attributed to Nyquist; mention in passing only).",
+    "Detailed proofs of the noisy-channel coding theorem. We state the result and explain WHY it is surprising; we do not prove it.",
+    "Most of his ~125 published papers. The 1937 and 1948 papers are the spine; everything else is mentioned at most as a sentence.",
+    "Computer chess work in detail (it gets one beat in act-7 alongside the other inventions, not its own segment)."
+  ],
+  "priorWork": [
+    {
+      "title": "Certain Factors Affecting Telegraph Speed",
+      "author": "Harry Nyquist",
+      "year": 1924,
+      "whyRelevant": "Nyquist had already shown that signal speed scales with bandwidth. Shannon cites him in the 1948 paper. Mention briefly in act-1 as 'the engineers had pieces of the puzzle, but not the framework.'"
+    },
+    {
+      "title": "Transmission of Information",
+      "author": "R. V. L. Hartley",
+      "year": 1928,
+      "whyRelevant": "Hartley first proposed measuring information as log of the number of possible messages — Shannon credits him by name in the paper's introduction. The Shannon-Hartley name on eq-240 is in his honor."
+    },
+    {
+      "title": "An Investigation of the Laws of Thought",
+      "author": "George Boole",
+      "year": 1854,
+      "whyRelevant": "The algebra Shannon picked up in a Michigan philosophy course in the early 1930s. Eighty years before silicon, Boole gave Shannon the language he then poured into copper."
+    },
+    {
+      "title": "A Mind at Play: How Claude Shannon Invented the Information Age",
+      "author": "Jimmy Soni and Rob Goodman",
+      "year": 2017,
+      "whyRelevant": "The canonical popular biography. Source for nearly every personal anecdote in the video. The asset-fetcher and storyteller should treat it as the master reference for biographical color."
+    }
+  ],
+  "supportingMaterial": [
+    {
+      "kind": "image",
+      "needsToFind": "Photograph of young Claude Shannon in Gaylord, Michigan or Michigan high school portrait (~1932)",
+      "preferredSource": "Wikipedia Commons / University of Michigan ECE Shannon page"
+    },
+    {
+      "kind": "image",
+      "needsToFind": "Photograph of Claude Shannon as MIT graduate student or with the Bush differential analyzer",
+      "preferredSource": "MIT Museum / MIT News obituary photo"
+    },
+    {
+      "kind": "image",
+      "needsToFind": "Bell Labs Murray Hill building exterior, 1940s",
+      "preferredSource": "Nokia Bell Labs archives / Wikipedia Commons"
+    },
+    {
+      "kind": "image",
+      "needsToFind": "Cover or title page of A Mathematical Theory of Communication (1948 BSTJ)",
+      "preferredSource": "Bell System Technical Journal scan on Internet Archive (bstj27-3-379)"
+    },
+    {
+      "kind": "image",
+      "needsToFind": "Photograph of Theseus the maze-solving mouse on its maze, 1950-1952",
+      "preferredSource": "MIT Museum collection / Bell Labs archives"
+    },
+    {
+      "kind": "video",
+      "needsToFind": "1952 Bell Labs film of Shannon demonstrating Theseus",
+      "preferredSource": "AT&T Tech Channel / YouTube archival upload (use a still frame if licensing is unclear)"
+    },
+    {
+      "kind": "image",
+      "needsToFind": "Photograph of Shannon on a unicycle / juggling at MIT or Bell Labs",
+      "preferredSource": "MIT Museum / IEEE Spectrum centennial article (2016)"
+    },
+    {
+      "kind": "image",
+      "needsToFind": "Photograph of the Ultimate Machine (useless box) on Shannon's desk",
+      "preferredSource": "Bell Labs photos / popular-science archives"
+    },
+    {
+      "kind": "image",
+      "needsToFind": "Photograph of Claude and Betty Shannon together",
+      "preferredSource": "Soni/Goodman A Mind at Play photo plates / MIT obituary"
+    },
+    {
+      "kind": "image",
+      "needsToFind": "Photograph of Shannon at MIT in his later years",
+      "preferredSource": "MIT News 2001 obituary"
+    },
+    {
+      "kind": "image",
+      "needsToFind": "Photograph of Voyager 1 spacecraft (for the legacy beat about deep-space coding)",
+      "preferredSource": "NASA JPL public domain image library"
+    },
+    {
+      "kind": "diagram",
+      "needsToGenerate": "Clean redraw of Shannon's source / encoder / noisy channel / decoder / destination block diagram (Manim, not photo of paper page)"
+    },
+    {
+      "kind": "diagram",
+      "needsToGenerate": "Boolean-to-relay mapping diagram: AND (series), OR (parallel), NOT (inverter), with a small composite circuit lighting a lamp"
+    },
+    {
+      "kind": "diagram",
+      "needsToGenerate": "Two-coin entropy comparison (fair vs biased), with H computed beneath each"
+    },
+    {
+      "kind": "diagram",
+      "needsToGenerate": "C = W log(1 + P/N) plotted as a curve, annotated to show diminishing returns from added power"
+    }
+  ],
+  "spotlights": [],
+  "derivationsToBuild": [
+    {
+      "concept": "Boolean -> physical-circuit equivalence (the 1937 thesis)",
+      "openingQuestion": "What if a switch could be a TRUE or FALSE?",
+      "stepsToShow": [
+        "Draw a single switch + battery + lamp. ON = TRUE.",
+        "Two switches in series: lamp lights only if BOTH closed = AND.",
+        "Two switches in parallel: lamp lights if EITHER closed = OR.",
+        "An inverter relay: lamp lights when the input is OFF = NOT.",
+        "Wire (A AND B) OR C with three switches; demonstrate the truth table by toggling.",
+        "Generalize: any Boolean expression -> a relay network. Any relay network -> a Boolean expression. They are the same thing."
+      ],
+      "estBeats": 9,
+      "associatedEquationIds": []
+    },
+    {
+      "concept": "Entropy as expected surprise",
+      "openingQuestion": "If a coin is rigged to land heads 99 times out of 100, how much do you actually learn from each flip?",
+      "stepsToShow": [
+        "Define surprise of an outcome with probability p as -log p. Verify intuitively: a certain event (p=1) gives zero surprise; a one-in-a-million event gives a lot.",
+        "Define information of a source as the EXPECTED surprise: H = sum p_i * (-log p_i) = -sum p_i log p_i.",
+        "Plug in fair coin (p1 = p2 = 1/2): H = 1 (in bits). Define this as the unit: one bit.",
+        "Plug in biased coin (p = 0.99, 0.01): H ~ 0.08 bits. The biased coin carries almost no information.",
+        "Why log? Because two independent events should give twice the information; log(p*q) = log p + log q.",
+        "Compare entropies: a die ~2.58 bits; English ~1 bit per letter (after redundancy).",
+        "Land equation eq-017 as the formal restatement of what we just built."
+      ],
+      "estBeats": 12,
+      "associatedEquationIds": [
+        "eq-017"
+      ]
+    },
+    {
+      "concept": "Channel capacity in plain English (with Shannon-Hartley as the concrete payoff)",
+      "openingQuestion": "If the line is noisy enough, must some of your message be lost forever?",
+      "stepsToShow": [
+        "Draw the source -> encoder -> channel + noise -> decoder -> destination diagram.",
+        "Input uncertainty H(x); residual uncertainty after seeing the output H_y(x). Capacity C is the most you can shrink that gap: C = max [H(x) - H_y(x)] (eq-075/076).",
+        "State Shannon's 1948 noisy-channel coding theorem in plain English: BELOW C, you can transmit with arbitrarily small error rate by encoding cleverly. ABOVE C, you cannot.",
+        "Specialize to a band-limited Gaussian channel: C = W log(1 + P/N) (eq-240). Use contour_flash to point at W, P/N, log in turn.",
+        "Plot C against P/N on a log-x curve; emphasize that doubling power gives only one extra bit per second per Hz — diminishing returns built into nature.",
+        "End on the punchline: this is not a theorem about telephones. It is a law that binds every communication device on Earth, including ones not yet built."
+      ],
+      "estBeats": 11,
+      "associatedEquationIds": [
+        "eq-075",
+        "eq-076",
+        "eq-240"
+      ]
+    }
+  ],
+  "metaphors": [
+    {
+      "concept": "Information / entropy",
+      "metaphor": "Information is the surprise a message resolves. A message that tells you what you already knew carries zero information; a message that tells you something completely unexpected carries a lot. Entropy is your AVERAGE surprise per message — the size of your typical 'huh, didn't see that coming.'",
+      "whenToDeploy": "Drop early in act-5, BEFORE the equation. Let the equation arrive as the formal version of the metaphor."
+    },
+    {
+      "concept": "Boolean-to-relay correspondence",
+      "metaphor": "Shannon noticed that a switch is a two-faced thing: to an electrician it's a piece of metal that closes a circuit; to a mathematician it's the answer to a yes/no question. He took the second face seriously, and the modern computer fell out.",
+      "whenToDeploy": "In act-3 as the bridge from the philosophy course (Boole) to the differential analyzer (relays)."
+    },
+    {
+      "concept": "Channel capacity",
+      "metaphor": "A channel's capacity is like the maximum legal weight on a bridge: you can pile cargo on as long as you stay under it; one ounce over and the whole thing collapses. Shannon proved every communication channel — every wire, every radio band, every fiber — has its own bridge limit.",
+      "whenToDeploy": "Right after the eq-240 reveal in act-6, to make the abstraction visceral."
+    },
+    {
+      "concept": "Shannon's playfulness",
+      "metaphor": "He treated mathematics the way a child treats a Lego set. Most of his peers came at problems from the top — heavy machinery, important theorems. Shannon came at them from the bottom — a switch, a coin, a juggling pattern, a maze — and built up.",
+      "whenToDeploy": "In act-7, as the thesis statement of the act."
+    }
+  ],
+  "narrativeAngles": [
+    "Frame the whole video as the answer to one question — 'what is information?' — set up in act-1 and finally answered in act-5.",
+    "Use the contradiction (juggling unicyclist <-> father of the digital age) as the running rhythm. Cut from heavy math back to anecdote, math back to anecdote. The user explicitly wants this 'biography -> ideas -> biography -> legacy' shape — honor it.",
+    "Treat the 1948 paper as a CHARACTER: it appears for the first time at the end of act-4, becomes the focus of acts 5 and 6, and returns one last time at the close of act-8 as 'the paper that's still running, 78 years later.'",
+    "Avoid the trap of presenting Shannon as 'serious genius who happened to juggle'. He was a tinkerer first; the genius is what fell out of the tinkering. The user asked for this framing explicitly."
+  ],
+  "criticisms": [
+    "MUST verify every date and title before narration — the user was explicit. Specifically the storyteller must confirm: birth April 30, 1916 in Petoskey MI; thesis filed Aug 10, 1937, published 1938; PhD 1940; Bell Labs joined 1941; 1948 paper published in BSTJ in two parts (July and October); married Betty Moore 1949; built Theseus 1950 and demonstrated 1951-52; joined MIT faculty 1956; died Feb 24, 2001 at 84.",
+    "DO NOT use the rendered paper page PNGs as primary visuals — they are visually broken (font-encoding issue in the Harvard mirror). The 1948 paper should appear via clean Manim equationCard renders of eq-017, eq-075/076, eq-240, plus an external archival image of the BSTJ cover/title page sourced by asset-fetcher.",
+    "The entropy derivation in the original paper proves H is the unique satisfier of three axioms (continuity, monotonicity-on-uniform, the grouping property at eq-016). This is too inside-baseball for a general-audience video — DERIVE entropy from 'expected surprise' instead, and only mention the axiomatic uniqueness in one sentence as 'and Shannon proved it was the only such function.'",
+    "Channel capacity has a real risk of feeling like 'Shannon proved a thing.' To avoid this, the act-6 derivation MUST land on an emotional beat: 'noise has a limit, and it's a number.' Don't bury the punchline in math.",
+    "Resist the urge to add a 'meaning of meaning' philosophical detour. The user wants a documentary that lands. Keep act-9 to under 90 seconds and let the bit-toggling closing image do the work.",
+    "The Theseus footage is real and exists on YouTube; check licensing before using actual frames. Stills may be safer; an asset-fetcher should source a clean still or a recreated Manim diagram of the maze.",
+    "Avoid implying Shannon 'invented the computer.' He didn't. He gave computer designers the LANGUAGE (Boolean circuits) and gave communications engineers the MATHEMATICS (information theory). State this precisely."
+  ],
+  "openQuestionsForUser": [
+    "Are you OK with using a still frame from the 1952 AT&T Theseus film if the original video license is ambiguous, vs. a pure Manim recreation of the maze? Default plan: try for the still, fall back to Manim.",
+    "Should we name-drop Alan Turing's 1943 Bell Labs visit as a one-line aside in act-4, or skip to keep focus? Default: keep one line.",
+    "Cross-entropy loss / KL divergence as a 'Shannon also trains your AI' beat in act-8 — include or skip? Default: include as one beat with a clean equation card."
+  ],
+  "equationFocus": {
+    "headline": [
+      "eq-017",
+      "eq-075",
+      "eq-076",
+      "eq-240"
+    ],
+    "supporting": [],
+    "policy": "Only these four equations get full equationCard reveals on screen. The storyteller may quote other formulas in narration but should not show them. eq-017 is the heart of act-5; eq-075/076 are the abstract definition shown briefly in act-6 and eq-240 is the concrete payoff in act-6 that the viewer should remember by name."
+  },
+  "sources": [
+    {
+      "label": "Shannon, A Mathematical Theory of Communication (1948)",
+      "url": "https://onlinelibrary.wiley.com/doi/10.1002/j.1538-7305.1948.tb01338.x",
+      "kind": "primary",
+      "whyUseful": "The 1948 paper itself. The mathematical spine of acts 5 and 6. Already on disk as paper.md."
+    },
+    {
+      "label": "Shannon, A Symbolic Analysis of Relay and Switching Circuits (MIT thesis, 1937 / AIEE 1938)",
+      "url": "https://dspace.mit.edu/handle/1721.1/11173",
+      "kind": "primary",
+      "whyUseful": "The 1937 master's thesis. Source for act-3. MIT DSpace has the scanned original."
+    },
+    {
+      "label": "Shannon, An Algebra for Theoretical Genetics (PhD thesis, MIT, 1940)",
+      "url": "https://dspace.mit.edu/handle/1721.1/11174",
+      "kind": "primary",
+      "whyUseful": "The 1940 PhD. One sentence in act-3 about Shannon's range."
+    },
+    {
+      "label": "Shannon, Communication Theory of Secrecy Systems (1949)",
+      "url": "https://archive.org/details/bstj28-4-656",
+      "kind": "primary",
+      "whyUseful": "The declassified WWII cryptography work. Mentioned in act-4."
+    },
+    {
+      "label": "Soni & Goodman, A Mind at Play (Simon & Schuster, 2017)",
+      "url": "https://en.wikipedia.org/wiki/A_Mind_at_Play",
+      "kind": "biography",
+      "whyUseful": "Canonical popular biography. Source for nearly every anecdote about Shannon's personality, inventions, and family life. Won the 2017 Neumann Prize from the British Society for the History of Mathematics."
+    },
+    {
+      "label": "Wikipedia: Claude Shannon",
+      "url": "https://en.wikipedia.org/wiki/Claude_Shannon",
+      "kind": "reference",
+      "whyUseful": "Cross-check dates and biographical timeline. Confirmed: born April 30, 1916 Petoskey MI; raised Gaylord MI; UMich 1932-36; MIT 1936-40; Bell Labs 1941-72; MIT faculty 1956-78; married Betty Moore 1949; died Feb 24, 2001."
+    },
+    {
+      "label": "Wikipedia: A Mathematical Theory of Communication",
+      "url": "https://en.wikipedia.org/wiki/A_Mathematical_Theory_of_Communication",
+      "kind": "reference",
+      "whyUseful": "Confirms BSTJ publication July + October 1948, Vol 27 Issues 3 and 4."
+    },
+    {
+      "label": "Wikipedia: A Symbolic Analysis of Relay and Switching Circuits",
+      "url": "https://en.wikipedia.org/wiki/A_Symbolic_Analysis_of_Relay_and_Switching_Circuits",
+      "kind": "reference",
+      "whyUseful": "Howard Aiken later called it 'the most important master's thesis of the 20th century.' Source of that quote and the 1937/1938 dates."
+    },
+    {
+      "label": "Wikipedia: Useless machine (Ultimate Machine)",
+      "url": "https://en.wikipedia.org/wiki/Useless_machine",
+      "kind": "reference",
+      "whyUseful": "Confirms the Minsky -> Shannon -> Arthur C Clarke chain of custody on the Ultimate Machine, which Minsky proposed at Bell Labs in summer 1952 and Shannon built."
+    },
+    {
+      "label": "MIT News obituary of Claude Shannon (Feb 27, 2001)",
+      "url": "https://news.mit.edu/2001/shannon",
+      "kind": "obituary",
+      "whyUseful": "Authoritative source for date of death (Feb 24, 2001), age (84), Alzheimer's, and MIT positions (Donner Professor of Science 1958-78)."
+    },
+    {
+      "label": "MacTutor (St Andrews) Times obituary of Shannon",
+      "url": "https://mathshistory.st-andrews.ac.uk/Obituaries/Shannon/",
+      "kind": "obituary",
+      "whyUseful": "Cross-check biographical timeline; well-curated by historians of mathematics."
+    },
+    {
+      "label": "IEEE Information Theory Society — Claude E. Shannon page",
+      "url": "https://www.itsoc.org/about/shannon",
+      "kind": "reference",
+      "whyUseful": "Authoritative source for Shannon's career milestones from the field he founded."
+    },
+    {
+      "label": "IEEE Spectrum: Claude Shannon — Tinkerer, Prankster, and Father of Information Theory (Bob Colburn, 2016)",
+      "url": "https://spectrum.ieee.org/claude-shannon-tinkerer-prankster-and-father-of-information-theory",
+      "kind": "feature",
+      "whyUseful": "Centennial-year feature article. Excellent source for the playful-inventor angle (juggling, unicycle, flame-throwing trumpets, plastic foam shoes)."
+    },
+    {
+      "label": "TIME: The Juggling Unicyclist Who Pedaled Us Into the Digital Age (2016)",
+      "url": "https://time.com/4311107/claude-shannon-100-years/",
+      "kind": "feature",
+      "whyUseful": "General-audience framing of Shannon as juggling unicyclist. Useful for the act-7 tone."
+    },
+    {
+      "label": "MIT Technology Review: Mighty Mouse — Theseus (Dec 2018)",
+      "url": "https://www.technologyreview.com/2018/12/19/138508/mighty-mouse/",
+      "kind": "feature",
+      "whyUseful": "Detailed history of Theseus, the maze-solving mouse. Confirms 1950 build, 1952 Bell Labs film, telephone-relay memory, and that Betty helped build the original maze."
+    },
+    {
+      "label": "International Jugglers' Association profile of Shannon (juggle.org)",
+      "url": "https://www.juggle.org/claude-shannon-mathematician-engineer-genius-juggler/",
+      "kind": "feature",
+      "whyUseful": "Source for Shannon's juggling theorem B/H = (D+F)/(D+E) and his juggling robot."
+    },
+    {
+      "label": "AT&T Tech Channel — Theseus demonstration (1952)",
+      "url": "https://www.youtube.com/watch?v=_9_AEVQ_p74",
+      "kind": "archival-video",
+      "whyUseful": "Original Bell Labs film of Shannon demonstrating Theseus. Use a still frame in act-7 if licensing permits."
+    },
+    {
+      "label": "MIT Museum: Theseus collection record",
+      "url": "https://mitmuseum.mit.edu/collections/object/2007.030.001",
+      "kind": "archival",
+      "whyUseful": "Provenance for a clean photograph of the actual Theseus device."
+    },
+    {
+      "label": "University of Michigan ECE: Claude Shannon — Information Icon",
+      "url": "https://ece.engin.umich.edu/stories/claude-shannon-information-icon",
+      "kind": "feature",
+      "whyUseful": "Confirms the UMich 1932-36 dates and dual-degree story; source of UMich-era photographs."
+    },
+    {
+      "label": "Linda Hall Library: Claude Shannon (Scientist of the Day)",
+      "url": "https://www.lindahall.org/about/news/scientist-of-the-day/claude-shannon/",
+      "kind": "feature",
+      "whyUseful": "Compact, well-cited biographical sketch with archival images."
+    }
+  ]
+}

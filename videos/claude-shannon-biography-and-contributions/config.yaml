@@ -1,0 +1,20 @@
+slug: claude-shannon-biography-and-contributions
+paperSource:
+  kind: url
+  value: https://people.math.harvard.edu/~ctm/home/text/others/shannon/entropy/entropy.pdf
+paperTitle: A Mathematical Theory of Communication
+paperAuthors: C. E. Shannon
+paperVenue: Bell System Technical Journal, 1948
+voice: pharaoh
+captions: false
+targetLengthMinutes: 20
+focusAreas:
+  - Shannon's biography (Michigan childhood, MIT, Bell Labs, late life)
+  - 1938 master's thesis — Boolean algebra meets switching circuits
+  - 1948 A Mathematical Theory of Communication — entropy, channel capacity, noise
+  - Shannon's playful inventiveness — unicycles, juggling, Theseus the maze-mouse, chess machines
+  - Legacy in the modern digital world (internet, compression, error correction, AI)
+resolution:
+  width: 1920
+  height: 1080
+fps: 30

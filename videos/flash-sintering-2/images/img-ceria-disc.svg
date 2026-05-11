@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <rect width="1920" height="1080" fill="#0e1117"/>
+  <text x="960" y="80" font-family="Inter, sans-serif" font-size="42" fill="#ffd866" text-anchor="middle" font-weight="700">CeO₂ — ceria</text>
+  <text x="960" y="120" font-family="Inter, sans-serif" font-size="22" fill="#8b949e" text-anchor="middle">oxygen storage / fuel-cell electrolyte. Flashes at ~500 °C.</text>
+
+  <!-- pale yellow disc -->
+  <g transform="translate(960, 600)">
+    <ellipse cx="0" cy="240" rx="240" ry="22" fill="#000" opacity="0.5"/>
+    <ellipse cx="0" cy="0" rx="240" ry="240" fill="#f0e890" stroke="#9a9038" stroke-width="3"/>
+    <ellipse cx="-60" cy="-60" rx="80" ry="35" fill="#fff" opacity="0.45"/>
+  </g>
+
+  <text x="960" y="950" font-family="Inter, sans-serif" font-size="20" fill="#8b949e" text-anchor="middle">Fluorite structure · Ce⁴⁺ ↔ Ce³⁺ redox · activation E ~80 kJ/mol</text>
+</svg>

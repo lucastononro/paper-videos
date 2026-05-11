@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <defs>
+    <radialGradient id="bg-pescheux" cx="0.5" cy="0.4" r="0.7">
+      <stop offset="0" stop-color="#22272e"/>
+      <stop offset="1" stop-color="#0a0d12"/>
+    </radialGradient>
+    <linearGradient id="silhouette-pescheux" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1a1d28"/>
+      <stop offset="1" stop-color="#0a0d12"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1920" height="1080" fill="url(#bg-pescheux)"/>
+
+  <!-- Empty oval portrait frame: a missing photograph -->
+  <g transform="translate(960, 480)">
+    <!-- Outer ornate frame -->
+    <ellipse cx="0" cy="0" rx="320" ry="400" fill="none" stroke="#3a2c14" stroke-width="14"/>
+    <ellipse cx="0" cy="0" rx="334" ry="414" fill="none" stroke="#5a4020" stroke-width="3"/>
+    <ellipse cx="0" cy="0" rx="306" ry="386" fill="none" stroke="#5a4020" stroke-width="3"/>
+    <!-- Inner panel (deep void with silhouette) -->
+    <ellipse cx="0" cy="0" rx="298" ry="380" fill="url(#silhouette-pescheux)"/>
+
+    <!-- Anonymous silhouette (no face) -->
+    <g fill="#0a0d12">
+      <!-- Head -->
+      <ellipse cx="0" cy="-80" rx="100" ry="120"/>
+      <!-- Shoulders / coat -->
+      <path d="M-200 60 Q-100 -20 0 0 Q100 -20 200 60 L240 380 L-240 380 Z"/>
+    </g>
+
+    <!-- Faint question mark over face -->
+    <text x="0" y="-50" text-anchor="middle" font-family="Georgia, serif" font-size="180" fill="#e6edf3" opacity="0.18">?</text>
+
+    <!-- Frame ornaments at corners -->
+    <g fill="#5a4020">
+      <circle cx="0" cy="-410" r="12"/>
+      <circle cx="0" cy="410" r="12"/>
+    </g>
+  </g>
+
+  <!-- Caption -->
+  <text x="960" y="980" text-anchor="middle" font-family="Georgia, serif" font-size="36" fill="#e6edf3" letter-spacing="3">PESCHEUX D'HERBINVILLE</text>
+  <text x="960" y="1024" text-anchor="middle" font-family="Georgia, serif" font-size="22" font-style="italic" fill="#ffd866" opacity="0.85">Republican · artilleryman · acquitted at the trial of nineteen · no portrait survives</text>
+</svg>

@@ -1,0 +1,10 @@
+{
+  "img-shannon-portrait": {
+    "kind": "image",
+    "file": "images/img-shannon-portrait.jpg",
+    "source": "Wikimedia Commons — https://commons.wikimedia.org/wiki/File:C.E._Shannon._Tekniska_museet_43069_(2x3_crop).jpg",
+    "license": "CC-BY-2.0",
+    "attribution": "Tekniska museet (Swedish National Museum of Science and Technology), via Wikimedia Commons, CC BY 2.0",
+    "usedInBeats": ["beat-066", "beat-067", "beat-068"]
+  }
+}

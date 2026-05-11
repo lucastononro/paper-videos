@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <defs>
+    <linearGradient id="sky-funeral2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1a212e"/>
+      <stop offset="1" stop-color="#3a3340"/>
+    </linearGradient>
+    <linearGradient id="ground-funeral2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2a2418"/>
+      <stop offset="1" stop-color="#0e0c08"/>
+    </linearGradient>
+    <radialGradient id="vignette-funeral2" cx="0.5" cy="0.5" r="0.85">
+      <stop offset="0.6" stop-color="#0e1117" stop-opacity="0"/>
+      <stop offset="1" stop-color="#0e1117" stop-opacity="0.85"/>
+    </radialGradient>
+  </defs>
+
+  <rect x="0" y="0" width="1920" height="700" fill="url(#sky-funeral2)"/>
+  <rect x="0" y="700" width="1920" height="380" fill="url(#ground-funeral2)"/>
+
+  <!-- Distant Paris skyline -->
+  <g fill="#0a0d12" opacity="0.9">
+    <rect x="0" y="540" width="1920" height="160"/>
+    <rect x="80" y="500" width="40" height="200"/>
+    <rect x="240" y="480" width="60" height="220"/>
+    <rect x="380" y="510" width="50" height="190"/>
+    <rect x="520" y="490" width="80" height="210"/>
+    <rect x="700" y="520" width="40" height="180"/>
+    <rect x="840" y="500" width="60" height="200"/>
+    <!-- Notre-Dame towers -->
+    <rect x="940" y="430" width="70" height="270"/>
+    <rect x="1020" y="430" width="70" height="270"/>
+    <rect x="940" y="410" width="70" height="20"/>
+    <rect x="1020" y="410" width="70" height="20"/>
+    <rect x="1100" y="500" width="60" height="200"/>
+    <rect x="1220" y="510" width="50" height="190"/>
+    <rect x="1340" y="490" width="80" height="210"/>
+    <rect x="1480" y="520" width="40" height="180"/>
+    <rect x="1600" y="500" width="60" height="200"/>
+    <rect x="1740" y="510" width="50" height="190"/>
+  </g>
+
+  <!-- Vast crowd silhouette (multiple layers, fading) -->
+  <g fill="#0a0d12">
+    <!-- Layer 1: dense crowd -->
+    <g transform="translate(0, 800)">
+      <g>
+        <ellipse cx="100" cy="0" rx="14" ry="18"/><rect x="86" y="14" width="28" height="80"/>
+        <ellipse cx="160" cy="-2" rx="14" ry="18"/><rect x="146" y="12" width="28" height="80"/>
+        <ellipse cx="220" cy="0" rx="14" ry="18"/><rect x="206" y="14" width="28" height="80"/>
+        <ellipse cx="280" cy="-4" rx="14" ry="18"/><rect x="266" y="10" width="28" height="80"/>
+        <ellipse cx="340" cy="-2" rx="14" ry="18"/><rect x="326" y="12" width="28" height="80"/>
+        <ellipse cx="400" cy="0" rx="14" ry="18"/><rect x="386" y="14" width="28" height="80"/>
+        <ellipse cx="460" cy="-2" rx="14" ry="18"/><rect x="446" y="12" width="28" height="80"/>
+        <ellipse cx="520" cy="0" rx="14" ry="18"/><rect x="506" y="14" width="28" height="80"/>
+        <ellipse cx="580" cy="-4" rx="14" ry="18"/><rect x="566" y="10" width="28" height="80"/>
+        <ellipse cx="640" cy="-2" rx="14" ry="18"/><rect x="626" y="12" width="28" height="80"/>
+        <ellipse cx="700" cy="0" rx="14" ry="18"/><rect x="686" y="14" width="28" height="80"/>
+        <ellipse cx="760" cy="-2" rx="14" ry="18"/><rect x="746" y="12" width="28" height="80"/>
+        <ellipse cx="820" cy="0" rx="14" ry="18"/><rect x="806" y="14" width="28" height="80"/>
+        <ellipse cx="880" cy="-4" rx="14" ry="18"/><rect x="866" y="10" width="28" height="80"/>
+        <ellipse cx="940" cy="-2" rx="14" ry="18"/><rect x="926" y="12" width="28" height="80"/>
+        <ellipse cx="1000" cy="0" rx="14" ry="18"/><rect x="986" y="14" width="28" height="80"/>
+        <ellipse cx="1060" cy="-2" rx="14" ry="18"/><rect x="1046" y="12" width="28" height="80"/>
+        <ellipse cx="1120" cy="0" rx="14" ry="18"/><rect x="1106" y="14" width="28" height="80"/>
+        <ellipse cx="1180" cy="-4" rx="14" ry="18"/><rect x="1166" y="10" width="28" height="80"/>
+        <ellipse cx="1240" cy="-2" rx="14" ry="18"/><rect x="1226" y="12" width="28" height="80"/>
+        <ellipse cx="1300" cy="0" rx="14" ry="18"/><rect x="1286" y="14" width="28" height="80"/>
+        <ellipse cx="1360" cy="-2" rx="14" ry="18"/><rect x="1346" y="12" width="28" height="80"/>
+        <ellipse cx="1420" cy="0" rx="14" ry="18"/><rect x="1406" y="14" width="28" height="80"/>
+        <ellipse cx="1480" cy="-4" rx="14" ry="18"/><rect x="1466" y="10" width="28" height="80"/>
+        <ellipse cx="1540" cy="-2" rx="14" ry="18"/><rect x="1526" y="12" width="28" height="80"/>
+        <ellipse cx="1600" cy="0" rx="14" ry="18"/><rect x="1586" y="14" width="28" height="80"/>
+        <ellipse cx="1660" cy="-2" rx="14" ry="18"/><rect x="1646" y="12" width="28" height="80"/>
+        <ellipse cx="1720" cy="0" rx="14" ry="18"/><rect x="1706" y="14" width="28" height="80"/>
+        <ellipse cx="1780" cy="-4" rx="14" ry="18"/><rect x="1766" y="10" width="28" height="80"/>
+        <ellipse cx="1840" cy="-2" rx="14" ry="18"/><rect x="1826" y="12" width="28" height="80"/>
+      </g>
+    </g>
+    <!-- Layer 2: front row, larger -->
+    <g transform="translate(0, 920)">
+      <g>
+        <ellipse cx="80" cy="0" rx="20" ry="26"/><rect x="60" y="20" width="40" height="120"/>
+        <ellipse cx="180" cy="-4" rx="20" ry="26"/><rect x="160" y="16" width="40" height="120"/>
+        <ellipse cx="280" cy="0" rx="20" ry="26"/><rect x="260" y="20" width="40" height="120"/>
+        <ellipse cx="380" cy="-4" rx="20" ry="26"/><rect x="360" y="16" width="40" height="120"/>
+        <ellipse cx="480" cy="0" rx="20" ry="26"/><rect x="460" y="20" width="40" height="120"/>
+        <ellipse cx="580" cy="-4" rx="20" ry="26"/><rect x="560" y="16" width="40" height="120"/>
+        <ellipse cx="680" cy="0" rx="20" ry="26"/><rect x="660" y="20" width="40" height="120"/>
+        <ellipse cx="780" cy="-4" rx="20" ry="26"/><rect x="760" y="16" width="40" height="120"/>
+        <ellipse cx="880" cy="0" rx="20" ry="26"/><rect x="860" y="20" width="40" height="120"/>
+        <ellipse cx="980" cy="-4" rx="20" ry="26"/><rect x="960" y="16" width="40" height="120"/>
+        <ellipse cx="1080" cy="0" rx="20" ry="26"/><rect x="1060" y="20" width="40" height="120"/>
+        <ellipse cx="1180" cy="-4" rx="20" ry="26"/><rect x="1160" y="16" width="40" height="120"/>
+        <ellipse cx="1280" cy="0" rx="20" ry="26"/><rect x="1260" y="20" width="40" height="120"/>
+        <ellipse cx="1380" cy="-4" rx="20" ry="26"/><rect x="1360" y="16" width="40" height="120"/>
+        <ellipse cx="1480" cy="0" rx="20" ry="26"/><rect x="1460" y="20" width="40" height="120"/>
+        <ellipse cx="1580" cy="-4" rx="20" ry="26"/><rect x="1560" y="16" width="40" height="120"/>
+        <ellipse cx="1680" cy="0" rx="20" ry="26"/><rect x="1660" y="20" width="40" height="120"/>
+        <ellipse cx="1780" cy="-4" rx="20" ry="26"/><rect x="1760" y="16" width="40" height="120"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- Vignette -->
+  <rect width="1920" height="1080" fill="url(#vignette-funeral2)"/>
+
+  <!-- Caption -->
+  <text x="960" y="100" text-anchor="middle" font-family="Georgia, serif" font-size="36" fill="#e6edf3" letter-spacing="3">JUNE 2, 1832 · MONTPARNASSE</text>
+  <text x="960" y="148" text-anchor="middle" font-family="Georgia, serif" font-size="24" font-style="italic" fill="#ffd866" opacity="0.85">Two to three thousand republicans walk to a common grave</text>
+</svg>

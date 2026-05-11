@@ -1,0 +1,15 @@
+slug: entropy-6-min-video
+paperSource:
+  kind: url
+  value: https://people.math.harvard.edu/~ctm/home/text/others/shannon/entropy/entropy.pdf
+paperTitle: A Mathematical Theory of Communication
+paperAuthor: C. E. Shannon
+paperYear: 1948
+voice: pharaoh
+captions: false
+targetLengthMinutes: 6
+focusAreas: []
+resolution:
+  width: 1920
+  height: 1080
+fps: 30

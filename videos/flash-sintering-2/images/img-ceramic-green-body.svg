@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <rect width="1920" height="1080" fill="#0e1117"/>
+  <text x="960" y="80" font-family="Inter, sans-serif" font-size="42" fill="#e6edf3" text-anchor="middle" font-weight="700">Ceramic green body</text>
+  <text x="960" y="120" font-family="Inter, sans-serif" font-size="22" fill="#8b949e" text-anchor="middle">pressed powder disc — fragile, porous, ~60% density</text>
+
+  <!-- main green body disc, viewed at slight angle -->
+  <g>
+    <!-- shadow -->
+    <ellipse cx="970" cy="900" rx="320" ry="22" fill="#000" opacity="0.45"/>
+    <!-- side -->
+    <path d="M 660 540 L 660 720 A 300 70 0 0 0 1260 720 L 1260 540 Z" fill="#7a7a78" stroke="#5a5a58" stroke-width="2"/>
+    <!-- top ellipse -->
+    <ellipse cx="960" cy="540" rx="300" ry="70" fill="#9a9a96" stroke="#666" stroke-width="2"/>
+    <!-- texture: tiny pock-marks on top to show porosity -->
+    <g fill="#5a5a58" opacity="0.55">
+      <circle cx="780" cy="520" r="3"/><circle cx="840" cy="535" r="2.5"/><circle cx="900" cy="525" r="3"/><circle cx="970" cy="540" r="2.5"/><circle cx="1040" cy="535" r="3"/><circle cx="1100" cy="540" r="2.5"/><circle cx="1170" cy="530" r="3"/>
+      <circle cx="800" cy="555" r="2.5"/><circle cx="870" cy="565" r="3"/><circle cx="935" cy="570" r="2.5"/><circle cx="1010" cy="565" r="3"/><circle cx="1080" cy="572" r="2.5"/><circle cx="1140" cy="565" r="3"/>
+      <circle cx="820" cy="500" r="2"/><circle cx="880" cy="510" r="2.5"/><circle cx="960" cy="505" r="2"/><circle cx="1050" cy="510" r="2.5"/><circle cx="1120" cy="500" r="2"/>
+    </g>
+    <!-- side texture -->
+    <g fill="#3a3a38" opacity="0.5">
+      <circle cx="700" cy="650" r="2"/><circle cx="740" cy="680" r="2"/><circle cx="780" cy="700" r="2"/><circle cx="820" cy="710" r="2.5"/><circle cx="880" cy="715" r="2"/><circle cx="950" cy="720" r="2.5"/><circle cx="1020" cy="715" r="2"/><circle cx="1080" cy="710" r="2.5"/><circle cx="1140" cy="700" r="2"/><circle cx="1180" cy="680" r="2"/><circle cx="1220" cy="650" r="2"/>
+    </g>
+  </g>
+
+  <!-- callouts -->
+  <g>
+    <line x1="1280" y1="600" x2="1480" y2="500" stroke="#58a6ff" stroke-width="2"/>
+    <circle cx="1280" cy="600" r="6" fill="#58a6ff"/>
+    <text x="1495" y="495" font-family="Inter, sans-serif" font-size="22" fill="#58a6ff">~60% theoretical density</text>
+    <text x="1495" y="525" font-family="Inter, sans-serif" font-size="20" fill="#8b949e">pressed; not yet sintered</text>
+
+    <line x1="640" y1="630" x2="440" y2="730" stroke="#ffd866" stroke-width="2"/>
+    <circle cx="640" cy="630" r="6" fill="#ffd866"/>
+    <text x="430" y="760" font-family="Inter, sans-serif" font-size="22" fill="#ffd866" text-anchor="end">fragile — crumbles under finger</text>
+  </g>
+</svg>

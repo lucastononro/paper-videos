@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <defs>
+    <linearGradient id="bg-arrest" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1a1d28"/>
+      <stop offset="1" stop-color="#0a0c14"/>
+    </linearGradient>
+    <radialGradient id="glow-window" cx="0.5" cy="0.5" r="0.6">
+      <stop offset="0" stop-color="#ffd866" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#ffd866" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="building-arrest" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3a3c46"/>
+      <stop offset="1" stop-color="#1c1f28"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1920" height="1080" fill="url(#bg-arrest)"/>
+
+  <!-- Cobblestone street (faint pattern) -->
+  <g opacity="0.25" fill="#3a3c46">
+    <ellipse cx="200" cy="950" rx="60" ry="20"/>
+    <ellipse cx="500" cy="970" rx="80" ry="22"/>
+    <ellipse cx="900" cy="990" rx="100" ry="24"/>
+    <ellipse cx="1300" cy="970" rx="80" ry="22"/>
+    <ellipse cx="1700" cy="950" rx="60" ry="20"/>
+    <ellipse cx="350" cy="1010" rx="60" ry="20"/>
+    <ellipse cx="700" cy="1030" rx="80" ry="22"/>
+    <ellipse cx="1100" cy="1050" rx="100" ry="24"/>
+    <ellipse cx="1550" cy="1020" rx="80" ry="22"/>
+  </g>
+
+  <!-- Building face (mother's house) -->
+  <rect x="380" y="180" width="1160" height="800" fill="url(#building-arrest)"/>
+  <rect x="380" y="180" width="1160" height="14" fill="#0a0c14"/>
+  <!-- Door -->
+  <rect x="900" y="700" width="120" height="280" fill="#0a0c14"/>
+  <rect x="906" y="706" width="108" height="270" fill="#1a1410"/>
+  <circle cx="1000" cy="850" r="5" fill="#ffd866" opacity="0.7"/>
+  <!-- Window grid -->
+  <g fill="#0a0c14" stroke="#1a1d28" stroke-width="1">
+    <rect x="440" y="280" width="100" height="140"/>
+    <rect x="600" y="280" width="100" height="140"/>
+    <rect x="760" y="280" width="100" height="140" fill="url(#glow-window)" stroke="#ffd866" stroke-opacity="0.5"/>
+    <rect x="1080" y="280" width="100" height="140" fill="url(#glow-window)" stroke="#ffd866" stroke-opacity="0.5"/>
+    <rect x="1240" y="280" width="100" height="140"/>
+    <rect x="1400" y="280" width="100" height="140"/>
+    <rect x="440" y="500" width="100" height="140"/>
+    <rect x="600" y="500" width="100" height="140"/>
+    <rect x="760" y="500" width="100" height="140"/>
+    <rect x="1080" y="500" width="100" height="140"/>
+    <rect x="1240" y="500" width="100" height="140"/>
+    <rect x="1400" y="500" width="100" height="140"/>
+  </g>
+
+  <!-- Lamppost left -->
+  <g transform="translate(220, 920)">
+    <rect x="-3" y="-220" width="6" height="220" fill="#1a1d28"/>
+    <circle cx="0" cy="-230" r="14" fill="#ffd866" opacity="0.7"/>
+    <circle cx="0" cy="-230" r="40" fill="url(#glow-window)"/>
+  </g>
+
+  <!-- Two policemen / agents at door, dark figures -->
+  <g fill="#0a0c14">
+    <g transform="translate(820, 820)">
+      <ellipse cx="0" cy="0" rx="22" ry="28"/>
+      <rect x="-22" y="22" width="44" height="120"/>
+      <!-- Bicorne -->
+      <ellipse cx="0" cy="-28" rx="36" ry="12"/>
+    </g>
+    <g transform="translate(1110, 820)">
+      <ellipse cx="0" cy="0" rx="22" ry="28"/>
+      <rect x="-22" y="22" width="44" height="120"/>
+      <ellipse cx="0" cy="-28" rx="36" ry="12"/>
+    </g>
+  </g>
+
+  <!-- Galois as a smaller silhouette being escorted -->
+  <g fill="#1c2030" transform="translate(960, 850)">
+    <ellipse cx="0" cy="0" rx="18" ry="22"/>
+    <rect x="-18" y="18" width="36" height="100"/>
+  </g>
+
+  <!-- Caption -->
+  <text x="960" y="100" text-anchor="middle" font-family="Georgia, serif" font-size="32" fill="#e6edf3" letter-spacing="3">PARIS · MAY 10, 1831</text>
+  <text x="960" y="140" text-anchor="middle" font-family="Georgia, serif" font-size="22" font-style="italic" fill="#ffd866" opacity="0.8">Arrest at his mother's house</text>
+</svg>

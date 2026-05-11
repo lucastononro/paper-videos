@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <defs>
+    <linearGradient id="bg-banquet" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#160c08"/>
+      <stop offset="1" stop-color="#0a0604"/>
+    </linearGradient>
+    <radialGradient id="lamp-glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ffd866" stop-opacity="0.95"/>
+      <stop offset="0.4" stop-color="#e8a040" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#ffd866" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="table-banquet" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3a2818"/>
+      <stop offset="1" stop-color="#1a0e08"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1920" height="1080" fill="url(#bg-banquet)"/>
+
+  <!-- Hanging lamp glow -->
+  <circle cx="960" cy="220" r="280" fill="url(#lamp-glow)"/>
+  <ellipse cx="960" cy="200" rx="60" ry="40" fill="#ffd866" opacity="0.6"/>
+  <line x1="960" y1="0" x2="960" y2="180" stroke="#3a2814" stroke-width="3"/>
+
+  <!-- Long banquet table -->
+  <g>
+    <ellipse cx="960" cy="660" rx="780" ry="60" fill="#0a0604"/>
+    <rect x="180" y="600" width="1560" height="100" fill="url(#table-banquet)"/>
+    <rect x="180" y="600" width="1560" height="20" fill="#5a3a1c" opacity="0.6"/>
+    <!-- Tablecloth runner -->
+    <rect x="220" y="610" width="1480" height="60" fill="#a89060" opacity="0.35"/>
+  </g>
+
+  <!-- Chairs / silhouette guests around table -->
+  <g fill="#1a1008">
+    <g transform="translate(280, 540)">
+      <ellipse cx="0" cy="0" rx="32" ry="40"/>
+      <rect x="-30" y="30" width="60" height="80"/>
+    </g>
+    <g transform="translate(420, 540)">
+      <ellipse cx="0" cy="0" rx="32" ry="40"/>
+      <rect x="-30" y="30" width="60" height="80"/>
+    </g>
+    <g transform="translate(560, 540)">
+      <ellipse cx="0" cy="0" rx="32" ry="40"/>
+      <rect x="-30" y="30" width="60" height="80"/>
+    </g>
+    <g transform="translate(700, 540)">
+      <ellipse cx="0" cy="0" rx="32" ry="40"/>
+      <rect x="-30" y="30" width="60" height="80"/>
+    </g>
+    <!-- Galois (centre, standing tall, with knife/glass) -->
+    <g transform="translate(960, 440)">
+      <ellipse cx="0" cy="0" rx="34" ry="44" fill="#2a1810"/>
+      <rect x="-32" y="34" width="64" height="170" fill="#2a1810"/>
+      <!-- Glass arm -->
+      <rect x="40" y="40" width="40" height="10" fill="#2a1810" transform="rotate(-30 40 40)"/>
+      <ellipse cx="84" cy="14" rx="10" ry="14" fill="#a82828" opacity="0.85" transform="rotate(-30 84 14)"/>
+      <!-- Knife arm -->
+      <rect x="-80" y="40" width="40" height="10" fill="#2a1810" transform="rotate(30 -40 50)"/>
+      <line x1="-110" y1="20" x2="-150" y2="-20" stroke="#d4d4d4" stroke-width="3"/>
+    </g>
+    <g transform="translate(1100, 540)">
+      <ellipse cx="0" cy="0" rx="32" ry="40"/>
+      <rect x="-30" y="30" width="60" height="80"/>
+    </g>
+    <g transform="translate(1240, 540)">
+      <ellipse cx="0" cy="0" rx="32" ry="40"/>
+      <rect x="-30" y="30" width="60" height="80"/>
+    </g>
+    <g transform="translate(1380, 540)">
+      <ellipse cx="0" cy="0" rx="32" ry="40"/>
+      <rect x="-30" y="30" width="60" height="80"/>
+    </g>
+    <!-- Dumas (jumping out window, on the right) -->
+    <g transform="translate(1620, 460)">
+      <ellipse cx="0" cy="0" rx="34" ry="42" fill="#2a1810"/>
+      <rect x="-32" y="32" width="64" height="80" fill="#2a1810" transform="rotate(15 0 32)"/>
+    </g>
+  </g>
+
+  <!-- Window on the right edge with light spilling -->
+  <g transform="translate(1740, 320)">
+    <rect width="120" height="240" fill="#1a2030"/>
+    <rect width="120" height="240" fill="url(#lamp-glow)" opacity="0.4"/>
+    <line x1="60" y1="0" x2="60" y2="240" stroke="#000" stroke-width="3"/>
+    <line x1="0" y1="120" x2="120" y2="120" stroke="#000" stroke-width="3"/>
+  </g>
+
+  <!-- Wine glasses on table -->
+  <g fill="#a02828" opacity="0.9">
+    <g transform="translate(360, 590)"><ellipse cx="0" cy="0" rx="9" ry="14"/></g>
+    <g transform="translate(500, 590)"><ellipse cx="0" cy="0" rx="9" ry="14"/></g>
+    <g transform="translate(640, 590)"><ellipse cx="0" cy="0" rx="9" ry="14"/></g>
+    <g transform="translate(780, 590)"><ellipse cx="0" cy="0" rx="9" ry="14"/></g>
+    <g transform="translate(1040, 590)"><ellipse cx="0" cy="0" rx="9" ry="14"/></g>
+    <g transform="translate(1180, 590)"><ellipse cx="0" cy="0" rx="9" ry="14"/></g>
+    <g transform="translate(1320, 590)"><ellipse cx="0" cy="0" rx="9" ry="14"/></g>
+    <g transform="translate(1460, 590)"><ellipse cx="0" cy="0" rx="9" ry="14"/></g>
+  </g>
+
+  <!-- Caption -->
+  <text x="960" y="980" text-anchor="middle" font-family="Georgia, serif" font-size="34" fill="#e6edf3" letter-spacing="3">Vendanges des Bourgogne</text>
+  <text x="960" y="1020" text-anchor="middle" font-family="Georgia, serif" font-size="22" font-style="italic" fill="#ffd866" opacity="0.8">May 9, 1831 · two hundred republicans · the toast that became an arrest</text>
+</svg>

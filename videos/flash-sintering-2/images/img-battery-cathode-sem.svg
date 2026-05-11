@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <rect width="1920" height="1080" fill="#0e1117"/>
+  <text x="960" y="80" font-family="Inter, sans-serif" font-size="42" fill="#e6edf3" text-anchor="middle" font-weight="700">Battery cathode — SEM-style</text>
+  <text x="960" y="120" font-family="Inter, sans-serif" font-size="22" fill="#8b949e" text-anchor="middle">dense Li-ion conductor (LLZO, LCO, NMC) — sintering matters</text>
+
+  <rect x="240" y="180" width="1440" height="780" fill="#1a1d24" stroke="#30363d" stroke-width="3"/>
+
+  <!-- spherical secondary particles (typical for cathodes) -->
+  <g>
+    <circle cx="380" cy="320" r="100" fill="#5a606c" stroke="#8b949e" stroke-width="2"/>
+    <circle cx="600" cy="340" r="120" fill="#666c78" stroke="#8b949e" stroke-width="2"/>
+    <circle cx="860" cy="300" r="110" fill="#5a606c" stroke="#8b949e" stroke-width="2"/>
+    <circle cx="1110" cy="340" r="115" fill="#666c78" stroke="#8b949e" stroke-width="2"/>
+    <circle cx="1370" cy="300" r="110" fill="#5a606c" stroke="#8b949e" stroke-width="2"/>
+    <circle cx="1580" cy="350" r="100" fill="#666c78" stroke="#8b949e" stroke-width="2"/>
+
+    <circle cx="350" cy="560" r="105" fill="#666c78" stroke="#8b949e" stroke-width="2"/>
+    <circle cx="600" cy="600" r="120" fill="#5a606c" stroke="#8b949e" stroke-width="2"/>
+    <circle cx="870" cy="560" r="115" fill="#666c78" stroke="#8b949e" stroke-width="2"/>
+    <circle cx="1130" cy="600" r="120" fill="#5a606c" stroke="#8b949e" stroke-width="2"/>
+    <circle cx="1390" cy="560" r="115" fill="#666c78" stroke="#8b949e" stroke-width="2"/>
+    <circle cx="1610" cy="600" r="100" fill="#5a606c" stroke="#8b949e" stroke-width="2"/>
+
+    <circle cx="380" cy="800" r="100" fill="#5a606c" stroke="#8b949e" stroke-width="2"/>
+    <circle cx="630" cy="820" r="115" fill="#666c78" stroke="#8b949e" stroke-width="2"/>
+    <circle cx="900" cy="800" r="120" fill="#5a606c" stroke="#8b949e" stroke-width="2"/>
+    <circle cx="1160" cy="820" r="110" fill="#666c78" stroke="#8b949e" stroke-width="2"/>
+    <circle cx="1410" cy="800" r="115" fill="#5a606c" stroke="#8b949e" stroke-width="2"/>
+    <circle cx="1620" cy="830" r="100" fill="#666c78" stroke="#8b949e" stroke-width="2"/>
+
+    <!-- highlights -->
+    <g fill="#fff" opacity="0.18">
+      <ellipse cx="350" cy="290" rx="30" ry="14"/>
+      <ellipse cx="570" cy="310" rx="34" ry="16"/>
+      <ellipse cx="830" cy="270" rx="32" ry="14"/>
+      <ellipse cx="1080" cy="310" rx="34" ry="16"/>
+      <ellipse cx="1340" cy="270" rx="32" ry="14"/>
+    </g>
+
+    <!-- primary-particle texture -->
+    <g stroke="#444" stroke-width="1" fill="none">
+      <circle cx="380" cy="320" r="40"/>
+      <circle cx="600" cy="340" r="50"/>
+      <circle cx="1110" cy="340" r="50"/>
+    </g>
+  </g>
+
+  <!-- scale bar -->
+  <line x1="1480" y1="920" x2="1640" y2="920" stroke="#fff" stroke-width="3"/>
+  <text x="1560" y="950" font-family="JetBrains Mono, monospace" font-size="18" fill="#fff" text-anchor="middle">10 µm</text>
+  <text x="270" y="940" font-family="JetBrains Mono, monospace" font-size="18" fill="#8b949e">SEM · cathode secondary particles · stylized</text>
+</svg>

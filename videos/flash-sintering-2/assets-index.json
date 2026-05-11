@@ -1,0 +1,349 @@
+{
+  "_doc": "Maps each [VISUAL: image src=...] / [VISUAL: diagram src=...] semantic id from script.md to a file under videos/flash-sintering-2/. All 5 diag-* are hand-coded SVG block diagrams. All 44 img-* are stylized SVG illustrations using the dark-navy + 3b1b palette (#0e1117 bg, #58a6ff/#ffd866/#ff8c42/#7ee787/#f97583 accents). Stylized illustrations were chosen over web photos because (a) the script needs a dignified, consistent visual register on academic content, (b) license verification for personal portraits and SEM micrographs is unreliable at scale, and (c) consistent illustration matches the 3b1b reference style. No paper-md-assets were re-used because they are journal figures (Hewitt, Lacey, Todd 2017 — copyrighted journal artwork) and the scenes that needed those figures are emitted as [MANIM: ...] cues in script.md (handled by the visualizer).",
+
+  "img-ceramic-powders-sem": {
+    "kind": "image",
+    "file": "images/img-ceramic-powders-sem.svg",
+    "source": "generated",
+    "method": "hand-coded SVG (1920×1080), SEM-style scattering of irregular sub-micron grains + pores, dark-navy bg, scale bar '1 µm'",
+    "description": "Stylized SEM micrograph of ceramic powder — the starting point of every ceramic.",
+    "license": "n/a (generated)"
+  },
+  "img-ceramic-green-body": {
+    "kind": "image",
+    "file": "images/img-ceramic-green-body.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. Pressed grey disc (oblique view) with surface pock-marks indicating porosity, callouts: '~60% theoretical density' and 'fragile — crumbles under finger'.",
+    "description": "Pressed-powder ceramic disc before sintering."
+  },
+  "img-sintering-furnace": {
+    "kind": "image",
+    "file": "images/img-sintering-furnace.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. Industrial furnace box with circular hatch glowing orange, model label 'TF-1700', digital readout '1450 °C', vent stacks with shimmer.",
+    "description": "Industrial high-temperature sintering furnace at 1400+ °C."
+  },
+  "img-spark-plug-cutaway": {
+    "kind": "image",
+    "file": "images/img-spark-plug-cutaway.svg",
+    "source": "generated",
+    "method": "hand-coded SVG cutaway of a spark plug — terminal nut, white sintered alumina insulator (highlighted), hex shell, threaded body, gap. Annotations identify the ceramic insulator as sintered Al₂O₃.",
+    "description": "Spark plug cutaway showing the white sintered ceramic insulator."
+  },
+  "img-dental-crown": {
+    "kind": "image",
+    "file": "images/img-dental-crown.svg",
+    "source": "generated",
+    "method": "hand-coded SVG of a tooth-shaped CAD/CAM zirconia crown (off-white tooth silhouette with shading and cusp lines) plus annotation 'milled, then sintered 1500 °C / 2 h'.",
+    "description": "Dental crown — modern CAD/CAM zirconia, sintered."
+  },
+  "img-brake-disc-ceramic": {
+    "kind": "image",
+    "file": "images/img-brake-disc-ceramic.svg",
+    "source": "generated",
+    "method": "hand-coded SVG carbon-ceramic brake disc face-on, drilled holes around the rim, hub bolts, abstract red caliper to the side.",
+    "description": "Carbon-ceramic SiC brake disc, densified via reactive sintering."
+  },
+  "img-soft-substrate": {
+    "kind": "image",
+    "file": "images/img-soft-substrate.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. White sintered ceramic substrate (oblique view) carrying gold-line traces and a dark SoC chip in the center. Annotation: '99% dense alumina, sintered at 1600 °C, ground flat to ±1 µm'.",
+    "description": "Microchip mounted on a sintered ceramic substrate — 'every microchip in the room'."
+  },
+  "img-tunnel-kiln-industrial": {
+    "kind": "image",
+    "file": "images/img-tunnel-kiln-industrial.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. Receding tunnel kiln in perspective, inner glow oranging from edges to bright yellow core, vent stacks with smoke. Caption: '~24 h dwell · 1400–1700 °C peak · MW-scale draw'.",
+    "description": "Industrial tunnel kiln — continuous high-temperature sintering."
+  },
+  "img-ceramic-microstructure-sem": {
+    "kind": "image",
+    "file": "images/img-ceramic-microstructure-sem.svg",
+    "source": "generated",
+    "method": "hand-coded SVG mosaic of polygonal grains (post-sintering microstructure), residual triple-junction pores, scale bar '5 µm'.",
+    "description": "Sintered ceramic microstructure — large grains result from slow heating."
+  },
+  "img-rishi-raj-portrait": {
+    "kind": "image",
+    "file": "images/img-rishi-raj-portrait.svg",
+    "source": "generated",
+    "method": "hand-coded SVG stylized portrait card (silhouette in dark-navy frame with bio block on right) — pioneer of flash sintering, CU Boulder. The official photo is at https://www.colorado.edu/mechanical/rishi-raj but no Wikimedia/CC photo of Raj is available, so a stylized card is used instead.",
+    "description": "Rishi Raj — pioneer of flash sintering, U. of Colorado Boulder. Stylized portrait."
+  },
+  "img-cu-boulder-engineering": {
+    "kind": "image",
+    "file": "images/img-cu-boulder-engineering.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. Three sandstone-coloured (Boulder's iconic red-tile + sandstone) buildings against a starry mountain skyline.",
+    "description": "University of Colorado Boulder engineering complex — stylized."
+  },
+  "img-rishi-raj-lab": {
+    "kind": "image",
+    "file": "images/img-rishi-raj-lab.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. Stylized lab bench: tube furnace (orange glow) on the left, DAQ box with mini current trace in the middle, Sorensen DC supply (V/I displays + knobs) on the right, all wired together.",
+    "description": "Stylized lab rig — small tube furnace, DC supply, DAQ box."
+  },
+  "img-marco-cologna": {
+    "kind": "image",
+    "file": "images/img-marco-cologna.svg",
+    "source": "generated",
+    "method": "hand-coded SVG portrait card (orange-accent border) with bio: 'PhD student, U. of Trento → CU Boulder ; first author Cologna, Rashkova, Raj 2010 ; now at JRC Karlsruhe'. No public CC photo of Cologna found.",
+    "description": "Marco Cologna — first author on the 2010 paper. Stylized portrait."
+  },
+  "img-boriana-rashkova": {
+    "kind": "image",
+    "file": "images/img-boriana-rashkova.svg",
+    "source": "generated",
+    "method": "hand-coded SVG portrait card (yellow-accent border) with bio block: 'Postdoc, CU Boulder ; co-author 2010 ; now at Montanuniversität Leoben'.",
+    "description": "Boriana Rashkova — postdoctoral co-author on the 2010 paper. Stylized portrait."
+  },
+  "img-zirconia-disc-electrodes": {
+    "kind": "image",
+    "file": "images/img-zirconia-disc-electrodes.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. 3D-look ZrO₂ disc with two thin platinum electrode plates top/bottom, dimensions annotated (~3 mm thick, 10 mm dia.).",
+    "description": "Yttria-stabilized zirconia disc with platinum electrodes — the standard flash-sintering specimen."
+  },
+  "img-power-supply-knob": {
+    "kind": "image",
+    "file": "images/img-power-supply-knob.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. Sorensen DLM faceplate: two 7-segment displays (120.0 V, 0.85 A) and a large rotary voltage-coarse knob with orange indicator. Beat caption: 'they pushed it higher than usual'.",
+    "description": "DC power supply faceplate — the moment before the first flash."
+  },
+  "img-cologna-2010-current-spike": {
+    "kind": "image",
+    "file": "images/img-cologna-2010-current-spike.svg",
+    "source": "generated, after Cologna, Rashkova & Raj, J. Am. Ceram. Soc. 93[11] (2010)",
+    "method": "hand-coded SVG re-creation of the canonical four-lane time series (current log-spike, voltage drop as control flips, density jump from 60→99%, power dissipation peak) with shared time axis and a vertical 'FLASH' marker. Not the original journal figure (which would be copyright); a clean, palette-matched re-draw of the same shape.",
+    "description": "Re-creation of the Cologna 2010 current/voltage/density/power vs time trace — the iconic flash-sintering signature."
+  },
+  "img-flash-sintered-sample-glow": {
+    "kind": "image",
+    "file": "images/img-flash-sintered-sample-glow.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. Inside a dark furnace cavity: a glowing white-hot disc between platinum electrodes (radial halo of orange/yellow), wires leaving above and below. Annotations: '~2000 K core' and 'disc shrinks ~20% in <5 s'.",
+    "description": "Flash-sintered sample mid-event — disc glowing white-hot inside the furnace."
+  },
+  "img-conference-room": {
+    "kind": "image",
+    "file": "images/img-conference-room.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. Stylized conference room: ceiling lights, projection screen showing 'FLASH-SINTERING OF YSZ — Cologna, Rashkova, Raj JACS 2010', presenter silhouette by the screen, two rows of inattentive audience silhouettes (some on phones).",
+    "description": "Stylized conference scene — 'For about a year, the result was greeted with polite silence.'"
+  },
+  "img-sglavo-biesuz": {
+    "kind": "image",
+    "file": "images/img-sglavo-biesuz.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. Two side-by-side stylized portrait cards (blue + yellow accents) labeled 'Vincenzo Sglavo' and 'Mattia Biesuz', U. of Trento.",
+    "description": "Sglavo & Biesuz (Trento) — first independent reproduction of flash sintering. Stylized portraits."
+  },
+  "img-snowball-rolling": {
+    "kind": "image",
+    "file": "images/img-snowball-rolling.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. Night-sky snowy hill with a sequence of progressively larger snowballs (and thicker snow trail) rolling downhill. Annotation: 'In flash sintering, the ceramic IS the hill, AND the snow.'",
+    "description": "Snowball-rolling-downhill metaphor for positive feedback / thermal runaway."
+  },
+  "img-oxford-mathematical-institute": {
+    "kind": "image",
+    "file": "images/img-oxford-mathematical-institute.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. Stylized facade of the Andrew Wiles Building (Oxford Mathematical Institute) — Penrose-tile-inspired diamond pattern on the upper facade, glass strip below. Caption: 'Where Hewitt and Lacey did the analysis (2015)'.",
+    "description": "Oxford Mathematical Institute (Andrew Wiles Building) — home of the Hewitt-Lacey-Todd analysis."
+  },
+  "img-richard-todd-oxford": {
+    "kind": "image",
+    "file": "images/img-richard-todd-oxford.svg",
+    "source": "generated",
+    "method": "hand-coded SVG portrait card (blue-accent border) with bio: 'Emeritus Prof., Oxford Materials ; 2025– President, ECerS ; Joule-only camp, pyrometry advocate'. Official photo at materials.ox.ac.uk/peoplepages/todd.",
+    "description": "Richard Todd (Oxford) — Joule-only-camp leader. Stylized portrait."
+  },
+  "img-raj-press-photo-cu": {
+    "kind": "image",
+    "file": "images/img-raj-press-photo-cu.svg",
+    "source": "generated",
+    "method": "hand-coded SVG portrait card (orange-accent border) framing Rishi Raj as the leader of the defect / electrochemical camp; bio bullets: 'Frenkel-pair avalanche', 'T_blackbody too low', 'atoms hop because there is somewhere to go'.",
+    "description": "Rishi Raj — defect / electrochemistry camp. Stylized portrait card."
+  },
+  "img-electrochemical-cell": {
+    "kind": "image",
+    "file": "images/img-electrochemical-cell.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. Stylized electrochemical cell — anode (+) and cathode (−) flanking a YSZ block, O²⁻ ions migrating to the anode, a darkened reduced layer at the cathode (label 'Zr⁴⁺ → Zr³⁺ → Zr⁰'), battery + wires below.",
+    "description": "Localized cathode reduction — chemistry that pure Joule heating cannot do."
+  },
+  "img-flashed-sample-color-difference": {
+    "kind": "image",
+    "file": "images/img-flashed-sample-color-difference.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. Two discs side-by-side, one grey (sintered in air), one black (sintered in argon), 'vs' between them. Caption: 'A pure thermal model says: same heat → same outcome. Reality disagrees.'",
+    "description": "Color-change evidence: same powder, same density, different colors depending on atmosphere."
+  },
+  "img-periodic-table-ceramics": {
+    "kind": "image",
+    "file": "images/img-periodic-table-ceramics.svg",
+    "source": "generated",
+    "method": "hand-coded SVG mini-periodic-table grid; cells highlighted in orange when the element's oxide flashes (Ti, Mn, Co, Zn, Sr, Zr, Ce); Al highlighted yellow as 'refuses'.",
+    "description": "Periodic-table view of which elements' oxides flash and which refuse."
+  },
+  "img-zirconia-microstructure": {
+    "kind": "image",
+    "file": "images/img-zirconia-microstructure.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. Left: YSZ disc photo-style (grey-white). Right: hex-tile micrograph view, scale bar '2 µm', label '3 mol% Y₂O₃ in ZrO₂'.",
+    "description": "Yttria-stabilized zirconia (YSZ) — the original flash material."
+  },
+  "img-titania-sample": {
+    "kind": "image",
+    "file": "images/img-titania-sample.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. Powder jar (left) + flash-sintered TiO₂ disc (right), bandgap and activation-energy footnote.",
+    "description": "TiO₂ — titania, flashes near 700 °C."
+  },
+  "img-strontium-titanate": {
+    "kind": "image",
+    "file": "images/img-strontium-titanate.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. Perovskite unit cell (Sr corners, Ti centre, O face-centred), with isometric projection and colour legend.",
+    "description": "SrTiO₃ — perovskite oxide. Flashes near 650 °C."
+  },
+  "img-zinc-oxide-powder": {
+    "kind": "image",
+    "file": "images/img-zinc-oxide-powder.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. Pile of white ZnO powder with grain texture and shading, footnote 'wurtzite, n-type semiconductor, varistor material'.",
+    "description": "ZnO — zinc oxide, varistor material. Flashes near 600 °C."
+  },
+  "img-ceria-disc": {
+    "kind": "image",
+    "file": "images/img-ceria-disc.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. Pale-yellow CeO₂ disc with subtle highlight; footnote about fluorite structure and Ce⁴⁺/Ce³⁺ redox.",
+    "description": "CeO₂ — ceria, fuel-cell electrolyte. Flashes around 500 °C."
+  },
+  "img-mnco2o4-spinel": {
+    "kind": "image",
+    "file": "images/img-mnco2o4-spinel.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. Dark-blue spinel disc (left) plus a thermometer (right) showing other materials' flash temperatures with MnCo₂O₄ at 325 °C highlighted in orange.",
+    "description": "MnCo₂O₄ spinel — flashes at 325 °C, the lowest-temperature flash known."
+  },
+  "img-alumina-disc-unflashed": {
+    "kind": "image",
+    "file": "images/img-alumina-disc-unflashed.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. Pure white Al₂O₃ disc + small inset chart showing nearly-flat log-σ-vs-1/T for Al₂O₃ (red) versus steep YSZ curve (blue dashed).",
+    "description": "Al₂O₃ — alumina. Refuses to flash because its Arrhenius curve is flat."
+  },
+  "img-conductivity-curves-comparison": {
+    "kind": "image",
+    "file": "images/img-conductivity-curves-comparison.svg",
+    "source": "generated",
+    "method": "hand-coded SVG Arrhenius plot (log σ vs 1/T) with steep flash candidates (YSZ, CeO₂, SrTiO₃, MnCo₂O₄) and flat refusers (Al₂O₃, SiC, WC).",
+    "description": "Side-by-side Arrhenius conductivity curves — flash candidates vs refusers."
+  },
+  "img-spark-plasma-sintering-machine": {
+    "kind": "image",
+    "file": "images/img-spark-plasma-sintering-machine.svg",
+    "source": "generated",
+    "method": "hand-coded SVG SPS rig: vertical press frame, top and bottom rams, graphite die in the centre with a glowing core, side electrode cables, pulse waveform indicator, pressure arrow at top.",
+    "description": "Spark Plasma Sintering machine — graphite die + uniaxial press + pulsed DC."
+  },
+  "img-olevsky-maniere": {
+    "kind": "image",
+    "file": "images/img-olevsky-maniere.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. Two stylized portrait cards (green + blue accents) labeled 'Eugene Olevsky (San Diego State)' and 'Charles Manière (U. of Caen)'.",
+    "description": "Olevsky & Manière — Flash-SPS pioneers (2017). Stylized portraits."
+  },
+  "img-industrial-furnace-night": {
+    "kind": "image",
+    "file": "images/img-industrial-furnace-night.svg",
+    "source": "generated",
+    "method": "hand-coded SVG night-time industrial scene: factory silhouettes against deep navy sky, multiple chimneys with smoke and steam, rows of orange-glowing windows, soft atmospheric glow.",
+    "description": "Industrial ceramics plant at night — energy hungry."
+  },
+  "img-sofc-stack": {
+    "kind": "image",
+    "file": "images/img-sofc-stack.svg",
+    "source": "generated",
+    "method": "hand-coded isometric SVG of a 6-layer SOFC stack (alternating YSZ-electrolyte and Ni-YSZ/LSCF-electrode layers) with side legend and gas-flow annotations (H₂ ⟶, ⟵ O₂, e⁻ → load).",
+    "description": "Solid oxide fuel cell stack — multiple sintered-electrolyte layers."
+  },
+  "img-solid-oxide-fuel-cell-thin-film": {
+    "kind": "image",
+    "file": "images/img-solid-oxide-fuel-cell-thin-film.svg",
+    "source": "generated",
+    "method": "hand-coded SVG cross-section: porous LSCF cathode (top), dense thin YSZ electrolyte (middle, ≈5 µm, labeled DENSE), porous Ni-YSZ anode (bottom), O²⁻ arrow crossing the electrolyte.",
+    "description": "SOFC thin-film electrolyte cross-section — dense, fine-grained."
+  },
+  "img-battery-cathode-sem": {
+    "kind": "image",
+    "file": "images/img-battery-cathode-sem.svg",
+    "source": "generated",
+    "method": "hand-coded SVG SEM-style mosaic of spherical secondary cathode particles with subtle texture and primary-particle hints, scale bar '10 µm'.",
+    "description": "Battery cathode SEM — dense Li-ion conductor secondary particles."
+  },
+  "img-3d-printed-ceramic": {
+    "kind": "image",
+    "file": "images/img-3d-printed-ceramic.svg",
+    "source": "generated",
+    "method": "hand-coded isometric SVG of a printed ceramic lattice cube (open-cell square pattern) — fragile-looking, complex geometry.",
+    "description": "3D-printed ceramic part — fragile, porous, distorts in conventional kilns."
+  },
+  "img-lucideon-pilot-line": {
+    "kind": "image",
+    "file": "images/img-lucideon-pilot-line.svg",
+    "source": "generated",
+    "method": "hand-coded SVG of a continuous flash-sintering pilot line: conveyor belt with discs moving through an orange-glowing flash chamber containing two electrodes; before-discs grey, post-flash discs lighter; '~5 s/disc' direction arrow.",
+    "description": "Pilot-scale flash-sintering line — Lucideon (UK) and NIMS (Japan) demonstrators."
+  },
+  "img-cologna-zirconia-sample": {
+    "kind": "image",
+    "file": "images/img-cologna-zirconia-sample.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. The original Cologna 2010 YSZ disc on a museum-style pedestal with gold-tinted electrode marks and a small label plaque ('M. Cologna 2010 — YSZ disc · CU Boulder').",
+    "description": "Stylized portrait of the canonical 2010 sample — the disc that started a field."
+  },
+
+  "diag-conventional-vs-flash-sintering": {
+    "kind": "diagram",
+    "file": "diagrams/diag-conventional-vs-flash-sintering.svg",
+    "source": "generated",
+    "method": "hand-coded SVG, two side-by-side panels. Left: conventional kiln with multiple grey discs and large heating waves; stats '1400–1700 °C / hours / MWh per batch' and big '~10 h' callout. Right: small furnace with one glowing disc between electrodes; stats '600–900 °C / seconds / ~10× less energy' and big '~5 s' callout.",
+    "description": "Side-by-side comparison: conventional sintering vs flash sintering."
+  },
+  "diag-electric-circuit-setup": {
+    "kind": "diagram",
+    "file": "diagrams/diag-electric-circuit-setup.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. Tube furnace cross-section with heating coils, 3D YSZ disc between Pt electrodes inside, wires routing up over the top to a Sorensen DC supply box (V = 120 V, I-limit ≈ 1 A/cm²) on the right via an inline ammeter at the top.",
+    "description": "Circuit diagram of the flash-sintering setup."
+  },
+  "diag-thermal-runaway-feedback-loop": {
+    "kind": "diagram",
+    "file": "diagrams/diag-thermal-runaway-feedback-loop.svg",
+    "source": "generated",
+    "method": "hand-coded SVG circular feedback diagram. Five labeled nodes around a dashed ring (1. Voltage applied, 2. Current flows I=σV/L, 3. Joule heating P=I²R, 4. T rises, 5. σ(T) rises) with directed arrows connecting them; central red 'RUNAWAY' label.",
+    "description": "The thermal-runaway positive-feedback loop — five steps in a closed cycle."
+  },
+  "diag-mechanism-comparison": {
+    "kind": "diagram",
+    "file": "diagrams/diag-mechanism-comparison.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. Two panels (Joule-only camp vs Defect/electrochemical camp) with Claim/Evidence/Achilles-heel sections each, listing the principal authors (Todd, Hewitt, Dong, Chen vs Raj, Naik, Cologna, Sglavo, Biesuz) and their key arguments.",
+    "description": "The mechanism war — side-by-side comparison of the Joule and defect camps."
+  },
+  "diag-grain-boundary-defects": {
+    "kind": "diagram",
+    "file": "diagrams/diag-grain-boundary-defects.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. Three large polygonal grains with explicit lattice-dot grids, vacancy rings (red) and interstitial dots (yellow) shown as Frenkel pairs (orange dashed connections); horizontal E-field arrow along the top; legend bar at the bottom.",
+    "description": "Frenkel-pair avalanches at grain boundaries — Raj's defect mechanism."
+  }
+}

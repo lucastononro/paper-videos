@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <rect width="1920" height="1080" fill="#0e1117"/>
+  <text x="960" y="80" font-family="Inter, sans-serif" font-size="42" fill="#e6edf3" text-anchor="middle" font-weight="700">Sintering furnace</text>
+  <text x="960" y="120" font-family="Inter, sans-serif" font-size="22" fill="#8b949e" text-anchor="middle">industrial high-temperature kiln, 1400+ °C</text>
+
+  <!-- floor -->
+  <rect x="0" y="900" width="1920" height="180" fill="#161b22"/>
+  <line x1="0" y1="900" x2="1920" y2="900" stroke="#30363d" stroke-width="2"/>
+
+  <!-- furnace body -->
+  <g>
+    <rect x="380" y="280" width="1160" height="620" rx="14" fill="#2a2a28" stroke="#4a4a48" stroke-width="3"/>
+    <!-- top vent stack -->
+    <rect x="780" y="160" width="120" height="120" fill="#3a3a38" stroke="#4a4a48" stroke-width="2"/>
+    <rect x="1020" y="160" width="120" height="120" fill="#3a3a38" stroke="#4a4a48" stroke-width="2"/>
+    <!-- door circular hatch -->
+    <circle cx="960" cy="560" r="220" fill="#1a1a18" stroke="#5a5a58" stroke-width="6"/>
+    <!-- glowing interior (orange/red, slight) -->
+    <circle cx="960" cy="560" r="200" fill="#3a2a1a" stroke="#5a4a30" stroke-width="3"/>
+    <circle cx="960" cy="560" r="180" fill="#5a3a1a" opacity="0.85"/>
+    <circle cx="960" cy="560" r="155" fill="#a04a1a" opacity="0.7"/>
+    <circle cx="960" cy="560" r="120" fill="#cc6a20" opacity="0.6"/>
+
+    <!-- door bolts -->
+    <g fill="#666666">
+      <circle cx="760" cy="560" r="10"/><circle cx="760" cy="400" r="10"/><circle cx="760" cy="720" r="10"/>
+      <circle cx="1160" cy="560" r="10"/><circle cx="1160" cy="400" r="10"/><circle cx="1160" cy="720" r="10"/>
+      <circle cx="960" cy="360" r="10"/><circle cx="960" cy="760" r="10"/>
+    </g>
+
+    <!-- labels -->
+    <text x="500" y="350" font-family="JetBrains Mono, monospace" font-size="22" fill="#e6edf3">MODEL: TF-1700</text>
+    <text x="500" y="380" font-family="JetBrains Mono, monospace" font-size="18" fill="#8b949e">T_max 1700 °C</text>
+
+    <!-- display -->
+    <rect x="1330" y="340" width="170" height="100" rx="6" fill="#0e1117" stroke="#58a6ff" stroke-width="2"/>
+    <text x="1415" y="390" font-family="JetBrains Mono, monospace" font-size="32" fill="#ff8c42" text-anchor="middle" font-weight="700">1450°C</text>
+    <text x="1415" y="420" font-family="JetBrains Mono, monospace" font-size="14" fill="#8b949e" text-anchor="middle">setpoint</text>
+
+    <!-- legs -->
+    <rect x="400" y="900" width="40" height="40" fill="#1a1a18"/>
+    <rect x="1480" y="900" width="40" height="40" fill="#1a1a18"/>
+  </g>
+
+  <!-- heat shimmer above -->
+  <g stroke="#f97583" stroke-width="2" fill="none" opacity="0.5">
+    <path d="M 820 160 q 10 -20 0 -40 q -10 -20 0 -40"/>
+    <path d="M 860 160 q -10 -20 0 -40 q 10 -20 0 -40"/>
+    <path d="M 1060 160 q 10 -20 0 -40 q -10 -20 0 -40"/>
+    <path d="M 1100 160 q -10 -20 0 -40 q 10 -20 0 -40"/>
+  </g>
+</svg>

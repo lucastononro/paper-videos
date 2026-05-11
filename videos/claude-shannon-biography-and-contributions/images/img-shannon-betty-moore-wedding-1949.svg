@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="42%" r="60%">
+      <stop offset="0%" stop-color="#1a2030"/>
+      <stop offset="100%" stop-color="#0e1117"/>
+    </radialGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffd866"/>
+      <stop offset="50%" stop-color="#f4c952"/>
+      <stop offset="100%" stop-color="#c89824"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#bgGrad)"/>
+
+  <!-- Two interlocking wedding rings -->
+  <g transform="translate(960,400)">
+    <!-- Left ring -->
+    <circle cx="-80" cy="0" r="120" fill="none" stroke="url(#goldGrad)" stroke-width="14"/>
+    <circle cx="-80" cy="0" r="120" fill="none" stroke="#ffe9a3" stroke-width="2" opacity="0.6"/>
+    <!-- Right ring -->
+    <circle cx="80" cy="0" r="120" fill="none" stroke="url(#goldGrad)" stroke-width="14"/>
+    <circle cx="80" cy="0" r="120" fill="none" stroke="#ffe9a3" stroke-width="2" opacity="0.6"/>
+    <!-- Re-draw the overlap arc for left ring on top, to fake interlocking -->
+    <path d="M -80,-120 A 120,120 0 0,0 -80,120" fill="none" stroke="url(#goldGrad)" stroke-width="14"/>
+  </g>
+
+  <!-- Names -->
+  <text x="960" y="700" text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="74" font-weight="400" fill="#e6edf3" letter-spacing="3">
+    Claude E. Shannon
+  </text>
+  <text x="960" y="770" text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="34" fill="#9aa4b3" font-style="italic">
+    and
+  </text>
+  <text x="960" y="850" text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="74" font-weight="400" fill="#e6edf3" letter-spacing="3">
+    Mary Elizabeth Moore
+  </text>
+
+  <!-- Date -->
+  <line x1="760" y1="920" x2="1160" y2="920" stroke="#58a6ff" stroke-width="1" opacity="0.5"/>
+  <text x="960" y="970" text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="32" fill="#58a6ff" letter-spacing="6">
+    MARRIED  ·  MARCH 27, 1949
+  </text>
+</svg>

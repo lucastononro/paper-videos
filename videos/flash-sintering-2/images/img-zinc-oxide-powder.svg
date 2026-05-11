@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <rect width="1920" height="1080" fill="#0e1117"/>
+  <text x="960" y="80" font-family="Inter, sans-serif" font-size="42" fill="#58a6ff" text-anchor="middle" font-weight="700">ZnO — zinc oxide</text>
+  <text x="960" y="120" font-family="Inter, sans-serif" font-size="22" fill="#8b949e" text-anchor="middle">varistor material. Flashes near 600 °C.</text>
+
+  <!-- pile of white powder -->
+  <g transform="translate(960, 700)">
+    <ellipse cx="0" cy="170" rx="380" ry="22" fill="#000" opacity="0.5"/>
+    <!-- pile -->
+    <path d="M -380 160 Q -300 -10 -200 -90 Q -100 -150 0 -160 Q 100 -150 200 -90 Q 300 -10 380 160 Z" fill="#f5f5f0" stroke="#a0a098" stroke-width="2"/>
+    <!-- shading -->
+    <path d="M 60 -130 Q 220 -50 380 160" fill="none" stroke="#dcdcd4" stroke-width="3"/>
+    <!-- texture: tiny grains -->
+    <g fill="#bbbbb0">
+      <circle cx="-260" cy="80" r="3"/><circle cx="-220" cy="20" r="2.5"/><circle cx="-180" cy="-30" r="3"/><circle cx="-140" cy="-60" r="2.5"/><circle cx="-90" cy="-100" r="3"/>
+      <circle cx="-40" cy="-130" r="2.5"/><circle cx="20" cy="-140" r="3"/><circle cx="80" cy="-130" r="2.5"/><circle cx="140" cy="-100" r="3"/>
+      <circle cx="-300" cy="120" r="2.5"/><circle cx="-150" cy="100" r="3"/><circle cx="-50" cy="50" r="2.5"/><circle cx="100" cy="80" r="3"/><circle cx="240" cy="100" r="2.5"/>
+    </g>
+  </g>
+
+  <text x="960" y="990" font-family="Inter, sans-serif" font-size="20" fill="#8b949e" text-anchor="middle">Wurtzite structure · n-type semiconductor · used in surge protectors</text>
+</svg>

@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/images/paper-videos-logo.png" alt="paper-videos" width="220" />
+</p>
+
 # paper-videos
 
 Turn an academic paper — or any educational topic — into a 3Blue1Brown-style explainer video, with a live editor that shows the video being built beat-by-beat as the agent pipeline runs.

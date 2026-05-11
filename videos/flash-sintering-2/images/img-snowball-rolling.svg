@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <rect width="1920" height="1080" fill="#0e1117"/>
+  <text x="960" y="80" font-family="Inter, sans-serif" font-size="42" fill="#e6edf3" text-anchor="middle" font-weight="700">A snowball rolling downhill</text>
+  <text x="960" y="120" font-family="Inter, sans-serif" font-size="22" fill="#8b949e" text-anchor="middle">positive feedback: bigger means picks up more, picks up more means bigger</text>
+
+  <!-- night sky gradient -->
+  <defs>
+    <linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0e1117"/>
+      <stop offset="100%" stop-color="#1a2030"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="160" width="1920" height="500" fill="url(#sky2)"/>
+
+  <!-- distant stars -->
+  <g fill="#e6edf3" opacity="0.4">
+    <circle cx="200" cy="220" r="2"/><circle cx="320" cy="280" r="1.5"/><circle cx="500" cy="200" r="2"/><circle cx="700" cy="260" r="1.5"/><circle cx="900" cy="220" r="2"/><circle cx="1100" cy="240" r="2"/><circle cx="1300" cy="200" r="1.5"/><circle cx="1500" cy="260" r="2"/><circle cx="1700" cy="220" r="2"/>
+  </g>
+
+  <!-- snow-covered hill (curved) -->
+  <path d="M 0 660 Q 480 520 960 720 Q 1440 920 1920 880 L 1920 1080 L 0 1080 Z" fill="#e6edf3"/>
+
+  <!-- track of the rolling ball: curved trail, thicker at end -->
+  <g stroke="#c9d1d9" stroke-width="4" fill="none" opacity="0.65">
+    <path d="M 200 590 Q 350 570 500 600"/>
+  </g>
+  <g stroke="#c9d1d9" stroke-width="6" fill="none" opacity="0.7">
+    <path d="M 500 600 Q 700 640 850 690"/>
+  </g>
+  <g stroke="#c9d1d9" stroke-width="9" fill="none" opacity="0.8">
+    <path d="M 850 690 Q 1050 740 1200 800"/>
+  </g>
+
+  <!-- snowballs: small at top to large at bottom -->
+  <circle cx="200" cy="590" r="14" fill="#fff" stroke="#bbb" stroke-width="2"/>
+  <circle cx="500" cy="600" r="32" fill="#fff" stroke="#bbb" stroke-width="2"/>
+  <circle cx="850" cy="690" r="62" fill="#fff" stroke="#bbb" stroke-width="2"/>
+  <circle cx="1300" cy="820" r="120" fill="#fff" stroke="#bbb" stroke-width="3"/>
+
+  <!-- shadow under big ball -->
+  <ellipse cx="1300" cy="935" rx="120" ry="14" fill="#000" opacity="0.3"/>
+
+  <!-- arrow: direction of flow -->
+  <g>
+    <text x="200" y="560" font-family="JetBrains Mono, monospace" font-size="20" fill="#58a6ff" text-anchor="middle">small</text>
+    <text x="1300" y="730" font-family="JetBrains Mono, monospace" font-size="20" fill="#ff8c42" text-anchor="middle">big — and getting bigger</text>
+  </g>
+
+  <!-- annotation: ceramic analog -->
+  <g transform="translate(80, 950)">
+    <text x="0" y="0" font-family="Inter, sans-serif" font-size="20" fill="#c9d1d9">In flash sintering: the ceramic IS the hill, AND the snow.</text>
+    <text x="0" y="32" font-family="Inter, sans-serif" font-size="18" fill="#8b949e">The voltage starts the ball.</text>
+  </g>
+</svg>

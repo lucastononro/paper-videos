@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <rect width="1920" height="1080" fill="#0e1117"/>
+  <text x="960" y="80" font-family="Inter, sans-serif" font-size="46" fill="#e6edf3" text-anchor="middle" font-weight="700">Conventional sintering vs flash sintering</text>
+  <text x="960" y="120" font-family="Inter, sans-serif" font-size="22" fill="#8b949e" text-anchor="middle">same end-state, very different paths</text>
+
+  <!-- Left: conventional -->
+  <g>
+    <rect x="120" y="180" width="780" height="780" rx="14" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+    <text x="510" y="232" font-family="Inter, sans-serif" font-size="30" fill="#ffd866" text-anchor="middle" font-weight="700">Conventional</text>
+    <!-- Furnace box -->
+    <rect x="220" y="280" width="580" height="280" rx="14" fill="#0e1117" stroke="#58a6ff" stroke-width="2"/>
+    <text x="510" y="320" font-family="Inter, sans-serif" font-size="22" fill="#58a6ff" text-anchor="middle">Tunnel kiln furnace</text>
+    <!-- small discs -->
+    <circle cx="320" cy="430" r="22" fill="#3a3a3a" stroke="#666" stroke-width="2"/>
+    <circle cx="400" cy="430" r="22" fill="#3a3a3a" stroke="#666" stroke-width="2"/>
+    <circle cx="480" cy="430" r="22" fill="#3a3a3a" stroke="#666" stroke-width="2"/>
+    <circle cx="560" cy="430" r="22" fill="#3a3a3a" stroke="#666" stroke-width="2"/>
+    <circle cx="640" cy="430" r="22" fill="#3a3a3a" stroke="#666" stroke-width="2"/>
+    <!-- heat waves -->
+    <path d="M 240 510 Q 290 490 340 510 Q 390 530 440 510 Q 490 490 540 510 Q 590 530 640 510 Q 690 490 740 510" stroke="#f97583" stroke-width="3" fill="none" opacity="0.7"/>
+    <path d="M 240 535 Q 290 515 340 535 Q 390 555 440 535 Q 490 515 540 535 Q 590 555 640 535 Q 690 515 740 535" stroke="#f97583" stroke-width="3" fill="none" opacity="0.5"/>
+    <!-- stats -->
+    <text x="510" y="630" font-family="Inter, sans-serif" font-size="26" fill="#e6edf3" text-anchor="middle">1400–1700 °C</text>
+    <text x="510" y="680" font-family="Inter, sans-serif" font-size="26" fill="#e6edf3" text-anchor="middle">several hours</text>
+    <text x="510" y="730" font-family="Inter, sans-serif" font-size="26" fill="#e6edf3" text-anchor="middle">MWh per batch</text>
+    <text x="510" y="800" font-family="Inter, sans-serif" font-size="20" fill="#8b949e" text-anchor="middle">grain growth, coarsening</text>
+    <text x="510" y="900" font-family="JetBrains Mono, monospace" font-size="60" fill="#ffd866" text-anchor="middle" font-weight="700">~10 h</text>
+  </g>
+
+  <!-- arrow -->
+  <g>
+    <line x1="930" y1="570" x2="1000" y2="570" stroke="#e6edf3" stroke-width="3"/>
+    <polygon points="1000,562 1020,570 1000,578" fill="#e6edf3"/>
+  </g>
+
+  <!-- Right: flash -->
+  <g>
+    <rect x="1020" y="180" width="780" height="780" rx="14" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+    <text x="1410" y="232" font-family="Inter, sans-serif" font-size="30" fill="#58a6ff" text-anchor="middle" font-weight="700">Flash sintering</text>
+    <!-- small furnace + electrodes -->
+    <rect x="1120" y="280" width="580" height="280" rx="14" fill="#0e1117" stroke="#58a6ff" stroke-width="2"/>
+    <text x="1410" y="320" font-family="Inter, sans-serif" font-size="22" fill="#58a6ff" text-anchor="middle">small furnace + electrodes</text>
+    <!-- single disc with electrodes -->
+    <line x1="1410" y1="350" x2="1410" y2="395" stroke="#ffd866" stroke-width="4"/>
+    <circle cx="1410" cy="450" r="50" fill="#ff8c42" stroke="#ffd866" stroke-width="3"/>
+    <circle cx="1410" cy="450" r="35" fill="#fff3a8" opacity="0.9"/>
+    <line x1="1410" y1="505" x2="1410" y2="550" stroke="#ffd866" stroke-width="4"/>
+    <text x="1500" y="445" font-family="Inter, sans-serif" font-size="18" fill="#8b949e">disc, glowing</text>
+    <!-- stats -->
+    <text x="1410" y="630" font-family="Inter, sans-serif" font-size="26" fill="#e6edf3" text-anchor="middle">600–900 °C furnace</text>
+    <text x="1410" y="680" font-family="Inter, sans-serif" font-size="26" fill="#e6edf3" text-anchor="middle">seconds</text>
+    <text x="1410" y="730" font-family="Inter, sans-serif" font-size="26" fill="#e6edf3" text-anchor="middle">~10× less energy</text>
+    <text x="1410" y="800" font-family="Inter, sans-serif" font-size="20" fill="#8b949e" text-anchor="middle">fine microstructure preserved</text>
+    <text x="1410" y="900" font-family="JetBrains Mono, monospace" font-size="60" fill="#58a6ff" text-anchor="middle" font-weight="700">~5 s</text>
+  </g>
+</svg>

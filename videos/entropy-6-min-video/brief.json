@@ -1,0 +1,210 @@
+{
+  "thesisInOneSentence": "Entropy is the average surprise of a random source — and surprise has exactly one sensible measure: the logarithm of one over probability, counted in bits.",
+  "audience": "Undergrads with high-school probability and a comfort with logs. No information theory background assumed. Calculus shown only as intuition. No proofs.",
+  "hook": "A fair coin carries exactly one bit of information. A loaded coin carries less. The reason why is a 70-year-old formula that secretly runs every text message, zip file, and JPEG you've ever sent.",
+  "teaser": {
+    "openingLine": "Twenty yes-or-no questions can pin down a number between one and a million. Why exactly twenty?",
+    "stakes": "That number isn't arbitrary — it's the same number that decides how small your files can shrink, how much your phone can compress your voice, and how surprised you should be by anything that happens.",
+    "openLoop": "What kind of quantity is measured in 'questions' — and why does a loaded coin somehow carry less of it than a fair one?",
+    "visualConcept": "Manim: a binary tree splits a range of one million numbers in half, twenty times. Each split is one yes-or-no question. The final leaf glows. Number '20' resolves into the word 'bits'. Then the title 'Entropy' lands as the payoff with subtitle 'the average surprise'.",
+    "estSeconds": 20
+  },
+  "narrativeArc": [
+    {
+      "actId": "act-0",
+      "name": "Teaser",
+      "estSeconds": 20,
+      "purpose": "Cold open: twenty questions → one million → 'twenty bits'. Hook on a concrete number; open the loop on what a 'bit' actually measures. Title 'Entropy: the average surprise' lands LAST as the reward. ~6 beats, no formulas."
+    },
+    {
+      "actId": "act-1",
+      "name": "Surprise is information",
+      "estSeconds": 70,
+      "purpose": "Build the intuition that rare events are informative, common ones aren't. 'The sun rose this morning' vs. 'a meteor hit Cleveland'. Argue: information from two independent events should ADD. Probabilities MULTIPLY. The unique function turning multiplication into addition is the logarithm. Surprise(event) = log(1/p). ~10 beats."
+    },
+    {
+      "actId": "act-2",
+      "name": "The bit, and the binary entropy curve",
+      "estSeconds": 110,
+      "purpose": "Anchor the unit: a fair coin = log_2(2) = 1 bit. Then the CENTRAL animation: H(p) = -p log p - (1-p) log(1-p) plotted as p sweeps from 0 to 1. The famous arch peaks at p=0.5 = 1 bit, collapses to 0 at the certain ends. Tie back to the teaser: a loaded coin really does carry less. ~18 beats."
+    },
+    {
+      "actId": "act-3",
+      "name": "Generalizing — H = -Σ p log p",
+      "estSeconds": 70,
+      "purpose": "Step up from two outcomes to many. Entropy is the EXPECTED surprise: weight each outcome's log(1/p) by its probability, sum. That's it. Land the canonical formula and read it aloud literally: 'average surprise'. ~10 beats."
+    },
+    {
+      "actId": "act-4",
+      "name": "Why it matters — compression",
+      "estSeconds": 60,
+      "purpose": "Concrete payoff: entropy is the floor on lossless compression. Fair coin = 1 bit per flip, no shrinkage. Loaded 90/10 coin → H ≈ 0.47 bits, so a million flips can be encoded in ~470,000 bits. English text averages ~1 bit per letter — that's why zip files exist. Brief nod that the same word — entropy — also names a quantity in thermodynamics; same shape, same math. ~10 beats."
+    },
+    {
+      "actId": "act-5",
+      "name": "Outro — Shannon, 1948",
+      "estSeconds": 30,
+      "purpose": "Land the historical anchor in 10 seconds: Claude Shannon, Bell Labs, 1948, 'A Mathematical Theory of Communication'. Restate the through-line one last time — 'entropy is the average surprise' — and end on the paper title card. ~5 beats."
+    }
+  ],
+  "conceptsToVisualize": [
+    {
+      "id": "c-001",
+      "concept": "twenty-questions binary search",
+      "whyItMatters": "Concretizes 'a bit' as 'one yes-or-no answer' before any formula appears. Carries the entire teaser.",
+      "currentConfusion": "Viewers think 'bit' = '1 or 0 on a wire' (engineering) rather than '1 unit of resolved uncertainty' (semantic).",
+      "visualSuggestion": "manim — number-line from 1 to 1,000,000 halves repeatedly; counter '1, 2, 3 ... 20' ticks up; final cell glows.",
+      "associatedEquationIds": []
+    },
+    {
+      "id": "c-002",
+      "concept": "surprise as log(1/p)",
+      "whyItMatters": "The semantic core. Once viewers feel that 'rare = informative' and 'independent events add', the log is forced — not chosen.",
+      "currentConfusion": "Viewers expect surprise to be linear in (1-p) or in 1/p; have no reason to expect a log.",
+      "visualSuggestion": "manim — two dice rolling side by side; their joint probability ticker shows multiplication (1/6 × 1/6 = 1/36); a second axis shows log values that ADD (log 6 + log 6 = log 36). The log axis is the natural ruler.",
+      "associatedEquationIds": []
+    },
+    {
+      "id": "c-003",
+      "concept": "binary entropy curve H(p)",
+      "whyItMatters": "The single most iconic image in information theory. Once seen, never forgotten. Carries the intuition 'fair = maximum uncertainty, certainty = zero entropy'.",
+      "currentConfusion": "Viewers might guess entropy grows with p, or is symmetric around 0 rather than 0.5. The arch shape is genuinely surprising.",
+      "visualSuggestion": "manim — animated plot. p slider from 0 to 1; a dot traces H(p) = -p log p - (1-p) log(1-p). Coin graphic above flips with frequency matching p. At p=0.5 the curve peaks at 1.0 bit; mark it. Then optionally overlay the Shannon Fig. 7 image from paper-md-assets as historical attribution.",
+      "associatedEquationIds": ["eq-018"]
+    },
+    {
+      "id": "c-004",
+      "concept": "expected surprise = H = -Σ p log p",
+      "whyItMatters": "The generalization beat. Shows that the binary case isn't a special trick — the formula extends naturally to any number of outcomes.",
+      "currentConfusion": "Viewers might miss that this is just E[log(1/p)] — a weighted average — and read it as a mysterious 'sum of products'.",
+      "visualSuggestion": "manim — equation reveals stepwise. Row 1: 'surprise of outcome i = log(1/p_i)'. Row 2: weight by p_i. Row 3: sum. Row 4: collapse minus sign. Contour-flash the '-Σ p_i log p_i' final form. The viewer SEES the formula as the literal sentence 'average surprise'.",
+      "associatedEquationIds": ["eq-111", "eq-017"]
+    },
+    {
+      "id": "c-005",
+      "concept": "compression floor",
+      "whyItMatters": "Why anyone should care. Entropy isn't an abstract quantity — it's the literal minimum bits-per-symbol you can hope to encode a stream in.",
+      "currentConfusion": "Viewers conflate compression with 'cleverness' — the punchline is that there's a hard mathematical floor, set by entropy.",
+      "visualSuggestion": "manim — a tape of 1,000,000 coin flips. Fair coin: tape stays at 1,000,000 bits. Loaded 90/10: tape compresses visibly to ~470,000 bits. Show the multiplier '× H(p)' driving the shrinkage.",
+      "associatedEquationIds": ["eq-018"]
+    }
+  ],
+  "questionsToAnswerOnScreen": [
+    "Why does a fair coin carry exactly 1 bit?",
+    "Why does the log appear in the surprise formula — and not, say, 1/p directly?",
+    "Why does the binary entropy curve peak at p = 0.5?",
+    "Why does a loaded coin carry LESS information than a fair one (it feels backward)?",
+    "What is entropy actually measuring — in plain English?"
+  ],
+  "thingsToCutOrSkip": [
+    "Channel capacity (eq-075) — different video; would balloon scope.",
+    "Shannon-Hartley theorem (eq-240) — same.",
+    "The three-axiom uniqueness proof for H (Theorem 2 in the paper) — beautiful but not for undergrads-in-6-minutes.",
+    "Joint, conditional, and mutual entropy — sequel.",
+    "Markov-chain source models from §2-3 of the paper — sequel.",
+    "Thermodynamic entropy derivation — mention in ONE sentence in Act 4, no more.",
+    "The constant K in eq-017 — collapse it to K=1 silently; undergrads don't need the units discussion.",
+    "Continuous (differential) entropy — sequel.",
+    "Any paperPage/highlightedQuote visual — pages/*.png have broken glyphs."
+  ],
+  "priorWork": [
+    {
+      "title": "A Mathematical Theory of Communication",
+      "arxivId": null,
+      "year": 1948,
+      "whyRelevant": "The source. Cited as historical anchor in the outro. Not walked through."
+    },
+    {
+      "title": "Certain Factors Affecting Telegraph Speed (Nyquist)",
+      "arxivId": null,
+      "year": 1924,
+      "whyRelevant": "Pre-Shannon use of log as a 'measure of information' in telegraphy. Mention only if Act 5 has 5 spare seconds — likely cut."
+    }
+  ],
+  "supportingMaterial": [
+    {
+      "kind": "image",
+      "needsToFind": "Shannon Fig. 7 — the binary entropy curve from the original paper, used as a brief historical overlay in Act 2",
+      "preferredSource": "videos/entropy-6-min-video/paper-md-assets/_page_10_Figure_9.jpeg"
+    },
+    {
+      "kind": "image",
+      "needsToFind": "Photo of Claude Shannon (public domain, MIT or Bell Labs archive)",
+      "preferredSource": "web — Wikimedia Commons 'Claude Shannon' portrait; used in outro Act 5 only"
+    },
+    {
+      "kind": "diagram",
+      "needsToGenerate": "A simple title card: 'A Mathematical Theory of Communication — C. E. Shannon, 1948' for the closing beat"
+    }
+  ],
+  "spotlights": [],
+  "derivationsToBuild": [
+    {
+      "concept": "Why surprise must be a logarithm",
+      "openingQuestion": "If two independent events happen, the total information should ADD. But their probabilities MULTIPLY. What function turns one into the other?",
+      "stepsToShow": [
+        "two independent events: P(A and B) = P(A) × P(B)",
+        "we WANT: surprise(A and B) = surprise(A) + surprise(B)",
+        "the only function f with f(xy) = f(x) + f(y) is f = log",
+        "so surprise(event with prob p) = log(1/p) = -log p",
+        "choosing base 2 makes one bit = surprise of a fair coin"
+      ],
+      "estBeats": 6,
+      "associatedEquationIds": ["eq-001"]
+    },
+    {
+      "concept": "From per-event surprise to entropy as average surprise",
+      "openingQuestion": "We have a number for the surprise of one outcome. What's the right summary number for a whole RANDOM SOURCE?",
+      "stepsToShow": [
+        "for each outcome i: surprise_i = log(1/p_i)",
+        "we ask each outcome how surprising it would be, then weight by how OFTEN it happens (p_i)",
+        "the expected (= average) surprise is Σ p_i · log(1/p_i)",
+        "pull the minus sign out: H = -Σ p_i log p_i"
+      ],
+      "estBeats": 4,
+      "associatedEquationIds": ["eq-111", "eq-017"]
+    },
+    {
+      "concept": "Binary entropy curve in three points",
+      "openingQuestion": "What does H look like when there are only two outcomes — a coin with bias p?",
+      "stepsToShow": [
+        "plug n=2 into H: H(p) = -p log p - (1-p) log(1-p)",
+        "check the boundaries: p=0 → H=0 (no surprise, you knew). p=1 → H=0 (same).",
+        "check the middle: p=0.5 → H=1 bit (maximum uncertainty)",
+        "trace the smooth arch between these three pins"
+      ],
+      "estBeats": 5,
+      "associatedEquationIds": ["eq-018"]
+    }
+  ],
+  "metaphors": [
+    {
+      "concept": "entropy",
+      "metaphor": "the average surprise of a random source — the same way 'expected value' is the average payoff, entropy is the average 'huh, didn't see that coming'",
+      "whenToDeploy": "as the through-line. Plant it in the teaser title card ('Entropy: the average surprise'), repeat it at the end of Act 3 when H = -Σ p log p resolves, and land it once more in the outro."
+    },
+    {
+      "concept": "a bit",
+      "metaphor": "one yes-or-no question's worth of resolved uncertainty — twenty bits is the answer to twenty yes-or-no questions, which is enough to pin down any number under a million",
+      "whenToDeploy": "anchor the teaser and reuse the same image in Act 2 when the unit 'bit' is formally defined as log_2(2)."
+    },
+    {
+      "concept": "compression floor",
+      "metaphor": "entropy is the price tag of a random source — no matter how clever your encoding, you cannot pay less than H bits per symbol on average",
+      "whenToDeploy": "Act 4 only — the 'why it matters' punchline. Don't pre-empt it earlier or the surprise of Act 4 vanishes."
+    }
+  ],
+  "narrativeAngles": [
+    "The through-line is the single sentence 'entropy is the average surprise'. Stated in the teaser title card, restated when H = -Σ p log p first appears, restated as the last words of the video. Three reps, same words.",
+    "Sequencing: intuition (surprise) → unit (bit, fair coin) → curve (binary) → formula (general) → payoff (compression). Each act EARNS the next.",
+    "Frame the binary entropy curve as the visual centerpiece. Six minutes is enough to do one animation really well; this is it.",
+    "Resist the temptation to say 'this is also Boltzmann's entropy'. ONE sentence in Act 4. The video is information-theory entropy; the thermodynamic connection is a teaser for a future video, not a detour."
+  ],
+  "criticisms": [
+    "Shannon's original paper jumps from the three axioms to H = -K Σ p log p in two lines with the derivation deferred to Appendix 2. We do NOT replay this — we motivate the log purely through the additivity-of-independent-events argument, which is more intuitive for undergrads and skips the axioms entirely.",
+    "The paper uses 'log' with the base unspecified, then asserts that the choice of base only changes K. For undergrads, we must commit to log_2 from the start and say 'bit' every time — base-changes are noise at this level.",
+    "Fig. 7 in the original paper is a hand-drawn arch with no axis labels. We redraw it cleanly in Manim with labeled axes (p on x, H(p) in bits on y), tick marks at 0, 0.5, 1, and a callout of the maximum value 1.0 bit at p=0.5. The original is shown briefly as historical texture only.",
+    "The word 'entropy' is famously overloaded between thermodynamics and information theory; the paper notes this in passing and the popular literature has muddied it for 70 years. We address it head-on with ONE clean sentence in Act 4 ('same formula shape, two different stories, both correct') and refuse to chase the philosophical rabbit hole."
+  ],
+  "openQuestionsForUser": []
+}

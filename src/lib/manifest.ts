@@ -62,8 +62,8 @@ const Visual = z.discriminatedUnion('kind', [
 ]);
 
 const Segment = z.object({
-  // Accepts either legacy seg-NNN or new beat-NNN ids.
-  id: z.string().regex(/^(beat|seg)-\d{3}$/),
+  // Accepts either legacy seg-NNN or new beat-NNN ids, with optional letter suffix.
+  id: z.string().regex(/^(beat|seg)-\d{3}[a-z]?$/),
   startFrame: z.number().int().nonnegative(),
   durationFrames: z.number().int().positive(),
   audioFile: z.string().nullable(), // null for silent pause beats
@@ -75,7 +75,7 @@ const Segment = z.object({
 // span many voice beats; a voice beat can be backed by 1..N visual blocks.
 // Pauses, holds, and "stay still while voice continues" all fall out naturally.
 const VoiceBeat = z.object({
-  id: z.string().regex(/^(beat|seg)-\d{3}$/),
+  id: z.string().regex(/^(beat|seg)-\d{3}[a-z]?$/),
   startFrame: z.number().int().nonnegative(),
   durationFrames: z.number().int().positive(),
   audioFile: z.string().nullable(),
@@ -525,8 +525,18 @@ function parseVisualCue(cue: string): Visual {
   const body = m[2]!.trim();
 
   if (kindTag === 'MANIM') {
-    const rawName = body.split(/\s+/)[0]!;
-    const sceneName = rawName.replace(/[^A-Za-z0-9_]/g, '_');
+    // Two supported forms:
+    //   1) Legacy bare:    [MANIM: scene_name]            → uses "scene_name" as the basename.
+    //   2) Keyword form:   [MANIM: scene_file="foo.py" class="Foo" duration=N description="..."]
+    //                      → uses scene_file as basename (strips .py), class is informational.
+    const args = parseKVArgs(body);
+    let basename: string;
+    if (args['scene_file']) {
+      basename = args['scene_file'].replace(/\.py$/i, '').replace(/^manim\//, '');
+    } else {
+      basename = body.split(/\s+/)[0]!;
+    }
+    const sceneName = basename.replace(/[^A-Za-z0-9_]/g, '_');
     return {
       kind: 'manimClip',
       sceneFile: `manim/${sceneName}.py`,
