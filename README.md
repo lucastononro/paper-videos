@@ -1,8 +1,10 @@
 # paper-videos
 
-Turn an academic paper into a 3Blue1Brown-style explainer video — with a live editor that shows the video being built beat-by-beat as the agent pipeline runs.
+Turn an academic paper — or any educational topic — into a 3Blue1Brown-style explainer video, with a live editor that shows the video being built beat-by-beat as the agent pipeline runs.
 
-You point at an arXiv id, URL, or local PDF. The pipeline drafts a script in the showman cold-open style, narrates it with ElevenLabs, animates the math with Manim, and assembles the result with Remotion. The editor at `localhost:5173` lets you watch it materialize, scrub the partial timeline, spawn pin-point spot-edit threads on individual beats, and click a single button to render the final mp4.
+![paper-videos editor — chat on the left, scrubable player + filmstrip + lanes on the right, spot-edit panel docks to the right](docs/images/interface-example.png)
+
+Point at an arXiv id, URL, local PDF, or just say *"explain backpropagation"*. The pipeline drafts a script in the showman cold-open style, narrates it with ElevenLabs, animates the math with Manim, and assembles the result with Remotion. The editor at `localhost:5173` lets you watch it materialize, scrub the partial timeline, spawn pin-point spot-edit threads on time-crops of the video, and click a single button to render the final mp4.
 
 ```
 arXiv id  →  fetch PDF + extract paper  →  critic plans the brief
@@ -101,7 +103,8 @@ Ctrl+C kills both cleanly.
 
 Visit http://localhost:5173. You see a thumbnail-card gallery of every video in `videos/` — each card showing the paper title, slug, duration, beat / block counts, and a **`✓ rendered`** pill on videos whose `output.mp4` exists. Cards with a running pipeline show a blue **`running`** pill instead. Click **+ New video** in the top-right, give it a slug (kebab-case), and you land on the editor view. Hovering a card reveals an **✕** delete button (top-left of the thumbnail) — click it and confirm to wipe the video folder and all its artifacts.
 
-![Gallery view](docs/images/gallery-example.png)
+![The gallery is the home page. Each card is one video in `videos/`. Click a card to open it in the editor; click + New video (top-right) to start one.](docs/images/gallery-example.png)
+*The gallery — your home. Each card opens an editor; the gold `+ New video` button starts a fresh project.*
 
 ### 3. Tell claude what to make
 
@@ -140,19 +143,22 @@ Each beat that has audio but is still waiting on its Manim mp4 shows a "Renderin
 
 Spot-edits are **time-crop scoped**, not beat-scoped: drag a horizontal selection on the filmstrip and a gold band appears with the time range (e.g. `1:28→1:36 · 7.8s`) plus a **↗ Spot-edit** pill in the toolbar.
 
-![Filmstrip with a time-crop selection](docs/images/spot-edit-example-1.png)
+![Drag-to-select on the filmstrip: a gold time-range band appears with the duration and an ↗ Spot-edit button. The Visual blocks and Voice beats lanes show what falls inside the selection.](docs/images/spot-edit-example-1.png)
+*Drag horizontally on the filmstrip to select a time range. The gold band and the **↗ Spot-edit** button appear in the toolbar — click to fork an agent scoped to that crop.*
 
 Click **↗ Spot-edit** → the right-side **Spot edits** panel opens with an in-panel composer pre-scoped to that crop. Type "shorten this by 30%" or "rewrite this without jargon" → press Enter → a forked claude session runs in parallel without disrupting the parent chat. The harness pre-resolves which voice beats and visual blocks overlap the crop and passes them to the agent as a finding aid (not a hard constraint). When the thread finishes, a `Spot edit on 1:28→1:36 — completed: …` notice card lands in the parent chat with the agent's summary, and the parent agent receives the same notice as part of its next-turn directive (so the main thread stays in sync).
 
 You can spawn **multiple concurrent spot-edits** — each one becomes its own tab at the top of the panel. Click between tabs to follow each thread independently.
 
-![Editor with spot-edit threads panel](docs/images/spot-edit-example-2.png)
+![A spot-edit thread open on the right side of the editor with its own composer; the parent chat continues on the left undisturbed.](docs/images/spot-edit-example-2.png)
+*Spot-edit threads dock on the right. Each is a forked `claude --resume` session — they run in parallel with the parent chat, and their completion summaries land back in the parent thread automatically.*
 
 ### 6. Render the final mp4
 
 When you're satisfied, click the gold **▶ Render** button in the editor header.
 
-![Reload + Render buttons](docs/images/render-button.png)
+![↻ Reload and ▶ Render buttons sit in the top-right of the editor header.](docs/images/render-button.png)
+*Top-right of the editor: **↻ Reload** refetches manifest + assets; the gold **▶ Render** kicks off `npm run render-remotion`.*
 
 The button fills with a green progress bar (`Rendering 42%`) and tooltips the latest log line. On success it flashes green, the player auto-refreshes with the new mp4, and the file lands at `videos/<slug>/output.mp4`. On failure the tooltip carries the tail of the log so you can see what broke.
 
@@ -160,7 +166,8 @@ Render is button-driven only — agents do not run `render-remotion` themselves 
 
 ## The editor in detail
 
-![Full editor view](docs/images/interface-example.png)
+![Full editor view: chat panel left, video / assets tabs centre, filmstrip + visual-blocks + voice-beats lanes below, spot-edit threads panel right.](docs/images/interface-example.png)
+*The editor's three columns: parent **chat** on the left, **video player + filmstrip lanes** in the middle, **spot-edit threads** on the right. Everything is live — the player remounts the moment any beat finishes.*
 
 Layout:
 
