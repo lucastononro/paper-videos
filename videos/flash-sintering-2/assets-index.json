@@ -310,6 +310,62 @@
     "method": "hand-coded SVG. The original Cologna 2010 YSZ disc on a museum-style pedestal with gold-tinted electrode marks and a small label plaque ('M. Cologna 2010 — YSZ disc · CU Boulder').",
     "description": "Stylized portrait of the canonical 2010 sample — the disc that started a field."
   },
+  "img-flash-sinter-crystallization-setup": {
+    "kind": "image",
+    "file": "images/img-flash-sinter-crystallization-setup.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. Vertical tubular furnace cross-section with orange heating coils, glass-powder pellet sandwiched between top + bottom Pt electrodes (rods through furnace top/bottom), wires arching over to a DC power supply box on the right (V/I displays, voltage knob, +/- terminals). Annotations for 'glass powder' and 'Pt electrodes'.",
+    "description": "Flash-sinter-crystallization apparatus — vertical tube furnace, glass pellet, electrodes, DC supply (after Campos, Rodrigues, Zanotto)."
+  },
+  "img-campos-rodrigues-portrait": {
+    "kind": "image",
+    "file": "images/img-campos-rodrigues-portrait.svg",
+    "source": "generated",
+    "method": "hand-coded SVG, two side-by-side stylized portrait cards (blue + yellow accents) labeled 'João V. Campos' and 'Ana C.M. Rodrigues' with role/affiliation subtitles. Same card style as img-sglavo-biesuz and img-olevsky-maniere.",
+    "description": "João V. Campos & Ana C.M. Rodrigues (UFSCar) — flash-sinter-crystallization of glasses. Stylized portraits."
+  },
+  "img-lavagnini-portrait": {
+    "kind": "image",
+    "file": "images/img-lavagnini-portrait.svg",
+    "source": "generated",
+    "method": "hand-coded SVG, single centered portrait card with green accent, labeled 'Isabela R. Lavagnini' with role/affiliation subtitle. Same card pattern as the other portrait SVGs in this slug.",
+    "description": "Isabela R. Lavagnini (USP & UFSCar) — co-author on both Campos/Rodrigues Acta Materialia papers; bridges USP/Pirassununga and CeRTEV at São Carlos. Stylized portrait."
+  },
+  "img-lagp-crystal-structure": {
+    "kind": "image",
+    "file": "images/img-lagp-crystal-structure.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. 3x3 grid of blue (Ge/Al)O₆ octahedra at lattice points, orange PO₄ tetrahedra bridging adjacent octahedra (corner-sharing), yellow Li⁺ ions hopping along three orthogonal channels marked with yellow arrows. Legend identifies octahedra/tetrahedra/Li⁺ and notes σ_Li ≈ 10⁻⁴ S/cm, space group R-3c.",
+    "description": "LAGP NaSICON crystal structure — Li⁺ conduction channels through the corner-sharing octahedra/tetrahedra network."
+  },
+  "img-solid-state-battery-cell": {
+    "kind": "image",
+    "file": "images/img-solid-state-battery-cell.svg",
+    "source": "generated",
+    "method": "hand-coded SVG cross-section: Cu current collector | Li metal anode (silver, textured) | LAGP solid electrolyte (hex-tile grain texture, highlighted in blue, labeled with formula) | LiCoO₂ cathode (dark with particle texture) | Al current collector. Yellow Li⁺ ions traverse the electrolyte with a big yellow arrow showing migration direction. External circuit with load (lamp) above. After Wikimedia 'solid-state battery' diagram, redrawn in 3b1b palette.",
+    "description": "Solid-state lithium battery cross-section with LAGP electrolyte — Li⁺ moves through the solid."
+  },
+  "img-dental-crown-ceramic": {
+    "kind": "image",
+    "file": "images/img-dental-crown-ceramic.svg",
+    "source": "generated",
+    "method": "hand-coded SVG. Left: tooth + translucent lithium-disilicate crown overlay (cream/tan tooth shape with gumline, cusps, glassy highlights). Right: properties panel comparing conventional (~30 min @ 850 °C) vs flash-sinter-crystallized (~seconds, ≪ 850 °C). After Wikimedia Commons 'Dental crown' category, redrawn clean on dark navy.",
+    "description": "Glass-ceramic dental restoration (lithium disilicate crown) — sintered & crystallized."
+  },
+  "img-zanotto-portrait": {
+    "kind": "image",
+    "file": "images/img-zanotto-portrait.svg",
+    "source": "generated",
+    "method": "hand-coded SVG stylized portrait card (yellow-accent border, centered like img-rishi-raj-portrait) — silhouette in dark-navy frame, bio block on right ('Director, CeRTEV', 'glass crystallization kinetics', '700+ papers · h-index > 70', 'Brazilian Academy of Sciences') and field bullets on left ('glass-ceramics', 'nucleation & growth', 'bioceramics', 'flash crystallization').",
+    "description": "Edgar D. Zanotto (UFSCar/CeRTEV) — leading glass-ceramics scientist. Stylized portrait card."
+  },
+  "img-lithium-disilicate-microstructure": {
+    "kind": "image",
+    "file": "images/img-lithium-disilicate-microstructure.svg",
+    "source": "generated",
+    "method": "hand-coded SVG SEM-style mosaic. Field of thin grey needle-like crystals (parallelogram polygons at various rotations, both horizontal and rotated 20–70°) on a dark navy 'residual glass' matrix with sparse texture dots. Three colored callouts identify (a) Li₂Si₂O₅ crystal (yellow, 2–4 µm long), (b) residual glass matrix (blue, ~30 vol%), (c) interlocking → ~400 MPa flexural (green). Scale bar '2 µm'. No copyrighted SEM was used.",
+    "description": "Lithium disilicate (Li₂Si₂O₅) glass-ceramic microstructure — interlocking needle-like crystals in residual glass."
+  },
 
   "diag-conventional-vs-flash-sintering": {
     "kind": "diagram",

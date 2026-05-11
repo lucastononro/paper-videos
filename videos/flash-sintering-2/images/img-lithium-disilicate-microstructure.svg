@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <rect width="1920" height="1080" fill="#0e1117"/>
+  <text x="960" y="80" font-family="Inter, sans-serif" font-size="42" fill="#e6edf3" text-anchor="middle" font-weight="700">Lithium disilicate — Li₂Si₂O₅</text>
+  <text x="960" y="120" font-family="Inter, sans-serif" font-size="22" fill="#8b949e" text-anchor="middle">interlocking needle-like crystals in residual glass — the canonical LS2 microstructure</text>
+
+  <!-- Background SEM frame -->
+  <rect x="240" y="180" width="1100" height="780" fill="#1a1d24" stroke="#30363d" stroke-width="3"/>
+
+  <!-- Residual glass matrix (slight texture) -->
+  <g opacity="0.4">
+    <circle cx="400" cy="280" r="2" fill="#3a4555"/>
+    <circle cx="600" cy="330" r="2" fill="#3a4555"/>
+    <circle cx="850" cy="260" r="2" fill="#3a4555"/>
+    <circle cx="1100" cy="320" r="2" fill="#3a4555"/>
+    <circle cx="500" cy="500" r="2" fill="#3a4555"/>
+    <circle cx="780" cy="540" r="2" fill="#3a4555"/>
+    <circle cx="1050" cy="500" r="2" fill="#3a4555"/>
+    <circle cx="350" cy="650" r="2" fill="#3a4555"/>
+    <circle cx="620" cy="720" r="2" fill="#3a4555"/>
+    <circle cx="900" cy="700" r="2" fill="#3a4555"/>
+    <circle cx="1180" cy="680" r="2" fill="#3a4555"/>
+    <circle cx="420" cy="850" r="2" fill="#3a4555"/>
+    <circle cx="720" cy="880" r="2" fill="#3a4555"/>
+    <circle cx="1050" cy="870" r="2" fill="#3a4555"/>
+  </g>
+
+  <!-- Needle-like crystals: long thin parallelograms at various rotations -->
+  <!-- Each "needle" is a thin polygon -->
+  <g fill="#a0a8b4" stroke="#5a606c" stroke-width="1.5">
+    <!-- horizontal-ish needles -->
+    <polygon points="280,240 540,260 535,278 275,258"/>
+    <polygon points="350,310 620,340 615,358 345,328"/>
+    <polygon points="500,220 760,235 755,253 495,238"/>
+    <polygon points="800,290 1080,300 1075,318 795,308"/>
+    <polygon points="1000,250 1280,270 1275,288 995,268"/>
+    <polygon points="280,420 540,440 535,458 275,438"/>
+    <polygon points="600,460 870,475 865,493 595,478"/>
+    <polygon points="900,420 1180,440 1175,458 895,438"/>
+    <polygon points="280,580 560,595 555,613 275,598"/>
+    <polygon points="650,610 920,625 915,643 645,628"/>
+    <polygon points="980,580 1280,600 1275,618 975,598"/>
+    <polygon points="320,760 600,780 595,798 315,778"/>
+    <polygon points="650,800 920,815 915,833 645,818"/>
+    <polygon points="960,780 1240,800 1235,818 955,798"/>
+    <polygon points="300,890 580,910 575,928 295,908"/>
+    <polygon points="700,900 970,920 965,938 695,918"/>
+
+    <!-- tilted needles (rotated through transform) -->
+    <g transform="rotate(28 470 380)">
+      <polygon points="370,375 620,390 615,408 365,393"/>
+    </g>
+    <g transform="rotate(-22 720 380)">
+      <polygon points="620,375 880,390 875,408 615,393"/>
+    </g>
+    <g transform="rotate(40 920 480)">
+      <polygon points="820,475 1080,490 1075,508 815,493"/>
+    </g>
+    <g transform="rotate(-35 480 580)">
+      <polygon points="380,575 640,590 635,608 375,593"/>
+    </g>
+    <g transform="rotate(55 800 660)">
+      <polygon points="700,655 960,670 955,688 695,673"/>
+    </g>
+    <g transform="rotate(-50 1100 680)">
+      <polygon points="1000,675 1250,690 1245,708 995,693"/>
+    </g>
+    <g transform="rotate(20 500 740)">
+      <polygon points="380,735 640,750 635,768 375,753"/>
+    </g>
+    <g transform="rotate(-30 850 760)">
+      <polygon points="730,755 990,770 985,788 725,773"/>
+    </g>
+    <g transform="rotate(65 1150 820)">
+      <polygon points="1050,815 1280,830 1275,848 1045,833"/>
+    </g>
+    <g transform="rotate(70 460 300)">
+      <polygon points="400,295 580,310 575,328 395,313"/>
+    </g>
+    <g transform="rotate(45 1150 320)">
+      <polygon points="1050,315 1280,330 1275,348 1045,333"/>
+    </g>
+  </g>
+
+  <!-- Callouts -->
+  <g>
+    <line x1="470" y1="380" x2="1480" y2="320" stroke="#ffd866" stroke-width="2"/>
+    <circle cx="470" cy="380" r="6" fill="#ffd866"/>
+    <text x="1500" y="320" font-family="Inter, sans-serif" font-size="22" fill="#ffd866" font-weight="700">Li₂Si₂O₅ crystal</text>
+    <text x="1500" y="350" font-family="Inter, sans-serif" font-size="18" fill="#c9d1d9">needle-like / lath morphology</text>
+    <text x="1500" y="376" font-family="Inter, sans-serif" font-size="18" fill="#c9d1d9">2–4 µm long, ~0.5 µm wide</text>
+  </g>
+  <g>
+    <line x1="780" y1="540" x2="1480" y2="500" stroke="#58a6ff" stroke-width="2"/>
+    <circle cx="780" cy="540" r="6" fill="#58a6ff"/>
+    <text x="1500" y="500" font-family="Inter, sans-serif" font-size="22" fill="#58a6ff" font-weight="700">residual glass</text>
+    <text x="1500" y="530" font-family="Inter, sans-serif" font-size="18" fill="#c9d1d9">matrix between crystals</text>
+    <text x="1500" y="556" font-family="Inter, sans-serif" font-size="18" fill="#c9d1d9">~30 vol% silicate glass</text>
+  </g>
+  <g>
+    <line x1="900" y1="780" x2="1480" y2="700" stroke="#7ee787" stroke-width="2"/>
+    <circle cx="900" cy="780" r="6" fill="#7ee787"/>
+    <text x="1500" y="700" font-family="Inter, sans-serif" font-size="22" fill="#7ee787" font-weight="700">interlocking</text>
+    <text x="1500" y="730" font-family="Inter, sans-serif" font-size="18" fill="#c9d1d9">crystals bridge across</text>
+    <text x="1500" y="756" font-family="Inter, sans-serif" font-size="18" fill="#c9d1d9">crack propagation arrested</text>
+    <text x="1500" y="782" font-family="Inter, sans-serif" font-size="18" fill="#c9d1d9">→ ~400 MPa flexural</text>
+  </g>
+
+  <!-- scale bar -->
+  <g>
+    <line x1="1180" y1="920" x2="1320" y2="920" stroke="#e6edf3" stroke-width="3"/>
+    <text x="1250" y="950" font-family="JetBrains Mono, monospace" font-size="18" fill="#e6edf3" text-anchor="middle">2 µm</text>
+  </g>
+  <text x="270" y="950" font-family="JetBrains Mono, monospace" font-size="18" fill="#8b949e">SEM · LS2 glass-ceramic · stylized illustration (no copyrighted micrograph used)</text>
+</svg>

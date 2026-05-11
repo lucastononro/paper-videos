@@ -1,0 +1,24 @@
+slug: a-new-perspective-to-xgboost
+mode: topic
+topicPrompt: A new perspective on XGBoost — origins, the math behind gradient
+  boosting, and novel visualizations that reveal what conventional
+  regression/tree explanations miss (in the spirit of 3Blue1Brown's Fourier
+  series video)
+paperSource:
+  kind: topic
+  value: A new perspective on XGBoost — origins, the math behind gradient
+    boosting, and novel visualizations that reveal what conventional
+    regression/tree explanations miss (in the spirit of 3Blue1Brown's Fourier
+    series video)
+paperTitle: A new perspective on XGBoost — origins, the math behind gradient
+  boosting, and novel visualizations that reveal what conventional
+  regression/tree explanations miss (in the spirit of 3Blue1Brown's Fourier
+  series video)
+voice: pharaoh
+captions: false
+targetLengthMinutes: 10
+focusAreas: []
+resolution:
+  width: 1920
+  height: 1080
+fps: 30

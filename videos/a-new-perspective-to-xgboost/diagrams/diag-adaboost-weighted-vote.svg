@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <rect width="1920" height="1080" fill="#0e1117"/>
+
+  <!-- Title -->
+  <text x="960" y="92" font-family="Inter, sans-serif" font-size="44" fill="#e6edf3" text-anchor="middle" font-weight="700">AdaBoost — weighted vote of weak learners</text>
+  <text x="960" y="138" font-family="Inter, sans-serif" font-size="22" fill="#8b949e" text-anchor="middle">Freund &amp; Schapire, 1996</text>
+
+  <!-- Three weak classifiers as small tree-stub icons -->
+  <!-- Classifier 1 -->
+  <g transform="translate(360, 360)">
+    <text x="0" y="-130" font-family="Inter, sans-serif" font-size="24" fill="#58a6ff" text-anchor="middle" font-weight="600">h_1(x)</text>
+    <!-- decision stump -->
+    <circle cx="0" cy="-70" r="22" fill="#161b22" stroke="#58a6ff" stroke-width="3"/>
+    <text x="0" y="-63" font-family="JetBrains Mono, monospace" font-size="16" fill="#58a6ff" text-anchor="middle">x&lt;a</text>
+    <line x1="-18" y1="-52" x2="-58" y2="-10" stroke="#58a6ff" stroke-width="2.5"/>
+    <line x1="18" y1="-52" x2="58" y2="-10" stroke="#58a6ff" stroke-width="2.5"/>
+    <rect x="-78" y="-10" width="40" height="36" rx="6" fill="#161b22" stroke="#58a6ff" stroke-width="2.5"/>
+    <text x="-58" y="14" font-family="Inter, sans-serif" font-size="18" fill="#58a6ff" text-anchor="middle">+1</text>
+    <rect x="38" y="-10" width="40" height="36" rx="6" fill="#161b22" stroke="#58a6ff" stroke-width="2.5"/>
+    <text x="58" y="14" font-family="Inter, sans-serif" font-size="18" fill="#58a6ff" text-anchor="middle">−1</text>
+    <!-- weight label -->
+    <text x="0" y="100" font-family="JetBrains Mono, monospace" font-size="26" fill="#ffd866" text-anchor="middle">α₁ = 0.42</text>
+  </g>
+
+  <!-- Classifier 2 -->
+  <g transform="translate(960, 360)">
+    <text x="0" y="-130" font-family="Inter, sans-serif" font-size="24" fill="#58a6ff" text-anchor="middle" font-weight="600">h_2(x)</text>
+    <circle cx="0" cy="-70" r="22" fill="#161b22" stroke="#58a6ff" stroke-width="3"/>
+    <text x="0" y="-63" font-family="JetBrains Mono, monospace" font-size="16" fill="#58a6ff" text-anchor="middle">y&lt;b</text>
+    <line x1="-18" y1="-52" x2="-58" y2="-10" stroke="#58a6ff" stroke-width="2.5"/>
+    <line x1="18" y1="-52" x2="58" y2="-10" stroke="#58a6ff" stroke-width="2.5"/>
+    <rect x="-78" y="-10" width="40" height="36" rx="6" fill="#161b22" stroke="#58a6ff" stroke-width="2.5"/>
+    <text x="-58" y="14" font-family="Inter, sans-serif" font-size="18" fill="#58a6ff" text-anchor="middle">−1</text>
+    <rect x="38" y="-10" width="40" height="36" rx="6" fill="#161b22" stroke="#58a6ff" stroke-width="2.5"/>
+    <text x="58" y="14" font-family="Inter, sans-serif" font-size="18" fill="#58a6ff" text-anchor="middle">+1</text>
+    <text x="0" y="100" font-family="JetBrains Mono, monospace" font-size="26" fill="#ffd866" text-anchor="middle">α₂ = 0.65</text>
+  </g>
+
+  <!-- Classifier 3 -->
+  <g transform="translate(1560, 360)">
+    <text x="0" y="-130" font-family="Inter, sans-serif" font-size="24" fill="#58a6ff" text-anchor="middle" font-weight="600">h_3(x)</text>
+    <circle cx="0" cy="-70" r="22" fill="#161b22" stroke="#58a6ff" stroke-width="3"/>
+    <text x="0" y="-63" font-family="JetBrains Mono, monospace" font-size="16" fill="#58a6ff" text-anchor="middle">x&lt;c</text>
+    <line x1="-18" y1="-52" x2="-58" y2="-10" stroke="#58a6ff" stroke-width="2.5"/>
+    <line x1="18" y1="-52" x2="58" y2="-10" stroke="#58a6ff" stroke-width="2.5"/>
+    <rect x="-78" y="-10" width="40" height="36" rx="6" fill="#161b22" stroke="#58a6ff" stroke-width="2.5"/>
+    <text x="-58" y="14" font-family="Inter, sans-serif" font-size="18" fill="#58a6ff" text-anchor="middle">+1</text>
+    <rect x="38" y="-10" width="40" height="36" rx="6" fill="#161b22" stroke="#58a6ff" stroke-width="2.5"/>
+    <text x="58" y="14" font-family="Inter, sans-serif" font-size="18" fill="#58a6ff" text-anchor="middle">−1</text>
+    <text x="0" y="100" font-family="JetBrains Mono, monospace" font-size="26" fill="#ffd866" text-anchor="middle">α₃ = 0.31</text>
+  </g>
+
+  <!-- Weighted vote bars -->
+  <g transform="translate(0, 540)">
+    <text x="960" y="0" font-family="Inter, sans-serif" font-size="22" fill="#8b949e" text-anchor="middle">vote weights</text>
+
+    <!-- bar 1 -->
+    <rect x="280" y="20" width="160" height="46" rx="6" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+    <rect x="280" y="20" width="84" height="46" rx="6" fill="#ffd866" opacity="0.85"/>
+
+    <!-- bar 2 -->
+    <rect x="880" y="20" width="160" height="46" rx="6" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+    <rect x="880" y="20" width="130" height="46" rx="6" fill="#ffd866" opacity="0.85"/>
+
+    <!-- bar 3 -->
+    <rect x="1480" y="20" width="160" height="46" rx="6" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+    <rect x="1480" y="20" width="62" height="46" rx="6" fill="#ffd866" opacity="0.85"/>
+  </g>
+
+  <!-- Arrows converging to sum -->
+  <g stroke="#58a6ff" stroke-width="2.5" fill="none" opacity="0.7">
+    <path d="M 360 620 Q 600 740 880 800" marker-end="url(#arrowblue)"/>
+    <path d="M 960 620 L 960 800" marker-end="url(#arrowblue)"/>
+    <path d="M 1560 620 Q 1320 740 1040 800" marker-end="url(#arrowblue)"/>
+  </g>
+
+  <defs>
+    <marker id="arrowblue" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#58a6ff"/>
+    </marker>
+  </defs>
+
+  <!-- Sum box -->
+  <g transform="translate(960, 880)">
+    <rect x="-380" y="-50" width="760" height="100" rx="12" fill="#161b22" stroke="#f97583" stroke-width="3"/>
+    <text x="0" y="-8" font-family="JetBrains Mono, monospace" font-size="34" fill="#f97583" text-anchor="middle">H(x) = sign( α₁·h₁(x) + α₂·h₂(x) + α₃·h₃(x) )</text>
+    <text x="0" y="30" font-family="Inter, sans-serif" font-size="20" fill="#8b949e" text-anchor="middle">final classifier — a weighted vote of weak learners</text>
+  </g>
+
+  <!-- Footer note -->
+  <text x="960" y="1020" font-family="JetBrains Mono, monospace" font-size="16" fill="#6e7681" text-anchor="middle">Misclassified samples receive higher weight at the next round; the next learner pays more attention to them.</text>
+</svg>

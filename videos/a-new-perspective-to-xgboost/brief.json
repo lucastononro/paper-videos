@@ -1,0 +1,255 @@
+{
+  "thesisInOneSentence": "XGBoost is not 'a fancy stack of decision trees' — it is gradient descent walking through the space of functions, where every step is a tree, every leaf is a one-dimensional Newton step on a local parabola, and every split is found by asking 'where do the gradients disagree most?'",
+  "audience": "Assumes undergrad calculus, basic ML literacy (loss functions, gradient descent, what a decision tree is). Does NOT assume: functional analysis, Newton's method intuition, or prior boosting experience. The viewer has heard of XGBoost and maybe used it from a library — they have never felt the geometry.",
+  "centralReframing": "Boosting lives in function space, not parameter space. Each tree is a basis vector in an infinite-dimensional space of functions; the ensemble is a polyline tracing out a path through that space toward the negative functional gradient of the loss. This is the spine. Bolted onto it are two technical surprises that flip the viewer's mental model: (1) the second-order Taylor expansion turns the loss into a parabola at every data point, the parabolas sum per leaf, and the leaf value is the analytic minimum of that summed parabola — a 1-D Newton step per leaf. (2) The split-gain formula is geometrically asking 'on which side of this cut do the gradients align most strongly with each other?' — splitting is worth γ if and only if the two sides have meaningfully different gradient directions.",
+  "noveltyInOneSentence": "The viewer leaves understanding that every leaf of every tree in XGBoost is the closed-form minimum of a parabola you can literally draw — and that the algorithm's whole job is to find the cut that maximizes gradient disagreement.",
+  "hook": "Most people learn XGBoost as a list of features. We are going to walk through it as a journey through a space — a space whose axes are functions, where boosting is a path, and where every tree you add is a single, carefully chosen step.",
+  "teaser": {
+    "openingLine": "In 2015, a single algorithm written by a PhD student won seventeen of twenty-nine published Kaggle competitions. The trick? It wasn't a better tree.",
+    "stakes": "Every tutorial explains XGBoost as 'stack a bunch of decision trees and add their predictions.' That description is technically correct and completely misses what makes the algorithm work.",
+    "openLoop": "What if I told you that every leaf of every XGBoost tree is the minimum of a parabola you can literally draw on a chalkboard — and that the algorithm's entire job is to find the cut where two clouds of gradients disagree the most?",
+    "visualConcept": "Open on a black screen with a single number, '17 / 29', growing large. Cut to a small 'Tianqi Chen, 2014' caption. Then dissolve to a wireframe rotating 3D surface labeled 'function space' — a hint of where we are going. The title card 'A new perspective on XGBoost' lands as the final beat, white sans-serif over the function-space wireframe, as payoff.",
+    "estSeconds": 20
+  },
+  "narrativeArc": [
+    {
+      "actId": "act-0",
+      "name": "Teaser",
+      "estSeconds": 20,
+      "purpose": "Cold-open hook (17/29 Kaggle stat → 'it wasn't a better tree') → open-loop question about parabolas and gradient disagreement → title card landing as payoff. ~6 beats. No equations. No jargon."
+    },
+    {
+      "actId": "act-1",
+      "name": "The journey from voting to gradient descent (origins, compressed)",
+      "estSeconds": 75,
+      "purpose": "The ~75-second origins beat. AdaBoost (1996, weighted voting) → Friedman 2001 (the conceptual revolution: boosting IS gradient descent, but in function space) → Chen 2014-2016 (the engineering: second-order Taylor + explicit regularization → XGBoost). We name three people and one big idea per era, then move on. The reveal of this act is the Friedman insight — 'we are not optimizing weights, we are taking steps in a space of functions' — because that is the spine of everything that follows."
+    },
+    {
+      "actId": "act-2",
+      "name": "What is function space? (the reframing)",
+      "estSeconds": 130,
+      "purpose": "The conceptual core. Build the analogy: in parameter space we move a vector of numbers; in function space, every point IS a function, and moving means adding another function to it. Start with a familiar picture (Fourier basis: sin x, sin 2x, sin 3x — adding a new term moves us through function space along an orthogonal axis). Then break the analogy: XGBoost's 'axes' are not orthogonal sines; they are decision trees, chosen greedily, one at a time, each pointing in the direction of steepest descent of the loss FUNCTIONAL. Land on eq-001: ŷ = Σ f_k(x). Make the viewer see this not as 'sum of trees' but as 'a vector in function space written in a learned basis.'"
+    },
+    {
+      "actId": "act-3",
+      "name": "The parabola trick (second-order Taylor)",
+      "estSeconds": 150,
+      "purpose": "The first technical surprise. At round t, the true loss l(y, ŷ + f_t(x)) is hard. XGBoost replaces it, at every data point, with a parabola: l₀ + gᵢ·f + ½hᵢ·f² where gᵢ and hᵢ are the gradient and curvature of the loss at that point's current prediction. Show this animation literally: a wiggly loss curve, then a parabola tangent to it at one point matching slope AND curvature. Now the magic: when the parabolas land at the same leaf, they SUM. The sum of parabolas is a parabola. A parabola has a closed-form minimum. So eq-007: w*_j = −G_j / (H_j + λ) is not a formula to memorize; it is the bottom of the bowl we just drew. Each leaf is a one-dimensional Newton step on a parabolic bowl made of summed local curvatures, shrunk by λ."
+    },
+    {
+      "actId": "act-4",
+      "name": "Splits are gradient-disagreement detectors",
+      "estSeconds": 130,
+      "purpose": "The geometric reveal. Plug eq-007 back into the objective to get eq-008: the loss at optimum is −½ Σ G_j² / (H_j + λ) + γT. Each term G_j² / (H_j + λ) is a 'similarity score' — how aligned are the gradients of the points that land in this leaf. Now derive eq-009 (split gain) by hand on screen: gain = similarity_left + similarity_right − similarity_parent − γ. The animation: a cloud of data points colored by gradient direction (red = pull up, blue = pull down). A vertical cut sweeps across; on the right side of a 'good' cut, the cloud is mostly red; on the left, mostly blue; gain is high. On a 'bad' cut, both sides are still mixed red/blue; gain is low. The viewer SEES that XGBoost's split-finder is asking: 'where do the gradients separate cleanly?' γ is the toll booth — if the separation isn't strong enough to pay γ, no split."
+    },
+    {
+      "actId": "act-5",
+      "name": "Putting it together (the journey, traced)",
+      "estSeconds": 75,
+      "purpose": "The synthesis. Replay function space from act 2, but now with full understanding. Each tree is a basis vector in function space, found greedily: (a) compute gradient and curvature at every data point with respect to the current ensemble, (b) find the cuts where gradients disagree most, (c) drop a one-dimensional Newton step into each leaf. The polyline of the ensemble extends. λ shrinks each step toward zero (ridge-regression style); γ refuses unprofitable splits (sculpting the tree). η (learning rate, mentioned briefly) damps every step — deliberately making each tree weaker so the next one has work to do. The screen ends on a held tableau: a 3D wireframe function space with a jagged polyline tracing through it, each segment labeled f₁, f₂, f₃, …, the final point hovering near a saddle marked 'L*'."
+    },
+    {
+      "actId": "act-6",
+      "name": "Closing — what we did not show",
+      "estSeconds": 30,
+      "purpose": "Honest sign-off. We did not cover sparsity-aware splits, the histogram approximation, column subsampling, system engineering, or hyperparameter tuning. We covered ONE thing: the geometry. A pointer to Chen & Guestrin 2016 on the final title card as the closing beat."
+    }
+  ],
+  "originsBeat": {
+    "wherePlaced": "act-1, in its own dedicated 75-second act between the teaser and the function-space reframing.",
+    "rationale": "Origins need to motivate the spine (function-space gradient descent), so they go BEFORE function space. Three names, one big idea per era. We do NOT linger.",
+    "content": [
+      "1996: Freund & Schapire, AdaBoost. Boosting framed as weighted voting of weak learners. One sentence, one image (a weighted vote diagram).",
+      "2001: Jerome Friedman recasts boosting as gradient descent — but in the space of functions, not parameters. This is the conceptual revolution. We dwell here ~25 seconds because it is the spine of the rest of the video.",
+      "2014-2016: Tianqi Chen (UW PhD student) ships XGBoost as a Kaggle-winning system. Three innovations on top of Friedman: (i) keep the second-order Taylor term (not just gradient), (ii) explicitly regularize tree complexity with γ and λ, (iii) brutal engineering — sparsity-aware, cache-aware, parallel split-finding. The 17/29 Kaggle stat lands here as confirmation. KDD 2016 paper formalizes it.",
+      "Transition out: 'But to feel why XGBoost works, we have to live in Friedman's idea for a while. We have to learn what function space looks like.'"
+    ]
+  },
+  "conceptsToVisualize": [
+    {
+      "id": "c-001",
+      "concept": "function space as a vector space whose axes are functions",
+      "whyItMatters": "the spine of the whole video; without this, 'gradient in function space' is just words",
+      "currentConfusion": "viewers picture parameter space (a vector of numbers) and don't know what it means to take a step in 'function space'; they conflate the function's output values with the function itself",
+      "visualSuggestion": "Manim — start with a 2D plane whose axes are sin(x) and sin(2x); show a point on the plane and the corresponding curve it represents (a · sin(x) + b · sin(2x)). Drag the point; the curve morphs. Then generalize: axes can be ANY basis. For XGBoost, replace sin(kx) with little decision trees as the basis vectors. The 'point' in this space is the current ensemble ŷ.",
+      "associatedActs": ["act-2", "act-5"],
+      "associatedEquationIds": ["eq-001"]
+    },
+    {
+      "id": "c-002",
+      "concept": "the second-order Taylor parabola at each data point",
+      "whyItMatters": "the technical surprise that flips 'XGBoost is gradient boosting' into 'XGBoost is Newton's method per leaf'",
+      "currentConfusion": "viewers see eq-004 as opaque algebra; they don't realize each (g_i, h_i) pair literally draws a parabola tangent to the loss curve at that point",
+      "visualSuggestion": "Manim — show the true loss curve l(y_i, ·) as a wiggle. Pick a point at the current prediction. Draw a parabola matching slope (g_i) and curvature (h_i). Pan to a second data point; draw its parabola. Now group all data points landing in leaf j; show their parabolas overlaid. Then SUM them — the sum is itself a parabola (because the sum of quadratics is quadratic), and its minimum is the leaf weight w*_j. Mark the minimum with a glowing dot. Title overlay: 'w*_j is the bottom of a bowl made of summed local curvatures.'",
+      "associatedActs": ["act-3"],
+      "associatedEquationIds": ["eq-004", "eq-005", "eq-006", "eq-007"]
+    },
+    {
+      "id": "c-003",
+      "concept": "split gain as a gradient-disagreement detector",
+      "whyItMatters": "the geometric reveal that turns 'find best split' from a brute-force search into an intuitive question about clustering of gradients",
+      "currentConfusion": "viewers memorize eq-009 as 'the split gain formula' without ever seeing that G_j² / (H_j + λ) is a measure of how coherently the gradients pull in the same direction inside leaf j",
+      "visualSuggestion": "Manim — scatter of data points in 2D, each colored by gradient direction (red ↑, blue ↓, with saturation = magnitude). A vertical line sweeps left to right. As it sweeps, compute G_L²/(H_L+λ) for the left side and G_R²/(H_R+λ) for the right; display both as growing/shrinking bars at the bottom of the screen. When the cut cleanly separates red from blue, both bars are tall AND their sum exceeds the parent's bar by more than γ. When the cut is bad, the bars are small. The 'best split' is the cut that maximizes the difference. End with γ shown as a horizontal threshold line — gains below γ are refused.",
+      "associatedActs": ["act-4"],
+      "associatedEquationIds": ["eq-008", "eq-009"]
+    },
+    {
+      "id": "c-004",
+      "concept": "λ as ridge regularization on each leaf; γ as a per-leaf toll",
+      "whyItMatters": "connects XGBoost's hyperparameters to a familiar geometric idea (ridge) and makes γ feel like a physical price, not an abstract penalty",
+      "currentConfusion": "γ and λ are taught as 'regularization terms' with no geometric meaning; viewers tune them without understanding what they do to the tree's shape",
+      "visualSuggestion": "Manim — for λ: show the parabola from c-002 with λ=0, then increase λ; the parabola gets steeper (the +λ term adds curvature) and its minimum drifts toward zero — exactly like ridge regression shrinking a coefficient. For γ: show a sequence of candidate splits, each with a gain bar; γ is a horizontal line; any split below the line is rejected. As γ increases, more splits get rejected, and the resulting tree becomes visibly sparser.",
+      "associatedActs": ["act-3", "act-4"],
+      "associatedEquationIds": ["eq-069", "eq-007", "eq-009"]
+    },
+    {
+      "id": "c-005",
+      "concept": "the ensemble as a polyline through function space",
+      "whyItMatters": "synthesis visual; lets the viewer see the entire training process as one continuous geometric journey",
+      "currentConfusion": "viewers think of trees as independent learners; they don't see the sequential dependence as a path",
+      "visualSuggestion": "Manim — a 3D wireframe perspective view of an abstract 'function space'. A starting point ŷ⁰ = 0. Tree 1 is rendered as a small inset in the corner, and a vector f_1 is drawn in the 3D space. The point moves to ŷ⁰ + f_1. Tree 2 renders; another segment added. Continue for ~6 trees. The polyline is jagged, greedy, descending toward a low point marked L*. Caption: 'Every tree is one step. Every step is found by asking where the gradients disagree.'",
+      "associatedActs": ["act-2", "act-5"],
+      "associatedEquationIds": ["eq-001"]
+    }
+  ],
+  "questionsToAnswerOnScreen": [
+    "What does it mean to take a gradient step in a space of functions?",
+    "Why is the second-order Taylor expansion not 'just an approximation' but the engine of the algorithm?",
+    "Why is w*_j = −G_j / (H_j + λ) the bottom of a parabola you can literally draw?",
+    "What does the split-gain formula geometrically measure?",
+    "Why is γ a 'price', not a 'penalty'?",
+    "What is XGBoost actually doing that AdaBoost was not?"
+  ],
+  "thingsToCutOrSkip": [
+    "Sparsity-aware split finding. Cool engineering, not part of the geometric story.",
+    "The weighted-quantile sketch / histogram approximation (eq-010, eq-011). System detail; cut entirely.",
+    "Cache-aware block structure and parallel split-finding. Pure systems work — not in scope for a conceptual video.",
+    "Column subsampling and shrinkage η — name-checked in act 5 for completeness, not derived.",
+    "Multi-class classification, ranking objectives, custom loss functions — out of scope.",
+    "Hyperparameter tuning advice. Different video entirely.",
+    "Comparison tables vs LightGBM / CatBoost — distracts from the central reframing.",
+    "Full multi-tree training animation past ~6 trees in act 5; viewers get the idea.",
+    "Detailed origins of AdaBoost (Freund & Schapire's proof). One sentence, one image, move on.",
+    "The full proof that the sum of quadratics is a quadratic. State it, show it, do not derive it formally."
+  ],
+  "priorWork": [
+    {
+      "title": "A Decision-Theoretic Generalization of On-Line Learning and an Application to Boosting (AdaBoost)",
+      "authors": "Freund, Schapire",
+      "year": 1997,
+      "whyRelevant": "Origin of boosting. Frames weak learners as weighted voters."
+    },
+    {
+      "title": "Greedy Function Approximation: A Gradient Boosting Machine",
+      "authors": "Friedman",
+      "year": 2001,
+      "whyRelevant": "The conceptual revolution: boosting is gradient descent IN FUNCTION SPACE. The spine of our video."
+    },
+    {
+      "title": "XGBoost: A Scalable Tree Boosting System",
+      "authors": "Chen, Guestrin",
+      "year": 2016,
+      "arxivId": "1603.02754",
+      "whyRelevant": "Formalizes XGBoost. All canonical equations come from here (loaded into equations.json). The video is topic-style; we do not spotlight the paper itself."
+    },
+    {
+      "title": "The Elements of Statistical Learning, chapter 10",
+      "authors": "Hastie, Tibshirani, Friedman",
+      "year": 2009,
+      "whyRelevant": "Authoritative textbook treatment of boosting as function-space gradient descent. Background reading for the function-space framing in act 2."
+    }
+  ],
+  "supportingMaterial": [
+    {
+      "kind": "image",
+      "needsToFind": "Tianqi Chen portrait or photo (Kaggle / UW era, ~2015)",
+      "preferredSource": "his personal website or a Wikipedia-licensed image",
+      "usedIn": "act-1, origins beat"
+    },
+    {
+      "kind": "image",
+      "needsToFind": "Jerome Friedman portrait (Stanford statistics)",
+      "preferredSource": "Stanford faculty page or Wikipedia",
+      "usedIn": "act-1, origins beat"
+    },
+    {
+      "kind": "diagram",
+      "needsToGenerate": "AdaBoost weighted-vote schematic (three weak learners voting with different weights)",
+      "usedIn": "act-1, the AdaBoost beat"
+    }
+  ],
+  "spotlights": [],
+  "derivationsToBuild": [
+    {
+      "concept": "second-order Taylor expansion of the per-round loss",
+      "openingQuestion": "If the true loss is too hard to optimize directly, what is the simplest local approximation that still has curvature?",
+      "stepsToShow": [
+        "write the round-t loss with the new tree f_t added (eq-003)",
+        "expand to second order around the current prediction ŷ^(t-1) (eq-004)",
+        "drop the constant term l(y, ŷ^(t-1)) since it does not depend on f_t (eq-005)",
+        "rewrite per leaf: group data points i by which leaf they fall into (eq-006)",
+        "set the derivative w.r.t. w_j to zero and solve for the leaf weight (eq-007)",
+        "substitute back to get the optimal objective in closed form (eq-008)"
+      ],
+      "estBeats": 10,
+      "associatedEquationIds": ["eq-003", "eq-004", "eq-005", "eq-006", "eq-007", "eq-008"]
+    },
+    {
+      "concept": "split-gain formula as the difference of similarity scores",
+      "openingQuestion": "If eq-008 tells us how good a tree is once leaves are fixed, what is the marginal value of splitting a leaf into two?",
+      "stepsToShow": [
+        "name the similarity score s(I) := G_I² / (H_I + λ) — this is what each leaf contributes to the optimal objective",
+        "compute objective before split: just the parent's similarity",
+        "compute objective after split: left similarity + right similarity, minus an extra γ for the new leaf",
+        "subtract: gain = ½(s(I_L) + s(I_R) − s(I)) − γ (eq-009)",
+        "interpret geometrically: each s(·) is a measure of gradient alignment inside a region; the gain is HOW MUCH MORE alignment we get by separating the two sides than by keeping them together"
+      ],
+      "estBeats": 8,
+      "associatedEquationIds": ["eq-008", "eq-009"]
+    }
+  ],
+  "metaphors": [
+    {
+      "concept": "function space",
+      "metaphor": "A library where every book is a function. Boosting is a librarian who, having read some books already, asks: 'which book, added next, would most improve the average reading experience?' Each new book is a tree. The library has infinite shelves; the librarian only ever picks greedy.",
+      "whenToDeploy": "early in act-2 as the entry point to function space; drop it once the formal Manim plane visualization lands."
+    },
+    {
+      "concept": "second-order Taylor parabola per leaf",
+      "metaphor": "Imagine each data point in the leaf is a marble sitting on a small parabolic bowl. The bowls are all tangent to the true loss surface — they match slope and curvature locally. When you put all the marbles' bowls together, they merge into one bigger bowl. The leaf weight is wherever that big bowl is lowest.",
+      "whenToDeploy": "act-3, right after the first individual-parabola animation, to bridge from one point to the per-leaf sum."
+    },
+    {
+      "concept": "split gain and the γ tax",
+      "metaphor": "γ is a toll booth at the entrance to every new leaf. The road keeps going only if the view on the other side (the gain in similarity) is worth paying the toll. A high γ closes most exits and leaves you with a short, fat tree. A low γ opens every side road and grows a sprawling, baroque tree.",
+      "whenToDeploy": "act-4, when γ first appears in the gain formula; reinforce in act-5."
+    }
+  ],
+  "narrativeAngles": [
+    "Frame XGBoost as a JOURNEY through function space rather than a STACK of trees. The polyline is the hero image.",
+    "Use Friedman's 2001 insight, not Chen's 2016 engineering, as the conceptual climax. The engineering is denouement.",
+    "Treat eq-007 (optimal leaf weight) as a CONSEQUENCE of geometry (bottom of a parabola), not a formula to memorize.",
+    "Treat split-finding as a CLUSTERING-OF-GRADIENTS question, not a brute-force feature search.",
+    "End on the SAME image we used in act-2 — the function-space plane — but now annotated, populated, traversed. The viewer realizes they understood it the whole time."
+  ],
+  "criticisms": [
+    "Most tutorials hand-wave why the second-order term matters. We MUST derive it: show the parabola explicitly, show the closed-form minimum, show that without curvature you would need a learning rate hyperparameter you don't have to set carefully.",
+    "The 'function space' phrase is overused without being shown. We MUST build it concretely from the Fourier analogy first, then port to XGBoost.",
+    "The split-gain formula eq-009 is one of the most underexplained equations in ML pedagogy. We MUST derive it as 'difference of similarities' so the viewer never has to memorize it again.",
+    "γ and λ are usually shown as two unrelated regularization terms. We MUST show γ as a price-per-leaf and λ as ridge-on-the-leaf-weight — two different geometric jobs that the paper happens to bundle in Ω."
+  ],
+  "whatWeAreNotShowing": [
+    "Sparsity-aware split finding (paper section 3.4)",
+    "Weighted quantile sketch / approximate split finding (eq-010, eq-011)",
+    "Cache-aware block structure, column block, out-of-core computation",
+    "Empirical benchmarks vs other systems",
+    "Multi-class extensions",
+    "Hyperparameter recipes",
+    "Code or library API"
+  ],
+  "openQuestionsForUser": [
+    "Voice is `pharaoh` — confirm this voice handles the ~10-minute, didactic-but-warm cadence we are aiming for. If you want a different voice for a 3b1b-style narration, name it before producer runs.",
+    "Captions are disabled per config. We will rely on Manim text on screen for key equations and labels — confirm this matches your aesthetic preference.",
+    "Should the closing act explicitly invite a sequel on the engineering / system side (sparsity-aware, histogram, cache-aware), or close the door cleanly?"
+  ]
+}

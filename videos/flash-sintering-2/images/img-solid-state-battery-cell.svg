@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <rect width="1920" height="1080" fill="#0e1117"/>
+  <text x="960" y="80" font-family="Inter, sans-serif" font-size="42" fill="#e6edf3" text-anchor="middle" font-weight="700">Solid-state lithium battery</text>
+  <text x="960" y="120" font-family="Inter, sans-serif" font-size="22" fill="#8b949e" text-anchor="middle">cross-section: anode · LAGP solid electrolyte · cathode — Li⁺ moves through the solid</text>
+
+  <!-- Cell stack -->
+  <g transform="translate(960, 580)">
+    <!-- Current collector left (Cu) -->
+    <rect x="-460" y="-200" width="40" height="400" fill="#c87930" stroke="#7a4818" stroke-width="2"/>
+    <text x="-440" y="-220" font-family="JetBrains Mono, monospace" font-size="16" fill="#c87930" text-anchor="middle">Cu</text>
+
+    <!-- Anode (Li metal, silver) -->
+    <rect x="-420" y="-200" width="160" height="400" fill="#9aa3b0" stroke="#5a606c" stroke-width="2"/>
+    <text x="-340" y="-220" font-family="Inter, sans-serif" font-size="22" fill="#58a6ff" text-anchor="middle" font-weight="700">anode (Li)</text>
+    <!-- texture lines -->
+    <g stroke="#7a818c" stroke-width="1.5" opacity="0.6">
+      <line x1="-410" y1="-160" x2="-270" y2="-160"/>
+      <line x1="-410" y1="-100" x2="-270" y2="-100"/>
+      <line x1="-410" y1="-40" x2="-270" y2="-40"/>
+      <line x1="-410" y1="20" x2="-270" y2="20"/>
+      <line x1="-410" y1="80" x2="-270" y2="80"/>
+      <line x1="-410" y1="140" x2="-270" y2="140"/>
+    </g>
+
+    <!-- Solid electrolyte (LAGP, highlighted) -->
+    <rect x="-260" y="-200" width="520" height="400" fill="#1f2a3a" stroke="#58a6ff" stroke-width="4"/>
+    <text x="0" y="-220" font-family="Inter, sans-serif" font-size="24" fill="#ffd866" text-anchor="middle" font-weight="700">solid electrolyte — LAGP</text>
+    <text x="0" y="240" font-family="JetBrains Mono, monospace" font-size="18" fill="#ffd866" text-anchor="middle">Li₁.₅Al₀.₅Ge₁.₅(PO₄)₃ · NaSICON · ~10⁻⁴ S/cm</text>
+
+    <!-- LAGP grain texture: small hex tiles -->
+    <g stroke="#3a4a5e" stroke-width="1" fill="#243240">
+      <polygon points="-240,-180 -200,-180 -180,-150 -200,-120 -240,-120 -260,-150"/>
+      <polygon points="-180,-180 -140,-180 -120,-150 -140,-120 -180,-120 -200,-150"/>
+      <polygon points="-120,-180 -80,-180 -60,-150 -80,-120 -120,-120 -140,-150"/>
+      <polygon points="-60,-180 -20,-180 0,-150 -20,-120 -60,-120 -80,-150"/>
+      <polygon points="0,-180 40,-180 60,-150 40,-120 0,-120 -20,-150"/>
+      <polygon points="60,-180 100,-180 120,-150 100,-120 60,-120 40,-150"/>
+      <polygon points="120,-180 160,-180 180,-150 160,-120 120,-120 100,-150"/>
+      <polygon points="180,-180 220,-180 240,-150 220,-120 180,-120 160,-150"/>
+
+      <polygon points="-240,-60 -200,-60 -180,-30 -200,0 -240,0 -260,-30"/>
+      <polygon points="-180,-60 -140,-60 -120,-30 -140,0 -180,0 -200,-30"/>
+      <polygon points="-120,-60 -80,-60 -60,-30 -80,0 -120,0 -140,-30"/>
+      <polygon points="-60,-60 -20,-60 0,-30 -20,0 -60,0 -80,-30"/>
+      <polygon points="0,-60 40,-60 60,-30 40,0 0,0 -20,-30"/>
+      <polygon points="60,-60 100,-60 120,-30 100,0 60,0 40,-30"/>
+      <polygon points="120,-60 160,-60 180,-30 160,0 120,0 100,-30"/>
+      <polygon points="180,-60 220,-60 240,-30 220,0 180,0 160,-30"/>
+
+      <polygon points="-240,60 -200,60 -180,90 -200,120 -240,120 -260,90"/>
+      <polygon points="-180,60 -140,60 -120,90 -140,120 -180,120 -200,90"/>
+      <polygon points="-120,60 -80,60 -60,90 -80,120 -120,120 -140,90"/>
+      <polygon points="-60,60 -20,60 0,90 -20,120 -60,120 -80,90"/>
+      <polygon points="0,60 40,60 60,90 40,120 0,120 -20,90"/>
+      <polygon points="60,60 100,60 120,90 100,120 60,120 40,90"/>
+      <polygon points="120,60 160,60 180,90 160,120 120,120 100,90"/>
+      <polygon points="180,60 220,60 240,90 220,120 180,120 160,90"/>
+    </g>
+
+    <!-- Li+ ions traveling left → right -->
+    <g fill="#ffd866" stroke="#c4a534" stroke-width="2">
+      <circle cx="-200" cy="-100" r="12"/>
+      <circle cx="-80" cy="-40" r="12"/>
+      <circle cx="40" cy="20" r="12"/>
+      <circle cx="160" cy="-80" r="12"/>
+      <circle cx="-140" cy="100" r="12"/>
+      <circle cx="100" cy="140" r="12"/>
+    </g>
+    <g font-family="JetBrains Mono, monospace" font-size="11" fill="#0e1117" text-anchor="middle" font-weight="700">
+      <text x="-200" y="-96">Li⁺</text>
+      <text x="-80" y="-36">Li⁺</text>
+      <text x="40" y="24">Li⁺</text>
+      <text x="160" y="-76">Li⁺</text>
+      <text x="-140" y="104">Li⁺</text>
+      <text x="100" y="144">Li⁺</text>
+    </g>
+    <!-- big direction arrow -->
+    <g stroke="#ffd866" stroke-width="3" fill="none" opacity="0.7">
+      <line x1="-230" y1="0" x2="230" y2="0" marker-end="url(#bigarrow)"/>
+    </g>
+    <text x="0" y="-12" font-family="JetBrains Mono, monospace" font-size="16" fill="#ffd866" text-anchor="middle">Li⁺ migration</text>
+
+    <!-- Cathode -->
+    <rect x="260" y="-200" width="160" height="400" fill="#3a2030" stroke="#5a3040" stroke-width="2"/>
+    <text x="340" y="-220" font-family="Inter, sans-serif" font-size="22" fill="#ff8c42" text-anchor="middle" font-weight="700">cathode (LiCoO₂)</text>
+    <!-- particle texture -->
+    <g fill="#5a3040" stroke="#7a4050" stroke-width="1">
+      <circle cx="290" cy="-150" r="14"/>
+      <circle cx="340" cy="-110" r="16"/>
+      <circle cx="390" cy="-150" r="13"/>
+      <circle cx="310" cy="-50" r="15"/>
+      <circle cx="380" cy="-20" r="14"/>
+      <circle cx="290" cy="40" r="13"/>
+      <circle cx="350" cy="80" r="16"/>
+      <circle cx="400" cy="40" r="14"/>
+      <circle cx="310" cy="140" r="15"/>
+      <circle cx="380" cy="170" r="13"/>
+    </g>
+
+    <!-- Current collector right (Al) -->
+    <rect x="420" y="-200" width="40" height="400" fill="#9aa3b0" stroke="#5a606c" stroke-width="2"/>
+    <text x="440" y="-220" font-family="JetBrains Mono, monospace" font-size="16" fill="#9aa3b0" text-anchor="middle">Al</text>
+
+    <defs>
+      <marker id="bigarrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+        <polygon points="0 0, 12 6, 0 12" fill="#ffd866"/>
+      </marker>
+    </defs>
+  </g>
+
+  <!-- External circuit -->
+  <g>
+    <line x1="500" y1="380" x2="500" y2="220" stroke="#7ee787" stroke-width="3"/>
+    <line x1="500" y1="220" x2="1420" y2="220" stroke="#7ee787" stroke-width="3"/>
+    <line x1="1420" y1="220" x2="1420" y2="380" stroke="#7ee787" stroke-width="3"/>
+    <!-- load (lamp) -->
+    <circle cx="960" cy="220" r="40" fill="#161b22" stroke="#7ee787" stroke-width="3"/>
+    <text x="960" y="228" font-family="JetBrains Mono, monospace" font-size="22" fill="#7ee787" text-anchor="middle">load</text>
+    <!-- e- direction -->
+    <text x="700" y="200" font-family="JetBrains Mono, monospace" font-size="20" fill="#7ee787">e⁻ →</text>
+    <text x="1180" y="200" font-family="JetBrains Mono, monospace" font-size="20" fill="#7ee787">e⁻ →</text>
+  </g>
+
+  <text x="960" y="990" font-family="Inter, sans-serif" font-size="22" fill="#8b949e" text-anchor="middle">No liquid electrolyte. No flammable solvent. The electrolyte is a sintered ceramic disc.</text>
+</svg>

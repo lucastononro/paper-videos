@@ -782,6 +782,42 @@ target_minutes: 20
 [VISUAL: image src="img-olevsky-maniere"]
 "Olevsky and Charles Manière showed in 2017 that if you press the powder hard, in a graphite die, and pulse the current — you can get even alumina to flash. Flash-SPS. The gate gets walked through."
 
+### beat-231
+[VISUAL: image src="img-flash-sinter-crystallization-setup"]
+"[curious] And the gate is wider than oxides. In 2022, a group at São Carlos, Brazil, pulled a glass into a glass-ceramic in seconds."
+
+### beat-232
+[VISUAL: image src="img-campos-rodrigues-portrait"]
+"João V. Campos and Ana C.M. Rodrigues, at the Federal University of São Carlos."
+
+### beat-250
+[VISUAL: image src="img-lavagnini-portrait"]
+"And Isabela Lavagnini — co-author on both papers, the through-line between USP's Pirassununga campus and CeRTEV at São Carlos."
+
+### beat-233
+[VISUAL: continue]
+"Working at the CeRTEV center — the Center for Research, Technology and Education of Vitreous Materials."
+
+### beat-234
+[VISUAL: image src="img-lagp-crystal-structure"]
+"Their material was LAGP — a lithium aluminum germanium phosphate. A NaSICON glass-ceramic. A solid-state lithium-ion conductor."
+
+### beat-235
+[VISUAL: continue]
+"Conventionally, you crystallize this glass by holding it at six hundred twenty degrees Celsius. For twelve hours."
+
+### beat-236
+[VISUAL: continue]
+"Campos and Rodrigues did it in seconds. At five hundred Celsius. With one voltage pulse."
+
+### beat-237
+[VISUAL: equationCard equationId=eq-008 reveal=all]
+"[serious] Same gate. The glass has free lithium ions. Its conductivity climbs with temperature, exponentially. Arrhenius opens the door."
+
+### beat-238
+[VISUAL: continue]
+"They named the technique Flash Sinter-Crystallization. FSC. The first time anyone had crystallized a glass through the flash event itself."
+
 ## Act 6 — Why anyone should care — the energy and manufacturing payoff
 
 ### beat-192
@@ -820,6 +856,18 @@ target_minutes: 20
 [VISUAL: image src="img-battery-cathode-sem"]
 "Next-generation battery cathodes need dense lithium-ion conductors. Same story."
 
+### beat-239
+[VISUAL: image src="img-solid-state-battery-cell"]
+"And on the electrolyte side — the LAGP that Campos and Rodrigues flashed in 2022 is a candidate solid electrolyte for all-solid-state lithium batteries."
+
+### beat-240
+[VISUAL: continue]
+"Their flash-crystallized samples hit room-temperature ionic conductivity of two-point-two-six times ten-to-the-minus-four siemens per centimeter."
+
+### beat-241
+[VISUAL: continue]
+"[emphasized] Higher than the same composition prepared by twelve hours in a conventional furnace. Faster manufacturing. Better material."
+
 ### beat-201
 [VISUAL: image src="img-3d-printed-ceramic"]
 "Three-D-printed ceramic parts come out of the printer fragile and porous. Putting them through a conventional kiln warps them."
@@ -827,6 +875,38 @@ target_minutes: 20
 ### beat-202
 [VISUAL: continue]
 "Flash sintering, done in place, on a printing bed — done before the geometry has time to deform — is being actively explored."
+
+### beat-242
+[VISUAL: image src="img-dental-crown-ceramic"]
+"[curious] And then — dental crowns. In 2024, the São Carlos group came back with a second paper."
+
+### beat-243
+[VISUAL: image src="img-zanotto-portrait"]
+"Campos, Lavagnini, Rodrigues — joined this time by Edgar Zanotto, the world's leading glass-ceramics scientist."
+
+### beat-244
+[VISUAL: image src="img-lithium-disilicate-microstructure"]
+"Their target — lithium disilicate. The glass-ceramic at the heart of Ivoclar's e-max CAD. The standard material for permanent dental crowns."
+
+### beat-245
+[VISUAL: continue]
+"Conventional crystallization: hours at six hundred twenty, then thirty minutes at eight hundred thirty."
+
+### beat-246
+[VISUAL: continue]
+"Their version — Power Ramp Flash crystallization — does it in seconds. At three hundred sixty Celsius furnace temperature."
+
+### beat-247
+[VISUAL: continue]
+"[emphasized] Below the glass transition. Below the temperature where atoms are supposed to move."
+
+### beat-248
+[VISUAL: continue]
+"Vickers hardness, six-point-eight gigapascals. Fracture toughness, one-point-five MPa root-meter. Indistinguishable from the conventional product."
+
+### beat-249
+[VISUAL: continue]
+"The dental prosthesis market, in 2024, is worth seven-point-five-five billion dollars a year. [serious] A faster way to crystallize a crown is not a small thing."
 
 ### beat-203
 [VISUAL: image src="img-lucideon-pilot-line"]

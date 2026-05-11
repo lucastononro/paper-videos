@@ -1,0 +1,31 @@
+{
+  "img-chen-portrait": {
+    "kind": "image",
+    "file": "images/img-chen-portrait.png",
+    "path": "images/img-chen-portrait.png",
+    "source": "https://tqchen.com/data/img/tqchen-new.jpg",
+    "license": "personal-academic-homepage — editorial / educational fair use",
+    "attribution": "Photo of Tianqi Chen, from his personal academic homepage at tqchen.com (Carnegie Mellon University).",
+    "alt": "Portrait photo of Tianqi Chen, author of XGBoost. Currently Assistant Professor at CMU."
+  },
+  "img-friedman-portrait": {
+    "kind": "image",
+    "file": "images/img-friedman-portrait.svg",
+    "path": "images/img-friedman-portrait.svg",
+    "source": "generated",
+    "license": "project-original",
+    "method": "hand-coded SVG, dark-navy palette, stylized silhouette with bio sidebar",
+    "alt": "Stylized portrait card for Jerome H. Friedman (Stanford Statistics), summarizing his contributions to CART, MARS, projection pursuit, and the 2001 Gradient Boosting Machine paper.",
+    "note": "No freely-licensed photo of Jerome Friedman was located on Wikimedia Commons or other open-license sources; the SVG silhouette is used in lieu of a copyrighted portrait. Matches the project's stylized-portrait style established in flash-sintering-2."
+  },
+  "diag-adaboost-weighted-vote": {
+    "kind": "diagram",
+    "file": "diagrams/diag-adaboost-weighted-vote.svg",
+    "path": "diagrams/diag-adaboost-weighted-vote.svg",
+    "source": "generated",
+    "license": "project-original",
+    "method": "hand-coded SVG, 1920x1080, dark-navy palette (#0e1117 bg, #58a6ff tree icons, #ffd866 weights, #f97583 final-classifier accent)",
+    "alt": "Schematic of AdaBoost (Freund & Schapire 1996): three decision-stump weak classifiers h_1, h_2, h_3, each with its own vote weight alpha_i, summing into the final classifier H(x) = sign(sum alpha_i h_i(x)).",
+    "usedIn": "act-1, beats 010-012 (AdaBoost reveal)"
+  }
+}

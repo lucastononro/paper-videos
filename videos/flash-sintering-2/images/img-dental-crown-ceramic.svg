@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <rect width="1920" height="1080" fill="#0e1117"/>
+  <text x="960" y="80" font-family="Inter, sans-serif" font-size="42" fill="#e6edf3" text-anchor="middle" font-weight="700">Glass-ceramic dental restoration</text>
+  <text x="960" y="120" font-family="Inter, sans-serif" font-size="22" fill="#8b949e" text-anchor="middle">lithium disilicate crown — translucent, tooth-coloured, sintered &amp; crystallized</text>
+
+  <!-- Left: tooth with translucent crown overlay -->
+  <g transform="translate(620, 580)">
+    <!-- pedestal -->
+    <ellipse cx="0" cy="340" rx="240" ry="20" fill="#000" opacity="0.5"/>
+
+    <!-- natural tooth root (below crown) -->
+    <path d="M -100 60 Q -110 180 -80 280 Q -50 330 0 330 Q 50 330 80 280 Q 110 180 100 60 Z"
+      fill="#e8e0c8" stroke="#a8a088" stroke-width="2"/>
+
+    <!-- crown body (sits on top) -->
+    <path d="M -150 -300 Q -130 -320 -70 -320 Q -30 -330 0 -320 Q 30 -330 70 -320 Q 130 -320 150 -300 L 160 -100 Q 160 30 130 110 Q 100 170 70 180 Q 30 190 0 190 Q -30 190 -70 180 Q -100 170 -130 110 Q -160 30 -160 -100 Z"
+      fill="#f0e8d0" stroke="#b8a890" stroke-width="3"/>
+
+    <!-- cusps -->
+    <path d="M -110 -280 Q -70 -240 -30 -290" fill="none" stroke="#c8b89c" stroke-width="2"/>
+    <path d="M -30 -290 Q 0 -240 30 -290" fill="none" stroke="#c8b89c" stroke-width="2"/>
+    <path d="M 30 -290 Q 70 -240 110 -280" fill="none" stroke="#c8b89c" stroke-width="2"/>
+
+    <!-- translucent highlight (glass-ceramic shine) -->
+    <ellipse cx="-40" cy="-160" rx="22" ry="80" fill="#fff" opacity="0.5"/>
+    <ellipse cx="50" cy="-100" rx="14" ry="50" fill="#fff" opacity="0.35"/>
+
+    <!-- subtle shading -->
+    <path d="M -150 -300 Q -90 -290 -50 -240 Q -30 -140 -50 -40 Q -80 90 -120 150 Q -140 170 -130 180"
+      fill="none" stroke="#d8c8b0" stroke-width="1.5"/>
+    <path d="M 150 -300 Q 90 -290 50 -240 Q 30 -140 50 -40 Q 80 90 120 150 Q 140 170 130 180"
+      fill="none" stroke="#d8c8b0" stroke-width="1.5"/>
+
+    <!-- gumline -->
+    <path d="M -160 40 Q 0 70 160 40" stroke="#d4a08c" stroke-width="3" fill="none" opacity="0.6"/>
+
+    <text x="0" y="-360" font-family="Inter, sans-serif" font-size="22" fill="#ffd866" text-anchor="middle" font-weight="700">lithium disilicate crown</text>
+  </g>
+
+  <!-- Right: annotations + isolated crown -->
+  <g transform="translate(1280, 580)">
+    <rect x="-200" y="-280" width="400" height="560" rx="14" fill="#161b22" stroke="#30363d" stroke-width="3"/>
+
+    <text x="0" y="-230" font-family="Inter, sans-serif" font-size="24" fill="#58a6ff" text-anchor="middle" font-weight="700">Properties</text>
+
+    <text x="-170" y="-170" font-family="Inter, sans-serif" font-size="20" fill="#c9d1d9">flexural strength</text>
+    <text x="170" y="-170" font-family="JetBrains Mono, monospace" font-size="20" fill="#ffd866" text-anchor="end">~400 MPa</text>
+
+    <text x="-170" y="-120" font-family="Inter, sans-serif" font-size="20" fill="#c9d1d9">translucency</text>
+    <text x="170" y="-120" font-family="JetBrains Mono, monospace" font-size="20" fill="#ffd866" text-anchor="end">high</text>
+
+    <text x="-170" y="-70" font-family="Inter, sans-serif" font-size="20" fill="#c9d1d9">colour match</text>
+    <text x="170" y="-70" font-family="JetBrains Mono, monospace" font-size="20" fill="#ffd866" text-anchor="end">excellent</text>
+
+    <text x="-170" y="-20" font-family="Inter, sans-serif" font-size="20" fill="#c9d1d9">conventional process</text>
+    <text x="170" y="-20" font-family="JetBrains Mono, monospace" font-size="20" fill="#ff8c42" text-anchor="end">~30 min @ 850 °C</text>
+
+    <line x1="-180" y1="20" x2="180" y2="20" stroke="#30363d" stroke-width="2"/>
+
+    <text x="0" y="70" font-family="Inter, sans-serif" font-size="22" fill="#7ee787" text-anchor="middle" font-weight="700">flash-sinter-crystallized</text>
+    <text x="-170" y="120" font-family="Inter, sans-serif" font-size="20" fill="#c9d1d9">cycle time</text>
+    <text x="170" y="120" font-family="JetBrains Mono, monospace" font-size="20" fill="#7ee787" text-anchor="end">~seconds</text>
+    <text x="-170" y="170" font-family="Inter, sans-serif" font-size="20" fill="#c9d1d9">furnace T</text>
+    <text x="170" y="170" font-family="JetBrains Mono, monospace" font-size="20" fill="#7ee787" text-anchor="end">≪ 850 °C</text>
+    <text x="0" y="240" font-family="JetBrains Mono, monospace" font-size="16" fill="#8b949e" text-anchor="middle">one pulse: sinter + crystallize</text>
+  </g>
+
+  <text x="960" y="1020" font-family="JetBrains Mono, monospace" font-size="18" fill="#8b949e" text-anchor="middle">Stylized — referenced from Wikimedia Commons &quot;Dental crown&quot; category, redrawn in 3b1b palette</text>
+</svg>

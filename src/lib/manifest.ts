@@ -529,14 +529,16 @@ function parseVisualCue(cue: string): Visual {
   const body = m[2]!.trim();
 
   if (kindTag === 'MANIM') {
-    // Two supported forms:
+    // Three supported forms:
     //   1) Legacy bare:    [MANIM: scene_name]            → uses "scene_name" as the basename.
-    //   2) Keyword form:   [MANIM: scene_file="foo.py" class="Foo" duration=N description="..."]
-    //                      → uses scene_file as basename (strips .py), class is informational.
+    //   2) scene_file form: [MANIM: scene_file="foo.py" class="Foo" ...]
+    //   3) scene form:     [MANIM: scene="foo" description="..."] (storyteller default)
     const args = parseKVArgs(body);
     let basename: string;
     if (args['scene_file']) {
       basename = args['scene_file'].replace(/\.py$/i, '').replace(/^manim\//, '');
+    } else if (args['scene']) {
+      basename = args['scene'].replace(/\.py$/i, '').replace(/^manim\//, '');
     } else {
       basename = body.split(/\s+/)[0]!;
     }

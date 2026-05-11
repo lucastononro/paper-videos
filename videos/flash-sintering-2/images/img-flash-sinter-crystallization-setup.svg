@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <rect width="1920" height="1080" fill="#0e1117"/>
+  <text x="960" y="80" font-family="Inter, sans-serif" font-size="42" fill="#e6edf3" text-anchor="middle" font-weight="700">Flash-sinter-crystallization setup</text>
+  <text x="960" y="120" font-family="Inter, sans-serif" font-size="22" fill="#8b949e" text-anchor="middle">vertical tubular furnace · glass-powder pellet between electrodes · DC supply</text>
+
+  <!-- Vertical tubular furnace shell -->
+  <g transform="translate(700, 580)">
+    <!-- outer shell -->
+    <rect x="-150" y="-340" width="300" height="680" rx="22" fill="#1a1d24" stroke="#30363d" stroke-width="3"/>
+    <!-- inner tube cavity (warm-glow background) -->
+    <rect x="-90" y="-300" width="180" height="600" rx="10" fill="#2a1a14" stroke="#5a3a2a" stroke-width="2"/>
+    <!-- heating coil rings (orange) -->
+    <g stroke="#ff8c42" stroke-width="3" fill="none" opacity="0.85">
+      <ellipse cx="0" cy="-240" rx="86" ry="10"/>
+      <ellipse cx="0" cy="-160" rx="86" ry="10"/>
+      <ellipse cx="0" cy="-80" rx="86" ry="10"/>
+      <ellipse cx="0" cy="0" rx="86" ry="10"/>
+      <ellipse cx="0" cy="80" rx="86" ry="10"/>
+      <ellipse cx="0" cy="160" rx="86" ry="10"/>
+      <ellipse cx="0" cy="240" rx="86" ry="10"/>
+    </g>
+    <!-- glow halo around pellet area -->
+    <ellipse cx="0" cy="40" rx="78" ry="100" fill="#ffd866" opacity="0.10"/>
+
+    <!-- Top electrode rod -->
+    <rect x="-12" y="-280" width="24" height="240" fill="#a0a8b4" stroke="#5a5a5a" stroke-width="2"/>
+    <!-- Top electrode disc -->
+    <rect x="-46" y="-50" width="92" height="14" fill="#c0c8d4" stroke="#5a5a5a" stroke-width="2"/>
+    <!-- Glass-powder pellet (centered) -->
+    <rect x="-50" y="-36" width="100" height="72" rx="4" fill="#d4e0f0" stroke="#8b9bb0" stroke-width="2"/>
+    <text x="0" y="6" font-family="JetBrains Mono, monospace" font-size="13" fill="#0e1117" text-anchor="middle">glass</text>
+    <text x="0" y="22" font-family="JetBrains Mono, monospace" font-size="13" fill="#0e1117" text-anchor="middle">pellet</text>
+    <!-- Bottom electrode disc -->
+    <rect x="-46" y="36" width="92" height="14" fill="#c0c8d4" stroke="#5a5a5a" stroke-width="2"/>
+    <!-- Bottom electrode rod -->
+    <rect x="-12" y="50" width="24" height="240" fill="#a0a8b4" stroke="#5a5a5a" stroke-width="2"/>
+
+    <!-- Thermocouple probe (side) -->
+    <line x1="90" y1="0" x2="170" y2="0" stroke="#7ee787" stroke-width="2"/>
+    <text x="178" y="6" font-family="JetBrains Mono, monospace" font-size="14" fill="#7ee787">TC</text>
+
+    <!-- Furnace label -->
+    <text x="0" y="-360" font-family="Inter, sans-serif" font-size="20" fill="#c9d1d9" text-anchor="middle" font-weight="700">vertical tube furnace</text>
+    <text x="0" y="380" font-family="JetBrains Mono, monospace" font-size="16" fill="#8b949e" text-anchor="middle">T_furnace pre-heat ~600 °C</text>
+  </g>
+
+  <!-- Wires arching out to DC supply -->
+  <path d="M 700 300 Q 700 220 900 220 L 1340 220" stroke="#ffd866" stroke-width="3" fill="none"/>
+  <path d="M 700 860 Q 700 940 900 940 L 1340 940" stroke="#ffd866" stroke-width="3" fill="none"/>
+  <path d="M 1340 220 L 1340 460" stroke="#ffd866" stroke-width="3" fill="none"/>
+  <path d="M 1340 940 L 1340 700" stroke="#ffd866" stroke-width="3" fill="none"/>
+
+  <!-- DC power supply box (right) -->
+  <g transform="translate(1340, 580)">
+    <rect x="-160" y="-130" width="320" height="260" rx="10" fill="#161b22" stroke="#58a6ff" stroke-width="3"/>
+    <text x="0" y="-95" font-family="Inter, sans-serif" font-size="20" fill="#58a6ff" text-anchor="middle" font-weight="700">DC power supply</text>
+    <!-- V display -->
+    <rect x="-130" y="-70" width="120" height="44" rx="4" fill="#0e1117" stroke="#30363d" stroke-width="2"/>
+    <text x="-70" y="-40" font-family="JetBrains Mono, monospace" font-size="22" fill="#ff8c42" text-anchor="middle">150 V</text>
+    <!-- I display -->
+    <rect x="10" y="-70" width="120" height="44" rx="4" fill="#0e1117" stroke="#30363d" stroke-width="2"/>
+    <text x="70" y="-40" font-family="JetBrains Mono, monospace" font-size="22" fill="#ff8c42" text-anchor="middle">2.4 A</text>
+    <!-- knob -->
+    <circle cx="-70" cy="40" r="32" fill="#2a3140" stroke="#58a6ff" stroke-width="2"/>
+    <line x1="-70" y1="40" x2="-50" y2="22" stroke="#ffd866" stroke-width="3"/>
+    <text x="-70" y="98" font-family="Inter, sans-serif" font-size="14" fill="#8b949e" text-anchor="middle">voltage</text>
+    <!-- terminals -->
+    <circle cx="50" cy="40" r="10" fill="#ff8c42"/>
+    <text x="76" y="46" font-family="JetBrains Mono, monospace" font-size="16" fill="#ff8c42">+</text>
+    <circle cx="50" cy="80" r="10" fill="#58a6ff"/>
+    <text x="76" y="86" font-family="JetBrains Mono, monospace" font-size="16" fill="#58a6ff">−</text>
+  </g>
+
+  <!-- Annotations / callouts -->
+  <g>
+    <line x1="650" y1="620" x2="380" y2="700" stroke="#ffd866" stroke-width="2"/>
+    <circle cx="650" cy="620" r="6" fill="#ffd866"/>
+    <text x="370" y="700" font-family="Inter, sans-serif" font-size="22" fill="#ffd866" text-anchor="end" font-weight="700">glass powder</text>
+    <text x="370" y="726" font-family="Inter, sans-serif" font-size="18" fill="#c9d1d9" text-anchor="end">pre-pressed pellet</text>
+    <text x="370" y="750" font-family="Inter, sans-serif" font-size="18" fill="#c9d1d9" text-anchor="end">sinters AND crystallizes</text>
+  </g>
+  <g>
+    <line x1="660" y1="540" x2="380" y2="450" stroke="#58a6ff" stroke-width="2"/>
+    <circle cx="660" cy="540" r="6" fill="#58a6ff"/>
+    <text x="370" y="450" font-family="Inter, sans-serif" font-size="22" fill="#58a6ff" text-anchor="end" font-weight="700">Pt electrodes</text>
+    <text x="370" y="476" font-family="Inter, sans-serif" font-size="18" fill="#c9d1d9" text-anchor="end">top + bottom · platinum</text>
+  </g>
+
+  <text x="960" y="1020" font-family="JetBrains Mono, monospace" font-size="18" fill="#8b949e" text-anchor="middle">After Campos, Rodrigues, Zanotto — flash sinter + crystallize in one pulse</text>
+</svg>
