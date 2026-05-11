@@ -1,0 +1,26 @@
+{
+  "paper-md-assets/_page_3_Figure_0.jpeg": {
+    "kind": "image",
+    "file": "images/img-melt-architecture.jpeg",
+    "source": "paper page 3, Figure 2 (MELT architecture: full model, layer diagram with gated h_t update, KV cache update pattern)",
+    "license": "publication-fair-use",
+    "attribution": "Conchello Vendrell et al., MELT: Memory-Efficient Looped Transformer (arXiv 2605.07721, 2026), Figure 2",
+    "caption": "(a) Full MELT model with shared parameters across loops. (b) Layer architecture showing the gated h_t update producing the single K, V. (c) KV cache updates: one row rewritten per token per layer."
+  },
+  "paper-md-assets/_page_4_Figure_0.jpeg": {
+    "kind": "image",
+    "file": "images/img-chunkwise-training.jpeg",
+    "source": "paper page 4, Figure 3 (chunk-wise training pattern + interpolated transition between Ouro and MELT key/value streams)",
+    "license": "publication-fair-use",
+    "attribution": "Conchello Vendrell et al., MELT: Memory-Efficient Looped Transformer (arXiv 2605.07721, 2026), Figure 3",
+    "caption": "(a) Chunk-wise training schedule: tokens are processed in chunks so MELT's sequential gate update stays trainable. (b) Phase-1 interpolated transition: K and V are an alpha-weighted mix of MELT's gated projections and Ouro's original projections."
+  },
+  "paper-md-assets/_page_0_Figure_6.jpeg": {
+    "kind": "image",
+    "file": "images/img-pareto-plot.jpeg",
+    "source": "paper page 1, Figure 1a (AIME26 pass@1 vs total memory for 32k sequence, GB)",
+    "license": "publication-fair-use",
+    "attribution": "Conchello Vendrell et al., MELT: Memory-Efficient Looped Transformer (arXiv 2605.07721, 2026), Figure 1a",
+    "caption": "AIME26 pass@1 (y-axis) vs total memory for a 32k-token sequence in GB (x-axis). MELT-1.6B sits in the previously empty upper-left region: looped-model accuracy at non-looped-model memory. NOTE: paper caption mislabels this as MATH-500; the y-axis is AIME26 pass@1."
+  }
+}

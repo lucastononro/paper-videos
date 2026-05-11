@@ -1,0 +1,356 @@
+{
+  "thesisInOneSentence": "MELT lets a transformer 'think' for more internal loops without paying for those loops in KV-cache memory, by replacing the append-only cache with a single per-layer cache whose contents are gated forward across iterations.",
+  "audience": "Engineers and researchers comfortable with attention and KV caches; may have heard of looped transformers but does not need to have read the Ouro paper.",
+  "hook": "Reasoning models like Ouro think harder by looping their own layers — but every loop bloats the KV cache linearly. MELT shows you can decouple the two.",
+  "teaser": {
+    "openingLine": "Reasoning models pay a hidden tax — every extra step of 'thinking' triples your KV cache. MELT just stopped paying it.",
+    "stakes": "On a 32k-token generation, Ouro burns about 28 GB of VRAM; MELT does the same iterative reasoning in under 10 GB — roughly Qwen-size memory with looped-model accuracy.",
+    "openLoop": "How can a model loop its layers four times and somehow keep one KV cache the same size as a non-looped model — without the accuracy collapsing?",
+    "visualConcept": "Two stacked bars animate side-by-side: Ouro's KV cache grows row by row with each loop until it dwarfs the model weights; MELT's cache stays as a single rewritten row. Title 'MELT: Memory-Efficient Looped Transformer' lands AT THE END as the payoff.",
+    "estSeconds": 20
+  },
+  "narrativeArc": [
+    {
+      "actId": "act-0",
+      "name": "Teaser",
+      "estSeconds": 20,
+      "purpose": "Cold-open hook → stakes (28 GB → 10 GB at 32k) → open-loop question (how can looping not grow memory?) → title card lands as the payoff. 5-7 micro-beats, no equations, no jargon beyond 'KV cache'."
+    },
+    {
+      "actId": "act-1",
+      "name": "The hidden cost of thinking longer",
+      "estSeconds": 40,
+      "purpose": "Frame the broader landscape: chain-of-thought scales reasoning horizontally (more output tokens) while latent reasoning (looped transformers like Ouro) scales it vertically (more internal compute). Both let you 'think longer' — but both have a memory cost the user doesn't see. Set up that vertical reasoning's cost lives in the KV cache."
+    },
+    {
+      "actId": "act-2",
+      "name": "What a looped transformer actually does",
+      "estSeconds": 55,
+      "purpose": "Quick refresher on looped transformers: same N layers, T iterations. Show the F^(T) composition; emphasize 'same parameters, more compute'. Lead viewer to the question: where do those T iterations land in memory? Land on: every loop appends a fresh row to the KV cache at each layer, so memory ~ N × L × T."
+    },
+    {
+      "actId": "act-3",
+      "name": "The bottleneck made concrete",
+      "estSeconds": 45,
+      "purpose": "Make the scaling visceral. For a 32k-token generation: Ouro = 25.17 GB of KV cache alone, vs 3.67 GB for Qwen, vs MELT's 6.29 GB. Show that for long reasoning the KV cache dwarfs the model weights themselves. This is why you can't naively scale loop count T."
+    },
+    {
+      "actId": "act-4",
+      "name": "MELT's idea: rewrite, don't append",
+      "estSeconds": 85,
+      "purpose": "Core architectural pivot. Per layer, keep ONE KV cache that all T loops share. Each loop updates a latent state h_t via a learnable gate z_t (sigmoid of an affine function of x_t and h_{t-1}). New state = z ⊙ old + (1-z) ⊙ new — a GRU-style convex combination. Then project h_t through W_K, W_V to get the single K, V row for this token at this layer, reused across loops. Use the metaphor: working memory rewritten in place vs scratchpad that grows. Briefly note the ablation: naive 'last loop only' or 'mean' fails — the learned gate is doing real work."
+    },
+    {
+      "actId": "act-5",
+      "name": "Training MELT without breaking it",
+      "estSeconds": 70,
+      "purpose": "Two engineering bits, fast. (i) Chunk-wise training: MELT's per-token KV update is sequential across tokens, so you can't do full-sequence parallel SFT; chunks balance fidelity vs throughput. (ii) Two-phase fine-tuning from a pretrained Ouro: Phase 1 interpolates KV = α·KV_MELT + (1-α)·KV_base with α growing 0→1 (smooth transition); Phase 2 freezes Ouro as teacher and adds an attention-aligned distillation loss across every layer × every loop. Ablation hammer: remove chunk-wise training → 0% accuracy on every math benchmark. The recipe is the paper, not just the architecture."
+    },
+    {
+      "actId": "act-6",
+      "name": "Does it actually work?",
+      "estSeconds": 50,
+      "purpose": "Headline numbers, honestly. MELT-1.6B beats every same-size standard transformer baseline (Qwen3-1.7B, Gemma4-E2B, DeepSeek-R1-1.5B) on most benchmarks, with KV memory ~4× smaller than Ouro and only ~1.7× larger than Qwen. It's slightly behind Ouro on the hardest math sets — Ouro keeps 4× more KV per token. Figure 1a (memory-vs-accuracy scatter) is the picture that lands the trade-off."
+    },
+    {
+      "actId": "act-7",
+      "name": "Limits and what's next",
+      "estSeconds": 20,
+      "purpose": "Three honest caveats, fast: loop count T is fixed at inference (no adaptive depth yet); MELT doesn't use MQA, so the gap with Qwen on memory could close further; training is still sequential across tokens, limiting parallelism."
+    },
+    {
+      "actId": "act-8",
+      "name": "Closing",
+      "estSeconds": 10,
+      "purpose": "One-sentence framing + title card. Scaling language models used to mean making them bigger or making them talk longer; MELT lets them think longer inside their own hidden state, at fixed memory. End on paper title + arXiv link."
+    }
+  ],
+  "conceptsToVisualize": [
+    {
+      "id": "c-001",
+      "concept": "looped transformer forward pass",
+      "whyItMatters": "establishes the baseline architecture being modified — same N layers re-applied T times",
+      "currentConfusion": "viewers conflate 'looped' with 'recurrent' (RNN-style across tokens); here it's recurrent across iterations of the same layer stack on the same hidden states",
+      "visualSuggestion": "manim — show N layers as a vertical stack, then unroll T copies side by side; emphasize SAME weights θ_1..θ_N reused. End on F^(T) composition equation.",
+      "associatedActIds": ["act-2"],
+      "associatedEquationIds": ["eq-001", "eq-017"]
+    },
+    {
+      "id": "c-002",
+      "concept": "KV-cache scaling in looped transformers",
+      "whyItMatters": "this is the entire bottleneck MELT attacks; memory ~ N × L × T grows with reasoning depth",
+      "currentConfusion": "viewers think KV cache only grows with sequence length L; in looped models it also grows with depth T (multiplicative, not additive)",
+      "visualSuggestion": "manim — build a 3D grid (layer × token × loop) of KV entries; rotate to show how T inflates a 2D grid into a 3D box. Show concrete number: 32k tokens, 4 loops → 25 GB.",
+      "associatedActIds": ["act-2", "act-3"],
+      "associatedEquationIds": ["eq-019", "eq-022"]
+    },
+    {
+      "id": "c-003",
+      "concept": "MELT's single shared KV cache per layer",
+      "whyItMatters": "the structural contrast with looped baselines: one K, V row per token per layer total, reused across all T loops",
+      "currentConfusion": "viewers may think MELT skips loops or shares across layers (it does neither — same N layers, same T loops, but the cache is rewritten in place)",
+      "visualSuggestion": "manim — side-by-side: Ouro grows a stack of T KV rows per token across loops; MELT keeps a single KV row that gets *rewritten* by the gate each loop. The total cache for MELT collapses from O(N×L×T) → O(N×L).",
+      "associatedActIds": ["act-4"],
+      "associatedEquationIds": ["eq-018", "eq-024"]
+    },
+    {
+      "id": "c-004",
+      "concept": "gated latent-state update",
+      "whyItMatters": "this is the actual mechanism that lets one KV row carry information across loops without forgetting prior iterations",
+      "currentConfusion": "viewers may not know GRU-style gates; many will assume MELT just averages or takes the last loop. Ablation in the paper shows mean/EMA/last are all dramatically worse.",
+      "visualSuggestion": "manim — derivation in 3 steps. (1) Show z_t as sigmoid(W_z x_t + U_z h_{t-1} + b_z). (2) Visualize h_t = z ⊙ h_{t-1} + (1-z) ⊙ x_t as a per-dimension mix dial: z→1 means 'keep old', z→0 means 'take new'. (3) Project h_t through W_K, W_V to get the single k_t, v_t row. Use contour highlight on z and (1-z) when the voice names them.",
+      "associatedActIds": ["act-4"],
+      "associatedEquationIds": ["eq-002", "eq-003", "eq-004"]
+    },
+    {
+      "id": "c-005",
+      "concept": "MELT attention integration",
+      "whyItMatters": "shows that the rest of the transformer block is unchanged — only the K, V production pathway is modified",
+      "currentConfusion": "viewers may think MELT changes attention itself; it doesn't, only the way k_t and v_t are produced from h_t",
+      "visualSuggestion": "manim — highlight the standard residual attention + FFN block, and dim everything except the K/V production arrow which now flows through the latent state h_t.",
+      "associatedActIds": ["act-4"],
+      "associatedEquationIds": ["eq-005", "eq-006"]
+    },
+    {
+      "id": "c-006",
+      "concept": "interpolated transition during training",
+      "whyItMatters": "KV = α·KV_MELT + (1-α)·KV_base with α: 0→1 — this is what lets MELT inherit Ouro's pretrained knowledge instead of training from scratch",
+      "currentConfusion": "viewers may not see why a sudden architectural swap fails; the paper's Table 4 shows direct transition drops accuracy ~9 points on AIME24 pass@1",
+      "visualSuggestion": "manim — two parallel KV computations (orange LoopLM stream, pink MELT stream) blend through a moving slider α from 0 to 1 over training steps. Reference Figure 3b directly.",
+      "associatedActIds": ["act-5"],
+      "associatedEquationIds": ["eq-007"]
+    },
+    {
+      "id": "c-007",
+      "concept": "attention-aligned distillation loss",
+      "whyItMatters": "Phase 2 keeps MELT representations from drifting from the frozen LoopLM teacher; ablation shows removing it costs ~2 pass@1 points on AIME24",
+      "currentConfusion": "viewers conflate KD on output logits with activation-level distillation; this aligns post-attention outputs at every layer × every loop",
+      "visualSuggestion": "manim — show the loss as a sum over an N × T grid where each cell measures ‖o_MELT − sg(o_LoopLM)‖² at that layer and loop. The grid lights up as alignment is enforced.",
+      "associatedActIds": ["act-5"],
+      "associatedEquationIds": ["eq-008"]
+    },
+    {
+      "id": "c-008",
+      "concept": "memory–accuracy Pareto frontier",
+      "whyItMatters": "the empirical claim: MELT sits in a previously empty region of the plot — non-looped memory budget, looped-model accuracy",
+      "currentConfusion": "without the plot, viewers can't appreciate how clean the separation is",
+      "visualSuggestion": "paper page spotlight on Figure 1a. NOTE: the figure's y-axis is AIME26 pass@1 in the actual image (the paper's caption mentioning MATH-500 is mismatched). Then a Manim re-animation: dots for Qwen, Gemma, DeepSeek, MELT (highlighted), Ouro — draw the line that MELT is the closest to the top-left.",
+      "associatedActIds": ["act-6"],
+      "associatedEquationIds": []
+    }
+  ],
+  "questionsToAnswerOnScreen": [
+    "What does it mean to 'loop' a transformer?",
+    "Where does a KV cache live, and why does it grow with reasoning depth?",
+    "Why isn't 'just keep one KV row per token' enough — what does the gate add?",
+    "Why can't you just swap the architecture and continue training?",
+    "How much memory does MELT actually save, and what does it cost?"
+  ],
+  "thingsToCutOrSkip": [
+    "The full gradient-superhighway / spectral-radius analysis in Appendix E. The intuition that the gate stabilizes gradients is enough; the rank-1 Jacobian argument is too heavy for 6 minutes.",
+    "Detailed Phase-1 vs Phase-2 ablation table (Table 4). Mention the headline that removing chunk-wise → 0.0 accuracy; skip the per-benchmark numbers.",
+    "Failure-mode example of last-loop KV sharing (the degenerate 'tan(100°)' reasoning trace in Figure 4). Cute but a digression.",
+    "The full benchmark suite table (Table 1). Pick 2-3 representative numbers; do not read the table out loud.",
+    "Comparison with hybrid global-local attention, CLA, MLA, MQA/GQA in related work. Mention MQA only in the limitations beat.",
+    "Hyperparameter details (learning rates, optimizer, gate-specific LR). Skip entirely.",
+    "Single-gated, EMA, Mean, Last gate ablation variants (Table 3). Mention as one line in act-4 — 'simpler aggregations all fail' — do not enumerate them."
+  ],
+  "priorWork": [
+    {
+      "title": "Universal Transformers",
+      "arxivId": "1807.03819",
+      "year": 2019,
+      "whyRelevant": "first proposal of looping transformer layers; established the optimization difficulty MELT inherits"
+    },
+    {
+      "title": "Scaling latent reasoning via looped language models (Ouro / LoopLM)",
+      "arxivId": "2510.25741",
+      "year": 2025,
+      "whyRelevant": "the direct teacher model MELT is fine-tuned from; defines the architecture and memory problem MELT solves"
+    },
+    {
+      "title": "Scaling up test-time compute with latent reasoning: A recurrent depth approach (Geiping et al.)",
+      "arxivId": "2502.05171",
+      "year": 2025,
+      "whyRelevant": "alternative untrained KV-sharing approach in looped transformers; MELT shows these untrained methods fail catastrophically on long reasoning"
+    },
+    {
+      "title": "Distilling the Knowledge in a Neural Network (Hinton)",
+      "arxivId": "1503.02531",
+      "year": 2015,
+      "whyRelevant": "foundation for the KD term in the two-phase training; attention-aligned distillation builds on top"
+    },
+    {
+      "title": "Progressive Growing of GANs",
+      "arxivId": "1710.10196",
+      "year": 2018,
+      "whyRelevant": "inspiration for the interpolated-transition idea: linearly faded α from old → new architecture"
+    }
+  ],
+  "supportingMaterial": [
+    {
+      "kind": "image",
+      "needsToFind": "Figure 1a — AIME26 pass@1 vs total memory (32k tokens) scatter plot",
+      "preferredSource": "paper-md-assets/_page_0_Figure_6.jpeg"
+    },
+    {
+      "kind": "image",
+      "needsToFind": "Figure 1b — high-level MELT vs LoopLM illustration",
+      "preferredSource": "paper-md-assets/_page_0_Figure_7.jpeg"
+    },
+    {
+      "kind": "image",
+      "needsToFind": "Figure 2 — MELT architecture detail (KV cache flow over 2 layers and 3 loops)",
+      "preferredSource": "paper-md-assets/_page_3_Figure_0.jpeg"
+    },
+    {
+      "kind": "image",
+      "needsToFind": "Figure 3 — chunk-wise training (a) and interpolated transition (b)",
+      "preferredSource": "paper-md-assets/_page_4_Figure_0.jpeg"
+    },
+    {
+      "kind": "image",
+      "needsToFind": "Figure 5 — attention-alignment loss diagram (Appendix C)",
+      "preferredSource": "paper-md-assets/_page_17_Figure_0.jpeg"
+    },
+    {
+      "kind": "diagram",
+      "needsToGenerate": "3D grid showing KV-cache scaling: axes (layer, token position, loop iteration). Ouro fills all three; MELT collapses the loop axis to a single rewritten cell."
+    },
+    {
+      "kind": "diagram",
+      "needsToGenerate": "Gate-update visualization: a single hidden-state vector h_t with per-dimension dials labeled z_i ∈ [0,1]; dragging the dials shows the convex mix between h_{t-1} and x_t."
+    }
+  ],
+  "spotlights": [
+    {
+      "label": "the abstract's headline thesis",
+      "pageIdx": 0,
+      "quote": "MELT maintains a single KV cache per layer that is shared across reasoning loops",
+      "whyItMatters": "ground the architectural pivot in the paper's own words at the very start"
+    },
+    {
+      "label": "Figure 1a — the memory-vs-accuracy scatter plot",
+      "pageIdx": 0,
+      "quote": "MELT achieves superior performance compared to similarly sized non-looped models, while maintaining an equivalent memory footprint",
+      "whyItMatters": "the empirical payoff is one picture — show it during act-6"
+    },
+    {
+      "label": "the three architectural differences",
+      "pageIdx": 2,
+      "quote": "The per-layer KV cache has a fixed size independent of the reasoning depth",
+      "whyItMatters": "lands the central architectural claim verbatim"
+    },
+    {
+      "label": "the gating equation",
+      "pageIdx": 3,
+      "quote": "h_t^{(l)} = z_t^{(l)} \\odot h_{t-1}^{(l)} + (1 - z_t^{(l)}) \\odot x_t^{(l)}",
+      "whyItMatters": "spotlight the actual update rule alongside the Manim derivation"
+    },
+    {
+      "label": "Figure 2 — MELT architecture (KV flow)",
+      "pageIdx": 3,
+      "quote": "Visualization of the MELT architecture and its KV cache dynamics",
+      "whyItMatters": "the canonical architecture figure; anchor when the Manim cut feels too schematic"
+    },
+    {
+      "label": "interpolated transition formula",
+      "pageIdx": 4,
+      "quote": "KV = \\alpha KV_{\\text{MELT}} + (1 - \\alpha) KV_{\\text{base}}",
+      "whyItMatters": "the actual mechanism of the smooth Phase-1 transition"
+    },
+    {
+      "label": "exact memory table",
+      "pageIdx": 6,
+      "quote": "Ouro-1.4B-Thinking",
+      "whyItMatters": "Table 2's row for Ouro vs MELT — concrete GB numbers viewers can hold onto (Ouro 25.17 GB → MELT 6.29 GB KV at 32k)"
+    },
+    {
+      "label": "chunk-wise training ablation",
+      "pageIdx": 7,
+      "quote": "eliminating chunk-wise training leads to complete failure",
+      "whyItMatters": "single most surprising number in the paper: remove this one component and accuracy collapses to 0 across the board"
+    },
+    {
+      "label": "limitation: fixed inference loop count",
+      "pageIdx": 7,
+      "quote": "the number of recurrent loops is fixed at inference time",
+      "whyItMatters": "honest closing caveat for act-7"
+    }
+  ],
+  "derivationsToBuild": [
+    {
+      "concept": "KV-cache memory scaling: O(N×L) vs O(N×L×T)",
+      "openingQuestion": "Where exactly does the KV cache grow when you loop?",
+      "stepsToShow": [
+        "Show a single transformer block computing K, V for one token at one layer — one row added",
+        "Stack N layers — cache grows to N rows per token, total ~ O(N×L)",
+        "Now loop the stack T times — each loop appends a fresh row per layer per token, total ~ O(N×L×T)",
+        "Concretize with the paper's numbers: 32k tokens, Ouro = 25.17 GB KV cache vs Qwen = 3.67 GB",
+        "MELT's collapse: keep ONE row per token per layer, regardless of T — total back to O(N×L), measured 6.29 GB"
+      ],
+      "estBeats": 7,
+      "associatedEquationIds": ["eq-018", "eq-019", "eq-022", "eq-024"]
+    },
+    {
+      "concept": "the gated update as convex combination",
+      "openingQuestion": "If you only keep one cache, how does it remember loop 1 by the time you're at loop 4?",
+      "stepsToShow": [
+        "Show the gate z_t = σ(W_z x_t + U_z h_{t-1} + b_z) — a vector of per-dimension dials between 0 and 1",
+        "Show h_t = z ⊙ h_{t-1} + (1 - z) ⊙ x_t — per-dimension convex combination",
+        "Two limit cases: z→1 (keep old state, ignore new input) and z→0 (overwrite with new input)",
+        "Brief: paper ablates naive 'last loop only' and 'mean of all loops' — both drop ~10+ points on AIME24, so the learned gate is doing real work",
+        "Plug h_t into k_t = h_t W_K, v_t = h_t W_V — the single K, V row everyone attends to"
+      ],
+      "estBeats": 8,
+      "associatedEquationIds": ["eq-002", "eq-003", "eq-004"]
+    },
+    {
+      "concept": "interpolated transition: α-fade from LoopLM to MELT",
+      "openingQuestion": "Why can't you just swap the architecture and keep training?",
+      "stepsToShow": [
+        "Show two parallel KV streams: KV_base (vanilla LoopLM forward) and KV_MELT (the new gated path)",
+        "Combine: KV = α · KV_MELT + (1-α) · KV_base",
+        "Animate α from 0 to 1 over training steps — model smoothly inherits LoopLM behavior, then drifts toward MELT",
+        "Land on: without this fade, ablation drops AIME24 pass@1 by ~9 points"
+      ],
+      "estBeats": 5,
+      "associatedEquationIds": ["eq-007"]
+    }
+  ],
+  "metaphors": [
+    {
+      "concept": "MELT's single shared KV cache vs Ouro's per-loop cache",
+      "metaphor": "A scratchpad you keep erasing and rewriting in place vs a scratchpad where you take a fresh sheet for every step of work and never throw any of them out. Both let you reason for many steps; only one fits in your pocket.",
+      "whenToDeploy": "act-4 opening, right after revealing the architectural pivot — lands the 'rewrite vs append' intuition before any math"
+    },
+    {
+      "concept": "the gated update z ⊙ h + (1-z) ⊙ x",
+      "metaphor": "A mixing board with one slider per latent dimension: at z=1 you hold the old recording; at z=0 you patch in the new take; in between you crossfade. The network learns the slider positions per dimension and per token.",
+      "whenToDeploy": "act-4, when introducing the gate — pairs with the Manim of dials moving"
+    },
+    {
+      "concept": "the interpolated transition during fine-tuning",
+      "metaphor": "Crossfading from one song into another instead of cutting abruptly between tracks. The model is the DJ; α is the fader.",
+      "whenToDeploy": "act-5, when introducing Phase 1 — explains why a sudden architectural swap fails"
+    }
+  ],
+  "narrativeAngles": [
+    "Frame the entire video around decoupling compute from memory. These have been one knob in transformers for years (bigger models = more of both); MELT is a clean wedge that separates them.",
+    "Frame MELT as 'GRU dynamics smuggled into transformer KV caches' — the gate equation IS the GRU update rule, applied to a per-token latent state per layer.",
+    "Frame the training recipe as the real innovation: the architecture is clean but doesn't train without the chunk-wise + two-phase recipe (ablation: remove chunk-wise → 0.0 accuracy across the board)."
+  ],
+  "criticisms": [
+    "The paper does NOT clearly disentangle how much of the win comes from MELT's architecture vs. the two-phase fine-tuning from a powerful Ouro teacher. The 'MELT outperforms standard LLMs' claim is conditional on Ouro pretraining — would MELT trained from scratch even work? Not answered.",
+    "Figure 1a's caption says 'MATH-500 accuracy versus memory' but the actual figure on page 1 shows AIME26 pass@1 on the y-axis. We must reference what the figure shows, not the caption.",
+    "Memory comparison glosses over that Qwen3-1.7B (3.67 GB KV at 32k) is still ~1.7× cheaper than MELT (6.29 GB). The paper attributes this to MELT not yet using MQA; we should be honest that MELT's memory is 'comparable' not 'equal' to standard LLMs.",
+    "The arXiv ID format '2605.07721' implies May 2026 — verify the cite resolves at recording time; if not, refer to the paper by title.",
+    "Code release is promised ('will be released soon') but not yet available. Mention only if asked; don't dwell.",
+    "We MUST derive (not state) why a naive 'just keep one KV row' fails — the ablation shows mean/EMA/last variants drop ~15 points on AIME24 vs full MELT. The gate is doing real work, and viewers need to feel that."
+  ],
+  "openQuestionsForUser": [
+    "The arXiv ID 2605.07721 implies May 2026 — should the closing title card include 'May 2026' as the date, or just cite the arXiv number?",
+    "Figure 1a is labeled by the paper caption as MATH-500 but shows AIME26 in the actual figure. Should we point at the actual figure (correct content but misleading caption) or skip Figure 1a and use Table 2's hard memory numbers instead?",
+    "Captions are OFF for this video — should the storyteller lean harder into voice-over rhythm with [pause] tags, since comprehension can't fall back on text?"
+  ]
+}

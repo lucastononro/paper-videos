@@ -1,0 +1,14 @@
+slug: 5-minutes-paper-melt
+paperSource:
+  kind: arxiv
+  value: "2605.07721"
+  arxivId: "2605.07721"
+paperTitle: "Memory-Efficient Looped Transformer: Decoupling Compute from Memory in Looped Language Models"
+voice: pharaoh
+captions: false
+targetLengthMinutes: 6
+focusAreas: []
+resolution:
+  width: 1920
+  height: 1080
+fps: 30
