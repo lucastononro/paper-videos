@@ -1,5 +1,6 @@
 import React from 'react';
 import type { PlayerRef } from '@remotion/player';
+import { toPng } from 'html-to-image';
 import { usePendingAttachments } from '../chat/pendingAttachments';
 import { uploadChatImage } from '../chat/uploadImage';
 
@@ -9,21 +10,20 @@ import { uploadChatImage } from '../chat/uploadImage';
  * Activation: PlayerPanel's "✂ Crop" button toggles `active`. When active:
  *   1. The overlay covers the player area, dimming it.
  *   2. The user drags a rect — we render a marching-ants outline live.
- *   3. On mouseup, we snapshot the current frame via the Player's html5
- *      `<video>` underlying canvas (Remotion's Player exposes `getCanvas()`
- *      indirectly via `getContainerNode()`'s `<canvas>`), crop to the rect,
- *      upload, and add to the chat's pending attachments — same store the
- *      drag-and-drop path writes to, so the user sees a thumb appear in the
- *      chat input area immediately.
- *   4. We toggle `active` off.
- *
- * Fall-back capture path: if `getCanvas()` is unavailable (older Remotion
- * versions or non-DOM player nodes), we fall back to `html2canvas`-like DIY
- * via `<canvas>.drawImage(node as CanvasImageSource)` — but Remotion 4.0+'s
- * Player renders into an actual canvas, so the primary path almost always
- * works.
+ *   3. On mouseup, we snapshot the current frame via html-to-image (the
+ *      browser Player renders the composition as React DOM — div / img /
+ *      video, NOT a canvas — so we serialise the DOM into an SVG
+ *      foreignObject and rasterise it). Then we crop to the rect, upload,
+ *      and add to the chat's pending attachments.
+ *   4. We flash "Added ✓" for a beat so the user sees the success, then
+ *      deactivate.
  */
 type Rect = { x: number; y: number; w: number; h: number };
+type Status =
+  | { kind: 'idle' }
+  | { kind: 'capturing' }
+  | { kind: 'success' }
+  | { kind: 'error'; message: string };
 
 export const CropOverlay: React.FC<{
   slug: string;
@@ -33,7 +33,7 @@ export const CropOverlay: React.FC<{
   containerRef: React.MutableRefObject<HTMLDivElement | null>;
 }> = ({ slug, active, onDeactivate, playerRef, containerRef }) => {
   const [rect, setRect] = React.useState<Rect | null>(null);
-  const [busy, setBusy] = React.useState(false);
+  const [status, setStatus] = React.useState<Status>({ kind: 'idle' });
   const addPending = usePendingAttachments((s) => s.add);
   const dragStart = React.useRef<{ x: number; y: number } | null>(null);
 
@@ -44,6 +44,7 @@ export const CropOverlay: React.FC<{
     if (!active) return;
     playerRef.current?.pause();
     setRect(null);
+    setStatus({ kind: 'idle' });
     dragStart.current = null;
   }, [active, playerRef]);
 
@@ -97,22 +98,25 @@ export const CropOverlay: React.FC<{
       setRect(null);
       return;
     }
-    setBusy(true);
+    setStatus({ kind: 'capturing' });
     try {
       const blob = await captureCropBlob(containerRef.current, rect);
       if (!blob) {
-        // eslint-disable-next-line no-console
-        console.warn('[crop] capture returned no blob');
+        setStatus({ kind: 'error', message: 'capture produced no image' });
         return;
       }
       const att = await uploadChatImage(slug, blob, 'crop');
       addPending(slug, att);
-      onDeactivate();
+      setStatus({ kind: 'success' });
+      // Flash the success badge briefly so the user sees the crop landed,
+      // THEN deactivate. The thumb is already visible in the chat input
+      // pending-strip by this point.
+      setTimeout(() => onDeactivate(), 700);
     } catch (err) {
+      setStatus({ kind: 'error', message: (err as Error).message || 'capture failed' });
       // eslint-disable-next-line no-console
       console.error('[crop] capture failed', err);
     } finally {
-      setBusy(false);
       setRect(null);
     }
   };
@@ -128,8 +132,15 @@ export const CropOverlay: React.FC<{
         onDeactivate();
       }}
     >
-      <div className="crop-overlay-hint">
-        {busy ? 'Capturing…' : 'Drag to crop · Esc to cancel'}
+      <div
+        className={`crop-overlay-hint ${
+          status.kind === 'success' ? 'is-success' : status.kind === 'error' ? 'is-error' : ''
+        }`}
+      >
+        {status.kind === 'capturing' && 'Capturing…'}
+        {status.kind === 'success' && 'Added to chat ✓'}
+        {status.kind === 'error' && `Crop failed: ${status.message}`}
+        {status.kind === 'idle' && 'Drag to crop · Esc to cancel'}
       </div>
       {rect && (
         <div
@@ -149,36 +160,52 @@ export const CropOverlay: React.FC<{
 /**
  * Capture a crop of the Remotion player's current frame as a PNG Blob.
  *
- * Strategy: find the player's internal canvas (Remotion Player renders into
- * an HTMLCanvasElement in the DOM), draw the cropped region into a fresh
- * canvas, and toBlob('image/png'). The crop rect is in container-relative
- * CSS pixels — we scale to the canvas's native pixel dims so a crop on a
- * downscaled player still ships full resolution to the agent.
+ * Strategy: `@remotion/player` renders compositions as plain React DOM
+ * (`<div>`, `<img>`, `<video>` via OffthreadVideo), NOT a `<canvas>`. So
+ * we use `html-to-image` (DOM → SVG foreignObject → rasterise) to snapshot
+ * the entire player container, then crop the result on a fresh canvas to
+ * the user's selection rect.
+ *
+ * `<video>` caveat: html-to-image cannot read frames out of an HTMLVideoElement
+ * (browsers refuse without explicit user gesture + same-origin). The Manim
+ * mp4s served via `/static/<slug>/...` ARE same-origin, but the video frame
+ * still doesn't survive SVG serialisation. As a fallback we walk any
+ * `<video>` inside the crop and `drawImage` their current frame on top of
+ * the snapshot before the crop step — that covers ManimClip beats. For
+ * `<img>` (paper pages, diagrams, asset images) and DOM (equation cards,
+ * captions, title cards) html-to-image works directly.
  */
 async function captureCropBlob(
   container: HTMLDivElement | null,
   cssRect: Rect,
 ): Promise<Blob | null> {
   if (!container) return null;
-  const canvas = container.querySelector('canvas');
-  if (!canvas) {
-    // eslint-disable-next-line no-console
-    console.warn('[crop] no <canvas> inside player container');
-    return null;
-  }
-  // CSS → canvas-pixel scale. Player CSS width can differ from
-  // canvas.width (devicePixelRatio aware), so use the canvas's own
-  // bounding rect.
-  const canvasRect = canvas.getBoundingClientRect();
   const containerRect = container.getBoundingClientRect();
-  // The crop was measured against the container; translate it into the
-  // canvas's own coord space.
-  const localX = cssRect.x - (canvasRect.left - containerRect.left);
-  const localY = cssRect.y - (canvasRect.top - containerRect.top);
-  const sx = canvas.width / canvasRect.width;
-  const sy = canvas.height / canvasRect.height;
-  const cx = Math.max(0, Math.round(localX * sx));
-  const cy = Math.max(0, Math.round(localY * sy));
+  const cssWidth = containerRect.width;
+  const cssHeight = containerRect.height;
+  if (cssWidth < 1 || cssHeight < 1) return null;
+
+  // Capture at devicePixelRatio so the crop ships full resolution to the agent.
+  const dpr = Math.max(1, window.devicePixelRatio || 1);
+  const dataUrl = await toPng(container, {
+    cacheBust: true,
+    pixelRatio: dpr,
+    skipFonts: false,
+    // html-to-image will skip cross-origin assets that taint the canvas; ours
+    // are same-origin (served via Vite proxy → editor-server /static/).
+  });
+
+  // Load the captured PNG so we can crop + composite video frames.
+  const baseImg = await loadImage(dataUrl);
+  const baseW = baseImg.naturalWidth;
+  const baseH = baseImg.naturalHeight;
+
+  // Sometimes html-to-image inflates dimensions slightly past pixelRatio*css.
+  // Use the actual baseW / cssWidth ratio as the source-of-truth scale.
+  const sx = baseW / cssWidth;
+  const sy = baseH / cssHeight;
+  const cx = Math.max(0, Math.round(cssRect.x * sx));
+  const cy = Math.max(0, Math.round(cssRect.y * sy));
   const cw = Math.max(1, Math.round(cssRect.w * sx));
   const ch = Math.max(1, Math.round(cssRect.h * sy));
 
@@ -187,10 +214,55 @@ async function captureCropBlob(
   out.height = ch;
   const ctx = out.getContext('2d');
   if (!ctx) return null;
-  // Drawing canvas → canvas via drawImage. Source canvas must be same-origin
-  // (Remotion's is — same document — so no taint).
-  ctx.drawImage(canvas, cx, cy, cw, ch, 0, 0, cw, ch);
+  ctx.drawImage(baseImg, cx, cy, cw, ch, 0, 0, cw, ch);
+
+  // Composite any <video> frames sitting under the crop rect. Without this,
+  // ManimClip moments would land in the chat as a blank panel.
+  for (const v of Array.from(container.querySelectorAll('video'))) {
+    if (v.readyState < 2 || v.videoWidth === 0 || v.videoHeight === 0) continue;
+    const vr = v.getBoundingClientRect();
+    // Video position relative to container in CSS pixels.
+    const vx = vr.left - containerRect.left;
+    const vy = vr.top - containerRect.top;
+    const vw = vr.width;
+    const vh = vr.height;
+    // Intersection with crop rect (CSS pixels).
+    const ix0 = Math.max(cssRect.x, vx);
+    const iy0 = Math.max(cssRect.y, vy);
+    const ix1 = Math.min(cssRect.x + cssRect.w, vx + vw);
+    const iy1 = Math.min(cssRect.y + cssRect.h, vy + vh);
+    if (ix1 <= ix0 || iy1 <= iy0) continue;
+    // Source rect on the video itself (native video pixels).
+    const vsx = v.videoWidth / vw;
+    const vsy = v.videoHeight / vh;
+    const ssx = (ix0 - vx) * vsx;
+    const ssy = (iy0 - vy) * vsy;
+    const ssw = (ix1 - ix0) * vsx;
+    const ssh = (iy1 - iy0) * vsy;
+    // Destination rect on the output canvas (output is the cropped image,
+    // origin at cssRect.x, cssRect.y; scale by sx/sy).
+    const dx = (ix0 - cssRect.x) * sx;
+    const dy = (iy0 - cssRect.y) * sy;
+    const dw = (ix1 - ix0) * sx;
+    const dh = (iy1 - iy0) * sy;
+    try {
+      ctx.drawImage(v, ssx, ssy, ssw, ssh, dx, dy, dw, dh);
+    } catch {
+      // CORS taint or other capture failure — leave the html-to-image
+      // placeholder underneath; better than nothing.
+    }
+  }
+
   return new Promise<Blob | null>((resolve) => {
     out.toBlob((b) => resolve(b), 'image/png');
+  });
+}
+
+function loadImage(src: string): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error('failed to load captured image'));
+    img.src = src;
   });
 }

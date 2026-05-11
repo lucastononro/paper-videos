@@ -20,6 +20,16 @@
   font-size: 11px;
   letter-spacing: 0.3px;
   pointer-events: none;
+  white-space: nowrap;
+}
+.crop-overlay-hint.is-success {
+  background: rgba(60, 160, 90, 0.92);
+  color: #e7ffe9;
+  font-weight: 600;
+}
+.crop-overlay-hint.is-error {
+  background: rgba(180, 60, 60, 0.92);
+  color: #ffe0e0;
 }
 .crop-overlay-rect {
   position: absolute;
