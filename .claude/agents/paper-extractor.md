@@ -20,15 +20,20 @@ The orchestrator gives you a `slug`. You can assume `videos/<slug>/paper.pdf` ex
 
 ## Steps
 
-1. Run **Marker** for markdown + equations:
+1. Run the extraction backend for markdown + equations:
 
    ```bash
-   npm run extract-paper -- <slug>
+   npm run extract-paper -- <slug>                       # default: Marker (slow on CPU, no API spend)
+   npm run extract-paper -- <slug> --backend docling     # opt-in fast path (Docling + Claude vision LaTeX)
    ```
 
-   This produces:
+   Both backends produce the same contract:
    - `videos/<slug>/paper.md` — full markdown with `$...$` and `$$...$$` equations preserved.
    - `videos/<slug>/equations.json` — array of `{id, latex, page, context}` entries.
+
+   **Pick `marker` (default)** when you have GPU/MPS or you can wait the 5-30 min on CPU and want to avoid API spend.
+
+   **Pick `--backend docling`** when iterating quickly, on CPU-only hosts, or when the host has limited memory. Costs ~$0.05 per paper (one Claude vision call per formula). Requires `ANTHROPIC_API_KEY` in `.env`.
 
 2. Run **page rendering** for image assets:
 
