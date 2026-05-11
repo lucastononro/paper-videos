@@ -279,7 +279,8 @@ You can drive the whole pipeline from the CLI without the editor — useful for 
 ```bash
 npm run fetch-paper -- <id|url|path> <slug>      # paper mode: download PDF + seed config
 npm run new-topic -- "<topic prompt>" <slug>     # topic mode: scaffold topic.md + manifest (no paper)
-npm run extract-paper -- <slug>                  # Marker → paper.md + equations.json
+npm run extract-paper -- <slug>                  # Marker (default) → paper.md + equations.json
+npm run extract-paper -- <slug> --backend docling   # Docling + Claude vision LaTeX (~1-2 min, ~$0.05)
 npm run render-pages -- <slug>                   # pdfjs → pages/page-NNN.png
 npm run arxiv-search -- "<query>"                # arXiv search, JSON to stdout
 npm run narrate -- <slug> <beat_id>              # ElevenLabs TTS for one beat
@@ -290,6 +291,28 @@ npm run migrate-manifest-v2 -- <slug>            # one-shot v1 → v2 migration 
 npm run qa -- <slug>                             # deterministic QA report
 npm run render-remotion -- <slug>                # final mp4 (also what the ▶ Render button calls)
 ```
+
+### `extract-paper` — picking a backend
+
+`extract-paper` has two backends, both producing the same `paper.md` +
+`equations.json` contract for the rest of the pipeline:
+
+| Backend                          | Time on a 20pg paper                         | Setup                                                                                                                          | Cost / paper                                                  | LaTeX source                                    |
+| -------------------------------- | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------- | ----------------------------------------------- |
+| **`marker`** (default)           | 5–30 min on CPU; seconds on CUDA/MPS         | needs `marker-pdf` (heavy: pulls torch + surya + several ML models on first run)                                               | $0                                                            | OCR'd by Surya's equation model                 |
+| **`docling`** (opt-in fast path) | ~1–2 min, mostly CPU-bound on Docling layout | needs only `ANTHROPIC_API_KEY` in `.env`; uses `uvx` to spin up an ephemeral env (docling + pymupdf + anthropic) on first call | ~$0.05 (one Claude vision call per formula, ~300 tokens each) | OCR'd by Claude vision on per-formula PNG crops |
+
+Use `--backend docling` when the host doesn't have CUDA/MPS or when you want to iterate quickly on the script:
+
+```bash
+npm run extract-paper -- <slug> --backend docling
+```
+
+Docling's layout model identifies formula bboxes; the script then crops each
+formula to PNG via PyMuPDF and asks Claude (default `claude-sonnet-4-6`) to
+return the LaTeX. Quality on academic papers is comparable to Marker —
+sometimes better on dense layouts where Surya struggles. The fast-path
+guards spend with `--max-formulas 80` (override with the flag if needed).
 
 You can also invoke the orchestrator directly:
 

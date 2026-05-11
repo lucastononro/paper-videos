@@ -1,14 +1,26 @@
 #!/usr/bin/env tsx
 /**
- * extract-paper — run Marker on videos/<slug>/paper.pdf and produce:
+ * extract-paper — run a PDF→markdown extractor on videos/<slug>/paper.pdf
+ * and produce:
  *   - videos/<slug>/paper.md
  *   - videos/<slug>/equations.json   (parsed from paper.md)
  *
- * Marker is invoked via `uvx --python 3.11 --from marker-pdf marker_single`.
- * Python 3.11 is pinned because surya-ocr (a marker-pdf dep) uses PEP 604
- * union syntax (`X | None`) that fails on Python 3.9.
+ * Two backends:
  *
- * It writes a folder of artifacts; we relocate them.
+ *   --backend marker   (default; current behavior)
+ *     Invoked via `uvx --python 3.11 --from marker-pdf marker_single`.
+ *     Python 3.11 pinned because surya-ocr (marker-pdf dep) uses PEP 604
+ *     union syntax. Slow on CPU (~5-30 min for a 20-page paper) but
+ *     no API calls; OCR-derived LaTeX.
+ *
+ *   --backend docling  (opt-in fast path; no extra setup beyond .env)
+ *     Uses Docling for layout + a Claude vision pass for per-formula
+ *     LaTeX recovery. ~30s docling + ~1s/formula vision call. Total
+ *     ~1-2 min on a typical paper. Costs ~$0.05 per paper in API spend.
+ *     Requires ANTHROPIC_API_KEY in env.
+ *
+ * Both backends write a folder of artifacts; we relocate them so the rest
+ * of the pipeline (extractEquations regex → equations.json) is identical.
  */
 
 import { Command } from 'commander';
@@ -16,16 +28,27 @@ import { spawn } from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { videoFile, ensureSubdir } from '../lib/paths.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const REPO_ROOT = path.resolve(__dirname, '..', '..');
 
 const program = new Command()
   .name('extract-paper')
   .argument('<slug>')
-  .option('--force', 'overwrite existing paper.md / equations.json', false);
+  .option('--force', 'overwrite existing paper.md / equations.json', false)
+  .option('--backend <name>', 'extraction backend: marker (default) or docling', 'marker');
 
 program.parse();
-const opts = program.opts<{ force: boolean }>();
+const opts = program.opts<{ force: boolean; backend: string }>();
 const [slug] = program.args as [string];
+
+if (!['marker', 'docling'].includes(opts.backend)) {
+  console.error(`Unknown --backend "${opts.backend}". Choose marker or docling.`);
+  process.exit(1);
+}
 
 const pdf = videoFile(slug, 'paper.pdf');
 if (!fs.existsSync(pdf)) {
@@ -40,25 +63,54 @@ if (fs.existsSync(targetMd) && fs.existsSync(targetEq) && !opts.force) {
   process.exit(0);
 }
 
-const tmpOut = fs.mkdtempSync(path.join(os.tmpdir(), `marker-${slug}-`));
-console.log(`Running Marker (this can take 1–3 min on first run) ...`);
+const tmpOut = fs.mkdtempSync(path.join(os.tmpdir(), `${opts.backend}-${slug}-`));
 
-await runMarker(pdf, tmpOut);
+if (opts.backend === 'marker') {
+  console.log(`Running Marker (this can take 1–3 min on first run) ...`);
+  await runMarker(pdf, tmpOut);
 
-const producedMd = locateMarkdown(tmpOut);
-if (!producedMd) {
-  console.error(`Marker did not produce a .md under ${tmpOut}. See logs above.`);
-  process.exit(2);
-}
+  const producedMd = locateMarkdown(tmpOut);
+  if (!producedMd) {
+    console.error(`Marker did not produce a .md under ${tmpOut}. See logs above.`);
+    process.exit(2);
+  }
+  fs.copyFileSync(producedMd, targetMd);
 
-fs.copyFileSync(producedMd, targetMd);
+  // Marker also outputs images sometimes; copy alongside paper.md if present.
+  const producedDir = path.dirname(producedMd);
+  const imgDir = ensureSubdir(slug, 'paper-md-assets');
+  for (const f of fs.readdirSync(producedDir)) {
+    if (/\.(png|jpe?g|svg)$/i.test(f)) {
+      fs.copyFileSync(path.join(producedDir, f), path.join(imgDir, f));
+    }
+  }
+} else {
+  // Docling fast path
+  console.log(`Running Docling fast-path (Docling layout + Claude vision LaTeX) ...`);
+  if (!process.env['ANTHROPIC_API_KEY']) {
+    console.error(
+      `--backend docling requires ANTHROPIC_API_KEY in env (used for the per-formula LaTeX vision pass).`,
+    );
+    process.exit(2);
+  }
+  await runDocling(pdf, tmpOut);
 
-// Marker also outputs images sometimes; copy alongside paper.md if present.
-const producedDir = path.dirname(producedMd);
-const imgDir = ensureSubdir(slug, 'paper-md-assets');
-for (const f of fs.readdirSync(producedDir)) {
-  if (/\.(png|jpe?g|svg)$/i.test(f)) {
-    fs.copyFileSync(path.join(producedDir, f), path.join(imgDir, f));
+  const producedMd = path.join(tmpOut, 'paper.md');
+  if (!fs.existsSync(producedMd)) {
+    console.error(`Docling did not produce paper.md at ${producedMd}. See logs above.`);
+    process.exit(2);
+  }
+  fs.copyFileSync(producedMd, targetMd);
+
+  // Copy any per-figure assets Docling produced
+  const producedAssetsDir = path.join(tmpOut, 'paper-md-assets');
+  if (fs.existsSync(producedAssetsDir)) {
+    const imgDir = ensureSubdir(slug, 'paper-md-assets');
+    for (const f of fs.readdirSync(producedAssetsDir)) {
+      if (/\.(png|jpe?g|svg)$/i.test(f)) {
+        fs.copyFileSync(path.join(producedAssetsDir, f), path.join(imgDir, f));
+      }
+    }
   }
 }
 
@@ -69,7 +121,13 @@ fs.rmSync(tmpOut, { recursive: true, force: true });
 
 console.log(
   JSON.stringify(
-    { slug, paperMd: targetMd, equationsJson: targetEq, equationCount: equations.length },
+    {
+      slug,
+      backend: opts.backend,
+      paperMd: targetMd,
+      equationsJson: targetEq,
+      equationCount: equations.length,
+    },
     null,
     2,
   ),
@@ -97,6 +155,37 @@ function runMarker(inputPdf: string, outputDir: string): Promise<void> {
     proc.on('exit', (code) => {
       if (code === 0) resolve();
       else reject(new Error(`marker_single exited with code ${code}`));
+    });
+  });
+}
+
+function runDocling(inputPdf: string, outputDir: string): Promise<void> {
+  // Use uv's ephemeral env so docling + anthropic don't pollute the
+  // primary venv. Pinned to py3.11 to match marker's pin.
+  const helper = path.join(REPO_ROOT, 'scripts', 'extract_docling.py');
+  return new Promise((resolve, reject) => {
+    const proc = spawn(
+      'uvx',
+      [
+        '--python',
+        '3.11',
+        '--with',
+        'docling',
+        '--with',
+        'pymupdf',
+        '--with',
+        'anthropic',
+        'python',
+        helper,
+        inputPdf,
+        outputDir,
+      ],
+      { stdio: 'inherit', env: process.env },
+    );
+    proc.on('error', reject);
+    proc.on('exit', (code) => {
+      if (code === 0) resolve();
+      else reject(new Error(`extract_docling.py exited with code ${code}`));
     });
   });
 }
