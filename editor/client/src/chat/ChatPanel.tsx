@@ -189,21 +189,34 @@ export const ChatPanel: React.FC<{
         )}
         {pending.length > 0 && (
           <div className="chat-pending-strip" title="Will attach to your next message">
-            {pending.map((p) => (
-              <div key={p.id} className="chat-pending-thumb">
-                <img src={p.url} alt={p.source ?? 'attachment'} />
-                <button
-                  type="button"
-                  className="chat-pending-remove"
-                  onClick={() => removePending(slug, p.id)}
-                  aria-label="Remove attachment"
-                  title="Remove"
-                >
-                  ×
-                </button>
-                {p.source && <span className="chat-pending-tag">{p.source}</span>}
-              </div>
-            ))}
+            {pending.map((p) => {
+              const beat = p.crop?.voiceBeatId;
+              const block = p.crop?.visualBlockId;
+              const tip = p.crop
+                ? `crop at ${p.crop.timeLabel}${beat ? ` · ${beat}` : ''}${block ? ` · ${block}` : ''}`
+                : (p.source ?? 'attachment');
+              return (
+                <div key={p.id} className="chat-pending-thumb" title={tip}>
+                  <img src={p.url} alt={p.source ?? 'attachment'} />
+                  <button
+                    type="button"
+                    className="chat-pending-remove"
+                    onClick={() => removePending(slug, p.id)}
+                    aria-label="Remove attachment"
+                    title="Remove"
+                  >
+                    ×
+                  </button>
+                  {p.crop ? (
+                    <span className="chat-pending-tag chat-pending-tag-time">
+                      🕐 {p.crop.timeLabel}
+                    </span>
+                  ) : (
+                    p.source && <span className="chat-pending-tag">{p.source}</span>
+                  )}
+                </div>
+              );
+            })}
             {uploading && <span className="chat-pending-uploading">uploading…</span>}
           </div>
         )}

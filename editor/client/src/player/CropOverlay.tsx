@@ -3,6 +3,7 @@ import type { PlayerRef } from '@remotion/player';
 import { toPng } from 'html-to-image';
 import { usePendingAttachments } from '../chat/pendingAttachments';
 import { uploadChatImage } from '../chat/uploadImage';
+import type { CropMetadata } from '../ws/types';
 
 /**
  * Drag-rect crop tool that sits on top of the Remotion player.
@@ -31,7 +32,14 @@ export const CropOverlay: React.FC<{
   onDeactivate: () => void;
   playerRef: React.MutableRefObject<PlayerRef | null>;
   containerRef: React.MutableRefObject<HTMLDivElement | null>;
-}> = ({ slug, active, onDeactivate, playerRef, containerRef }) => {
+  /**
+   * Caller-supplied builder for the crop metadata. PlayerPanel passes a
+   * function that reads `playerRef.current.getCurrentFrame()` + manifest
+   * data and produces a `CropMetadata`. Kept as a callback so the overlay
+   * doesn't have to import the manifest types.
+   */
+  captureMetadata: (rectCss: { x: number; y: number; w: number; h: number }) => CropMetadata | null;
+}> = ({ slug, active, onDeactivate, playerRef, containerRef, captureMetadata }) => {
   const [rect, setRect] = React.useState<Rect | null>(null);
   const [status, setStatus] = React.useState<Status>({ kind: 'idle' });
   const addPending = usePendingAttachments((s) => s.add);
@@ -105,7 +113,8 @@ export const CropOverlay: React.FC<{
         setStatus({ kind: 'error', message: 'capture produced no image' });
         return;
       }
-      const att = await uploadChatImage(slug, blob, 'crop');
+      const meta = captureMetadata(rect) ?? undefined;
+      const att = await uploadChatImage(slug, blob, 'crop', meta);
       addPending(slug, att);
       setStatus({ kind: 'success' });
       // Flash the success badge briefly so the user sees the crop landed,

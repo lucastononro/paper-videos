@@ -1014,6 +1014,14 @@
   background: rgba(0, 0, 0, 0.55);
   color: #ffd866;
 }
+/* Time-stamp variant — wider, lower-case + monospace so 1:47.3 reads cleanly. */
+.chat-pending-tag-time {
+  text-transform: none;
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.2px;
+  padding: 1px 5px;
+}
 .chat-pending-uploading {
   font-size: 11px;
   color: var(--chat-text-mute);
@@ -1028,6 +1036,7 @@
   margin-bottom: 6px;
 }
 .chat-user-attachment {
+  position: relative;
   display: block;
   width: 96px;
   height: 96px;
@@ -1040,4 +1049,17 @@
   height: 100%;
   object-fit: cover;
   display: block;
+}
+.chat-user-attachment-time {
+  position: absolute;
+  bottom: 3px;
+  left: 3px;
+  padding: 1px 6px;
+  font-size: 10px;
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  letter-spacing: 0.2px;
+  border-radius: 4px;
+  background: rgba(14, 17, 23, 0.78);
+  color: #ffd866;
+  pointer-events: none;
 }

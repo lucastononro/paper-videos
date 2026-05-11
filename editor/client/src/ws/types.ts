@@ -2,6 +2,20 @@
 // + tsc resolution is happier with local types here.
 
 /**
+ * Metadata captured when the user crops a region from the player. Drag-drop
+ * and paste attachments don't carry this. Lets the agent target the right
+ * voice beat / visual block when editing.
+ */
+export type CropMetadata = {
+  frame: number;
+  fps: number;
+  timeLabel: string;
+  voiceBeatId?: string;
+  visualBlockId?: string;
+  bbox: { x: number; y: number; w: number; h: number };
+};
+
+/**
  * Image the user attached to a chat turn — drag-drop, paste, or cropped
  * from the player. `path` goes to the agent (absolute fs path); `url` is
  * the editor-server URL the React UI fetches for the thumbnail.
@@ -12,6 +26,7 @@ export type AttachedImage = {
   url: string;
   bytes?: number;
   source?: 'drop' | 'paste' | 'crop';
+  crop?: CropMetadata;
 };
 
 export type ChatEvent =

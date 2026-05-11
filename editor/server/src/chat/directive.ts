@@ -123,12 +123,21 @@ function buildAttachedImagesBlock(images: AttachedImage[]): string {
     'The user attached the following images to this turn. They are referenced by the user\'s prose and may be the entire point of the message (e.g. "fix this glitch", "what is wrong here", "use this figure").',
     'Mandatory: BEFORE you respond, use the Read tool on each path so you can see what the user sees. Treat these as primary context, not optional reference.',
     'After Reading, address them by their semantic content (e.g. "the blurry caption on the right"), not by their filenames.',
+    'Crops carry timestamp metadata — when present, use the named voice beat / visual block id directly when editing (mention #beat-NNN or #vb-NNN; do not invent ids from the timestamp).',
     '',
   ];
   for (let i = 0; i < images.length; i++) {
     const img = images[i]!;
     const tag = img.source ? ` (source: ${img.source})` : '';
     lines.push(`${i + 1}. ${img.path}${tag}`);
+    if (img.crop) {
+      const c = img.crop;
+      const beat = c.voiceBeatId ? ` voice beat #${c.voiceBeatId},` : '';
+      const block = c.visualBlockId ? ` visual block #${c.visualBlockId},` : '';
+      lines.push(
+        `   captured at ${c.timeLabel} (frame ${c.frame} / ${c.fps}fps,${beat}${block} bbox ${c.bbox.x.toFixed(2)},${c.bbox.y.toFixed(2)},${c.bbox.w.toFixed(2)},${c.bbox.h.toFixed(2)} of the frame)`,
+      );
+    }
   }
   lines.push('</attached_images>');
   return lines.join('\n');

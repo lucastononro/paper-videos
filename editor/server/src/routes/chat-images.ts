@@ -43,13 +43,17 @@ chatImagesRouter.post('/:slug/chat-images', async (req: Request, res: Response) 
 
   let bytes: Buffer | null = null;
   let ext: 'png' | 'jpg' | 'webp' = 'png';
+  // Crop-to-chat metadata travels with the JSON body. Drag-drop / paste
+  // paths use raw image/* and don't have any metadata to carry.
+  let cropMetadata: Record<string, unknown> | undefined;
 
   if (ct.startsWith('image/')) {
     bytes = await readRawBody(req);
     ext = pickExt(ct);
   } else if (ct.startsWith('application/json')) {
-    // Body is `{ dataUrl }`. express.json was applied upstream so req.body is parsed.
-    const body = req.body as { dataUrl?: unknown } | undefined;
+    // Body is `{ dataUrl, metadata? }`. express.json was applied upstream
+    // so req.body is parsed.
+    const body = req.body as { dataUrl?: unknown; metadata?: unknown } | undefined;
     const dataUrl = typeof body?.dataUrl === 'string' ? body.dataUrl : '';
     const m = dataUrl.match(/^data:(image\/(png|jpeg|jpg|webp));base64,(.+)$/i);
     if (!m) {
@@ -60,6 +64,9 @@ chatImagesRouter.post('/:slug/chat-images', async (req: Request, res: Response) 
     }
     ext = pickExt(m[1]!.toLowerCase());
     bytes = Buffer.from(m[3]!, 'base64');
+    if (body?.metadata && typeof body.metadata === 'object') {
+      cropMetadata = body.metadata as Record<string, unknown>;
+    }
   } else {
     res.status(415).json({
       error: 'unsupported content-type; expected image/* or application/json {dataUrl}',
@@ -94,6 +101,7 @@ chatImagesRouter.post('/:slug/chat-images', async (req: Request, res: Response) 
     url,
     bytes: bytes.length,
     contentType: ct.startsWith('image/') ? ct : `image/${ext === 'jpg' ? 'jpeg' : ext}`,
+    ...(cropMetadata ? { crop: cropMetadata } : {}),
   });
 });
 

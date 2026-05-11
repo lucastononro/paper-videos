@@ -106,18 +106,28 @@ const Item: React.FC<{
         <div className="chat-bubble-user">
           {item.attachedImages && item.attachedImages.length > 0 && (
             <div className="chat-user-attachments">
-              {item.attachedImages.map((img) => (
-                <a
-                  key={img.id}
-                  className="chat-user-attachment"
-                  href={img.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  title={img.source ? `${img.source}` : 'attachment'}
-                >
-                  <img src={img.url} alt={img.source ?? 'attachment'} />
-                </a>
-              ))}
+              {item.attachedImages.map((img) => {
+                const beat = img.crop?.voiceBeatId;
+                const block = img.crop?.visualBlockId;
+                const tip = img.crop
+                  ? `Cropped at ${img.crop.timeLabel} · frame ${img.crop.frame}${beat ? ` · ${beat}` : ''}${block ? ` · ${block}` : ''}`
+                  : (img.source ?? 'attachment');
+                return (
+                  <a
+                    key={img.id}
+                    className="chat-user-attachment"
+                    href={img.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={tip}
+                  >
+                    <img src={img.url} alt={img.source ?? 'attachment'} />
+                    {img.crop && (
+                      <span className="chat-user-attachment-time">🕐 {img.crop.timeLabel}</span>
+                    )}
+                  </a>
+                );
+              })}
             </div>
           )}
           {item.text && <Markdown source={item.text} />}

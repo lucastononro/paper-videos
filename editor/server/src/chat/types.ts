@@ -1,6 +1,34 @@
 // Shared event shapes between the spawn/parser and the WS hub.
 
 /**
+ * Metadata captured when the user crops a region from the player (Crop-to-chat).
+ *
+ * Drag-drop and paste attachments don't carry this — they're arbitrary image
+ * files from elsewhere. Crops do: they know exactly which frame / beat /
+ * block the user pointed at, and the agent NEEDS that to edit the right thing
+ * (manifest mutations are beat-id / block-id keyed, not pixel-keyed).
+ */
+export type CropMetadata = {
+  /** Current frame the player was on when the user dragged the rect. */
+  frame: number;
+  /** Composition fps from the manifest. `timeSeconds = frame / fps`. */
+  fps: number;
+  /** Human-readable timestamp ("1:47.3") for the directive + UI badge. */
+  timeLabel: string;
+  /** Voice beat id whose frame range contains `frame`, when one exists. */
+  voiceBeatId?: string;
+  /** Visual block id whose frame range contains `frame`, when one exists. */
+  visualBlockId?: string;
+  /**
+   * Bbox normalized to 0..1 relative to the rendered video frame area
+   * (player container has the composition's aspect ratio, so this maps 1:1
+   * to composition coords). Lets the agent describe the spatial region:
+   * "the bottom-right quadrant" / "0.28,0.42,0.43,0.46 of the frame".
+   */
+  bbox: { x: number; y: number; w: number; h: number };
+};
+
+/**
  * Image the user attached to a chat turn (drag-drop, paste, or cropped from
  * the player). The agent receives `path` (absolute fs path) so it can Read
  * the image; the UI uses `url` to render a thumbnail back to the user.
@@ -15,6 +43,8 @@ export type AttachedImage = {
   bytes?: number;
   /** Source hint — informational, e.g. `'drop' | 'paste' | 'crop'`. */
   source?: 'drop' | 'paste' | 'crop';
+  /** Present iff source === 'crop'. See `CropMetadata` doc. */
+  crop?: CropMetadata;
 };
 
 export type ChatEvent =

@@ -1,12 +1,15 @@
-import type { AttachedImage } from '../ws/types';
+import type { AttachedImage, CropMetadata } from '../ws/types';
 
 /**
  * Upload an image to the editor server's chat-images endpoint. Returns the
  * `AttachedImage` the chat:turn frame and the directive will embed.
  *
- * Two callers:
- *   - Drag-and-drop / paste in ChatPanel — passes the raw `File | Blob`.
- *   - Player crop overlay — passes a `Blob` produced from a canvas crop.
+ * Three callers:
+ *   - Drag-and-drop / paste in ChatPanel — passes the raw `File | Blob`,
+ *     no metadata (arbitrary external image).
+ *   - Player crop overlay — passes a `Blob` produced from a canvas crop
+ *     AND a `CropMetadata` describing the frame / beat / block so the agent
+ *     can target the right artefact.
  *
  * The server saves to `videos/<slug>/.cache/chat-images/img-<ts>-<rand>.<ext>`
  * (gitignored, watcher-ignored) and returns the absolute path the agent will
@@ -16,13 +19,30 @@ export async function uploadChatImage(
   slug: string,
   blob: Blob,
   source: 'drop' | 'paste' | 'crop',
+  crop?: CropMetadata,
 ): Promise<AttachedImage> {
-  const ct = blob.type || 'image/png';
-  const res = await fetch(`/api/projects/${encodeURIComponent(slug)}/chat-images`, {
-    method: 'POST',
-    headers: { 'Content-Type': ct },
-    body: blob,
-  });
+  // Two transports: raw bytes for the simple paths (drop / paste), JSON
+  // with base64 dataURL when metadata needs to ride along (crop). The server
+  // accepts both — see editor/server/src/routes/chat-images.ts.
+  const wantsMetadata = source === 'crop' && crop;
+
+  let res: Response;
+  if (wantsMetadata) {
+    const dataUrl = await blobToDataURL(blob);
+    res = await fetch(`/api/projects/${encodeURIComponent(slug)}/chat-images`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ dataUrl, metadata: crop }),
+    });
+  } else {
+    const ct = blob.type || 'image/png';
+    res = await fetch(`/api/projects/${encodeURIComponent(slug)}/chat-images`, {
+      method: 'POST',
+      headers: { 'Content-Type': ct },
+      body: blob,
+    });
+  }
+
   if (!res.ok) {
     const text = await res.text().catch(() => '');
     throw new Error(`chat-images upload failed: ${res.status} ${text}`);
@@ -32,6 +52,7 @@ export async function uploadChatImage(
     path: string;
     url: string;
     bytes: number;
+    crop?: CropMetadata;
   };
   return {
     id: json.id,
@@ -39,7 +60,17 @@ export async function uploadChatImage(
     url: json.url,
     bytes: json.bytes,
     source,
+    ...(json.crop ? { crop: json.crop } : crop ? { crop } : {}),
   };
+}
+
+function blobToDataURL(blob: Blob): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result));
+    reader.onerror = () => reject(new Error('failed to read blob'));
+    reader.readAsDataURL(blob);
+  });
 }
 
 /** True if the given DataTransfer (drop event) has at least one image file. */

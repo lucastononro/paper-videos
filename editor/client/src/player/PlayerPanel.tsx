@@ -3,6 +3,7 @@ import { Player, type PlayerRef } from '@remotion/player';
 import { PaperExplainerCore } from '@composition/compositions/PaperExplainerCore';
 import { type FullPreviewData, staticAssetBaseUrl } from '../api';
 import { CropOverlay } from './CropOverlay';
+import type { CropMetadata } from '../ws/types';
 import './player.css';
 
 /**
@@ -39,6 +40,44 @@ export const PlayerPanel: React.FC<{
   const resolvedPlayerRef = playerRef ?? internalPlayerRef;
   const playerContainerRef = React.useRef<HTMLDivElement | null>(null);
   const [cropActive, setCropActive] = React.useState(false);
+
+  // Build the crop metadata the agent reads (frame → fps → beat/block id
+  // lookup + normalized bbox). Container has the composition aspect ratio
+  // so container-relative CSS coords map 1:1 to composition coords; we just
+  // need to divide by container width/height to get 0..1.
+  const captureCropMetadata = React.useCallback(
+    (rectCss: { x: number; y: number; w: number; h: number }): CropMetadata | null => {
+      const rect = playerContainerRef.current?.getBoundingClientRect();
+      const frame = resolvedPlayerRef.current?.getCurrentFrame() ?? 0;
+      const fps = manifest.fps;
+      if (!rect || rect.width < 1 || rect.height < 1 || !Number.isFinite(fps) || fps <= 0) {
+        return null;
+      }
+      const containsFrame = (startFrame: number, durationFrames: number): boolean =>
+        frame >= startFrame && frame < startFrame + durationFrames;
+      const voiceBeatId = manifest.voice.find((b) =>
+        containsFrame(b.startFrame, b.durationFrames),
+      )?.id;
+      const visualBlockId = manifest.visualBlocks.find((b) =>
+        containsFrame(b.startFrame, b.durationFrames),
+      )?.id;
+      const bbox = {
+        x: rectCss.x / rect.width,
+        y: rectCss.y / rect.height,
+        w: rectCss.w / rect.width,
+        h: rectCss.h / rect.height,
+      };
+      return {
+        frame,
+        fps,
+        timeLabel: formatTime(frame / fps),
+        ...(voiceBeatId ? { voiceBeatId } : {}),
+        ...(visualBlockId ? { visualBlockId } : {}),
+        bbox,
+      };
+    },
+    [manifest.fps, manifest.voice, manifest.visualBlocks, resolvedPlayerRef],
+  );
 
   // The manifest can exist but be empty — typical right after `/paper-video new`
   // before the storyteller / producer / visualizer have done anything. Render
@@ -159,6 +198,7 @@ export const PlayerPanel: React.FC<{
             onDeactivate={() => setCropActive(false)}
             playerRef={resolvedPlayerRef}
             containerRef={playerContainerRef}
+            captureMetadata={captureCropMetadata}
           />
         </div>
       </div>
@@ -193,6 +233,15 @@ export const PlayerPanel: React.FC<{
     </div>
   );
 };
+
+function formatTime(seconds: number): string {
+  if (!Number.isFinite(seconds) || seconds < 0) return '0:00';
+  const m = Math.floor(seconds / 60);
+  const s = seconds - m * 60;
+  // One decimal of subseconds — enough to disambiguate which side of a beat
+  // boundary the crop landed on, without being noisy ("1:47.3").
+  return `${m}:${s.toFixed(1).padStart(4, '0')}`;
+}
 
 /**
  * Compact speed picker — five preset rates that cover the useful range:
