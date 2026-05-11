@@ -1,7 +1,7 @@
 import React from 'react';
 import { create } from 'zustand';
 import { ws } from '../ws/client';
-import type { ServerEvent } from '../ws/types';
+import type { AttachedImage, ServerEvent } from '../ws/types';
 
 export type ChatTextItem = { kind: 'text'; messageId: string; text: string };
 export type ChatToolItem = {
@@ -15,7 +15,13 @@ export type ChatToolItem = {
 };
 
 export type ChatItem =
-  | { kind: 'user'; id: string; text: string; ts: number }
+  | {
+      kind: 'user';
+      id: string;
+      text: string;
+      ts: number;
+      attachedImages?: AttachedImage[];
+    }
   | { kind: 'assistant'; id: string; ts: number; chunks: Array<ChatTextItem | ChatToolItem> }
   | { kind: 'system'; id: string; ts: number; text: string }
   | { kind: 'notice'; id: string; ts: number; text: string; tone: 'success' | 'info' };
@@ -118,7 +124,18 @@ export const useChatStore = create<ChatState>((set, get) => ({
 function applyEvent(items: ChatItem[], e: ServerEvent): ChatItem[] {
   switch (e.kind) {
     case 'user_text':
-      return [...items, { kind: 'user', id: `u-${e.ts}-${Math.random()}`, text: e.text, ts: e.ts }];
+      return [
+        ...items,
+        {
+          kind: 'user',
+          id: `u-${e.ts}-${Math.random()}`,
+          text: e.text,
+          ts: e.ts,
+          ...(e.attachedImages && e.attachedImages.length > 0
+            ? { attachedImages: e.attachedImages }
+            : {}),
+        },
+      ];
     case 'text': {
       const last = items[items.length - 1];
       if (last && last.kind === 'assistant' && last.id === e.messageId) {

@@ -11,6 +11,7 @@ import { newRouter } from './routes/new.js';
 import { qaRouter } from './routes/qa.js';
 import { filesRouter } from './routes/files.js';
 import { renderRouter } from './routes/render.js';
+import { chatImagesRouter } from './routes/chat-images.js';
 import { attachWs } from './ws.js';
 import { startWatcher } from './watch.js';
 
@@ -28,7 +29,10 @@ const PORT = Number(process.env['EDITOR_SERVER_PORT'] ?? 5174);
 
 const app = express();
 app.use(cors());
-app.use(express.json({ limit: '1mb' }));
+// 25MB covers a base64-encoded 20MB chat-image upload with room for the
+// data-URL wrapper. Raw image/* uploads stream in via the chat-images route
+// itself, bypassing this parser.
+app.use(express.json({ limit: '25mb' }));
 
 // Health
 app.get('/api/health', (_req, res) => {
@@ -49,6 +53,8 @@ app.use('/api/projects', qaRouter);
 app.use('/api/projects', filesRouter);
 // /api/projects/:slug/render — POST starts, DELETE cancels, GET state
 app.use('/api/projects', renderRouter);
+// POST /api/projects/:slug/chat-images — drag-drop / paste / player-crop uploads
+app.use('/api/projects', chatImagesRouter);
 
 // Backwards compat for older clients still hitting /api/slugs.
 app.use('/api/slugs', projectsRouter);

@@ -1,8 +1,21 @@
 // Mirrors editor/server/src/chat/types.ts. Don't import across roots — Vite
 // + tsc resolution is happier with local types here.
 
+/**
+ * Image the user attached to a chat turn — drag-drop, paste, or cropped
+ * from the player. `path` goes to the agent (absolute fs path); `url` is
+ * the editor-server URL the React UI fetches for the thumbnail.
+ */
+export type AttachedImage = {
+  id: string;
+  path: string;
+  url: string;
+  bytes?: number;
+  source?: 'drop' | 'paste' | 'crop';
+};
+
 export type ChatEvent =
-  | { kind: 'user_text'; text: string; ts: number }
+  | { kind: 'user_text'; text: string; ts: number; attachedImages?: AttachedImage[] }
   | { kind: 'session_started'; sessionId: string }
   | { kind: 'rate_limit'; status: string; resetsAt?: number }
   | { kind: 'text'; messageId: string; text: string }
@@ -100,7 +113,13 @@ export type ServerEvent =
     };
 
 export type ClientFrame =
-  | { kind: 'chat:turn'; slug: string | null; sessionId: string | null; text: string }
+  | {
+      kind: 'chat:turn';
+      slug: string | null;
+      sessionId: string | null;
+      text: string;
+      attachedImages?: AttachedImage[];
+    }
   | { kind: 'chat:cancel' }
   | { kind: 'chat:reset'; slug: string | null }
   | { kind: 'chat:cancel-queued'; slug: string | null; id?: string }

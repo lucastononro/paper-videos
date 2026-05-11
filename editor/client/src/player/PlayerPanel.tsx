@@ -2,6 +2,8 @@ import React from 'react';
 import { Player, type PlayerRef } from '@remotion/player';
 import { PaperExplainerCore } from '@composition/compositions/PaperExplainerCore';
 import { type FullPreviewData, staticAssetBaseUrl } from '../api';
+import { CropOverlay } from './CropOverlay';
+import './player.css';
 
 /**
  * Mounts `PaperExplainerCore` directly with pre-fetched data + an explicit
@@ -31,6 +33,12 @@ export const PlayerPanel: React.FC<{
     setPlaybackRate(rate);
     sessionStorage.setItem('paper-videos:playbackRate', String(rate));
   }, []);
+  // Internal playerRef so the crop button can pause and the overlay can
+  // capture even if the caller didn't pass one in.
+  const internalPlayerRef = React.useRef<PlayerRef | null>(null);
+  const resolvedPlayerRef = playerRef ?? internalPlayerRef;
+  const playerContainerRef = React.useRef<HTMLDivElement | null>(null);
+  const [cropActive, setCropActive] = React.useState(false);
 
   // The manifest can exist but be empty — typical right after `/paper-video new`
   // before the storyteller / producer / visualizer have done anything. Render
@@ -97,11 +105,13 @@ export const PlayerPanel: React.FC<{
         }}
       >
         <div
+          ref={playerContainerRef}
           style={{
             // `width: 100%` + `maxHeight: 100%` + `aspect-ratio` lets the
             // browser shrink in either direction to satisfy both bounds while
             // keeping the 16:9 frame intact — no more controls bleeding under
             // the filmstrip when the right column is short.
+            position: 'relative',
             width: '100%',
             height: 'auto',
             maxWidth: '100%',
@@ -114,7 +124,7 @@ export const PlayerPanel: React.FC<{
           }}
         >
           <Player
-            ref={playerRef}
+            ref={resolvedPlayerRef}
             component={PaperExplainerCore}
             inputProps={{
               manifest,
@@ -143,6 +153,13 @@ export const PlayerPanel: React.FC<{
             style={{ width: '100%', height: '100%' }}
             acknowledgeRemotionLicense
           />
+          <CropOverlay
+            slug={slug}
+            active={cropActive}
+            onDeactivate={() => setCropActive(false)}
+            playerRef={resolvedPlayerRef}
+            containerRef={playerContainerRef}
+          />
         </div>
       </div>
       <div
@@ -163,6 +180,14 @@ export const PlayerPanel: React.FC<{
           {(manifest.totalFrames / manifest.fps).toFixed(1)}s @ {manifest.fps}fps
         </span>
         <span style={{ flex: 1 }} />
+        <button
+          type="button"
+          className={`player-crop-btn ${cropActive ? 'is-active' : ''}`}
+          onClick={() => setCropActive((v) => !v)}
+          title="Crop a region of the current frame and attach it to the chat"
+        >
+          ✂ {cropActive ? 'Cancel crop' : 'Crop to chat'}
+        </button>
         <SpeedControl rate={playbackRate} onChange={updatePlaybackRate} />
       </div>
     </div>

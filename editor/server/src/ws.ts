@@ -191,7 +191,7 @@ async function handleClientFrame(conn: Conn, msg: AnyClientFrame): Promise<void>
       // process. Without the .catch, Node 20+ kills the server on the next
       // microtask and every subsequent /api/* and /static/* request shows
       // up as ECONNREFUSED until tsx-watch restarts.
-      void chatStore.turn(msg.slug, msg.text).catch((err) => {
+      void chatStore.turn(msg.slug, msg.text, msg.attachedImages ?? []).catch((err) => {
         // eslint-disable-next-line no-console
         console.error('[chat] turn failed:', err);
         sendRaw(conn, { kind: 'error', message: `chat turn failed: ${(err as Error).message}` });

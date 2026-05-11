@@ -920,3 +920,124 @@
   color: var(--chat-text-mute);
   border-top: 1px solid var(--chat-border);
 }
+
+/* ---- image attachments (drag-drop, paste, player-crop) ---- */
+
+/* Drop overlay shown while the user is hovering a dragged image over the
+   chat panel. Same dim + dashed-border treatment as the gallery dropzones. */
+.chat-dropzone-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(14, 17, 23, 0.72);
+  border: 2px dashed #ffd866;
+  border-radius: 8px;
+  pointer-events: none;
+  animation: chat-dropzone-fade 120ms ease-out;
+}
+.chat-dropzone-card {
+  padding: 14px 22px;
+  border-radius: 8px;
+  background: #1d222b;
+  border: 1px solid #ffd866;
+  color: #ffd866;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+}
+@keyframes chat-dropzone-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Strip above the input that shows pending attachments before send. */
+.chat-pending-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  padding: 6px 10px 0;
+}
+.chat-pending-thumb {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--chat-border, #2a313c);
+  background: #0e1117;
+}
+.chat-pending-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.chat-pending-remove {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 18px;
+  height: 18px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  font-size: 13px;
+  line-height: 16px;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.chat-pending-remove:hover {
+  background: rgba(220, 60, 60, 0.85);
+}
+.chat-pending-tag {
+  position: absolute;
+  bottom: 2px;
+  left: 2px;
+  padding: 0 4px;
+  font-size: 9px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #ffd866;
+}
+.chat-pending-uploading {
+  font-size: 11px;
+  color: var(--chat-text-mute);
+  padding: 0 4px;
+}
+
+/* Thumbnails rendered inside the user's chat bubble after send. */
+.chat-user-attachments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+.chat-user-attachment {
+  display: block;
+  width: 96px;
+  height: 96px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--chat-border, #2a313c);
+}
+.chat-user-attachment img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}

@@ -1,8 +1,25 @@
 // Shared event shapes between the spawn/parser and the WS hub.
 
+/**
+ * Image the user attached to a chat turn (drag-drop, paste, or cropped from
+ * the player). The agent receives `path` (absolute fs path) so it can Read
+ * the image; the UI uses `url` to render a thumbnail back to the user.
+ */
+export type AttachedImage = {
+  id: string;
+  /** Absolute filesystem path the chat directive embeds for the agent. */
+  path: string;
+  /** Editor-server URL the React UI uses for the thumbnail. */
+  url: string;
+  /** Bytes — informational, lets the UI show "180 KB" tooltips. */
+  bytes?: number;
+  /** Source hint — informational, e.g. `'drop' | 'paste' | 'crop'`. */
+  source?: 'drop' | 'paste' | 'crop';
+};
+
 export type ChatEvent =
   /** What the user typed. Stored in the slug's history so refreshes replay it. */
-  | { kind: 'user_text'; text: string; ts: number }
+  | { kind: 'user_text'; text: string; ts: number; attachedImages?: AttachedImage[] }
   | { kind: 'session_started'; sessionId: string }
   | { kind: 'rate_limit'; status: string; resetsAt?: number }
   | { kind: 'text'; messageId: string; text: string }
@@ -76,7 +93,13 @@ export type ChatEvent =
     };
 
 export type ClientFrame =
-  | { kind: 'chat:turn'; slug: string | null; sessionId: string | null; text: string }
+  | {
+      kind: 'chat:turn';
+      slug: string | null;
+      sessionId: string | null;
+      text: string;
+      attachedImages?: AttachedImage[];
+    }
   | { kind: 'chat:cancel' }
   | { kind: 'chat:reset'; slug: string | null }
   | {

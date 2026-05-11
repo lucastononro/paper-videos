@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { VIDEOS_DIR } from '../paths.js';
-import type { ChatEvent } from './types.js';
+import type { AttachedImage, ChatEvent } from './types.js';
 
 type ThreadNotice = Extract<ChatEvent, { kind: 'thread_notice' }>;
 type ActiveThreadInfo = { scopeLabel: string; status: string };
@@ -24,7 +24,11 @@ type ActiveThreadInfo = { scopeLabel: string; status: string };
 export function buildDirective(
   slug: string | null,
   userText: string,
-  context: { pendingNotices?: ThreadNotice[]; activeThreads?: ActiveThreadInfo[] } = {},
+  context: {
+    pendingNotices?: ThreadNotice[];
+    activeThreads?: ActiveThreadInfo[];
+    attachedImages?: AttachedImage[];
+  } = {},
 ): string {
   if (!slug) return userText.trim();
 
@@ -34,6 +38,11 @@ export function buildDirective(
   const asyncBlock = buildAsyncThreadContext(context);
   if (asyncBlock) {
     lines.push(asyncBlock, ``);
+  }
+
+  const imageBlock = buildAttachedImagesBlock(context.attachedImages ?? []);
+  if (imageBlock) {
+    lines.push(imageBlock, ``);
   }
 
   if (hasManifest) {
@@ -99,6 +108,30 @@ function buildAsyncThreadContext(ctx: {
     ...sections,
     '</async_thread_context>',
   ].join('\n');
+}
+
+/**
+ * Build the `<attached_images>` block — paths the user dropped, pasted, or
+ * cropped from the player. The agent is instructed to Read each path BEFORE
+ * acting on the user's text, so its response is grounded in what's actually
+ * on screen. Without this, dragged screenshots are invisible to the model.
+ */
+function buildAttachedImagesBlock(images: AttachedImage[]): string {
+  if (images.length === 0) return '';
+  const lines = [
+    '<attached_images>',
+    'The user attached the following images to this turn. They are referenced by the user\'s prose and may be the entire point of the message (e.g. "fix this glitch", "what is wrong here", "use this figure").',
+    'Mandatory: BEFORE you respond, use the Read tool on each path so you can see what the user sees. Treat these as primary context, not optional reference.',
+    'After Reading, address them by their semantic content (e.g. "the blurry caption on the right"), not by their filenames.',
+    '',
+  ];
+  for (let i = 0; i < images.length; i++) {
+    const img = images[i]!;
+    const tag = img.source ? ` (source: ${img.source})` : '';
+    lines.push(`${i + 1}. ${img.path}${tag}`);
+  }
+  lines.push('</attached_images>');
+  return lines.join('\n');
 }
 
 function formatNotice(n: ThreadNotice): string {

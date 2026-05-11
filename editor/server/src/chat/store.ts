@@ -1,7 +1,7 @@
 import { spawnClaudeTurn, type ClaudeRunHandle } from './spawn.js';
 import { buildDirective } from './directive.js';
 import { appendChatEvent, clearChatHistory, loadChatHistory } from './persistence.js';
-import type { ChatEvent } from './types.js';
+import type { AttachedImage, ChatEvent } from './types.js';
 
 /**
  * Per-slug chat session.
@@ -35,9 +35,11 @@ type Session = {
   /**
    * Cursor-style message queue: messages typed while a turn is in-flight
    * land here instead of interrupting. They drain FIFO when the active
-   * turn completes. In-memory only — server restart drops the queue.
+   * turn completes. Attachments (drag-drop / paste / crop) ride with the
+   * queued entry so they survive the drain. In-memory only — server restart
+   * drops the queue.
    */
-  queue: Array<{ id: string; text: string; ts: number }>;
+  queue: Array<{ id: string; text: string; ts: number; attachedImages?: AttachedImage[] }>;
 };
 
 type Listener = (slug: string | null, e: ChatEvent) => void;
@@ -126,16 +128,30 @@ class ChatStore {
    *
    * To genuinely interrupt the current turn (Stop button), call
    * `cancel(slug)` separately. That path doesn't enqueue anything.
+   *
+   * `attachedImages` — drag-drop / paste / player-crop uploads. They round-trip
+   * on the user_text event so refresh / replay re-renders the thumbnails;
+   * they're also handed to buildDirective so the spawned `claude` sees the
+   * paths and Reads them before responding.
    */
-  async turn(slug: string | null, userText: string): Promise<void> {
+  async turn(
+    slug: string | null,
+    userText: string,
+    attachedImages: AttachedImage[] = [],
+  ): Promise<void> {
     const s = this.ensure(slug);
     if (s.inFlight) {
       const id = `qm-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-      s.queue.push({ id, text: userText, ts: Date.now() });
+      s.queue.push({
+        id,
+        text: userText,
+        ts: Date.now(),
+        ...(attachedImages.length > 0 ? { attachedImages } : {}),
+      });
       this.emitQueue(slug, s);
       return;
     }
-    await this.runTurn(slug, s, userText);
+    await this.runTurn(slug, s, userText, attachedImages);
   }
 
   /**
@@ -143,8 +159,18 @@ class ChatStore {
    * the directive (with async-thread context), spawns claude, and on
    * completion drains one item from the queue if anything is pending.
    */
-  private async runTurn(slug: string | null, s: Session, userText: string): Promise<void> {
-    const userEvent: ChatEvent = { kind: 'user_text', text: userText, ts: Date.now() };
+  private async runTurn(
+    slug: string | null,
+    s: Session,
+    userText: string,
+    attachedImages: AttachedImage[] = [],
+  ): Promise<void> {
+    const userEvent: ChatEvent = {
+      kind: 'user_text',
+      text: userText,
+      ts: Date.now(),
+      ...(attachedImages.length > 0 ? { attachedImages } : {}),
+    };
     s.events.push(userEvent);
     if (slug) appendChatEvent(slug, userEvent);
     for (const fn of this.listeners) fn(slug, userEvent);
@@ -162,7 +188,11 @@ class ChatStore {
         status: t.status,
       }));
     }
-    const directive = buildDirective(slug, userText, { pendingNotices, activeThreads });
+    const directive = buildDirective(slug, userText, {
+      pendingNotices,
+      activeThreads,
+      attachedImages,
+    });
     const handle = spawnClaudeTurn({
       text: directive,
       resumeSessionId: s.sessionId,
@@ -186,9 +216,10 @@ class ChatStore {
         // A queued message is now becoming the active turn. Broadcast the
         // smaller queue first (so the UI removes it from the queued list),
         // then start the turn — runTurn will emit user_text which the UI
-        // promotes to a real bubble.
+        // promotes to a real bubble. Any images attached to the queued entry
+        // ride along so the agent Reads them on the drained turn.
         this.emitQueue(slug, s);
-        void this.runTurn(slug, s, next.text).catch((err) => {
+        void this.runTurn(slug, s, next.text, next.attachedImages ?? []).catch((err) => {
           // eslint-disable-next-line no-console
           console.error('[chat] queued runTurn failed', err);
         });

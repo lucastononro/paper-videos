@@ -104,7 +104,23 @@ const Item: React.FC<{
       <div className="chat-msg">
         <div className="chat-msg-label">you</div>
         <div className="chat-bubble-user">
-          <Markdown source={item.text} />
+          {item.attachedImages && item.attachedImages.length > 0 && (
+            <div className="chat-user-attachments">
+              {item.attachedImages.map((img) => (
+                <a
+                  key={img.id}
+                  className="chat-user-attachment"
+                  href={img.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title={img.source ? `${img.source}` : 'attachment'}
+                >
+                  <img src={img.url} alt={img.source ?? 'attachment'} />
+                </a>
+              ))}
+            </div>
+          )}
+          {item.text && <Markdown source={item.text} />}
         </div>
       </div>
     );

@@ -1,0 +1,53 @@
+/* ---- Crop-to-chat overlay + button ---- */
+
+.crop-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  cursor: crosshair;
+  background: rgba(14, 17, 23, 0.35);
+  user-select: none;
+}
+.crop-overlay-hint {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: rgba(14, 17, 23, 0.85);
+  color: #ffd866;
+  font-size: 11px;
+  letter-spacing: 0.3px;
+  pointer-events: none;
+}
+.crop-overlay-rect {
+  position: absolute;
+  border: 2px dashed #ffd866;
+  background: rgba(255, 216, 102, 0.08);
+  pointer-events: none;
+  box-shadow: 0 0 0 9999px rgba(14, 17, 23, 0.25);
+}
+
+.player-crop-btn {
+  all: unset;
+  cursor: pointer;
+  padding: 3px 10px;
+  border-radius: 5px;
+  border: 1px solid var(--border, #2a313c);
+  font-size: 11px;
+  color: var(--text, #e6edf3);
+  background: transparent;
+  letter-spacing: 0.2px;
+}
+.player-crop-btn:hover {
+  background: rgba(255, 216, 102, 0.08);
+  border-color: #ffd866;
+  color: #ffd866;
+}
+.player-crop-btn.is-active {
+  background: #ffd866;
+  color: #0e1117;
+  border-color: #ffd866;
+  font-weight: 600;
+}
