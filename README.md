@@ -30,6 +30,22 @@ The orchestrator is **Claude Code itself** running inside the repo. The repo pro
 
 Initial release — alpha. The pipeline produces real videos end-to-end (see `videos/attention-is-all-you-need/output.mp4`), the editor is stable, but expect rough edges and breaking changes. Feedback on `CONTRIBUTING.md` workflow and any missing edge cases is welcome.
 
+## What you need
+
+Two paid accounts and a few local tools. `install.sh` handles the local tools; the accounts you create yourself.
+
+| Requirement                  | Why it's needed                                                                                                                                                    | How to get it                                                                                                                                      |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Claude Code account**      | The orchestrator and the in-editor chat both run inside the `claude` CLI — that's how `CLAUDE.md`, the `/paper-video` skill, and the six subagents are dispatched. | Claude Pro / Max subscription **or** Anthropic API credits. Install the CLI from <https://docs.claude.com/claude-code>, then `claude /login` once. |
+| **ElevenLabs API key**       | Per-beat narration (the v3 TTS model, with audio-tag personality cues like `[curious]` / `[serious]`).                                                             | Sign up at <https://elevenlabs.io> → API keys → paste into `.env` as `ELEVENLABS_API_KEY=…`. The free tier is enough for short demos.              |
+| **Node 20+**                 | Editor server (Express + ws), Remotion renderer, all `src/tools/*.ts` CLIs.                                                                                        | Install via your usual route (nvm, fnm, Homebrew, etc.). `install.sh` checks but won't install Node for you.                                       |
+| **Python (managed by uv)**   | Manim animations and Marker PDF extraction run under `uv`.                                                                                                         | `install.sh` installs `uv`, then `uv sync` pulls Manim + Marker + PyMuPDF.                                                                         |
+| **ffmpeg**                   | Audio padding, narration stitching, last-frame extraction for visual blocks, thumbnail generation.                                                                 | `install.sh` installs via `brew` on macOS or `apt-get` on Debian/Ubuntu.                                                                           |
+| **TinyTeX + LaTeX packages** | Manim's `MathTex` requires real LaTeX — without it, equations fall back to broken Unicode boxes (yellow `[20 9C]` artefacts).                                      | `install.sh` installs TinyTeX in user space (no sudo) and the LaTeX packages Manim needs.                                                          |
+| **Chrome Headless Shell**    | Remotion uses headless Chrome to render the React composition into mp4 frames.                                                                                     | `install.sh` runs `npx remotion browser ensure`.                                                                                                   |
+
+No keys live in code or git — `ELEVENLABS_API_KEY` is the only secret, and it goes in `.env` (gitignored). Claude Code uses its own OAuth session created by `claude /login`. The arXiv search uses the public API; no key.
+
 ## Setup
 
 ### One-shot install
