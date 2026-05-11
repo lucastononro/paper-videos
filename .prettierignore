@@ -1,0 +1,38 @@
+# Generated, vendored, or per-video artifacts — never format these.
+node_modules
+dist
+build
+.next
+.cache
+coverage
+
+# Per-video output. The pipeline writes these; formatting would clobber the
+# storyteller's intentional line breaks in script.md.
+videos
+
+# Vendored upstream packages (Manim, Remotion, 3b1b-videos sources).
+references/raw-packages
+
+# Lockfiles / binaries / data.
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+*.pdf
+*.mp4
+*.mp3
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.ico
+*.webp
+
+# Python venvs etc.
+.venv
+venv
+__pycache__
+
+# Editor IDE settings.
+.vscode
+.idea

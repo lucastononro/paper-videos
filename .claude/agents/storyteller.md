@@ -36,12 +36,14 @@ A "beat" is the atomic unit. Each beat:
 - Lasts **2-10 seconds** typically (the audio pipeline pads each mp3 with ~0.85s of silence around the speech, so a 5s spoken clip becomes ~5.85s of audio in the timeline). Some beats are silent (visual breath) and have no narration.
 
 Why micro-beats:
+
 1. The viewer's eyes follow the visual. If narration drifts away from what's on screen, attention breaks.
 2. Tight beats let the visual settle for ~0.3-0.6s after each clip — the brain needs that gap to integrate.
 3. Re-rendering one bad clip is cheap; re-rendering a 30-second monologue is not.
 4. Captions stay legible — short clips fit the caption bar without truncation.
 
 **Wrong (long segment)**:
+
 ```
 seg-005: "Now we compute the attention weights. We start with the dot product
 of Q and K transpose, then divide by the square root of d sub k for stability,
@@ -49,6 +51,7 @@ then apply softmax to normalize, then multiply by V to get the output."
 ```
 
 **Right (split into beats)**:
+
 ```
 beat-014  [MANIM_STEP show_Q]            "Start with the queries — Q."
 beat-015  [MANIM_STEP show_K_transpose]  "And the keys — K transpose."
@@ -70,7 +73,7 @@ The manifest has TWO timelines:
 Two consequences for how you write `[MANIM: ...]` cues:
 
 1. **You CAN reference one scene across N consecutive beats.** The migration tool collapses those into one `visualBlock` whose `description` is the **numbered concatenation** of every per-beat description in that run. The Manim mp4 plays once and **holds its final frame** while later beats narrate over it (no looping, no replays).
-2. **Always include `description="..."` in every `[MANIM: ...]` cue.** This is the metadata the visualizer reads to author the scene — they cannot guess from the narration alone. The description should describe *what the viewer sees right now in this beat*, not the cumulative state.
+2. **Always include `description="..."` in every `[MANIM: ...]` cue.** This is the metadata the visualizer reads to author the scene — they cannot guess from the narration alone. The description should describe _what the viewer sees right now in this beat_, not the cumulative state.
 
 Worked example — a 5-beat shared `leitmotif-flow` block becomes one description:
 
@@ -105,32 +108,39 @@ target_minutes: 12
 ## Act 1 — Why care?
 
 ### beat-001
+
 [VISUAL: titleCard "Attention Is All You Need" subtitle="Vaswani et al., 2017"]
 (silent 1.5s)
 
 ### beat-002
+
 [VISUAL: paperPage page=1 focus=top]
 "In 2017, eight researchers at Google quietly changed everything."
 
 ### beat-003
+
 [VISUAL: paperPage page=1 focus=center]
 "They threw away the recurrence."
 
 ### beat-004
+
 [PAUSE 0.6s]
 (silent)
 
 ### beat-005
+
 [VISUAL: highlightedQuote pageIdx=0 text="The Transformer ... is the first transduction model relying entirely on self-attention"]
 "This is the claim."
 
 ## Act 2 — The setup
 
 ### beat-006
+
 [MANIM: show_seq2seq_classic]
 "For years, the standard was: encoder, decoder, recurrence."
 
 ### beat-007
+
 [MANIM: show_seq2seq_classic_problem]
 "But recurrence is sequential. Slow."
 
@@ -150,11 +160,11 @@ target_minutes: 12
   - `[VISUAL: highlightedQuote pageIdx=N text="..." bbox="x,y,w,h"]` — manual override bbox (only when the resolver misses).
   - `[VISUAL: equationCard equationId=eq-XXX reveal=stepwise|all]` — full equation (KaTeX). `stepwise` reveals row-by-row.
   - `[VISUAL: equationStep equationId=eq-XXX step=K]` — placeholder for fine-grained step reveal (currently renders the same as `equationCard reveal=stepwise`).
-  - `[VISUAL: image src="img-001"]` *(asset-fetcher will resolve src to an actual file)*
+  - `[VISUAL: image src="img-001"]` _(asset-fetcher will resolve src to an actual file)_
   - `[VISUAL: diagram src="diag-001"]`
   - `[VISUAL: continue]` — **inherits the previous beat's visual** (used when the on-screen content shouldn't change but the narration does — see "Visual continuity" below).
-  - `[MANIM: <descriptive_name>]` *(visualizer writes the scene; the name encodes intent)*
-  - `[PAUSE <seconds>s]` *(silent breathing room — typically 0.3-1.0s)*
+  - `[MANIM: <descriptive_name>]` _(visualizer writes the scene; the name encodes intent)_
+  - `[PAUSE <seconds>s]` _(silent breathing room — typically 0.3-1.0s)_
 - **Narration line**: a single quoted string, OR `(silent ...)` for pause / silent-display beats.
 
 #### Visual continuity (CRITICAL — eliminates flicker)
@@ -164,6 +174,7 @@ When two or more consecutive narrated beats share the **same on-screen content**
 **Why this is non-negotiable**: every distinct `[VISUAL: ...]` cue produces a separate `visualBlock` in the manifest. Each block is wrapped in a `BlockFade` that fades to dark navy at its boundary. If beats 5-7 all say `[VISUAL: paperPage page=3 focus=center]`, the viewer sees three brief flashes to navy at the boundaries even though the content is identical. The migrator (`src/lib/manifest.ts:migrateToV2`) coalesces adjacent same-content blocks into one — but that only works when YOU avoid emitting redundant cues. (See CLAUDE.md hard-rule #17.)
 
 **Pattern**:
+
 ```
 ### beat-014
 [VISUAL: paperPage page=3 focus=top highlight="0.2,0.06,0.6,0.1"]
@@ -187,7 +198,7 @@ When narration names a sub-expression of an on-screen equation ("the softmax her
 **Signal syntax** inside `description="..."`:
 
 - `contour: <which part>` — for beats whose narration names the part but moves on (~1-3s on that part). The Manim helper takes ~2s.
-- `breakdown: <which part> as "<short label>"` — for beats whose narration *unpacks* the part for 3+ seconds. The label is what shows below the magnified copy.
+- `breakdown: <which part> as "<short label>"` — for beats whose narration _unpacks_ the part for 3+ seconds. The label is what shows below the magnified copy.
 
 Use both in sequence across consecutive beats of a shared Manim scene:
 
@@ -218,7 +229,7 @@ When the visualizer authors `softmax_walkthrough.py`, they concatenate the per-b
 
 - ≤1 `contour:` cue per beat. Two contours in 2 seconds reads as flicker.
 - Use `breakdown:` only for beats with 3+ seconds of voice on the same part. Otherwise `contour:`.
-- Don't break down the *whole* equation — break down a *part* of it. The breakdown's value is "this symbol means X"; if the whole equation needs explaining, that's a sequence of beats with their own contours, not one giant breakdown.
+- Don't break down the _whole_ equation — break down a _part_ of it. The breakdown's value is "this symbol means X"; if the whole equation needs explaining, that's a sequence of beats with their own contours, not one giant breakdown.
 - Label text is 3-6 words. "sum over every score in the vector" — yes. "the denominator, which is sum over all scores and acts as a normalization constant" — no, that's a beat in itself.
 - If you find yourself wanting to contour the same part across 3+ beats, you've over-fragmented — collapse those beats into one beat with `[long pause]` mid-sentence.
 
@@ -240,23 +251,24 @@ Our default model (`eleven_v3`) interprets bracketed inline tags in the narratio
 
 **The curated tag subset for academic narration** (full list and rationale in `references/usage/elevenlabs/README.md` section 3a):
 
-| Tag | When to use |
-|---|---|
-| `[curious]` | Opening a question, setup of a "why" beat |
-| `[calm]` | Steady technical exposition, definitions |
-| `[serious]` | A claim that matters, "the paper hand-waves this" |
-| `[conversational]` | Hooks, framings, audience asides |
-| `[pensive]` | Reflective beats, "let's sit with this" |
-| `[emphasized]` | Single landmark words/phrases |
-| `[wistful]` | Closing implications |
-| `[pause]` | Beat for emphasis (~0.4-0.6s) — alternative to a separate `[PAUSE]` beat for SHORT pauses inside narration |
-| `[long pause]` | ~0.8-1.2s. Once or twice per video, max. |
-| `[slow]` | Per-equation-step verbal walk |
-| `[sighs]` | Rare. A "the paper is wrong about this" lament. |
+| Tag                | When to use                                                                                                |
+| ------------------ | ---------------------------------------------------------------------------------------------------------- |
+| `[curious]`        | Opening a question, setup of a "why" beat                                                                  |
+| `[calm]`           | Steady technical exposition, definitions                                                                   |
+| `[serious]`        | A claim that matters, "the paper hand-waves this"                                                          |
+| `[conversational]` | Hooks, framings, audience asides                                                                           |
+| `[pensive]`        | Reflective beats, "let's sit with this"                                                                    |
+| `[emphasized]`     | Single landmark words/phrases                                                                              |
+| `[wistful]`        | Closing implications                                                                                       |
+| `[pause]`          | Beat for emphasis (~0.4-0.6s) — alternative to a separate `[PAUSE]` beat for SHORT pauses inside narration |
+| `[long pause]`     | ~0.8-1.2s. Once or twice per video, max.                                                                   |
+| `[slow]`           | Per-equation-step verbal walk                                                                              |
+| `[sighs]`          | Rare. A "the paper is wrong about this" lament.                                                            |
 
 **Tags we DO NOT use on academic content** (sound theatrical, undermine credibility): `[laughs]`, `[giggles]`, `[shouts]`, `[whispers]`, `[mischievous]`, `[playfully]`, `[sarcastic]`, `[deadpan]`, `[childlike]`, `[crying]`, `[gasps]`, `[trembling]`, `[robotic]`, accent tags. If you're tempted, the script is wrong — fix the words.
 
 **Placement rules**:
+
 - One tag per beat is the target. Two is the hard ceiling. Three+ in 25 words sounds glitchy.
 - Place tags before the words they modify: `[curious] Why does this work?` — yes; `Why does this work [curious]?` — no.
 - Tags persist until contradicted or sentence-end.
@@ -264,6 +276,7 @@ Our default model (`eleven_v3`) interprets bracketed inline tags in the narratio
 - Mid-sentence tags allowed but rare (`… [emphasized] one — single — formula.`).
 
 **Budget**:
+
 - ≥60% of beats should have NO tag. The cumulative cadence comes from a few well-placed tags, not from tagging everything.
 - ≤30% of beats: 1 tag.
 - ≤10% of beats: 2 tags.
@@ -354,7 +367,7 @@ Anti-patterns to avoid:
 - Title card as beat 1 with the narrator reading the title — wastes the 5-second window.
 - A multi-sentence "summary" of the paper in beat 1. The teaser is a hook, not an abstract.
 - Equations or notation in the teaser. Save those for Act 1+.
-- Generic openers: *"In this video we'll explore…", "This paper introduces…", "Today we'll learn about…"*. Cut them. Lead with the surprise.
+- Generic openers: _"In this video we'll explore…", "This paper introduces…", "Today we'll learn about…"_. Cut them. Lead with the surprise.
 
 ### Hard rules for structure
 
@@ -388,6 +401,7 @@ For shorter videos, scale these down proportionally — a 5-min video should sti
 ## Cost & length sanity check
 
 After writing the script, sum:
+
 - Total narration character count → estimate ElevenLabs cost (warn if > 25 000 chars without user confirmation).
 - Total estimated beat duration → ensure it lands within ±10% of `config.yaml.targetLengthMinutes × 60`.
 

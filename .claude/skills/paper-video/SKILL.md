@@ -33,10 +33,11 @@ Each agent has its own context window. The `videos/<slug>/` folder is the persis
 ### `/paper-video new <source>`
 
 `<source>` is interpreted via `classifySource`:
+
 - arxiv id / arxiv URL / http(s) URL ending in `.pdf` / local `.pdf` path → **paper mode**
 - anything else → **topic mode**
 
-**Both modes** start with: *"Render bottom captions over the video? (default no)"* — one short message, default off, never re-asked in the same session.
+**Both modes** start with: _"Render bottom captions over the video? (default no)"_ — one short message, default off, never re-asked in the same session.
 
 #### Paper-mode flow
 
@@ -51,7 +52,7 @@ Each agent has its own context window. The `videos/<slug>/` folder is the persis
 2. `npm run new-topic -- "<topic>" <slug> [--captions] [--target-minutes N]` → `videos/<slug>/topic.md` + `config.yaml` with `mode: topic` + initial `manifest.json`. **No paper.pdf, no paper.md, no equations.json yet.**
 3. **Skip paper-extractor.** Print summary: slug, topic prompt, captions on/off, suggested next step (`/paper-video render <slug>`).
 
-The critic decides at runtime whether the video would benefit from pulling a canonical paper. If yes, the critic emits a `pullPaper: {source: "..."}` field in `brief.json` and the orchestrator runs `fetch-paper` + `paper-extractor` *before* the storyteller starts. The brief, script, and asset pipeline then operate as if paper-mode had been chosen from the start. This is the "harness thinks using a paper would be better" branch.
+The critic decides at runtime whether the video would benefit from pulling a canonical paper. If yes, the critic emits a `pullPaper: {source: "..."}` field in `brief.json` and the orchestrator runs `fetch-paper` + `paper-extractor` _before_ the storyteller starts. The brief, script, and asset pipeline then operate as if paper-mode had been chosen from the start. This is the "harness thinks using a paper would be better" branch.
 
 ### `/paper-video render <slug>`
 
@@ -66,7 +67,7 @@ its asset / Manim mp4, and the manifest is consistent.
    - otherwise → paper mode. If `paper.md` is missing in paper mode, run `new` first.
 2. Confirm voice alias with the user (one short message) unless already specified in this session.
 3. Delegate, in order:
-   - **critic** → `brief.json`. In paper mode the critic reads `paper.md` + `equations.json`. In topic mode the critic reads `topic.md` and does its own web research. The critic may also emit `pullPaper: { source: "..." }` in topic mode if they want to ground the video in a canonical paper — if present, the orchestrator runs `npm run fetch-paper -- <source> <slug>` + delegates **paper-extractor** *now*, then re-delegates critic to refine with the paper.
+   - **critic** → `brief.json`. In paper mode the critic reads `paper.md` + `equations.json`. In topic mode the critic reads `topic.md` and does its own web research. The critic may also emit `pullPaper: { source: "..." }` in topic mode if they want to ground the video in a canonical paper — if present, the orchestrator runs `npm run fetch-paper -- <source> <slug>` + delegates **paper-extractor** _now_, then re-delegates critic to refine with the paper.
    - **storyteller** → `script.md`. Works in both modes; in topic mode it cannot emit `[VISUAL: paperPage]` or `[VISUAL: highlightedQuote]` cues unless the critic pulled a paper. Equation cues (`[VISUAL: equationCard]`, `[VISUAL: equationStep]`) reference ids in `equations.json`, which the critic populates in topic mode from their research.
    - **asset-fetcher** → `images/`, `diagrams/`, `assets-index.json`. In topic mode there's no `paper-md-assets/` to draw from — every image is web-fetched or generated.
    - **producer** → `narration/beat-*.{mp3,timestamps.json}` + updated `manifest.json` segments.
@@ -86,10 +87,11 @@ Cheap iteration on the narrative — re-run critic + storyteller only.
 ### `/paper-video list`
 
 Walk `videos/*/`, report each:
+
 - Mode (`paper` or `topic`, from `config.yaml.mode` or by checking whether `paper.pdf` exists)
 - Has `paper.pdf`? `paper.md`? `topic.md`? `brief.json`? `script.md`? `narration/`? `output.mp4`?
 - Beat count, output duration if rendered, last modified.
-Print as a table.
+  Print as a table.
 
 ## Cross-cutting reminders
 

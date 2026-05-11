@@ -141,13 +141,20 @@ function findRun(tokens: Token[], target: string): { start: number; end: number 
  * Resolve a quote on a given page to a normalized bbox.
  * Returns null on miss (caller should warn but not crash).
  */
-export async function resolveBBox(slug: string, pageNum: number, quote: string): Promise<BBox | null> {
+export async function resolveBBox(
+  slug: string,
+  pageNum: number,
+  quote: string,
+): Promise<BBox | null> {
   const target = normalize(quote);
   if (!target) return null;
   const { tokens, pageWidth, pageHeight } = await loadPage(slug, pageNum);
   const run = findRun(tokens, target);
   if (!run) return null;
-  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+  let minX = Infinity,
+    minY = Infinity,
+    maxX = -Infinity,
+    maxY = -Infinity;
   for (let i = run.start; i <= run.end; i++) {
     const t = tokens[i]!;
     minX = Math.min(minX, t.x);

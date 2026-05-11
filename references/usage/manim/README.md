@@ -4,12 +4,12 @@ Read this first. The full upstream is at `references/raw-packages/manim/` if you
 
 ## Render flag cheat-sheet
 
-| Flag | Resolution | Use |
-|---|---|---|
-| `-ql` | 480p15 | quick smoke tests only |
-| `-qm` | 720p30 | preview |
-| `-qh` | 1080p60 | **production default** |
-| `-qk` | 2160p60 | hero shots only |
+| Flag  | Resolution | Use                    |
+| ----- | ---------- | ---------------------- |
+| `-ql` | 480p15     | quick smoke tests only |
+| `-qm` | 720p30     | preview                |
+| `-qh` | 1080p60    | **production default** |
+| `-qk` | 2160p60    | hero shots only        |
 
 We always render production with `-qh` (1080p60). The renderer ingests the mp4 and Remotion plays it at 30fps in the final composition; 60fps Manim → 30fps Remotion is fine because we treat the clip as decoded video frames.
 
@@ -70,7 +70,7 @@ NEUTRAL   = GREY_B      # axes, grid, supporting text
 
 When the narration names a sub-expression ("the softmax here", "the denominator", "this temperature term"), the viewer must know which symbol on screen is meant — they cannot scan. Two helpers in `equation-explanation.py` solve this. **Paste them at the top of every scene file that explains an equation, alongside `fit_to_frame`.**
 
-- `contour_flash(scene, mob)` — soft rounded `SurroundingRectangle` traces around `mob` in ~0.4s, holds ~1.2s, fades ~0.35s. Use for *passing references* (the narration names the part but moves on).
-- `explain_part(scene, equation, part, label)` — the part slides left, scales up, a label appears below it; rest of equation dims. After `hold` seconds the part slides back and the equation un-dims. Use when the narration *unpacks* the part for 3+ seconds.
+- `contour_flash(scene, mob)` — soft rounded `SurroundingRectangle` traces around `mob` in ~0.4s, holds ~1.2s, fades ~0.35s. Use for _passing references_ (the narration names the part but moves on).
+- `explain_part(scene, equation, part, label)` — the part slides left, scales up, a label appears below it; rest of equation dims. After `hold` seconds the part slides back and the equation un-dims. Use when the narration _unpacks_ the part for 3+ seconds.
 
 See `equation-explanation.py` for the canonical implementation and a worked example walking through `softmax(s)_i = exp(s_i) / sum_j exp(s_j)`.

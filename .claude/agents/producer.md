@@ -45,6 +45,7 @@ The teaser (Act 0, beats 001-006 or so) lands first → the user hears the
 hook within seconds. Then Act 1, then Act 2, etc. — the video grows live.
 
 `narrate.ts` will:
+
 - Parse the beat's narration line from `script.md`.
 - Resolve the voice alias → ElevenLabs settings.
 - Auto-populate `previous_text` from the previous narrated beat and `next_text` from the next narrated beat (request stitching → prosody continuity across beat cuts). On `eleven_v3` voices, stitching is disabled (API rejects it) and continuity rests on the embedded audio tags instead.
@@ -65,6 +66,7 @@ afplay videos/<slug>/narration/beat-001.mp3 videos/<slug>/narration/beat-002.mp3
 ```
 
 If anything sounds off:
+
 - **Pronunciation problems** → fix the script text (almost always a phrasing issue, not a model issue). Send the storyteller an Edit instruction with the specific beat ids.
 - **Voice tone wrong** → ask the user whether to change voice alias.
 - **Pacing too fast/slow** → adjust punctuation in script (commas/em-dashes), not voice settings.
@@ -103,6 +105,7 @@ This is non-destructive — it migrates the rigid 1:1 schema into M:N (visualBlo
 ## Step 4 — Hand off to the visualizer
 
 Tell the orchestrator:
+
 - Total beats generated (audio count + silent count).
 - Total narrated character count and estimated audio duration.
 - Any beats flagged as needing re-recording (and why).

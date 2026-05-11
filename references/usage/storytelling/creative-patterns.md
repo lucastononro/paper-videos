@@ -9,24 +9,26 @@ Pull the viewer's eye to the exact spot on the page where the claim lives.
 ### Pattern: spotlight
 
 A paper page with a dim mask everywhere except a glowing rectangle around the relevant paragraph or equation. Use when:
+
 - A specific sentence in the paper IS the evidence for what the narrator just said.
 - An equation lives in the paper at a specific spot you want to anchor.
-- You want the viewer to *read* a phrase, not paraphrase it.
+- You want the viewer to _read_ a phrase, not paraphrase it.
 
 Script grammar:
+
 ```
 [VISUAL: paperPage page=1 focus=top highlight="0.10,0.16,0.80,0.18"]
 ```
 
 The four numbers are normalized `x,y,w,h` in [0,1] of the page image (top-left origin). Approximate values are fine — the storyteller doesn't need pixel precision. Some common bboxes:
 
-| Region | Approx bbox |
-|---|---|
+| Region                             | Approx bbox             |
+| ---------------------------------- | ----------------------- |
 | The abstract block (top of page 1) | `"0.10,0.16,0.80,0.18"` |
-| A single equation line (mid page) | `"0.20,0.42,0.60,0.05"` |
-| First paragraph of a section | `"0.10,0.30,0.80,0.10"` |
-| A figure caption strip | `"0.10,0.55,0.80,0.04"` |
-| Bottom-of-page citation | `"0.10,0.85,0.80,0.06"` |
+| A single equation line (mid page)  | `"0.20,0.42,0.60,0.05"` |
+| First paragraph of a section       | `"0.10,0.30,0.80,0.10"` |
+| A figure caption strip             | `"0.10,0.55,0.80,0.04"` |
+| Bottom-of-page citation            | `"0.10,0.85,0.80,0.06"` |
 
 When a beat's narration explicitly quotes the paper, use a `highlightedQuote` instead — the page highlight + the pulled-out text together is much stronger than either alone.
 
@@ -68,7 +70,7 @@ beat-N+3  [MANIM: vec_dot_intuit]  "When they point the same way, the sum is lar
 beat-N+4  [VISUAL: equationCard equationId=eq-001 reveal=stepwise]  "That's the dot product."
 ```
 
-Five beats; the formula lands in beat 5 *as the resolution* of a question that the viewer was tracking from beat 1. Way more memorable than just showing eq-001 with "this is the dot product."
+Five beats; the formula lands in beat 5 _as the resolution_ of a question that the viewer was tracking from beat 1. Way more memorable than just showing eq-001 with "this is the dot product."
 
 ### Pattern: term-by-term reveal
 
@@ -95,7 +97,7 @@ beat-N+3  [MANIM: scaling_fix]          "Divide by sqrt of d sub k."
 beat-N+4  [MANIM: softmax_healthy]      "Now it stays trainable."
 ```
 
-Use whenever the paper has a "we found that ___ helps" claim. Show the failure, then the fix.
+Use whenever the paper has a "we found that \_\_\_ helps" claim. Show the failure, then the fix.
 
 ### Pattern: shape the inputs and outputs
 
@@ -128,7 +130,7 @@ class ObjectToFormulaMorph(Scene):
         self.play(ReplacementTransform(VGroup(vec_a, vec_b), formula))
 ```
 
-The viewer sees the symbol *come from* the geometric thing.
+The viewer sees the symbol _come from_ the geometric thing.
 
 ### Pattern: side-by-side comparison
 
@@ -147,11 +149,12 @@ self.add(bars)
 self.play(d_k.animate.set_value(64), run_time=4)
 ```
 
-Use sparingly — works great for *one* sweep per video.
+Use sparingly — works great for _one_ sweep per video.
 
 ### Pattern: visual metaphor
 
 Borrow imagery from outside ML. Examples:
+
 - Attention as "soft database lookup" — show keys, query, weighted retrieval
 - Gradient descent as "rolling down a hill" — show a ball on a 3D loss surface
 - Autoregressive generation as "filling in a sentence one word at a time" — show a typewriter
@@ -173,18 +176,18 @@ When a concept introduced earlier returns, briefly flash the same visual element
 
 ## 4. When to use which
 
-| The narrator says... | Pattern to reach for |
-|---|---|
-| "Look at this in the paper..." | Paper-page highlight |
-| "The authors claim..." | Highlighted quote (with bbox) |
-| "Let's see why..." | Multi-beat deduction (from-question derivation) |
-| "First Q, then K, then V..." | Term-by-term reveal |
-| "Without scaling..." | Motivation / prove-by-contradiction |
-| "Q is a matrix of shape..." | Shape inputs/outputs (Manim block diagram) |
-| "It's like a database lookup" | Visual metaphor |
-| "As d sub k grows..." | Parameter sweep |
-| "Here's the old way / new way" | Side-by-side comparison |
-| "Recall from earlier..." | Callback (same color, same position) |
+| The narrator says...           | Pattern to reach for                            |
+| ------------------------------ | ----------------------------------------------- |
+| "Look at this in the paper..." | Paper-page highlight                            |
+| "The authors claim..."         | Highlighted quote (with bbox)                   |
+| "Let's see why..."             | Multi-beat deduction (from-question derivation) |
+| "First Q, then K, then V..."   | Term-by-term reveal                             |
+| "Without scaling..."           | Motivation / prove-by-contradiction             |
+| "Q is a matrix of shape..."    | Shape inputs/outputs (Manim block diagram)      |
+| "It's like a database lookup"  | Visual metaphor                                 |
+| "As d sub k grows..."          | Parameter sweep                                 |
+| "Here's the old way / new way" | Side-by-side comparison                         |
+| "Recall from earlier..."       | Callback (same color, same position)            |
 
 ## 5. Avoid
 

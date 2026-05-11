@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  AbsoluteFill,
-  Img,
-  Sequence,
-  useCurrentFrame,
-  interpolate,
-} from 'remotion';
+import { AbsoluteFill, Img, Sequence, useCurrentFrame, interpolate } from 'remotion';
 
 // Fade-in / fade-out edges for every visual block, so transitions feel like
 // "erasing and starting a new page" instead of jump-cutting. Both edges fade
@@ -125,10 +119,7 @@ export const PaperExplainerCore: React.FC<PaperExplainerCoreProps> = ({
   assetBaseUrl,
   cacheBustKey,
 }) => {
-  const eqMap = React.useMemo(
-    () => new Map(equations.map((e) => [e.id, e])),
-    [equations],
-  );
+  const eqMap = React.useMemo(() => new Map(equations.map((e) => [e.id, e])), [equations]);
   const resolve = React.useCallback(
     (rel: string) => {
       const url = `${assetBaseUrl}${rel}`;
@@ -282,11 +273,9 @@ const BlockFade: React.FC<{
   const fadeIn = Math.min(BLOCK_FADE_IN_FRAMES, Math.floor(durationFrames / 4));
   const fadeOut = Math.min(BLOCK_FADE_OUT_FRAMES, Math.floor(durationFrames / 4));
   const fadeOutStart = Math.max(durationFrames - fadeOut, fadeIn);
-  const opacity = interpolate(
-    frame,
-    [0, fadeIn, fadeOutStart, durationFrames],
-    [0, 1, 1, 0],
-    { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' },
-  );
+  const opacity = interpolate(frame, [0, fadeIn, fadeOutStart, durationFrames], [0, 1, 1, 0], {
+    extrapolateLeft: 'clamp',
+    extrapolateRight: 'clamp',
+  });
   return <AbsoluteFill style={{ opacity }}>{children}</AbsoluteFill>;
 };

@@ -84,10 +84,8 @@ export const useChatStore = create<ChatState>((set, get) => ({
       hydratedBySlug: { ...s.hydratedBySlug, [slug]: true },
     }));
   },
-  setInFlight: (slug, v) =>
-    set((s) => ({ inFlightBySlug: { ...s.inFlightBySlug, [slug]: v } })),
-  setQueue: (slug, queue) =>
-    set((s) => ({ queueBySlug: { ...s.queueBySlug, [slug]: queue } })),
+  setInFlight: (slug, v) => set((s) => ({ inFlightBySlug: { ...s.inFlightBySlug, [slug]: v } })),
+  setQueue: (slug, queue) => set((s) => ({ queueBySlug: { ...s.queueBySlug, [slug]: queue } })),
   cancelQueued: (slug, id) => {
     ws.send({ kind: 'chat:cancel-queued', slug, ...(id ? { id } : {}) });
   },
@@ -97,7 +95,9 @@ export const useChatStore = create<ChatState>((set, get) => ({
     const last = items[items.length - 1];
     if (last && last.kind === 'assistant') {
       const newChunks = last.chunks.map((c) =>
-        c.kind === 'tool' && c.status === 'running' ? { ...c, status: 'error' as const, result: '(cancelled)' } : c,
+        c.kind === 'tool' && c.status === 'running'
+          ? { ...c, status: 'error' as const, result: '(cancelled)' }
+          : c,
       );
       const updated: ChatItem = { ...last, chunks: newChunks };
       set((s) => ({
@@ -118,16 +118,16 @@ export const useChatStore = create<ChatState>((set, get) => ({
 function applyEvent(items: ChatItem[], e: ServerEvent): ChatItem[] {
   switch (e.kind) {
     case 'user_text':
-      return [
-        ...items,
-        { kind: 'user', id: `u-${e.ts}-${Math.random()}`, text: e.text, ts: e.ts },
-      ];
+      return [...items, { kind: 'user', id: `u-${e.ts}-${Math.random()}`, text: e.text, ts: e.ts }];
     case 'text': {
       const last = items[items.length - 1];
       if (last && last.kind === 'assistant' && last.id === e.messageId) {
         return [
           ...items.slice(0, -1),
-          { ...last, chunks: [...last.chunks, { kind: 'text', messageId: e.messageId, text: e.text }] },
+          {
+            ...last,
+            chunks: [...last.chunks, { kind: 'text', messageId: e.messageId, text: e.text }],
+          },
         ];
       }
       return [
@@ -154,10 +154,7 @@ function applyEvent(items: ChatItem[], e: ServerEvent): ChatItem[] {
       if (last && last.kind === 'assistant' && last.id === e.messageId) {
         return [...items.slice(0, -1), { ...last, chunks: [...last.chunks, newChunk] }];
       }
-      return [
-        ...items,
-        { kind: 'assistant', id: e.messageId, ts: Date.now(), chunks: [newChunk] },
-      ];
+      return [...items, { kind: 'assistant', id: e.messageId, ts: Date.now(), chunks: [newChunk] }];
     }
     case 'tool_result': {
       // Find the tool chunk by toolUseId across all assistant items.
@@ -210,7 +207,10 @@ function applyEvent(items: ChatItem[], e: ServerEvent): ChatItem[] {
       ];
     }
     case 'error':
-      return [...items, { kind: 'system', id: `err-${Date.now()}`, ts: Date.now(), text: `error: ${e.message}` }];
+      return [
+        ...items,
+        { kind: 'system', id: `err-${Date.now()}`, ts: Date.now(), text: `error: ${e.message}` },
+      ];
     case 'done':
     case 'preview:reload':
     case 'system_raw':

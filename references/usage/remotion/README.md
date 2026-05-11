@@ -4,7 +4,7 @@ Read this first. Full upstream is at `references/raw-packages/remotion/`.
 
 ## Mental model
 
-- A composition has `fps`, `durationInFrames`, `width`, `height`. Every visual is positioned by *frame*.
+- A composition has `fps`, `durationInFrames`, `width`, `height`. Every visual is positioned by _frame_.
 - `<Sequence from={N} durationInFrames={D}>` places its children at frame N for D frames.
 - `<Audio src={...}>` plays an audio track. Multiple `<Audio>`s mix automatically.
 - `<OffthreadVideo src={...}>` plays a video; the audio of the video plays with it (we mute Manim mp4s).
@@ -24,12 +24,12 @@ See `audio-sync-pattern.tsx` in this folder. The core idea: each segment is one 
 
 ## Where things live in our repo
 
-| File | Purpose |
-|---|---|
-| `src/remotion/Root.tsx` | Composition registration |
-| `src/remotion/compositions/PaperExplainer.tsx` | The single composition we render |
-| `src/remotion/components/*.tsx` | Reusable visual components — `PaperPage`, `EquationCard`, `ManimClip`, `HighlightedQuote`, `TitleCard`, `Narration`, `CaptionBar` |
-| `src/tools/render-remotion.ts` | Headless renderer (`bundle()` + `renderMedia()`) |
+| File                                           | Purpose                                                                                                                           |
+| ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `src/remotion/Root.tsx`                        | Composition registration                                                                                                          |
+| `src/remotion/compositions/PaperExplainer.tsx` | The single composition we render                                                                                                  |
+| `src/remotion/components/*.tsx`                | Reusable visual components — `PaperPage`, `EquationCard`, `ManimClip`, `HighlightedQuote`, `TitleCard`, `Narration`, `CaptionBar` |
+| `src/tools/render-remotion.ts`                 | Headless renderer (`bundle()` + `renderMedia()`)                                                                                  |
 
 ## Don't
 

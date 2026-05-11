@@ -110,9 +110,7 @@ const Item: React.FC<{
     );
   }
   if (item.kind === 'system') {
-    return (
-      <div className="chat-msg chat-msg-system">{item.text}</div>
-    );
+    return <div className="chat-msg chat-msg-system">{item.text}</div>;
   }
   if (item.kind === 'notice') {
     return (
@@ -143,9 +141,7 @@ const Item: React.FC<{
   );
 };
 
-type ChunkGroup =
-  | { kind: 'text-run'; text: string }
-  | { kind: 'tool'; tool: ChatToolItem };
+type ChunkGroup = { kind: 'text-run'; text: string } | { kind: 'tool'; tool: ChatToolItem };
 
 function groupChunks(chunks: Array<ChatTextItem | ChatToolItem>): ChunkGroup[] {
   const out: ChunkGroup[] = [];

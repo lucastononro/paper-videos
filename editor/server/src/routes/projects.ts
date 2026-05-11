@@ -25,10 +25,7 @@ projectsRouter.get('/', (_req: Request, res: Response) => {
         const outputMp4 = path.join(VIDEOS_DIR, slug, 'output.mp4');
         const hasOutputMp4 = fs.existsSync(outputMp4);
         const lastModified = (() => {
-          const stats = [
-            path.join(VIDEOS_DIR, slug, 'manifest.json'),
-            outputMp4,
-          ]
+          const stats = [path.join(VIDEOS_DIR, slug, 'manifest.json'), outputMp4]
             .filter(fs.existsSync)
             .map((p) => fs.statSync(p).mtimeMs);
           return stats.length > 0 ? Math.max(...stats) : 0;

@@ -24,6 +24,7 @@ is a visual bug.
 1-2 sentences.
 
 **Environment**
+
 - OS + version: (e.g. macOS 14.5)
 - Node: `node --version`
 - Python: `python --version`

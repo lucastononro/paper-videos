@@ -19,7 +19,7 @@ import { useRenderBindings, useRenderStore } from '../render/store';
 import { navigate } from '../router';
 
 type LoadState =
-  | { kind: 'draft' }                                 // no manifest yet — chat-only mode
+  | { kind: 'draft' } // no manifest yet — chat-only mode
   | { kind: 'preparing' }
   | { kind: 'loading' }
   | { kind: 'ready'; data: FullPreviewData }
@@ -142,7 +142,15 @@ export const EditorPage: React.FC<{ slug: string }> = ({ slug }) => {
     // means tall children (chat with many tool cards) blow out the layout and
     // push the body to scroll. `minmax(0, 1fr)` allows the row to shrink so
     // the chat / player constrain themselves and scroll internally.
-    <div style={{ display: 'grid', gridTemplateRows: 'auto minmax(0, 1fr)', height: '100%', width: '100%', overflow: 'hidden' }}>
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateRows: 'auto minmax(0, 1fr)',
+        height: '100%',
+        width: '100%',
+        overflow: 'hidden',
+      }}
+    >
       <header
         style={{
           display: 'flex',

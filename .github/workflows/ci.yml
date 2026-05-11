@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          submodules: false  # raw-packages submodules are heavy and not needed for typecheck
+          submodules: false # raw-packages submodules are heavy and not needed for typecheck
 
       - uses: actions/setup-node@v4
         with:

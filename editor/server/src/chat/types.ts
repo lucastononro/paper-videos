@@ -46,9 +46,22 @@ export type ChatEvent =
       queue: Array<{ id: string; text: string; ts: number }>;
     }
   /** Render-button progress for a button-driven Remotion render (no agent). */
-  | { kind: 'render:state'; slug: string; running: boolean; percent: number; startedAt: number | null }
+  | {
+      kind: 'render:state';
+      slug: string;
+      running: boolean;
+      percent: number;
+      startedAt: number | null;
+    }
   | { kind: 'render:progress'; slug: string; percent: number; line?: string }
-  | { kind: 'render:done'; slug: string; ok: boolean; code: number | null; durationMs: number; tailLog: string }
+  | {
+      kind: 'render:done';
+      slug: string;
+      ok: boolean;
+      code: number | null;
+      durationMs: number;
+      tailLog: string;
+    }
   /**
    * Auto-QA finished a fresh run for a slug. Editor banners refetch the
    * report when this lands; gallery cards can show issue counts. The full

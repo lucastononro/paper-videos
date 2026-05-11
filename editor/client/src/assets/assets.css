@@ -14,7 +14,7 @@
   border-bottom: 1px solid var(--border);
   background: var(--bg-elev);
   font-size: 12px;
-  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
 }
 .assets-crumb {
   all: unset;
@@ -22,11 +22,22 @@
   padding: 3px 6px;
   border-radius: 4px;
   color: var(--text-mute);
-  transition: background 0.12s, color 0.12s;
+  transition:
+    background 0.12s,
+    color 0.12s;
 }
-.assets-crumb:hover { background: var(--bg-elev-2); color: var(--text); }
-.assets-crumb:disabled { color: var(--text); cursor: default; }
-.assets-crumb-sep { color: var(--border); padding: 0 2px; }
+.assets-crumb:hover {
+  background: var(--bg-elev-2);
+  color: var(--text);
+}
+.assets-crumb:disabled {
+  color: var(--text);
+  cursor: default;
+}
+.assets-crumb-sep {
+  color: var(--border);
+  padding: 0 2px;
+}
 .assets-refresh {
   all: unset;
   cursor: pointer;
@@ -36,7 +47,10 @@
   color: var(--text-mute);
   font-size: 12px;
 }
-.assets-refresh:hover { color: var(--text); background: var(--bg-elev-2); }
+.assets-refresh:hover {
+  color: var(--text);
+  background: var(--bg-elev-2);
+}
 
 .assets-body {
   flex: 1;
@@ -61,15 +75,17 @@
   padding: 5px 8px;
   border-radius: 4px;
   cursor: pointer;
-  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
   font-size: 12px;
   color: var(--text);
   white-space: nowrap;
 }
-.assets-row:hover { background: var(--bg-elev-2); }
+.assets-row:hover {
+  background: var(--bg-elev-2);
+}
 .assets-row.is-selected {
-  background: rgba(121,192,255,0.08);
-  border: 1px solid rgba(121,192,255,0.30);
+  background: rgba(121, 192, 255, 0.08);
+  border: 1px solid rgba(121, 192, 255, 0.3);
   padding: 4px 7px;
 }
 .assets-row-icon {
@@ -88,7 +104,8 @@
   font-size: 10px;
   color: var(--text-mute);
 }
-.assets-loading, .assets-empty {
+.assets-loading,
+.assets-empty {
   padding: 16px;
   color: var(--text-mute);
   font-size: 12px;
@@ -98,8 +115,8 @@
   padding: 12px;
   color: #ff9494;
   font-size: 12px;
-  border: 1px solid rgba(255,148,148,0.30);
-  background: rgba(255,148,148,0.05);
+  border: 1px solid rgba(255, 148, 148, 0.3);
+  background: rgba(255, 148, 148, 0.05);
   border-radius: 6px;
   margin: 6px;
 }
@@ -137,7 +154,7 @@
   font-size: 12px;
 }
 .file-preview-name {
-  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
   color: var(--text);
   font-weight: 600;
   overflow: hidden;
@@ -147,7 +164,7 @@
 .file-preview-mime {
   font-size: 11px;
   color: var(--text-mute);
-  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
 }
 .file-preview-download {
   font-size: 11px;
@@ -157,7 +174,10 @@
   border-radius: 4px;
   border: 1px solid var(--border);
 }
-.file-preview-download:hover { color: var(--text); background: var(--bg-elev-2); }
+.file-preview-download:hover {
+  color: var(--text);
+  background: var(--bg-elev-2);
+}
 .file-preview-body {
   flex: 1;
   display: flex;
@@ -177,7 +197,7 @@
   border-radius: 6px;
   white-space: pre-wrap;
   word-break: break-word;
-  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
   font-size: 12px;
   line-height: 1.5;
   color: var(--text);
@@ -191,4 +211,6 @@
   padding: 14px;
   text-align: center;
 }
-.file-preview-error { color: #ff9494; }
+.file-preview-error {
+  color: #ff9494;
+}

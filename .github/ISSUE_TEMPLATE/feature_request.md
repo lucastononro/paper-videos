@@ -17,4 +17,4 @@ Which agent / tool / hard rule would you change, and how?
 Other approaches you thought about and why you preferred this one.
 
 **Out of scope (for this issue)**
-Anything you are *not* proposing here, to keep the discussion focused.
+Anything you are _not_ proposing here, to keep the discussion focused.

@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  AbsoluteFill,
-  continueRender,
-  delayRender,
-  interpolate,
-  useCurrentFrame,
-} from 'remotion';
+import { AbsoluteFill, continueRender, delayRender, interpolate, useCurrentFrame } from 'remotion';
 import { splitLatex } from '../../lib/split-latex';
 
 /**
@@ -42,8 +36,12 @@ export const EquationCard: React.FC<{
     >
       {lines.map((line, i) => {
         const start = i * perLineFrames;
-        const opacity = interpolate(frame, [start, start + 10], [0, 1], { extrapolateRight: 'clamp' });
-        const translateY = interpolate(frame, [start, start + 10], [12, 0], { extrapolateRight: 'clamp' });
+        const opacity = interpolate(frame, [start, start + 10], [0, 1], {
+          extrapolateRight: 'clamp',
+        });
+        const translateY = interpolate(frame, [start, start + 10], [12, 0], {
+          extrapolateRight: 'clamp',
+        });
         return (
           <MathLine
             key={i}

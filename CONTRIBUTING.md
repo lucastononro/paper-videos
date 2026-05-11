@@ -67,7 +67,7 @@ See `CLAUDE.md` § "How to invoke /paper-video" for all subcommands.
 - [ ] If you fixed a bug, the lesson is added either to
       `references/usage/visualization/best-practices.md` (failure-modes table)
       or to a CLAUDE.md hard rule.
-- [ ] Commit message describes the *why* in the body, not just the *what*.
+- [ ] Commit message describes the _why_ in the body, not just the _what_.
 
 ## Reporting bugs
 

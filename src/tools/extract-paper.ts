@@ -67,7 +67,13 @@ fs.writeFileSync(targetEq, JSON.stringify(equations, null, 2));
 
 fs.rmSync(tmpOut, { recursive: true, force: true });
 
-console.log(JSON.stringify({ slug, paperMd: targetMd, equationsJson: targetEq, equationCount: equations.length }, null, 2));
+console.log(
+  JSON.stringify(
+    { slug, paperMd: targetMd, equationsJson: targetEq, equationCount: equations.length },
+    null,
+    2,
+  ),
+);
 
 // ---------------------------------------------------------------------------
 

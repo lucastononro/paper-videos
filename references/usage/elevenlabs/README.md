@@ -7,6 +7,7 @@ The narrator/producer subagents' primary reference. Read every section before ge
 Voices are defined in `voices.yaml` by alias only (e.g. `pharaoh`). Per-video `config.yaml` and per-section `script.md` frontmatter reference voices by alias — never paste a raw `voice_id` into a script.
 
 To add a voice:
+
 1. Browse https://elevenlabs.io/app/voice-library and copy a voice id.
 2. Add an alias under `voices:` in `voices.yaml` with the settings below.
 3. (Optional) Set `default_voice` to the new alias.
@@ -17,12 +18,12 @@ In 2026 we default to **`eleven_v3`** because it supports **audio tags** — bra
 
 Other models still available:
 
-| Model | When to use | Why we don't default to it |
-|---|---|---|
-| **`eleven_v3`** | **Default.** Audio-tag aware, expressive, supports `with-timestamps`. | — |
+| Model                    | When to use                                                                        | Why we don't default to it                          |
+| ------------------------ | ---------------------------------------------------------------------------------- | --------------------------------------------------- |
+| **`eleven_v3`**          | **Default.** Audio-tag aware, expressive, supports `with-timestamps`.              | —                                                   |
 | `eleven_multilingual_v2` | Long single-shot narrations, very stable but tone-flat. 10 000-char limit per req. | No audio tags. Voices sound dry on lecture content. |
-| `eleven_flash_v2_5` | Real-time / streaming use cases. | Disables number normalization → mangles equations. |
-| `eleven_turbo_v2_5` | Cost-sensitive batch. | Lower quality vs v3 for the same price tier. |
+| `eleven_flash_v2_5`      | Real-time / streaming use cases.                                                   | Disables number normalization → mangles equations.  |
+| `eleven_turbo_v2_5`      | Cost-sensitive batch.                                                              | Lower quality vs v3 for the same price tier.        |
 
 Char limit per `eleven_v3` request: **5 000**. We send beats of <600 chars sequentially, so the limit is never relevant. Rate limit is plan-dependent (Free: ~3 concurrent, Creator: ~10, Pro: ~50).
 
@@ -39,34 +40,34 @@ The model strips the tags before synthesis and applies them as direction. The ou
 
 ### 3a. The curated subset for academic narration
 
-We use only a small, opinionated subset. These are the tags the storyteller should reach for first. Anything outside this list, *don't use* unless you have a specific reason and have tested.
+We use only a small, opinionated subset. These are the tags the storyteller should reach for first. Anything outside this list, _don't use_ unless you have a specific reason and have tested.
 
 **Tone & disposition** (use 1 tag per ~3 sentences max):
 
-| Tag | When | Example |
-|---|---|---|
-| `[curious]` | Opening a question or a "huh, why does this work?" beat | `[curious] What does it mean for two vectors to be similar?` |
-| `[calm]` | Steady exposition, definitions, technical details | `[calm] Q is a matrix of shape n by d.` |
-| `[serious]` | A claim that matters, a warning, a "the paper hand-waves this but…" | `[serious] Without scaling, gradients vanish.` |
-| `[conversational]` | Hooks, framing, audience asides | `[conversational] In 2017, eight researchers tried something audacious.` |
-| `[pensive]` | Reflective beats, "let's sit with this for a moment" | `[pensive] So attention isn't really new — it's just made differentiable.` |
-| `[emphasized]` | Single landmark words/phrases that need stress | `[emphasized] Every position attends to every other position.` |
-| `[wistful]` | Closing implications, looking back | `[wistful] One paper. Two decades of architecture, replaced.` |
+| Tag                | When                                                                | Example                                                                    |
+| ------------------ | ------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| `[curious]`        | Opening a question or a "huh, why does this work?" beat             | `[curious] What does it mean for two vectors to be similar?`               |
+| `[calm]`           | Steady exposition, definitions, technical details                   | `[calm] Q is a matrix of shape n by d.`                                    |
+| `[serious]`        | A claim that matters, a warning, a "the paper hand-waves this but…" | `[serious] Without scaling, gradients vanish.`                             |
+| `[conversational]` | Hooks, framing, audience asides                                     | `[conversational] In 2017, eight researchers tried something audacious.`   |
+| `[pensive]`        | Reflective beats, "let's sit with this for a moment"                | `[pensive] So attention isn't really new — it's just made differentiable.` |
+| `[emphasized]`     | Single landmark words/phrases that need stress                      | `[emphasized] Every position attends to every other position.`             |
+| `[wistful]`        | Closing implications, looking back                                  | `[wistful] One paper. Two decades of architecture, replaced.`              |
 
 **Pacing**:
 
-| Tag | Effect | Use |
-|---|---|---|
-| `[pause]` | ~0.4-0.6s beat | Before a key claim, after a question, between an old idea and the next |
-| `[long pause]` | ~0.8-1.2s beat | Sparingly. After a profound moment. Once or twice per video. |
-| `[slow]` | Slow next phrase | When precision matters: equation step-by-step verbal walk |
-| `[rushed]` | Fast next phrase | Almost never. Maybe a "these details aren't important" parenthetical. |
+| Tag            | Effect           | Use                                                                    |
+| -------------- | ---------------- | ---------------------------------------------------------------------- |
+| `[pause]`      | ~0.4-0.6s beat   | Before a key claim, after a question, between an old idea and the next |
+| `[long pause]` | ~0.8-1.2s beat   | Sparingly. After a profound moment. Once or twice per video.           |
+| `[slow]`       | Slow next phrase | When precision matters: equation step-by-step verbal walk              |
+| `[rushed]`     | Fast next phrase | Almost never. Maybe a "these details aren't important" parenthetical.  |
 
 **Reactions** (use VERY rarely — at most 1-2 per 10-min video):
 
-| Tag | When |
-|---|---|
-| `[sighs]` | A "the paper is wrong about this" lament. Sparingly. |
+| Tag          | When                                                                 |
+| ------------ | -------------------------------------------------------------------- |
+| `[sighs]`    | A "the paper is wrong about this" lament. Sparingly.                 |
 | `[chuckles]` | A genuinely amusing moment in the explanation. Maybe once per video. |
 
 ### 3b. Tags we DO NOT use (for academic narration)
@@ -121,10 +122,10 @@ Notice: most beats have ZERO tags. Tags appear only when the narrator's tone is 
 ## 4. Voice settings (still apply, interpreted differently for v3)
 
 ```yaml
-stability: 0.50            # Maps roughly to v3 "Natural" mode. See below.
-similarity_boost: 0.75     # default; protects voice identity
-style: 0.10                # mild warmth; emotional range comes from tags, not style
-use_speaker_boost: false   # no latency benefit for offline render
+stability: 0.50 # Maps roughly to v3 "Natural" mode. See below.
+similarity_boost: 0.75 # default; protects voice identity
+style: 0.10 # mild warmth; emotional range comes from tags, not style
+use_speaker_boost: false # no latency benefit for offline render
 output_format: mp3_44100_128
 ```
 
@@ -132,11 +133,11 @@ output_format: mp3_44100_128
 
 ElevenLabs v3 conceptually replaces the stability slider with three "stability modes". Our `voices.yaml` slider value maps as:
 
-| `stability` value | v3 mode | Behavior |
-|---|---|---|
-| 0.20 - 0.40 | **Creative** | Highly responsive to tags, more variation, occasional drift |
-| **0.50 - 0.65** | **Natural** ← *default* | Balanced expressiveness and accuracy |
-| 0.70 - 0.90 | **Robust** | Consistent prosody, tags muted, safest for very long narrations |
+| `stability` value | v3 mode                 | Behavior                                                        |
+| ----------------- | ----------------------- | --------------------------------------------------------------- |
+| 0.20 - 0.40       | **Creative**            | Highly responsive to tags, more variation, occasional drift     |
+| **0.50 - 0.65**   | **Natural** ← _default_ | Balanced expressiveness and accuracy                            |
+| 0.70 - 0.90       | **Robust**              | Consistent prosody, tags muted, safest for very long narrations |
 
 Use 0.50 (Natural) for academic narration. Drop to 0.40 if tags are not landing emotionally. Raise to 0.65 if the voice drifts mid-segment.
 
@@ -152,11 +153,11 @@ Tags are the personality. The text quality is the foundation. The same tags prod
 
 ### 5a. Punctuation drives micro-timing (still matters even with tags)
 
-| Mark | Effect | When to use |
-|---|---|---|
-| `,` | ~0.1-0.2s pause, natural breath | Mid-sentence, between clauses |
-| `—` (em-dash) or `...` | ~0.3-0.5s pause | Setup-then-payoff beats |
-| `.` | Natural sentence boundary, ~0.4-0.6s pause | Always end full sentences |
+| Mark                   | Effect                                     | When to use                   |
+| ---------------------- | ------------------------------------------ | ----------------------------- |
+| `,`                    | ~0.1-0.2s pause, natural breath            | Mid-sentence, between clauses |
+| `—` (em-dash) or `...` | ~0.3-0.5s pause                            | Setup-then-payoff beats       |
+| `.`                    | Natural sentence boundary, ~0.4-0.6s pause | Always end full sentences     |
 
 Use `[pause]` only for emphatic beats; use `,` and `—` for the regular flow.
 
@@ -164,12 +165,12 @@ Use `[pause]` only for emphatic beats; use `,` and `—` for the regular flow.
 
 The visual on screen carries the symbols; the narration spells them out phonetically:
 
-| Don't write | Write instead |
-|---|---|
-| `x_1` | `x sub one` |
-| `α` or `\alpha` | `alpha` |
-| `√(x² + y²)` | `the square root of x squared plus y squared` |
-| `\frac{a}{b}` | `a over b` |
+| Don't write      | Write instead                                              |
+| ---------------- | ---------------------------------------------------------- |
+| `x_1`            | `x sub one`                                                |
+| `α` or `\alpha`  | `alpha`                                                    |
+| `√(x² + y²)`     | `the square root of x squared plus y squared`              |
+| `\frac{a}{b}`    | `a over b`                                                 |
 | `Q · K^T / √d_k` | `Q dot K transpose, divided by the square root of d sub k` |
 
 **Never** write raw LaTeX in narration text.
@@ -213,6 +214,7 @@ afplay videos/<slug>/narration/beat-001.mp3   # macOS
 ```
 
 Check:
+
 - **Tone match.** Does the voice sound like the visual asks it to? If a `[curious]` beat lands flat, fix the writing first; if it's still flat, drop stability to 0.40.
 - **Mispronounced math.** Always a phrasing fix in the script, not a settings change.
 - **Awkward pacing.** Punctuation fix — add a comma or em-dash before the awkward phrase.
@@ -220,6 +222,6 @@ Check:
 
 ## 9. Cost guard
 
-ElevenLabs free tier ≈ 10 000 chars/month. Starter ≈ 30 000. v3 charges per character of *input text* (tags don't count as billable chars in most tiers — verify on your plan).
+ElevenLabs free tier ≈ 10 000 chars/month. Starter ≈ 30 000. v3 charges per character of _input text_ (tags don't count as billable chars in most tiers — verify on your plan).
 
 Estimate before generating: sum `script.md` segment lengths × 1.05 for safety. If you'd exceed the user's plan, stop and ask.

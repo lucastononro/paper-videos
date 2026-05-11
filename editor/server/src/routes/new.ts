@@ -41,9 +41,11 @@ function slugForSource(source: string): string {
       .replace(/^-+|-+$/g, '')
       .slice(0, 60);
   }
-  return source
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .slice(0, 60) || 'new-video';
+  return (
+    source
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+      .slice(0, 60) || 'new-video'
+  );
 }

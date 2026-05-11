@@ -24,9 +24,7 @@ type Segment = {
   timestampsFile: string;
 };
 
-const ExampleVisual: React.FC = () => (
-  <AbsoluteFill style={{ backgroundColor: '#0e1117' }} />
-);
+const ExampleVisual: React.FC = () => <AbsoluteFill style={{ backgroundColor: '#0e1117' }} />;
 
 const ExampleCaptionBar: React.FC<{ timestampsSrc: string }> = () => null;
 

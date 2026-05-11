@@ -103,10 +103,7 @@ export function parseScript(slug: string): ParsedScript {
     if (!currentBeatId) return;
     // Inherit previous visual when the beat is narrated and has no cue, or
     // explicitly says continue.
-    if (
-      currentVisualCue.length === 0 ||
-      CONTINUE_RE.test(currentVisualCue.trim())
-    ) {
+    if (currentVisualCue.length === 0 || CONTINUE_RE.test(currentVisualCue.trim())) {
       currentVisualCue = lastVisualCue;
     }
     const cueLower = currentVisualCue.toLowerCase();
@@ -206,5 +203,7 @@ export function parseScript(slug: string): ParsedScript {
 
 /** Convenience: only the narrated beats, in order. */
 export function narratedBeats(script: ParsedScript): Array<Extract<Beat, { kind: 'narrated' }>> {
-  return script.beats.filter((b): b is Extract<Beat, { kind: 'narrated' }> => b.kind === 'narrated');
+  return script.beats.filter(
+    (b): b is Extract<Beat, { kind: 'narrated' }> => b.kind === 'narrated',
+  );
 }

@@ -89,9 +89,7 @@ export const AssetsTab: React.FC<{ slug: string }> = ({ slug }) => {
             >
               <span className="assets-row-icon">{entry.isDir ? '▸' : iconFor(entry)}</span>
               <span className="assets-row-name">{entry.name}</span>
-              {!entry.isDir && (
-                <span className="assets-row-size">{formatBytes(entry.size)}</span>
-              )}
+              {!entry.isDir && <span className="assets-row-size">{formatBytes(entry.size)}</span>}
             </button>
           ))}
         </div>
@@ -100,9 +98,7 @@ export const AssetsTab: React.FC<{ slug: string }> = ({ slug }) => {
             <FilePreview slug={slug} entry={selected} src={fileUrl(slug, selected.path)} />
           ) : (
             <div className="assets-preview-empty">
-              {entries?.length === 0
-                ? 'Folder is empty.'
-                : 'Pick a file to preview it here.'}
+              {entries?.length === 0 ? 'Folder is empty.' : 'Pick a file to preview it here.'}
             </div>
           )}
         </div>
@@ -117,7 +113,13 @@ function iconFor(e: FileEntry): string {
   if (m.startsWith('audio/')) return '🔊';
   if (m.startsWith('video/')) return '🎬';
   if (m === 'application/pdf') return '📄';
-  if (m.startsWith('text/') || m.includes('json') || m.includes('python') || m.includes('typescript')) return '✎';
+  if (
+    m.startsWith('text/') ||
+    m.includes('json') ||
+    m.includes('python') ||
+    m.includes('typescript')
+  )
+    return '✎';
   return '📦';
 }
 

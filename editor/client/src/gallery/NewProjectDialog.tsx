@@ -26,7 +26,8 @@ export const NewProjectDialog: React.FC<{
   const slugError = (() => {
     if (!touched) return null;
     if (!slug.trim()) return 'pick a name';
-    if (!SLUG_RE.test(slug)) return 'lowercase letters, digits, hyphens; must start with a letter or digit';
+    if (!SLUG_RE.test(slug))
+      return 'lowercase letters, digits, hyphens; must start with a letter or digit';
     if (existingSlugs.includes(slug)) return `"${slug}" already exists`;
     return null;
   })();
@@ -63,7 +64,9 @@ export const NewProjectDialog: React.FC<{
         }}
       >
         <h2 style={{ margin: '0 0 6px 0', fontSize: 18 }}>New video</h2>
-        <p style={{ margin: '0 0 16px 0', color: 'var(--text-mute)', fontSize: 13, lineHeight: 1.5 }}>
+        <p
+          style={{ margin: '0 0 16px 0', color: 'var(--text-mute)', fontSize: 13, lineHeight: 1.5 }}
+        >
           Pick a name — that's the folder under <code>videos/</code> and the URL of the editor.
           Claude will scaffold the project there once you tell it which paper.
         </p>

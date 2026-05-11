@@ -142,9 +142,7 @@ export const AskUserQuestionCard: React.FC<{
                     disabled={disabled}
                   >
                     <div className="askq-option-label">{opt.label}</div>
-                    {opt.description && (
-                      <div className="askq-option-desc">{opt.description}</div>
-                    )}
+                    {opt.description && <div className="askq-option-desc">{opt.description}</div>}
                   </button>
                 );
               })}
@@ -184,15 +182,10 @@ export const AskUserQuestionCard: React.FC<{
       {!answered && (
         <div className="askq-actions">
           <span className="askq-hint">
-            Pick {parsed.questions.some((q) => q.multiSelect) ? 'one or more' : 'one'}, or type
-            your own — then submit.
+            Pick {parsed.questions.some((q) => q.multiSelect) ? 'one or more' : 'one'}, or type your
+            own — then submit.
           </span>
-          <button
-            type="button"
-            className="askq-send"
-            onClick={submit}
-            disabled={!hasAnything}
-          >
+          <button type="button" className="askq-send" onClick={submit} disabled={!hasAnything}>
             Submit ↵
           </button>
         </div>

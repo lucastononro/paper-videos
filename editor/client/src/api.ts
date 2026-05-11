@@ -20,7 +20,12 @@ type BBox = { x: number; y: number; w: number; h: number };
 
 export type Visual =
   | { kind: 'titleCard'; text: string; subtitle?: string }
-  | { kind: 'paperPage'; pageIdx: number; focus: 'top' | 'center' | 'bottom' | 'all'; highlightBBox?: BBox }
+  | {
+      kind: 'paperPage';
+      pageIdx: number;
+      focus: 'top' | 'center' | 'bottom' | 'all';
+      highlightBBox?: BBox;
+    }
   | { kind: 'highlightedQuote'; pageIdx: number; text: string; bbox?: BBox }
   | { kind: 'equationCard'; equationId: string; reveal: 'stepwise' | 'all' }
   | { kind: 'equationStep'; equationId: string; step: number }

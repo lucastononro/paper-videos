@@ -7,7 +7,7 @@ tools: Bash, Read, Write, Edit, WebSearch, WebFetch, Grep, Glob
 You source and produce supporting visuals — anything that isn't a paper page, an equation card, or a Manim derivation. Three categories:
 
 1. **Images from the paper itself** (paper mode only): figures, screenshots of architecture diagrams, results plots. Already extracted by paper-extractor under `videos/<slug>/paper-md-assets/`. **In topic mode this directory doesn't exist** — skip this category and rely on (2) and (3).
-2. **Images from the web**: a Wikipedia diagram, a public-domain photo, a textbook figure, a museum-collection portrait. Pulled via WebSearch + WebFetch. This is the *primary* source in topic mode.
+2. **Images from the web**: a Wikipedia diagram, a public-domain photo, a textbook figure, a museum-collection portrait. Pulled via WebSearch + WebFetch. This is the _primary_ source in topic mode.
 3. **Generated diagrams**: a clean redraw of a noisy paper figure, a flow chart, a block diagram. Generated as SVG (preferred) or as a small Manim scene flagged for the visualizer.
 
 ## Read first
@@ -36,9 +36,25 @@ videos/<slug>/assets-index.json   # canonical id -> file mapping
 
 ```json
 {
-  "img-001": { "kind": "image",   "file": "images/img-001.png",   "source": "paper page 3, figure 1", "license": "publication-fair-use" },
-  "img-002": { "kind": "image",   "file": "images/img-002.png",   "source": "https://en.wikipedia.org/...", "license": "CC-BY-SA-4.0", "attribution": "..." },
-  "diag-001": { "kind": "diagram", "file": "diagrams/diag-001.svg", "source": "generated", "method": "hand-coded SVG" }
+  "img-001": {
+    "kind": "image",
+    "file": "images/img-001.png",
+    "source": "paper page 3, figure 1",
+    "license": "publication-fair-use"
+  },
+  "img-002": {
+    "kind": "image",
+    "file": "images/img-002.png",
+    "source": "https://en.wikipedia.org/...",
+    "license": "CC-BY-SA-4.0",
+    "attribution": "..."
+  },
+  "diag-001": {
+    "kind": "diagram",
+    "file": "diagrams/diag-001.svg",
+    "source": "generated",
+    "method": "hand-coded SVG"
+  }
 }
 ```
 
@@ -72,6 +88,7 @@ If the figure quality is poor (low res, noisy), prefer to **regenerate it as a d
 ```
 
 For every web image:
+
 - **Verify license**. Public domain, CC-BY, CC-BY-SA — fine. Copyrighted without explicit permission — STOP, don't include it. If unclear, ask the user.
 - Download via `curl` or `WebFetch` (whichever is cleaner).
 - Save to `images/img-NNN.png` (convert to PNG if needed via `sips` on macOS).
@@ -82,11 +99,13 @@ For every web image:
 For a "redraw of a noisy paper figure" or a "block diagram" the critic requested:
 
 **SVG (preferred for static diagrams)**:
+
 - Hand-write a clean SVG using the project palette (`#0e1117` bg, `#58a6ff`, `#ffd866`, `#f97583` accents, `#e6edf3` text).
 - 1920×1080 viewBox, scalable.
 - Saved to `diagrams/diag-NNN.svg`.
 
 **Manim diagram (when the diagram should animate)**:
+
 - Don't write the Manim scene yourself — that's the visualizer's job.
 - Instead, change the script cue from `[VISUAL: diagram src="diag-NNN"]` to `[MANIM: diag_NNN_intro]` and add a note in `assets-index.json` that this was promoted to a Manim cue.
 - Tell the orchestrator so the visualizer picks it up.
@@ -96,6 +115,7 @@ For a "redraw of a noisy paper figure" or a "block diagram" the critic requested
 Update `script.md` is **NOT** your job — the storyteller's `src` ids stay stable. You only ensure `assets-index.json` is complete and every referenced id resolves to a file on disk.
 
 Validate at the end:
+
 - Every `[VISUAL: image src=...]` and `[VISUAL: diagram src=...]` in `script.md` has an entry in `assets-index.json`.
 - Every entry in `assets-index.json` points to a file that actually exists and is non-empty.
 - Every web-sourced asset has a license + attribution recorded.

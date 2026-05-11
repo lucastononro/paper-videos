@@ -53,13 +53,16 @@ if (fs.existsSync(targetPdf) && !opts.force) {
 writeConfigYaml(slug, source, opts.voice, opts.captions);
 
 if (!manifestExists(slug)) {
-  writeManifest(slug, defaultManifest({
+  writeManifest(
     slug,
-    paperSource: source,
-    paperTitle: '(unknown — will be filled by paper-extractor)',
-    voiceAlias: opts.voice,
-    captions: opts.captions,
-  }));
+    defaultManifest({
+      slug,
+      paperSource: source,
+      paperTitle: '(unknown — will be filled by paper-extractor)',
+      voiceAlias: opts.voice,
+      captions: opts.captions,
+    }),
+  );
 }
 
 console.log(JSON.stringify({ slug, paperPdf: targetPdf, source }, null, 2));
@@ -101,7 +104,8 @@ async function downloadTo(url: string, dest: string): Promise<void> {
   });
   if (!res.ok) throw new Error(`Fetch failed: ${res.status} ${res.statusText} for ${url}`);
   const buf = Buffer.from(await res.arrayBuffer());
-  if (buf.length < 1024) throw new Error(`Downloaded file suspiciously small (${buf.length} bytes)`);
+  if (buf.length < 1024)
+    throw new Error(`Downloaded file suspiciously small (${buf.length} bytes)`);
   fs.writeFileSync(dest, buf);
 }
 

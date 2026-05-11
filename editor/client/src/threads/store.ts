@@ -1,13 +1,7 @@
 import React from 'react';
 import { create } from 'zustand';
 import { ws } from '../ws/client';
-import type {
-  ChatEvent,
-  ServerEvent,
-  ThreadScope,
-  ThreadStatus,
-  ThreadSummary,
-} from '../ws/types';
+import type { ChatEvent, ServerEvent, ThreadScope, ThreadStatus, ThreadSummary } from '../ws/types';
 import type { ChatItem } from '../chat/useChatStream';
 
 export type ThreadView = ThreadSummary & {
@@ -56,8 +50,7 @@ export const useThreadStore = create<ThreadState>((set, get) => ({
   panelOpen: (slug) => Boolean(get().panelOpenBySlug[slug]),
   setPanelOpen: (slug, open) =>
     set((s) => ({ panelOpenBySlug: { ...s.panelOpenBySlug, [slug]: open } })),
-  setDraft: (slug, draft) =>
-    set((s) => ({ draftBySlug: { ...s.draftBySlug, [slug]: draft } })),
+  setDraft: (slug, draft) => set((s) => ({ draftBySlug: { ...s.draftBySlug, [slug]: draft } })),
   selectThread: (slug, threadId) =>
     set((s) => ({ selectedByslug: { ...s.selectedByslug, [slug]: threadId } })),
   ingest: (e) => {
@@ -124,9 +117,7 @@ function applyEvent(state: ThreadState, e: ServerEvent): Partial<ThreadState> {
       };
     }
     case 'thread:status': {
-      const slug = state.threadsBySlug
-        ? findSlugForThread(state.threadsBySlug, e.threadId)
-        : null;
+      const slug = state.threadsBySlug ? findSlugForThread(state.threadsBySlug, e.threadId) : null;
       if (!slug) return {};
       const list = state.threadsBySlug[slug] ?? [];
       const next = list.map((t) =>
@@ -164,7 +155,6 @@ function applyEvent(state: ThreadState, e: ServerEvent): Partial<ThreadState> {
   }
 }
 
-
 function eventsToItems(events: ChatEvent[]): ChatItem[] {
   let items: ChatItem[] = [];
   for (const e of events) items = applyChatEventToItems(items, e);
@@ -189,7 +179,10 @@ function applyChatEventToItems(items: ChatItem[], e: ChatEvent): ChatItem[] {
       if (last && last.kind === 'assistant' && last.id === e.messageId) {
         return [
           ...items.slice(0, -1),
-          { ...last, chunks: [...last.chunks, { kind: 'text', messageId: e.messageId, text: e.text }] },
+          {
+            ...last,
+            chunks: [...last.chunks, { kind: 'text', messageId: e.messageId, text: e.text }],
+          },
         ];
       }
       return [
@@ -216,10 +209,7 @@ function applyChatEventToItems(items: ChatItem[], e: ChatEvent): ChatItem[] {
       if (last && last.kind === 'assistant' && last.id === e.messageId) {
         return [...items.slice(0, -1), { ...last, chunks: [...last.chunks, newChunk] }];
       }
-      return [
-        ...items,
-        { kind: 'assistant', id: e.messageId, ts: Date.now(), chunks: [newChunk] },
-      ];
+      return [...items, { kind: 'assistant', id: e.messageId, ts: Date.now(), chunks: [newChunk] }];
     }
     case 'tool_result': {
       return items.map((it) => {

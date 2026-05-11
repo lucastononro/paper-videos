@@ -14,7 +14,12 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { bundle } from '@remotion/bundler';
 import { renderMedia, selectComposition } from '@remotion/renderer';
-import { readManifest, totalDurationFrames, videoOutputPath, videoPublicDir } from '../lib/manifest.js';
+import {
+  readManifest,
+  totalDurationFrames,
+  videoOutputPath,
+  videoPublicDir,
+} from '../lib/manifest.js';
 import { preparePreview } from '../lib/prepare-preview.js';
 
 const program = new Command()
@@ -33,7 +38,9 @@ const remotionEntry = path.resolve(here, '..', 'remotion', 'index.ts');
 
 const manifest = readManifest(slug);
 if (manifest.segments.length === 0) {
-  console.error(`Manifest has no segments for slug "${slug}". Run the narrator + remotion-composer pipeline first.`);
+  console.error(
+    `Manifest has no segments for slug "${slug}". Run the narrator + remotion-composer pipeline first.`,
+  );
   process.exit(1);
 }
 
@@ -78,4 +85,6 @@ await renderMedia({
 process.stdout.write('\n');
 
 const stat = fs.statSync(out);
-console.log(JSON.stringify({ slug, output: out, sizeBytes: stat.size, frames: expectedFrames }, null, 2));
+console.log(
+  JSON.stringify({ slug, output: out, sizeBytes: stat.size, frames: expectedFrames }, null, 2),
+);

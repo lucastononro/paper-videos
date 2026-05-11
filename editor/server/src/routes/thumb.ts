@@ -52,10 +52,7 @@ async function ensureThumb(slug: string): Promise<string | null> {
     if (!source) return null;
 
     const sourceMtime = fs.statSync(source).mtimeMs;
-    if (
-      fs.existsSync(cachePath) &&
-      fs.statSync(cachePath).mtimeMs >= sourceMtime
-    ) {
+    if (fs.existsSync(cachePath) && fs.statSync(cachePath).mtimeMs >= sourceMtime) {
       return cachePath;
     }
 
@@ -65,20 +62,28 @@ async function ensureThumb(slug: string): Promise<string | null> {
       // Extract a frame at 2s, then scale to THUMB_W x THUMB_H.
       await execFileAsync('ffmpeg', [
         '-y',
-        '-loglevel', 'error',
-        '-ss', '00:00:02',
-        '-i', source,
-        '-frames:v', '1',
-        '-vf', `scale=${THUMB_W}:${THUMB_H}:force_original_aspect_ratio=decrease,pad=${THUMB_W}:${THUMB_H}:(ow-iw)/2:(oh-ih)/2:color=#0e1117`,
+        '-loglevel',
+        'error',
+        '-ss',
+        '00:00:02',
+        '-i',
+        source,
+        '-frames:v',
+        '1',
+        '-vf',
+        `scale=${THUMB_W}:${THUMB_H}:force_original_aspect_ratio=decrease,pad=${THUMB_W}:${THUMB_H}:(ow-iw)/2:(oh-ih)/2:color=#0e1117`,
         cachePath,
       ]);
     } else {
       // Resize the page PNG.
       await execFileAsync('ffmpeg', [
         '-y',
-        '-loglevel', 'error',
-        '-i', source,
-        '-vf', `scale=${THUMB_W}:${THUMB_H}:force_original_aspect_ratio=decrease,pad=${THUMB_W}:${THUMB_H}:(ow-iw)/2:(oh-ih)/2:color=#0e1117`,
+        '-loglevel',
+        'error',
+        '-i',
+        source,
+        '-vf',
+        `scale=${THUMB_W}:${THUMB_H}:force_original_aspect_ratio=decrease,pad=${THUMB_W}:${THUMB_H}:(ow-iw)/2:(oh-ih)/2:color=#0e1117`,
         cachePath,
       ]);
     }

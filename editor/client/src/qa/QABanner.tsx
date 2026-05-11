@@ -65,7 +65,9 @@ export const QABanner: React.FC<{
           fontSize: 12,
         }}
       >
-        <strong style={{ color: 'var(--text-mute)', textTransform: 'uppercase', letterSpacing: 0.4 }}>
+        <strong
+          style={{ color: 'var(--text-mute)', textTransform: 'uppercase', letterSpacing: 0.4 }}
+        >
           QA
         </strong>
         <span style={{ color: SEV_COLOR.error, fontWeight: errs > 0 ? 700 : 400 }}>
@@ -74,9 +76,7 @@ export const QABanner: React.FC<{
         <span style={{ color: SEV_COLOR.warning, fontWeight: warns > 0 ? 700 : 400 }}>
           ⚠ {warns} {warns === 1 ? 'warning' : 'warnings'}
         </span>
-        <span style={{ color: SEV_COLOR.info }}>
-          · {infos} info
-        </span>
+        <span style={{ color: SEV_COLOR.info }}>· {infos} info</span>
         <span style={{ flex: 1 }} />
         <span
           title="Auto-runs on every manifest / narration / Manim change (debounced 1.5s)"

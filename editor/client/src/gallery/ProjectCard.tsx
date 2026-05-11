@@ -1,5 +1,11 @@
 import React from 'react';
-import { type ProjectSummary, deleteProject, formatDuration, formatRelativeTime, thumbUrl } from '../api';
+import {
+  type ProjectSummary,
+  deleteProject,
+  formatDuration,
+  formatRelativeTime,
+  thumbUrl,
+} from '../api';
 import { navigate } from '../router';
 
 export const ProjectCard: React.FC<{

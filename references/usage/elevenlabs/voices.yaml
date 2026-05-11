@@ -21,7 +21,7 @@ default_voice: pharaoh
 
 voices:
   pharaoh:
-    voice_id: "J2FGlQG8Gd7x8uEDt2H8"
+    voice_id: 'J2FGlQG8Gd7x8uEDt2H8'
     model_id: eleven_v3
     stability: 0.50
     similarity_boost: 0.75
@@ -30,7 +30,7 @@ voices:
     output_format: mp3_44100_128
 
   custom-lucas-tonon-voice:
-    voice_id: "32jO0BAEWf7zY38kWVoV"
+    voice_id: '32jO0BAEWf7zY38kWVoV'
     model_id: eleven_v3
     stability: 0.50
     similarity_boost: 0.75

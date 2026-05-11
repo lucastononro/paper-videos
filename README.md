@@ -8,7 +8,7 @@ Turn an academic paper — or any educational topic — into a 3Blue1Brown-style
 
 ![paper-videos editor — chat on the left, scrubable player + filmstrip + lanes on the right, spot-edit panel docks to the right](docs/images/interface-example.png)
 
-Point at an arXiv id, URL, local PDF, or just say *"explain backpropagation"*. The pipeline drafts a script in the showman cold-open style, narrates it with ElevenLabs, animates the math with Manim, and assembles the result with Remotion. The editor at `localhost:5173` lets you watch it materialize, scrub the partial timeline, spawn pin-point spot-edit threads on time-crops of the video, and click a single button to render the final mp4.
+Point at an arXiv id, URL, local PDF, or just say _"explain backpropagation"_. The pipeline drafts a script in the showman cold-open style, narrates it with ElevenLabs, animates the math with Manim, and assembles the result with Remotion. The editor at `localhost:5173` lets you watch it materialize, scrub the partial timeline, spawn pin-point spot-edit threads on time-crops of the video, and click a single button to render the final mp4.
 
 ```
 arXiv id  →  fetch PDF + extract paper  →  critic plans the brief
@@ -39,6 +39,7 @@ Initial release — alpha. The pipeline produces real videos end-to-end (see `vi
 ```
 
 The script:
+
 - checks Node 20+ (you install it yourself if missing)
 - installs **uv** (Python runtime manager) if missing
 - installs **ffmpeg** via `brew` (macOS) or `apt-get` (Debian/Ubuntu) if missing
@@ -108,7 +109,7 @@ Ctrl+C kills both cleanly.
 Visit http://localhost:5173. You see a thumbnail-card gallery of every video in `videos/` — each card showing the paper title, slug, duration, beat / block counts, and a **`✓ rendered`** pill on videos whose `output.mp4` exists. Cards with a running pipeline show a blue **`running`** pill instead. Click **+ New video** in the top-right, give it a slug (kebab-case), and you land on the editor view. Hovering a card reveals an **✕** delete button (top-left of the thumbnail) — click it and confirm to wipe the video folder and all its artifacts.
 
 ![The gallery is the home page. Each card is one video in `videos/`. Click a card to open it in the editor; click + New video (top-right) to start one.](docs/images/gallery-example.png)
-*The gallery — your home. Each card opens an editor; the gold `+ New video` button starts a fresh project.*
+_The gallery — your home. Each card opens an editor; the gold `+ New video` button starts a fresh project._
 
 ### 3. Tell claude what to make
 
@@ -148,21 +149,21 @@ Each beat that has audio but is still waiting on its Manim mp4 shows a "Renderin
 Spot-edits are **time-crop scoped**, not beat-scoped: drag a horizontal selection on the filmstrip and a gold band appears with the time range (e.g. `1:28→1:36 · 7.8s`) plus a **↗ Spot-edit** pill in the toolbar.
 
 ![Drag-to-select on the filmstrip: a gold time-range band appears with the duration and an ↗ Spot-edit button. The Visual blocks and Voice beats lanes show what falls inside the selection.](docs/images/spot-edit-example-1.png)
-*Drag horizontally on the filmstrip to select a time range. The gold band and the **↗ Spot-edit** button appear in the toolbar — click to fork an agent scoped to that crop.*
+_Drag horizontally on the filmstrip to select a time range. The gold band and the **↗ Spot-edit** button appear in the toolbar — click to fork an agent scoped to that crop._
 
 Click **↗ Spot-edit** → the right-side **Spot edits** panel opens with an in-panel composer pre-scoped to that crop. Type "shorten this by 30%" or "rewrite this without jargon" → press Enter → a forked claude session runs in parallel without disrupting the parent chat. The harness pre-resolves which voice beats and visual blocks overlap the crop and passes them to the agent as a finding aid (not a hard constraint). When the thread finishes, a `Spot edit on 1:28→1:36 — completed: …` notice card lands in the parent chat with the agent's summary, and the parent agent receives the same notice as part of its next-turn directive (so the main thread stays in sync).
 
 You can spawn **multiple concurrent spot-edits** — each one becomes its own tab at the top of the panel. Click between tabs to follow each thread independently.
 
 ![A spot-edit thread open on the right side of the editor with its own composer; the parent chat continues on the left undisturbed.](docs/images/spot-edit-example-2.png)
-*Spot-edit threads dock on the right. Each is a forked `claude --resume` session — they run in parallel with the parent chat, and their completion summaries land back in the parent thread automatically.*
+_Spot-edit threads dock on the right. Each is a forked `claude --resume` session — they run in parallel with the parent chat, and their completion summaries land back in the parent thread automatically._
 
 ### 6. Render the final mp4
 
 When you're satisfied, click the gold **▶ Render** button in the editor header.
 
 ![↻ Reload and ▶ Render buttons sit in the top-right of the editor header.](docs/images/render-button.png)
-*Top-right of the editor: **↻ Reload** refetches manifest + assets; the gold **▶ Render** kicks off `npm run render-remotion`.*
+_Top-right of the editor: **↻ Reload** refetches manifest + assets; the gold **▶ Render** kicks off `npm run render-remotion`._
 
 The button fills with a green progress bar (`Rendering 42%`) and tooltips the latest log line. On success it flashes green, the player auto-refreshes with the new mp4, and the file lands at `videos/<slug>/output.mp4`. On failure the tooltip carries the tail of the log so you can see what broke.
 
@@ -171,7 +172,7 @@ Render is button-driven only — agents do not run `render-remotion` themselves 
 ## The editor in detail
 
 ![Full editor view: chat panel left, video / assets tabs centre, filmstrip + visual-blocks + voice-beats lanes below, spot-edit threads panel right.](docs/images/interface-example.png)
-*The editor's three columns: parent **chat** on the left, **video player + filmstrip lanes** in the middle, **spot-edit threads** on the right. Everything is live — the player remounts the moment any beat finishes.*
+_The editor's three columns: parent **chat** on the left, **video player + filmstrip lanes** in the middle, **spot-edit threads** on the right. Everything is live — the player remounts the moment any beat finishes._
 
 Layout:
 
@@ -202,14 +203,14 @@ Layout:
 
 ## The pipeline (six specialist subagents)
 
-| Agent | Reads | Writes |
-|---|---|---|
-| **paper-extractor** | `paper.pdf` | `paper.md`, `equations.json`, `pages/page-NNN.png`, `paper-md-assets/` |
-| **critic** | `paper.md`, `equations.json`, web | `brief.json` (creative brief: thesis, narrative arc starting with `act-0: Teaser`, what to cut, visual suggestions) |
-| **storyteller** | `brief.json`, `paper.md`, `equations.json` | `script.md` (beat-by-beat storyboard opening with a 5-8 beat teaser) |
-| **asset-fetcher** | `script.md`, `brief.json`, paper figures, web | `images/img-NNN.png`, `diagrams/diag-NNN.svg`, `assets-index.json` |
-| **producer** | `script.md`, `voices.yaml`, `.env` | `narration/beat-NNN.{mp3,timestamps.json}` + per-beat `npm run sync-manifest` |
-| **visualizer** | All of the above | `manim/beat-NNN.{py,mp4}` + per-beat `npm run sync-manifest` |
+| Agent               | Reads                                         | Writes                                                                                                              |
+| ------------------- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| **paper-extractor** | `paper.pdf`                                   | `paper.md`, `equations.json`, `pages/page-NNN.png`, `paper-md-assets/`                                              |
+| **critic**          | `paper.md`, `equations.json`, web             | `brief.json` (creative brief: thesis, narrative arc starting with `act-0: Teaser`, what to cut, visual suggestions) |
+| **storyteller**     | `brief.json`, `paper.md`, `equations.json`    | `script.md` (beat-by-beat storyboard opening with a 5-8 beat teaser)                                                |
+| **asset-fetcher**   | `script.md`, `brief.json`, paper figures, web | `images/img-NNN.png`, `diagrams/diag-NNN.svg`, `assets-index.json`                                                  |
+| **producer**        | `script.md`, `voices.yaml`, `.env`            | `narration/beat-NNN.{mp3,timestamps.json}` + per-beat `npm run sync-manifest`                                       |
+| **visualizer**      | All of the above                              | `manim/beat-NNN.{py,mp4}` + per-beat `npm run sync-manifest`                                                        |
 
 Each agent has its own context window. The `videos/<slug>/` folder is the persistent contract between them.
 
@@ -346,12 +347,12 @@ run.sh                           # Start the editor (server + client) with both 
 
 ```yaml
 slug: attention-is-all-you-need
-paperSource: { kind: arxiv, value: "1706.03762", arxivId: "1706.03762" }
-paperTitle: "Attention Is All You Need"
-voice: pharaoh                      # alias from references/usage/elevenlabs/voices.yaml
-captions: false                     # render bottom CaptionBar on the final video
+paperSource: { kind: arxiv, value: '1706.03762', arxivId: '1706.03762' }
+paperTitle: 'Attention Is All You Need'
+voice: pharaoh # alias from references/usage/elevenlabs/voices.yaml
+captions: false # render bottom CaptionBar on the final video
 targetLengthMinutes: 12
-focusAreas: []                      # narrows the brief if non-empty
+focusAreas: [] # narrows the brief if non-empty
 resolution: { width: 1920, height: 1080 }
 fps: 30
 ```

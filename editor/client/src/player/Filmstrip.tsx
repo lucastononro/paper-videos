@@ -232,7 +232,14 @@ export const Filmstrip: React.FC<{
         }}
       >
         <span>filmstrip</span>
-        <span style={{ color: 'var(--text-mute)', textTransform: 'none', letterSpacing: 0, fontStyle: 'italic' }}>
+        <span
+          style={{
+            color: 'var(--text-mute)',
+            textTransform: 'none',
+            letterSpacing: 0,
+            fontStyle: 'italic',
+          }}
+        >
           drag to select a time crop · click to seek
         </span>
         <span style={{ flex: 1 }} />
@@ -338,8 +345,7 @@ export const Filmstrip: React.FC<{
               flex: 1,
               minWidth: 0,
               height: '100%',
-              borderRight:
-                i < thumbs.length - 1 ? '1px solid rgba(0, 0, 0, 0.35)' : 'none',
+              borderRight: i < thumbs.length - 1 ? '1px solid rgba(0, 0, 0, 0.35)' : 'none',
               ...(rep.kind === 'image'
                 ? {
                     backgroundImage: `url("${rep.src}")`,

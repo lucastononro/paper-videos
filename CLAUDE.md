@@ -30,24 +30,26 @@ Topic mode (input = free-form prompt, e.g. "Galois theory"):
 
 `src/lib/slug.ts:classifySource` is the canonical router. Inputs are classified as `arxiv` / `url` / `local` (paper mode) or `topic` (topic mode).
 
-| Agent | Reads (paper mode) | Reads (topic mode) | Writes |
-|---|---|---|---|
-| **paper-extractor** | `paper.pdf` | (not invoked unless critic opts in via `pullPaper`) | `paper.md`, `equations.json`, `pages/page-NNN.png`, `paper-md-assets/` |
-| **critic** | `paper.md`, `equations.json`, web | `topic.md`, web (and writes `equations.json` from research) | `brief.json` (creative brief; may include `pullPaper` field in topic mode) |
-| **storyteller** | `brief.json`, `paper.md`, `equations.json` | `brief.json`, `topic.md`, `equations.json` (no `paperPage`/`highlightedQuote` cues) | `script.md` (beat-by-beat storyboard with one short narration clip per visual moment) |
-| **asset-fetcher** | `script.md`, `brief.json`, paper figures, web | `script.md`, `brief.json`, web (no `paper-md-assets/`) | `images/img-NNN.png`, `diagrams/diag-NNN.svg`, `assets-index.json` |
-| **producer** | `script.md`, `voices.yaml`, `.env` | (identical) | `narration/beat-NNN.{mp3,timestamps.json}`, updated `manifest.json` |
-| **visualizer** | All of the above | (identical) | `manim/beat-NNN.{py,mp4}`, final `output.mp4` via Remotion |
+| Agent               | Reads (paper mode)                            | Reads (topic mode)                                                                  | Writes                                                                                |
+| ------------------- | --------------------------------------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| **paper-extractor** | `paper.pdf`                                   | (not invoked unless critic opts in via `pullPaper`)                                 | `paper.md`, `equations.json`, `pages/page-NNN.png`, `paper-md-assets/`                |
+| **critic**          | `paper.md`, `equations.json`, web             | `topic.md`, web (and writes `equations.json` from research)                         | `brief.json` (creative brief; may include `pullPaper` field in topic mode)            |
+| **storyteller**     | `brief.json`, `paper.md`, `equations.json`    | `brief.json`, `topic.md`, `equations.json` (no `paperPage`/`highlightedQuote` cues) | `script.md` (beat-by-beat storyboard with one short narration clip per visual moment) |
+| **asset-fetcher**   | `script.md`, `brief.json`, paper figures, web | `script.md`, `brief.json`, web (no `paper-md-assets/`)                              | `images/img-NNN.png`, `diagrams/diag-NNN.svg`, `assets-index.json`                    |
+| **producer**        | `script.md`, `voices.yaml`, `.env`            | (identical)                                                                         | `narration/beat-NNN.{mp3,timestamps.json}`, updated `manifest.json`                   |
+| **visualizer**      | All of the above                              | (identical)                                                                         | `manim/beat-NNN.{py,mp4}`, final `output.mp4` via Remotion                            |
 
 The orchestrator (you) drives this top-to-bottom, delegating to subagents via the Task tool. Each subagent has its own context window — the brief / script / manifest in `videos/<slug>/` are the persistent contract between them.
 
 ## The micro-beat doctrine
 
 The atomic unit of a video is a **beat**, not a "segment". A beat is:
+
 - **One** visual action (a Manim animation, a paper page reveal, a diagram fade-in, an equation step, a title card, a pause)
 - **One** narration clip (8-40 words, 2-10 seconds), or silent for breath beats
 
 A 12-minute video is typically **100-160 beats**, not 30 multi-sentence segments. Why:
+
 1. Eyes follow the visual. If narration drifts away from what's on screen, attention breaks.
 2. Beats need breathing room — `narrate.ts` auto-pads each mp3 with leading + trailing silence (0.25s / 0.6s defaults) and `[PAUSE 0.6-1.2s]` beats between key claims keep comprehension in mind.
 3. Re-rendering one bad beat is cheap; re-rendering a 30-second monologue is not.
@@ -72,7 +74,7 @@ A 12-minute video is typically **100-160 beats**, not 30 multi-sentence segments
 13. **LaTeX is required for Manim text.** Manim scenes MUST use `MathTex(...)` for math notation. Never substitute Unicode subscripts via `Text("vₜ")` — the default font lacks many codepoints and renders them as yellow `[20 9C]` boxes. If LaTeX is missing on the host, install **TinyTeX** (user-space, no sudo: `curl -sL https://yihui.org/tinytex/install-bin-unix.sh | sh`) rather than degrading to Unicode. After install, run `~/Library/TinyTeX/bin/universal-darwin/tlmgr install standalone preview dvisvgm xcolor amsmath amsfonts physics mathtools wasysym jknapltx fontspec babel-english`. `src/tools/render-manim.ts` auto-prepends TinyTeX to PATH so Manim picks it up.
 14. **Manim scenes end on a held tableau, never `FadeOut`.** Because the composition holds the final mp4 frame for any block-time beyond mp4-time, the last frame must BE the satisfying conclusion of the visual. End scenes with `self.wait(1.5)` after the last meaningful animation (long enough that the freeze is unambiguously a tableau, not a broken render). Never call `self.play(FadeOut(everything))` at scene end — held black is indistinguishable from a broken render.
 
-15. **Animation-first pacing; voice fits the visual.** Each `[MANIM:]` block has a target visual duration the visualizer chooses based on the block's narrative content (numbered steps in `visual.description`). The producer's mp3 (with auto-pads) plus the segment-build's 0.2s tail determines how long the *voice beat* lasts; the visual block's duration is independent and is set so the animation completes (with held tail) within the block, never the other way around. If the voice beats inside a block sum longer than the Manim mp4, the composition holds the last frame for the rest — that's the intended visual rhythm: action, then the tableau lingers while voice catches up. **Don't try to compress audio to fit a too-short Manim scene** — extend the Manim scene's `self.wait(...)` instead.
+15. **Animation-first pacing; voice fits the visual.** Each `[MANIM:]` block has a target visual duration the visualizer chooses based on the block's narrative content (numbered steps in `visual.description`). The producer's mp3 (with auto-pads) plus the segment-build's 0.2s tail determines how long the _voice beat_ lasts; the visual block's duration is independent and is set so the animation completes (with held tail) within the block, never the other way around. If the voice beats inside a block sum longer than the Manim mp4, the composition holds the last frame for the rest — that's the intended visual rhythm: action, then the tableau lingers while voice catches up. **Don't try to compress audio to fit a too-short Manim scene** — extend the Manim scene's `self.wait(...)` instead.
 
 16. **Soft transitions between visual blocks ("single canvas" doctrine).** `PaperExplainer.tsx` wraps every visualBlock in a `<BlockFade>` that fades the block's contents in over ~0.27s and out over ~0.30s through the dark-navy background. Adjacent blocks therefore "erase and rewrite" through the bg rather than jump-cutting. The whole video reads as one continuous canvas getting written on, blanked, and written on again. Don't reintroduce hard cuts between blocks; if a transition feels too soft, lengthen the held tableau before fade-out, don't shorten the fade.
 
@@ -80,9 +82,9 @@ A 12-minute video is typically **100-160 beats**, not 30 multi-sentence segments
 
 18. **QA before sign-off.** Whenever any beat changes (new narration, re-rendered Manim scene, new equation step, edited highlight bbox), run `npm run qa -- <slug>` before declaring done. The deterministic checks in `src/lib/qa.ts` flag audio overlaps, gap-too-large, missing mp3s/timestamps/mp4s, equation-id typos, bbox out-of-bounds, forbidden audio tags, and adjacent same-content blocks (a regression signal for rule #17). Resolve any `error`-severity issues; warnings are advisory. The `video-qa` subagent (`/.claude/agents/video-qa.md`) reads `qa-report.json` and proposes minimal fixes — invoke it with the Task tool when the report has issues.
 
-19. **Highlight by quote, not coordinates.** When a `paperPage` or `highlightedQuote` needs to spotlight a region, write `quote="exact phrase from the page"` (or `text="..."` for `highlightedQuote`) and let the harness resolve the bbox from the PDF text layer — see `src/lib/resolve-bbox.ts`, invoked automatically inside `rebuildSegmentsFromScript`. Manual `highlight="x,y,w,h"` is a fallback for non-text regions (figures, whitespace) and should be the rare exception. The storyteller cannot see pixel-accurate coordinates; guessed bboxes routinely miss by half a page (proven on existing manifests: a `0.2,0.06,0.6,0.08` highlight intended for the title actually covered the disclaimer banner). The resolver also bypasses aspect-ratio drift on non-letter PDFs, which manual coords don't handle. For small dense text where the viewer needs to *read* the highlight, append `zoom=true` — the renderer crops to the bbox + padding and scales it to fill the canvas, with a tiny page-mini in the corner for spatial context. Verify with `npm run resolve-bbox -- <slug> <pageNum> <quote>` before scripting when the verbatim phrasing isn't certain.
+19. **Highlight by quote, not coordinates.** When a `paperPage` or `highlightedQuote` needs to spotlight a region, write `quote="exact phrase from the page"` (or `text="..."` for `highlightedQuote`) and let the harness resolve the bbox from the PDF text layer — see `src/lib/resolve-bbox.ts`, invoked automatically inside `rebuildSegmentsFromScript`. Manual `highlight="x,y,w,h"` is a fallback for non-text regions (figures, whitespace) and should be the rare exception. The storyteller cannot see pixel-accurate coordinates; guessed bboxes routinely miss by half a page (proven on existing manifests: a `0.2,0.06,0.6,0.08` highlight intended for the title actually covered the disclaimer banner). The resolver also bypasses aspect-ratio drift on non-letter PDFs, which manual coords don't handle. For small dense text where the viewer needs to _read_ the highlight, append `zoom=true` — the renderer crops to the bbox + padding and scales it to fill the canvas, with a tiny page-mini in the corner for spatial context. Verify with `npm run resolve-bbox -- <slug> <pageNum> <quote>` before scripting when the verbatim phrasing isn't certain.
 
-20. **Every video opens with a teaser.** No exceptions. Acts are: `act-0` (Teaser, 15-25 seconds, 5-8 beats) → `act-1` (Why care?) → `act-2` (Setup) → ... The teaser is a showman cold-open executing the pattern *hook → stakes → (concretization) → open-loop question → title card landing as payoff*. The title card is **NOT** the first beat — it's the LAST beat of the teaser, the reward for paying attention to the hook. Generic openers (`"This paper introduces…"`, `"In this video we'll explore…"`, `"Today we'll learn about…"`) are banned. Lead with the single most surprising / consequential / contrarian fact in the paper, in concrete, specific language (specific numbers > adjectives, a contradiction > a thesis). The critic plans this as `brief.json.teaser` (`openingLine`, `stakes`, `openLoop`, `visualConcept`, `estSeconds`); the storyteller materializes it as Act 0 in `script.md`. See `.claude/agents/storyteller.md` "Teaser pattern" for the canonical shape and a worked example. The opening 5 seconds determine whether anyone sees the rest — treat them like a movie trailer, not an abstract.
+20. **Every video opens with a teaser.** No exceptions. Acts are: `act-0` (Teaser, 15-25 seconds, 5-8 beats) → `act-1` (Why care?) → `act-2` (Setup) → ... The teaser is a showman cold-open executing the pattern _hook → stakes → (concretization) → open-loop question → title card landing as payoff_. The title card is **NOT** the first beat — it's the LAST beat of the teaser, the reward for paying attention to the hook. Generic openers (`"This paper introduces…"`, `"In this video we'll explore…"`, `"Today we'll learn about…"`) are banned. Lead with the single most surprising / consequential / contrarian fact in the paper, in concrete, specific language (specific numbers > adjectives, a contradiction > a thesis). The critic plans this as `brief.json.teaser` (`openingLine`, `stakes`, `openLoop`, `visualConcept`, `estSeconds`); the storyteller materializes it as Act 0 in `script.md`. See `.claude/agents/storyteller.md` "Teaser pattern" for the canonical shape and a worked example. The opening 5 seconds determine whether anyone sees the rest — treat them like a movie trailer, not an abstract.
 
 21. **Live preview: sync the manifest after every per-beat operation.** The producer calls `npm run sync-manifest -- <slug>` after every `npm run narrate -- <slug> beat-NNN`. The visualizer calls it after every `npm run render-manim`. `sync-manifest` runs `rebuildSegmentsFromScript(slug, { partial: true })` — incremental mode that includes every beat whose audio is on disk, truncates cleanly at the first unfinished beat, and swaps any Manim mp4 that hasn't rendered yet for a "Rendering: <scene>…" titleCard placeholder. The editor server's chokidar watcher (`editor/server/src/watch.ts`) fires `preview:reload` on every manifest write → the player remounts with the new partial state → the user **sees the video grow live**, beat-by-beat, with the teaser landing first. This is the whole point of the live-preview architecture: the user doesn't wait for the full 12-minute video to assess quality, they hear the hook within seconds and can spot-edit it before any of the rest is generated. **Never batch all narrates and only sync at the end** — that's the old workflow and it defeats the entire live-preview UX.
 
@@ -112,28 +114,29 @@ The shell wrapper `bin/claude-paper-videos` calls Claude with a directive prompt
 Always read/write through `src/lib/manifest.ts` so the schema stays valid. Each manifest segment now corresponds to one **beat**.
 
 Visual kinds (`visual.kind`):
+
 - `titleCard` — `{ text, subtitle? }`
 - `paperPage` — `{ pageIdx, focus, highlightBBox? }`
 - `highlightedQuote` — `{ pageIdx, text, bbox? }`
-- `equationStep` — `{ equationId, step }` *(stepwise reveal index 0..N)*
-- `equationCard` — `{ equationId, reveal: 'stepwise' | 'all' }` *(legacy / whole-equation card)*
-- `image` — `{ assetId }` *(resolved via `assets-index.json`)*
+- `equationStep` — `{ equationId, step }` _(stepwise reveal index 0..N)_
+- `equationCard` — `{ equationId, reveal: 'stepwise' | 'all' }` _(legacy / whole-equation card)_
+- `image` — `{ assetId }` _(resolved via `assets-index.json`)_
 - `diagram` — `{ assetId }`
 - `manimClip` — `{ sceneFile, mp4, clipDurationFrames? }`
-- `pause` — `{}` *(silent breath, duration from script `[PAUSE Xs]` cue)*
+- `pause` — `{}` _(silent breath, duration from script `[PAUSE Xs]` cue)_
 
 ## Tool catalog
 
-| Tool | What it does |
-|---|---|
-| `npm run fetch-paper -- <id_or_url_or_path> <slug>` | Download PDF into `videos/<slug>/paper.pdf` |
-| `npm run extract-paper -- <slug>` | Marker → `paper.md` + `equations.json` |
-| `npm run render-pages -- <slug>` | pdfjs-dist → `pages/page-NNN.png` |
-| `npm run arxiv-search -- "<query>"` | arXiv search, JSON to stdout |
-| `npm run narrate -- <slug> <beat_id>` | ElevenLabs TTS for one beat (request stitching auto-applied) |
-| `npm run render-manim -- <slug> <scene_file> <Class>` | Render one Manim scene |
-| `npm run sync-manifest -- <slug>` | Incremental manifest rebuild (live-preview / partial mode). Call after every per-beat narrate or render-manim. |
-| `npm run render-remotion -- <slug>` | Bundle + render the final mp4 |
+| Tool                                                  | What it does                                                                                                   |
+| ----------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `npm run fetch-paper -- <id_or_url_or_path> <slug>`   | Download PDF into `videos/<slug>/paper.pdf`                                                                    |
+| `npm run extract-paper -- <slug>`                     | Marker → `paper.md` + `equations.json`                                                                         |
+| `npm run render-pages -- <slug>`                      | pdfjs-dist → `pages/page-NNN.png`                                                                              |
+| `npm run arxiv-search -- "<query>"`                   | arXiv search, JSON to stdout                                                                                   |
+| `npm run narrate -- <slug> <beat_id>`                 | ElevenLabs TTS for one beat (request stitching auto-applied)                                                   |
+| `npm run render-manim -- <slug> <scene_file> <Class>` | Render one Manim scene                                                                                         |
+| `npm run sync-manifest -- <slug>`                     | Incremental manifest rebuild (live-preview / partial mode). Call after every per-beat narrate or render-manim. |
+| `npm run render-remotion -- <slug>`                   | Bundle + render the final mp4                                                                                  |
 
 For web search and arXiv lookups, use the **built-in WebSearch / WebFetch tools** — no separate keys or scripts needed.
 

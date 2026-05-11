@@ -14,9 +14,22 @@ import { spawn, type ChildProcess } from 'node:child_process';
 import { REPO_ROOT } from '../paths.js';
 
 export type RenderEvent =
-  | { kind: 'render:state'; slug: string; running: boolean; percent: number; startedAt: number | null }
+  | {
+      kind: 'render:state';
+      slug: string;
+      running: boolean;
+      percent: number;
+      startedAt: number | null;
+    }
   | { kind: 'render:progress'; slug: string; percent: number; line?: string }
-  | { kind: 'render:done'; slug: string; ok: boolean; code: number | null; durationMs: number; tailLog: string };
+  | {
+      kind: 'render:done';
+      slug: string;
+      ok: boolean;
+      code: number | null;
+      durationMs: number;
+      tailLog: string;
+    };
 
 type RenderRecord = {
   slug: string;

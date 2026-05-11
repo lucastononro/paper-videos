@@ -69,9 +69,9 @@ export const PlayerPanel: React.FC<{
             Project scaffolded — no script yet
           </div>
           <div>
-            <code>{manifest.paperTitle || slug}</code> is set up at <code>videos/{slug}/</code>,
-            but the storyteller hasn't written <code>script.md</code> yet (so there are no voice
-            beats or visual blocks to play).
+            <code>{manifest.paperTitle || slug}</code> is set up at <code>videos/{slug}/</code>, but
+            the storyteller hasn't written <code>script.md</code> yet (so there are no voice beats
+            or visual blocks to play).
           </div>
           <div style={{ marginTop: 10 }}>
             Tell claude to write the script (e.g. <em>"run /paper-video script {slug}"</em>) and the
@@ -83,7 +83,9 @@ export const PlayerPanel: React.FC<{
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: 'var(--bg)' }}>
+    <div
+      style={{ display: 'flex', flexDirection: 'column', height: '100%', background: 'var(--bg)' }}
+    >
       <div
         style={{
           flex: 1,
@@ -191,7 +193,14 @@ const SpeedControl: React.FC<{ rate: number; onChange: (r: number) => void }> = 
       }}
       title="Playback speed"
     >
-      <span style={{ fontSize: 10, color: 'var(--text-mute)', textTransform: 'uppercase', letterSpacing: 0.4 }}>
+      <span
+        style={{
+          fontSize: 10,
+          color: 'var(--text-mute)',
+          textTransform: 'uppercase',
+          letterSpacing: 0.4,
+        }}
+      >
         speed
       </span>
       {presets.map((r) => {

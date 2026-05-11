@@ -21,6 +21,7 @@ integral[2].set_color(YELLOW)  # the "s"
 ```
 
 Project palette (project-wide):
+
 - `BLUE_C` — the focus subject, primary variables
 - `YELLOW_C` — "after" state in transforms, key parameters under discussion
 - `RED_C` — terms being removed, problems being highlighted
@@ -93,6 +94,7 @@ self.play(MoveToTarget(self.frame), run_time=5)
 ```
 
 ManimCommunity equivalent for `MovingCameraScene`:
+
 ```python
 class Foo(MovingCameraScene):
     def construct(self):
@@ -100,19 +102,20 @@ class Foo(MovingCameraScene):
 ```
 
 For `ThreeDScene`:
+
 ```python
 self.move_camera(phi=70 * DEGREES, theta=-45 * DEGREES, run_time=3)
 ```
 
 ## 6. Pacing — 3b1b's run_time heuristic
 
-| Animation type | run_time | Notes |
-|---|---|---|
-| Symbol appearance, small rotations | 0.5-1.5s | Don't fade in slower than 1s for a single symbol |
-| Local transform (color, shape, position) | 2-3s | TransformMatchingTex is in this range |
-| Concept transition (zoom, pan, layer change) | 3-5s | Use LaggedStart inside |
-| Detailed multi-step derivation | 5-8s | Break into multiple smaller `play()` calls |
-| Ambient parameter sweep | 8-15s | Use ValueTracker + always_redraw |
+| Animation type                               | run_time | Notes                                            |
+| -------------------------------------------- | -------- | ------------------------------------------------ |
+| Symbol appearance, small rotations           | 0.5-1.5s | Don't fade in slower than 1s for a single symbol |
+| Local transform (color, shape, position)     | 2-3s     | TransformMatchingTex is in this range            |
+| Concept transition (zoom, pan, layer change) | 3-5s     | Use LaggedStart inside                           |
+| Detailed multi-step derivation               | 5-8s     | Break into multiple smaller `play()` calls       |
+| Ambient parameter sweep                      | 8-15s    | Use ValueTracker + always_redraw                 |
 
 Anything > 8s for a single `play()` call is suspicious — split it.
 

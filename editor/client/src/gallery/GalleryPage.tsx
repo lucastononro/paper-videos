@@ -27,8 +27,9 @@ export const GalleryPage: React.FC = () => {
     ws.start();
     return ws.on((e) => {
       if (e.kind === 'inflight:changed') {
-        setProjects((prev) =>
-          prev?.map((p) => (p.slug === e.slug ? { ...p, inFlight: e.inFlight } : p)) ?? prev,
+        setProjects(
+          (prev) =>
+            prev?.map((p) => (p.slug === e.slug ? { ...p, inFlight: e.inFlight } : p)) ?? prev,
         );
       }
     });
@@ -119,8 +120,8 @@ export const GalleryPage: React.FC = () => {
               borderRadius: 12,
             }}
           >
-            No videos yet. Click <strong style={{ color: 'var(--accent)' }}>+ New video</strong>{' '}
-            to scaffold one.
+            No videos yet. Click <strong style={{ color: 'var(--accent)' }}>+ New video</strong> to
+            scaffold one.
           </div>
         ) : (
           <div

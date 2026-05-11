@@ -40,7 +40,9 @@ const [slug, scenePath, className] = program.args as [string, string, string];
 
 const q = QUALITY_FLAGS[opts.quality];
 if (!q) {
-  console.error(`Unknown --quality "${opts.quality}". Use one of: ${Object.keys(QUALITY_FLAGS).join(', ')}`);
+  console.error(
+    `Unknown --quality "${opts.quality}". Use one of: ${Object.keys(QUALITY_FLAGS).join(', ')}`,
+  );
   process.exit(1);
 }
 

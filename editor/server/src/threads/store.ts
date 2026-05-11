@@ -142,7 +142,8 @@ class ThreadStore {
   finish(threadId: string): boolean {
     const rec = this.threads.get(threadId);
     if (!rec) return false;
-    if (rec.status === 'completed' || rec.status === 'failed' || rec.status === 'ended') return false;
+    if (rec.status === 'completed' || rec.status === 'failed' || rec.status === 'ended')
+      return false;
     rec.finishPending = true;
     this.setStatus(rec, 'awaiting_finish');
     void this.cancelInFlight(rec).then(() => {
@@ -322,8 +323,7 @@ function scopeShortLabel(s: ThreadScope): string {
  * single-beat/single-block callers), we keep them unchanged.
  */
 function enrichScope(slug: string, scope: ThreadScope): ThreadScope {
-  const hasRange =
-    typeof scope.startFrame === 'number' && typeof scope.endFrame === 'number';
+  const hasRange = typeof scope.startFrame === 'number' && typeof scope.endFrame === 'number';
   const hasIds = scope.beatIds.length > 0 || scope.blockIds.length > 0;
   if (!hasRange || hasIds) return scope;
   let manifest;
@@ -337,7 +337,9 @@ function enrichScope(slug: string, scope: ThreadScope): ThreadScope {
   const overlaps = (s: number, d: number) => s + d > startFrame && s < endFrame;
   return {
     ...scope,
-    beatIds: manifest.voice.filter((b) => overlaps(b.startFrame, b.durationFrames)).map((b) => b.id),
+    beatIds: manifest.voice
+      .filter((b) => overlaps(b.startFrame, b.durationFrames))
+      .map((b) => b.id),
     blockIds: manifest.visualBlocks
       .filter((b) => overlaps(b.startFrame, b.durationFrames))
       .map((b) => b.id),

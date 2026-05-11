@@ -92,8 +92,10 @@ function classify(o: Record<string, unknown>): ChatEvent[] {
       return [
         {
           kind: 'done',
-          stopReason: typeof o['stop_reason'] === 'string' ? (o['stop_reason'] as string) : undefined,
-          durationMs: typeof o['duration_ms'] === 'number' ? (o['duration_ms'] as number) : undefined,
+          stopReason:
+            typeof o['stop_reason'] === 'string' ? (o['stop_reason'] as string) : undefined,
+          durationMs:
+            typeof o['duration_ms'] === 'number' ? (o['duration_ms'] as number) : undefined,
           costUsd:
             typeof o['total_cost_usd'] === 'number' ? (o['total_cost_usd'] as number) : undefined,
         },

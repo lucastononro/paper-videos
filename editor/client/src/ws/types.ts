@@ -75,9 +75,22 @@ export type ServerEvent =
     }
   // Button-driven Remotion render — broadcast to every conn so the gallery
   // and the editor can reflect the running state.
-  | { kind: 'render:state'; slug: string; running: boolean; percent: number; startedAt: number | null }
+  | {
+      kind: 'render:state';
+      slug: string;
+      running: boolean;
+      percent: number;
+      startedAt: number | null;
+    }
   | { kind: 'render:progress'; slug: string; percent: number; line?: string }
-  | { kind: 'render:done'; slug: string; ok: boolean; code: number | null; durationMs: number; tailLog: string }
+  | {
+      kind: 'render:done';
+      slug: string;
+      ok: boolean;
+      code: number | null;
+      durationMs: number;
+      tailLog: string;
+    }
   | {
       kind: 'qa:updated';
       slug: string;

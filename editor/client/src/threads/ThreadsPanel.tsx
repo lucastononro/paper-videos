@@ -257,9 +257,7 @@ const ThreadCard: React.FC<{
 }> = ({ thread, selected, onSelect }) => {
   const scopeLabel =
     thread.scope.label ||
-    [thread.scope.beatIds.join(','), thread.scope.blockIds.join(',')]
-      .filter(Boolean)
-      .join(' + ') ||
+    [thread.scope.beatIds.join(','), thread.scope.blockIds.join(',')].filter(Boolean).join(' + ') ||
     '(scope)';
   const tone = STATUS_TONE[thread.status];
   return (
@@ -284,7 +282,8 @@ const ThreadCard: React.FC<{
 const ThreadDetail: React.FC<{ thread: ThreadView }> = ({ thread }) => {
   const [draft, setDraft] = React.useState('');
   const inFlight = thread.status === 'running' || thread.status === 'awaiting_finish';
-  const finalized = thread.status === 'completed' || thread.status === 'failed' || thread.status === 'ended';
+  const finalized =
+    thread.status === 'completed' || thread.status === 'failed' || thread.status === 'ended';
 
   const send = () => {
     const text = draft.trim();

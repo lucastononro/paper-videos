@@ -11,9 +11,7 @@ import React from 'react';
  *   #/new               → new project dialog (overlays gallery)
  */
 
-export type Route =
-  | { kind: 'gallery' }
-  | { kind: 'editor'; slug: string };
+export type Route = { kind: 'gallery' } | { kind: 'editor'; slug: string };
 
 export function parseRoute(hash: string): Route {
   const h = hash.replace(/^#\/?/, '');

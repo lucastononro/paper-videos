@@ -32,7 +32,8 @@ class WsClient {
   }
 
   private dial() {
-    const url = (window.location.protocol === 'https:' ? 'wss://' : 'ws://') + window.location.host + '/ws';
+    const url =
+      (window.location.protocol === 'https:' ? 'wss://' : 'ws://') + window.location.host + '/ws';
     const sock = new WebSocket(url);
     this.socket = sock;
     sock.onopen = () => {

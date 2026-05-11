@@ -19,10 +19,6 @@
       "Bash(cp *)",
       "Bash(mv *)"
     ],
-    "deny": [
-      "Bash(rm -rf *)",
-      "Bash(git push *)",
-      "Bash(git reset --hard *)"
-    ]
+    "deny": ["Bash(rm -rf *)", "Bash(git push *)", "Bash(git reset --hard *)"]
   }
 }

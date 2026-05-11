@@ -17,6 +17,14 @@ export type ClaudeRunHandle = {
  * - First turn: pass the user text via `-p`. No `--resume`.
  * - Follow-ups: pass `--resume <sessionId>` so the agent has continuity.
  *
+ * `--dangerously-skip-permissions` is intentional: the editor is a local
+ * tool driving a long-running pipeline (paper extract → narrate → render)
+ * where permission prompts would block every Bash / Edit / Write call and
+ * the user can't see or answer them from the browser UI. Auto-mode is not
+ * a substitute — it still prompts for higher-risk operations like default-
+ * branch pushes. The editor process itself stays sandboxed by the local
+ * filesystem and OAuth scope, which is what we actually rely on.
+ *
  * The subprocess inherits the editor's environment (so OAuth / .env carry
  * through) and runs with `cwd = REPO_ROOT` so CLAUDE.md, .claude/, and npm
  * scripts all resolve.
@@ -29,6 +37,7 @@ export function spawnClaudeTurn(opts: {
   const args = [
     '--output-format=stream-json',
     '--verbose',
+    '--dangerously-skip-permissions',
     '-p',
     opts.text,
   ];

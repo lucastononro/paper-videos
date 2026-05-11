@@ -20,7 +20,13 @@ type State = {
   markStarting: (slug: string) => void;
 };
 
-const EMPTY: RenderStatus = { running: false, percent: 0, startedAt: null, lastLine: null, lastResult: null };
+const EMPTY: RenderStatus = {
+  running: false,
+  percent: 0,
+  startedAt: null,
+  lastLine: null,
+  lastResult: null,
+};
 
 export const useRenderStore = create<State>((set) => ({
   byslug: {},

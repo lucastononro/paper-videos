@@ -91,7 +91,10 @@ export const ChatPanel: React.FC<{
 
       <div className="chat-input-wrap">
         {queue.length > 0 && (
-          <div className="chat-queue-strip" title="Messages queued — will run after the active turn completes.">
+          <div
+            className="chat-queue-strip"
+            title="Messages queued — will run after the active turn completes."
+          >
             <span className="chat-queue-icon">⌚</span>
             <span className="chat-queue-label">
               {queue.length} message{queue.length === 1 ? '' : 's'} queued · runs after current turn

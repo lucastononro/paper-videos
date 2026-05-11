@@ -19,7 +19,9 @@ const pageNum = Number(pageArg);
 const quote = quoteArgs.join(' ');
 const bbox = await resolveBBox(slug, pageNum, quote);
 if (!bbox) {
-  console.error(JSON.stringify({ ok: false, reason: 'quote-not-found', slug, pageNum, quote }, null, 2));
+  console.error(
+    JSON.stringify({ ok: false, reason: 'quote-not-found', slug, pageNum, quote }, null, 2),
+  );
   process.exit(1);
 }
 console.log(JSON.stringify({ ok: true, slug, pageNum, quote, bbox }, null, 2));

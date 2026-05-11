@@ -34,7 +34,7 @@ type BBox = { x: number; y: number; w: number; h: number };
 
 type Token = {
   raw: string;
-  norm: string;        // lowercase, alphanumerics-only
+  norm: string; // lowercase, alphanumerics-only
   // viewport-space rect (top-left origin, after applying default getViewport)
   x: number;
   y: number;
@@ -45,14 +45,18 @@ type Token = {
 function normalize(s: string): string {
   return s
     .toLowerCase()
-    .replace(/[‘’“”]/g, '')   // smart quotes
-    .replace(/[–—]/g, '')               // dashes
+    .replace(/[‘’“”]/g, '') // smart quotes
+    .replace(/[–—]/g, '') // dashes
     .replace(/[^a-z0-9]+/g, '');
 }
 
-async function pageTokens(pdfPath: string, pageNum: number): Promise<{ tokens: Token[]; pageWidth: number; pageHeight: number }> {
+async function pageTokens(
+  pdfPath: string,
+  pageNum: number,
+): Promise<{ tokens: Token[]; pageWidth: number; pageHeight: number }> {
   const data = new Uint8Array(fs.readFileSync(pdfPath));
-  const pdf = await pdfjs.getDocument({ data, isEvalSupported: false, useSystemFonts: true }).promise;
+  const pdf = await pdfjs.getDocument({ data, isEvalSupported: false, useSystemFonts: true })
+    .promise;
   if (pageNum < 1 || pageNum > pdf.numPages) {
     throw new Error(`Page ${pageNum} out of range (1..${pdf.numPages})`);
   }
@@ -129,8 +133,15 @@ function findRun(tokens: Token[], query: string): { start: number; end: number }
   return { start, end };
 }
 
-function unionRect(tokens: Token[], start: number, end: number): { x: number; y: number; w: number; h: number } {
-  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+function unionRect(
+  tokens: Token[],
+  start: number,
+  end: number,
+): { x: number; y: number; w: number; h: number } {
+  let minX = Infinity,
+    minY = Infinity,
+    maxX = -Infinity,
+    maxY = -Infinity;
   for (let i = start; i <= end; i++) {
     const t = tokens[i]!;
     minX = Math.min(minX, t.x);
@@ -141,7 +152,11 @@ function unionRect(tokens: Token[], start: number, end: number): { x: number; y:
   return { x: minX, y: minY, w: maxX - minX, h: maxY - minY };
 }
 
-export async function resolveBBox(slug: string, pageNum: number, quote: string): Promise<BBox | null> {
+export async function resolveBBox(
+  slug: string,
+  pageNum: number,
+  quote: string,
+): Promise<BBox | null> {
   const pdfPath = path.join(REPO, 'videos', slug, 'paper.pdf');
   const { tokens, pageWidth, pageHeight } = await pageTokens(pdfPath, pageNum);
   const run = findRun(tokens, quote);
@@ -168,7 +183,9 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const quote = quoteArgs.join(' ');
   const bbox = await resolveBBox(slug, pageNum, quote);
   if (!bbox) {
-    console.error(JSON.stringify({ ok: false, reason: 'quote-not-found', slug, pageNum, quote }, null, 2));
+    console.error(
+      JSON.stringify({ ok: false, reason: 'quote-not-found', slug, pageNum, quote }, null, 2),
+    );
     process.exit(1);
   }
   console.log(JSON.stringify({ ok: true, slug, pageNum, quote, bbox }, null, 2));

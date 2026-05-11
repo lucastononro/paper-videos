@@ -13,7 +13,13 @@ qaRouter.get('/:slug/qa-report', (req: Request, res: Response) => {
   }
   const cached = readQaReport(slug);
   if (!cached) {
-    res.json({ slug, issues: [], bySeverity: { error: 0, warning: 0, info: 0 }, byKind: {}, generatedAt: null });
+    res.json({
+      slug,
+      issues: [],
+      bySeverity: { error: 0, warning: 0, info: 0 },
+      byKind: {},
+      generatedAt: null,
+    });
     return;
   }
   res.json(cached);

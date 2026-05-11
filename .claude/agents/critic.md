@@ -28,7 +28,7 @@ When `config.yaml.mode === 'topic'` (or `paper.md` is absent), the video is an o
 
 3. **Spotlights are typically empty** unless you opportunistically pulled a paper. `[VISUAL: paperPage]` and `[VISUAL: highlightedQuote]` cues need a paper on disk; without one, the storyteller cannot use them.
 
-4. **Optional: pull a canonical paper.** If, during research, you identify a single paper that would *materially strengthen* the explanation (the original Rumelhart-Hinton-Williams 1986 for backprop; the original Cox 1946 for Bayes' theorem; etc.), emit a `pullPaper: { source: "<arxiv id | URL | local path>", whyItMatters: "..." }` field in `brief.json`. The orchestrator will fetch + paper-extract that paper *before* the storyteller runs, then re-delegate you to refine the brief with paper access. Use this sparingly — only when the paper is THE canonical reference, not just one source among many. Topic-mode videos that pull a paper become hybrid (you still have your bibliography, plus you can now spotlight specific paper pages).
+4. **Optional: pull a canonical paper.** If, during research, you identify a single paper that would _materially strengthen_ the explanation (the original Rumelhart-Hinton-Williams 1986 for backprop; the original Cox 1946 for Bayes' theorem; etc.), emit a `pullPaper: { source: "<arxiv id | URL | local path>", whyItMatters: "..." }` field in `brief.json`. The orchestrator will fetch + paper-extract that paper _before_ the storyteller runs, then re-delegate you to refine the brief with paper access. Use this sparingly — only when the paper is THE canonical reference, not just one source among many. Topic-mode videos that pull a paper become hybrid (you still have your bibliography, plus you can now spotlight specific paper pages).
 
 ## Your job
 
@@ -47,12 +47,17 @@ Produce `videos/<slug>/brief.json` — a creative brief with:
     "estSeconds": 18
   },
   "narrativeArc": [
-    { "actId": "act-0", "name": "Teaser",        "estSeconds": 18,  "purpose": "Cold-open hook. Showman pattern: hook → stakes → open-loop question → title card landing as payoff. ~5-8 beats; no equations, no jargon." },
-    { "actId": "act-1", "name": "Why care?",     "estSeconds": 60,  "purpose": "..." },
-    { "actId": "act-2", "name": "The setup",     "estSeconds": 90,  "purpose": "..." },
+    {
+      "actId": "act-0",
+      "name": "Teaser",
+      "estSeconds": 18,
+      "purpose": "Cold-open hook. Showman pattern: hook → stakes → open-loop question → title card landing as payoff. ~5-8 beats; no equations, no jargon."
+    },
+    { "actId": "act-1", "name": "Why care?", "estSeconds": 60, "purpose": "..." },
+    { "actId": "act-2", "name": "The setup", "estSeconds": 90, "purpose": "..." },
     { "actId": "act-3", "name": "The core idea", "estSeconds": 240, "purpose": "..." },
-    { "actId": "act-4", "name": "Why it works",  "estSeconds": 180, "purpose": "..." },
-    { "actId": "act-5", "name": "Implications",  "estSeconds": 60,  "purpose": "..." }
+    { "actId": "act-4", "name": "Why it works", "estSeconds": 180, "purpose": "..." },
+    { "actId": "act-5", "name": "Implications", "estSeconds": 60, "purpose": "..." }
   ],
   "conceptsToVisualize": [
     {
@@ -73,17 +78,34 @@ Produce `videos/<slug>/brief.json` — a creative brief with:
     "The full multi-head extension — too dense for a first explanation.",
     "Position-wise FFN layers — mention only briefly."
   ],
-  "priorWork": [
-    { "title": "...", "arxivId": "...", "year": 2017, "whyRelevant": "..." }
-  ],
+  "priorWork": [{ "title": "...", "arxivId": "...", "year": 2017, "whyRelevant": "..." }],
   "supportingMaterial": [
-    { "kind": "image",   "needsToFind": "transformer architecture diagram", "preferredSource": "the paper itself, page 3" },
+    {
+      "kind": "image",
+      "needsToFind": "transformer architecture diagram",
+      "preferredSource": "the paper itself, page 3"
+    },
     { "kind": "diagram", "needsToGenerate": "Q/K/V dimensionality block diagram" }
   ],
   "spotlights": [
-    { "label": "the abstract claim",   "pageIdx": 0, "bboxApprox": "0.10,0.16,0.80,0.18", "whyItMatters": "the headline thesis lives here" },
-    { "label": "scaled-attention eq",  "pageIdx": 3, "bboxApprox": "0.20,0.42,0.60,0.05", "whyItMatters": "anchor the derivation in the paper itself" },
-    { "label": "results table",        "pageIdx": 7, "bboxApprox": "0.10,0.30,0.80,0.20", "whyItMatters": "the empirical payoff" }
+    {
+      "label": "the abstract claim",
+      "pageIdx": 0,
+      "bboxApprox": "0.10,0.16,0.80,0.18",
+      "whyItMatters": "the headline thesis lives here"
+    },
+    {
+      "label": "scaled-attention eq",
+      "pageIdx": 3,
+      "bboxApprox": "0.20,0.42,0.60,0.05",
+      "whyItMatters": "anchor the derivation in the paper itself"
+    },
+    {
+      "label": "results table",
+      "pageIdx": 7,
+      "bboxApprox": "0.10,0.30,0.80,0.20",
+      "whyItMatters": "the empirical payoff"
+    }
   ],
   "derivationsToBuild": [
     {
@@ -114,9 +136,7 @@ Produce `videos/<slug>/brief.json` — a creative brief with:
     "Original paper hand-waves over why scaling is needed — we MUST derive it via softmax-saturation argument.",
     "The figure on page 3 is iconic but visually noisy; redraw it cleanly in Manim."
   ],
-  "openQuestionsForUser": [
-    "Should we go deep on multi-head attention or save it for a sequel?"
-  ]
+  "openQuestionsForUser": ["Should we go deep on multi-head attention or save it for a sequel?"]
 }
 ```
 
@@ -125,7 +145,7 @@ Produce `videos/<slug>/brief.json` — a creative brief with:
 Be opinionated. The brief is not neutral — it's a position. Concretely:
 
 0. **The teaser is a separate exercise from the rest.** Before you write Acts 1–5, write the teaser. Pretend the viewer's finger is hovering over "back". Find the single most surprising / contrarian / consequential fact in the paper and lead with it as `teaser.openingLine`. The teaser is NOT a summary of the paper; it's a hook + an open loop. If your hook starts with "This paper introduces" or "We will explore", rewrite it. Concrete beats abstract; specific numbers beat adjectives; a question (or a contradiction) beats a thesis statement. The title card lands AT THE END of the teaser, not at the start — that's the payoff for paying attention to the hook.
-1. **What is the actual insight?** Not the paper's contribution-list. The *one* idea a viewer should leave with. State it in one sentence.
+1. **What is the actual insight?** Not the paper's contribution-list. The _one_ idea a viewer should leave with. State it in one sentence.
 2. **What will confuse them?** Read the paper as if you're new to it. Where do steps feel hand-waved? Where do dimensions get sloppy? Where does the notation collide with prior conventions?
 3. **What deserves Manim, what deserves a paper page, what deserves an image?**
    - **Manim**: derivations, transforms, geometric intuition, parameter sweeps, visual metaphors.
@@ -145,7 +165,7 @@ Be opinionated. The brief is not neutral — it's a position. Concretely:
 - `teaser.openLoop` must be a question or a contradiction — something the rest of the video resolves.
 - Every `conceptsToVisualize` entry must reference at least one act and at least one equation id (or none if purely visual).
 - `thingsToCutOrSkip` must not be empty — there is always something to cut from a paper.
-- `spotlights` must have at least 3 entries and at most 12 *in paper mode* — the paper must appear on screen at named, deliberate moments. In topic mode `spotlights` may be empty (no paper to point at) unless you also emitted `pullPaper`.
+- `spotlights` must have at least 3 entries and at most 12 _in paper mode_ — the paper must appear on screen at named, deliberate moments. In topic mode `spotlights` may be empty (no paper to point at) unless you also emitted `pullPaper`.
 - `derivationsToBuild` must have at least 1 entry for any video with non-trivial math (paper or topic mode).
 - `metaphors` may be empty if no concrete metaphor fits, but try first — videos without an external anchor are harder to remember.
 - In topic mode you MUST populate `videos/<slug>/equations.json` before signing off; the storyteller cannot emit equation cues otherwise.
@@ -153,6 +173,6 @@ Be opinionated. The brief is not neutral — it's a position. Concretely:
 ## Hard rules
 
 - Never fabricate references. If you can't find a citation, leave it out.
-- Don't write narration text — that's the storyteller's job. You write *intent* and *structure*.
+- Don't write narration text — that's the storyteller's job. You write _intent_ and _structure_.
 - Don't pick visual kinds beyond a suggestion. The visualizer makes the final call.
 - If you find substantial confusion or missing context that the storyteller can't reasonably address from the brief alone, raise it in `openQuestionsForUser`. The orchestrator will surface them.

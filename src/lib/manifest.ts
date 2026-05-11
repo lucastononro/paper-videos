@@ -259,7 +259,11 @@ export function migrateToV2(manifest: Manifest): Manifest {
         // Look past contiguous pauses for the next non-pause; only absorb if
         // it continues the same fingerprint and is adjacent.
         let k = j + 1;
-        while (k < segs.length && segs[k]!.visual.kind === 'pause' && isAdjacent(segs[k - 1]!, segs[k]!)) {
+        while (
+          k < segs.length &&
+          segs[k]!.visual.kind === 'pause' &&
+          isAdjacent(segs[k - 1]!, segs[k]!)
+        ) {
           k += 1;
         }
         const peek = k < segs.length ? segs[k]! : null;

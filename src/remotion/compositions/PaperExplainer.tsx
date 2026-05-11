@@ -34,10 +34,18 @@ export const PaperExplainer: React.FC<{ slug: string }> = () => {
     (async () => {
       const [m, e, a, d, lf] = await Promise.all([
         fetch(staticFile('manifest.json')).then((r) => r.json()),
-        fetch(staticFile('equations.json')).then((r) => (r.ok ? r.json() : [])).catch(() => []),
-        fetch(staticFile('assets-index.json')).then((r) => (r.ok ? r.json() : {})).catch(() => ({})),
-        fetch(staticFile('manim-durations.json')).then((r) => (r.ok ? r.json() : {})).catch(() => ({})),
-        fetch(staticFile('manim-last-frames.json')).then((r) => (r.ok ? r.json() : {})).catch(() => ({})),
+        fetch(staticFile('equations.json'))
+          .then((r) => (r.ok ? r.json() : []))
+          .catch(() => []),
+        fetch(staticFile('assets-index.json'))
+          .then((r) => (r.ok ? r.json() : {}))
+          .catch(() => ({})),
+        fetch(staticFile('manim-durations.json'))
+          .then((r) => (r.ok ? r.json() : {}))
+          .catch(() => ({})),
+        fetch(staticFile('manim-last-frames.json'))
+          .then((r) => (r.ok ? r.json() : {}))
+          .catch(() => ({})),
       ]);
       setData({
         manifest: m as ManifestForCore,

@@ -15,22 +15,27 @@ You extract structured content from a paper PDF for the paper-videos pipeline.
 **Never invoked**: when the orchestrator is in pure topic mode (no `pullPaper`). The critic does its own research and populates `equations.json` directly.
 
 ## Inputs you receive
+
 The orchestrator gives you a `slug`. You can assume `videos/<slug>/paper.pdf` exists.
 
 ## Steps
 
 1. Run **Marker** for markdown + equations:
+
    ```bash
    npm run extract-paper -- <slug>
    ```
+
    This produces:
    - `videos/<slug>/paper.md` — full markdown with `$...$` and `$$...$$` equations preserved.
    - `videos/<slug>/equations.json` — array of `{id, latex, page, context}` entries.
 
 2. Run **page rendering** for image assets:
+
    ```bash
    npm run render-pages -- <slug>
    ```
+
    Produces `videos/<slug>/pages/page-001.png`, `page-002.png`, ... at 2x DPI (good for 1080p video).
 
 3. Validate:

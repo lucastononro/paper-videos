@@ -61,13 +61,16 @@ writeTopicMd(slug, topic, opts.force);
 writeConfigYaml(slug, topic, opts.voice, opts.captions, opts.targetMinutes, opts.force);
 
 if (!manifestExists(slug)) {
-  writeManifest(slug, defaultManifest({
+  writeManifest(
     slug,
-    paperSource: { kind: 'topic', value: topic },
-    paperTitle: topic,
-    voiceAlias: opts.voice,
-    captions: opts.captions,
-  }));
+    defaultManifest({
+      slug,
+      paperSource: { kind: 'topic', value: topic },
+      paperTitle: topic,
+      voiceAlias: opts.voice,
+      captions: opts.captions,
+    }),
+  );
 }
 
 console.log(JSON.stringify({ slug, mode: 'topic', topic }, null, 2));

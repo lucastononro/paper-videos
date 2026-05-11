@@ -117,22 +117,18 @@ export const CaptionBar: React.FC<{ timestampsSrc: string }> = ({ timestampsSrc 
           // Activation curve: 0 → 1 over fadeS before w.start, hold at 1
           // through w.end, then 1 → 0 over fadeS after w.end. This produces
           // a smooth highlight ramp instead of a single-frame pop.
-          const activation = interpolate(
-            t,
-            [a0, a1, a2, a3],
-            [0, 1, 1, 0],
-            { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' },
-          );
+          const activation = interpolate(t, [a0, a1, a2, a3], [0, 1, 1, 0], {
+            extrapolateLeft: 'clamp',
+            extrapolateRight: 'clamp',
+          });
 
           // "Past-ness": once t > w.end + fadeS the word is fully past.
           const p0 = wEnd;
           const p1 = Math.max(wEnd + fadeS, p0 + EPS);
-          const pastness = interpolate(
-            t,
-            [p0, p1],
-            [0, 1],
-            { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' },
-          );
+          const pastness = interpolate(t, [p0, p1], [0, 1], {
+            extrapolateLeft: 'clamp',
+            extrapolateRight: 'clamp',
+          });
 
           // Compose color: inactive → active over the start ramp, then
           // active → past over the end ramp. Two-step blend.

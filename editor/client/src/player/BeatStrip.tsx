@@ -53,8 +53,10 @@ export const BeatStrip: React.FC<{
   // the visual feedback consistent with the filmstrip's gold band above.
   const isChipSelected = (startFrame: number, durationFrames: number): boolean => {
     if (sel?.kind !== 'range') return false;
-    return sel.startFrame === startFrame &&
-      sel.endFrame === Math.min(totalFrames, startFrame + durationFrames);
+    return (
+      sel.startFrame === startFrame &&
+      sel.endFrame === Math.min(totalFrames, startFrame + durationFrames)
+    );
   };
 
   return (

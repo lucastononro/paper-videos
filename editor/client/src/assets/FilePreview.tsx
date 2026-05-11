@@ -69,11 +69,7 @@ export const FilePreview: React.FC<{ slug: string; entry: FileEntry; src: string
           </audio>
         )}
         {mime.startsWith('video/') && (
-          <video
-            controls
-            src={src}
-            style={{ width: '100%', maxHeight: '100%' }}
-          >
+          <video controls src={src} style={{ width: '100%', maxHeight: '100%' }}>
             <track kind="captions" />
           </video>
         )}

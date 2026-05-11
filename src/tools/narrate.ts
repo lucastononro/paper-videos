@@ -56,8 +56,16 @@ const program = new Command()
   .argument('[beat_id]', 'specific beat to render')
   .option('--all', 'generate every missing narrated beat in script.md', false)
   .option('--force', 'overwrite existing audio files', false)
-  .option('--pad-leading <seconds>', 'silence to prepend to each mp3', String(DEFAULT_PAD_LEADING_SEC))
-  .option('--pad-trailing <seconds>', 'silence to append to each mp3', String(DEFAULT_PAD_TRAILING_SEC));
+  .option(
+    '--pad-leading <seconds>',
+    'silence to prepend to each mp3',
+    String(DEFAULT_PAD_LEADING_SEC),
+  )
+  .option(
+    '--pad-trailing <seconds>',
+    'silence to append to each mp3',
+    String(DEFAULT_PAD_TRAILING_SEC),
+  );
 
 program.parse();
 const opts = program.opts<{
@@ -82,8 +90,7 @@ const allNarrated = narratedBeats(script);
 const voiceAlias = script.frontmatter.voice ?? cfg.voice ?? 'pharaoh';
 const voice = resolveVoice(voiceAlias);
 
-const targets =
-  opts.all || !beatArg ? allNarrated.map((b) => b.id) : [beatArg];
+const targets = opts.all || !beatArg ? allNarrated.map((b) => b.id) : [beatArg];
 
 const narrationDir = ensureSubdir(slug, 'narration');
 

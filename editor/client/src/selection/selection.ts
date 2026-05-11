@@ -47,8 +47,7 @@ export function resolveSelection(
   const endFrame = sel.kind === 'range' ? sel.endFrame : -1;
   if (sel.kind === 'beat') return { beatIds: [sel.beatId], blockIds: [] };
   if (sel.kind === 'block') return { beatIds: [], blockIds: [sel.blockId] };
-  const overlaps = (s: number, d: number) =>
-    s + d > startFrame && s < endFrame;
+  const overlaps = (s: number, d: number) => s + d > startFrame && s < endFrame;
   return {
     beatIds: manifest.voice
       .filter((b) => overlaps(b.startFrame, b.durationFrames))

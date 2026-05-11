@@ -28,8 +28,19 @@ export type QaReport = {
 };
 
 const FORBIDDEN_TAGS = [
-  'laughs', 'giggles', 'shouts', 'whispers', 'mischievous', 'playfully',
-  'sarcastic', 'deadpan', 'childlike', 'crying', 'gasps', 'trembling', 'robotic',
+  'laughs',
+  'giggles',
+  'shouts',
+  'whispers',
+  'mischievous',
+  'playfully',
+  'sarcastic',
+  'deadpan',
+  'childlike',
+  'crying',
+  'gasps',
+  'trembling',
+  'robotic',
 ];
 
 /**
@@ -49,7 +60,10 @@ export function runQa(slug: string): QaReport {
   let equationsById = new Map<string, { latex: string }>();
   if (fs.existsSync(equationsPath)) {
     try {
-      const arr = JSON.parse(fs.readFileSync(equationsPath, 'utf8')) as Array<{ id: string; latex: string }>;
+      const arr = JSON.parse(fs.readFileSync(equationsPath, 'utf8')) as Array<{
+        id: string;
+        latex: string;
+      }>;
       equationsById = new Map(arr.map((e) => [e.id, { latex: e.latex }]));
       // Regression guard for the matrix-tear bug: every equation rendered
       // stepwise gets `splitLatex(latex)`-ed, and each fragment must have
@@ -67,7 +81,12 @@ export function runQa(slug: string): QaReport {
             issues.push({
               severity: 'error',
               kind: 'equation:malformed-split',
-              detail: { equationId: id, fragmentIndex: idx, totalFragments: parts.length, fragment: part.slice(0, 200) },
+              detail: {
+                equationId: id,
+                fragmentIndex: idx,
+                totalFragments: parts.length,
+                fragment: part.slice(0, 200),
+              },
               message: `${id} stepwise split produced an unbalanced fragment (\\begin/\\end mismatch) — fragment ${idx + 1}/${parts.length} starts: "${part.slice(0, 80)}…". Likely a regression in splitLatex (depth-aware matrix handling).`,
               jumpFrame: 0,
             });
@@ -144,7 +163,12 @@ export function runQa(slug: string): QaReport {
         issues.push({
           severity: 'error',
           kind: 'audio:overlap',
-          detail: { beatA: beat.id, beatB: next.id, overlapFrames: -gap, overlapMs: framesToMs(-gap, fps) },
+          detail: {
+            beatA: beat.id,
+            beatB: next.id,
+            overlapFrames: -gap,
+            overlapMs: framesToMs(-gap, fps),
+          },
           message: `${beat.id} overlaps ${next.id} by ${framesToMs(-gap, fps)}ms`,
           jumpFrame: next.startFrame,
         });
@@ -176,7 +200,7 @@ export function runQa(slug: string): QaReport {
             audioDurationSeconds: number;
             words: Array<{ word: string; start: number; end: number }>;
           };
-          const beatEndSec = (beat.durationFrames) / fps;
+          const beatEndSec = beat.durationFrames / fps;
           for (const w of ts.words) {
             if (w.end > beatEndSec + 0.05) {
               issues.push({
@@ -188,7 +212,7 @@ export function runQa(slug: string): QaReport {
                   endMs: Math.round(w.end * 1000),
                   beatEndMs: Math.round(beatEndSec * 1000),
                 },
-                message: `${beat.id}: caption word "${w.word}" ends at ${(w.end).toFixed(2)}s but beat is ${(beatEndSec).toFixed(2)}s`,
+                message: `${beat.id}: caption word "${w.word}" ends at ${w.end.toFixed(2)}s but beat is ${beatEndSec.toFixed(2)}s`,
                 jumpFrame: beat.startFrame + Math.round(w.start * fps),
               });
               break; // one per beat is enough
@@ -235,7 +259,17 @@ export function runQa(slug: string): QaReport {
         jumpFrame: block.startFrame,
       });
     }
-    issuesForVisual(block.visual, block.id, block.startFrame, dir, equationsById, assets, manimDurations, block.durationFrames, fps).forEach((iss) => issues.push(iss));
+    issuesForVisual(
+      block.visual,
+      block.id,
+      block.startFrame,
+      dir,
+      equationsById,
+      assets,
+      manimDurations,
+      block.durationFrames,
+      fps,
+    ).forEach((iss) => issues.push(iss));
 
     // Gap between consecutive blocks.
     const next = sortedBlocks[i + 1];
@@ -344,7 +378,11 @@ function issuesForVisual(
       break;
     }
     case 'paperPage': {
-      const pagePath = path.join(dir, 'pages', `page-${String(v.pageIdx + 1).padStart(3, '0')}.png`);
+      const pagePath = path.join(
+        dir,
+        'pages',
+        `page-${String(v.pageIdx + 1).padStart(3, '0')}.png`,
+      );
       if (!fs.existsSync(pagePath)) {
         out.push({
           severity: 'error',
@@ -356,7 +394,14 @@ function issuesForVisual(
       }
       if (v.highlightBBox) {
         const bb = v.highlightBBox;
-        if (bb.x < 0 || bb.y < 0 || bb.w <= 0 || bb.h <= 0 || bb.x + bb.w > 1.001 || bb.y + bb.h > 1.001) {
+        if (
+          bb.x < 0 ||
+          bb.y < 0 ||
+          bb.w <= 0 ||
+          bb.h <= 0 ||
+          bb.x + bb.w > 1.001 ||
+          bb.y + bb.h > 1.001
+        ) {
           out.push({
             severity: 'error',
             kind: 'visual:bbox-out-of-bounds',
@@ -369,7 +414,11 @@ function issuesForVisual(
       break;
     }
     case 'highlightedQuote': {
-      const pagePath = path.join(dir, 'pages', `page-${String(v.pageIdx + 1).padStart(3, '0')}.png`);
+      const pagePath = path.join(
+        dir,
+        'pages',
+        `page-${String(v.pageIdx + 1).padStart(3, '0')}.png`,
+      );
       if (!fs.existsSync(pagePath)) {
         out.push({
           severity: 'error',
@@ -381,7 +430,14 @@ function issuesForVisual(
       }
       if (v.bbox) {
         const bb = v.bbox;
-        if (bb.x < 0 || bb.y < 0 || bb.w <= 0 || bb.h <= 0 || bb.x + bb.w > 1.001 || bb.y + bb.h > 1.001) {
+        if (
+          bb.x < 0 ||
+          bb.y < 0 ||
+          bb.w <= 0 ||
+          bb.h <= 0 ||
+          bb.x + bb.w > 1.001 ||
+          bb.y + bb.h > 1.001
+        ) {
           out.push({
             severity: 'error',
             kind: 'visual:bbox-out-of-bounds',

@@ -81,9 +81,12 @@ export function preparePreview(slug: string): void {
         const out = execFileSync(
           'ffprobe',
           [
-            '-v', 'error',
-            '-show_entries', 'format=duration',
-            '-of', 'default=noprint_wrappers=1:nokey=1',
+            '-v',
+            'error',
+            '-show_entries',
+            'format=duration',
+            '-of',
+            'default=noprint_wrappers=1:nokey=1',
             abs,
           ],
           { encoding: 'utf8' },
@@ -98,18 +101,24 @@ export function preparePreview(slug: string): void {
 
       const pngName = f.replace(/\.mp4$/, '.png');
       const pngPath = path.join(lastFramesDir, pngName);
-      const stale = !fs.existsSync(pngPath) || fs.statSync(abs).mtimeMs > fs.statSync(pngPath).mtimeMs;
+      const stale =
+        !fs.existsSync(pngPath) || fs.statSync(abs).mtimeMs > fs.statSync(pngPath).mtimeMs;
       if (stale) {
         try {
           execFileSync(
             'ffmpeg',
             [
               '-y',
-              '-sseof', '-0.1',
-              '-i', abs,
-              '-update', '1',
-              '-frames:v', '1',
-              '-q:v', '2',
+              '-sseof',
+              '-0.1',
+              '-i',
+              abs,
+              '-update',
+              '1',
+              '-frames:v',
+              '1',
+              '-q:v',
+              '2',
               pngPath,
             ],
             { stdio: 'ignore' },

@@ -50,9 +50,7 @@ filesRouter.get('/:slug/files', (req: Request, res: Response) => {
         mime: d.isDirectory() ? null : guessMime(d.name),
       };
     })
-    .sort((a, b) =>
-      a.isDir === b.isDir ? a.name.localeCompare(b.name) : a.isDir ? -1 : 1,
-    );
+    .sort((a, b) => (a.isDir === b.isDir ? a.name.localeCompare(b.name) : a.isDir ? -1 : 1));
   res.json({ entries });
 });
 

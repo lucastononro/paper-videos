@@ -20,7 +20,9 @@ export const HighlightedQuote: React.FC<{
 }> = ({ pageSrc, quote, bbox }) => {
   const frame = useCurrentFrame();
   const quoteOpacity = interpolate(frame, [10, 28], [0, 1], { extrapolateRight: 'clamp' });
-  const dimOpacity = bbox ? interpolate(frame, [4, 18], [0, 0.62], { extrapolateRight: 'clamp' }) : 0;
+  const dimOpacity = bbox
+    ? interpolate(frame, [4, 18], [0, 0.62], { extrapolateRight: 'clamp' })
+    : 0;
   const glow = 0.6 + 0.4 * Math.sin(frame / 16);
 
   return (
@@ -57,18 +59,18 @@ export const HighlightedQuote: React.FC<{
             backgroundColor: '#ffffff',
           }}
         >
-        <Img
-          src={pageSrc}
-          style={{ display: 'block', height: '100%', width: 'auto', maxWidth: '100%' }}
-        />
+          <Img
+            src={pageSrc}
+            style={{ display: 'block', height: '100%', width: 'auto', maxWidth: '100%' }}
+          />
 
-        {bbox && (
-          <>
-            <div
-              style={{
-                position: 'absolute',
-                inset: 0,
-                background: `
+          {bbox && (
+            <>
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: `
                   linear-gradient(to right,
                     rgba(13,17,23,${dimOpacity}) 0%,
                     rgba(13,17,23,${dimOpacity}) ${bbox.x * 100}%,
@@ -78,43 +80,43 @@ export const HighlightedQuote: React.FC<{
                     rgba(13,17,23,${dimOpacity}) 100%
                   )
                 `,
-              }}
-            />
-            <div
-              style={{
-                position: 'absolute',
-                left: `${bbox.x * 100}%`,
-                width: `${bbox.w * 100}%`,
-                top: 0,
-                height: `${bbox.y * 100}%`,
-                backgroundColor: `rgba(13,17,23,${dimOpacity})`,
-              }}
-            />
-            <div
-              style={{
-                position: 'absolute',
-                left: `${bbox.x * 100}%`,
-                width: `${bbox.w * 100}%`,
-                top: `${(bbox.y + bbox.h) * 100}%`,
-                bottom: 0,
-                backgroundColor: `rgba(13,17,23,${dimOpacity})`,
-              }}
-            />
-            <div
-              style={{
-                position: 'absolute',
-                left: `${bbox.x * 100}%`,
-                top: `${bbox.y * 100}%`,
-                width: `${bbox.w * 100}%`,
-                height: `${bbox.h * 100}%`,
-                border: `3px solid rgba(255, 216, 102, ${glow})`,
-                borderRadius: 6,
-                boxShadow: `0 0 ${24 * glow}px rgba(255, 216, 102, ${glow * 0.7})`,
-                pointerEvents: 'none',
-              }}
-            />
-          </>
-        )}
+                }}
+              />
+              <div
+                style={{
+                  position: 'absolute',
+                  left: `${bbox.x * 100}%`,
+                  width: `${bbox.w * 100}%`,
+                  top: 0,
+                  height: `${bbox.y * 100}%`,
+                  backgroundColor: `rgba(13,17,23,${dimOpacity})`,
+                }}
+              />
+              <div
+                style={{
+                  position: 'absolute',
+                  left: `${bbox.x * 100}%`,
+                  width: `${bbox.w * 100}%`,
+                  top: `${(bbox.y + bbox.h) * 100}%`,
+                  bottom: 0,
+                  backgroundColor: `rgba(13,17,23,${dimOpacity})`,
+                }}
+              />
+              <div
+                style={{
+                  position: 'absolute',
+                  left: `${bbox.x * 100}%`,
+                  top: `${bbox.y * 100}%`,
+                  width: `${bbox.w * 100}%`,
+                  height: `${bbox.h * 100}%`,
+                  border: `3px solid rgba(255, 216, 102, ${glow})`,
+                  borderRadius: 6,
+                  boxShadow: `0 0 ${24 * glow}px rgba(255, 216, 102, ${glow * 0.7})`,
+                  pointerEvents: 'none',
+                }}
+              />
+            </>
+          )}
         </div>
       </div>
       <div

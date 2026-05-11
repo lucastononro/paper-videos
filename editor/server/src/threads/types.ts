@@ -1,6 +1,12 @@
 import type { ChatEvent } from '../chat/types.js';
 
-export type ThreadStatus = 'ready' | 'running' | 'awaiting_finish' | 'completed' | 'failed' | 'ended';
+export type ThreadStatus =
+  | 'ready'
+  | 'running'
+  | 'awaiting_finish'
+  | 'completed'
+  | 'failed'
+  | 'ended';
 
 /**
  * Spot-edit scope. Time-range first, beats/blocks second.
@@ -49,7 +55,14 @@ export type ThreadEvent =
   | { kind: 'thread:status'; threadId: string; status: ThreadStatus; summary?: string }
   | { kind: 'thread:event'; threadId: string; event: ChatEvent }
   /** Posted to the parent chat: "Spot edit on #beat-005 completed: <summary>". */
-  | { kind: 'thread:notice'; slug: string; threadId: string; status: ThreadStatus; scope: ThreadScope; summary: string };
+  | {
+      kind: 'thread:notice';
+      slug: string;
+      threadId: string;
+      status: ThreadStatus;
+      scope: ThreadScope;
+      summary: string;
+    };
 
 export type ThreadClientFrame =
   | { kind: 'thread:create'; slug: string; scope: ThreadScope; initialAsk: string }
