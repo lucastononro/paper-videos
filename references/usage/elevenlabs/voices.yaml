@@ -37,3 +37,21 @@ voices:
     style: 0.10
     use_speaker_boost: false
     output_format: mp3_44100_128
+
+  southern-old-lady:
+    voice_id: 'VsLEdDPtpkcgNiGbvMXc'
+    model_id: eleven_v3
+    stability: 0.50
+    similarity_boost: 0.75
+    style: 0.10
+    use_speaker_boost: false
+    output_format: mp3_44100_128
+
+  dota-champion:
+    voice_id: 'YOq2y2Up4RgXP2HyXjE5'
+    model_id: eleven_v3
+    stability: 0.50
+    similarity_boost: 0.75
+    style: 0.10
+    use_speaker_boost: false
+    output_format: mp3_44100_128
