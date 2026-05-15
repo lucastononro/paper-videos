@@ -391,11 +391,25 @@ Use these as a checklist while drafting. A 12-minute video should hit each at le
 
 For shorter videos, scale these down proportionally — a 5-min video should still hit at least one of each major pattern.
 
+## Generative-asset hints (opt-in, env-gated)
+
+If the brief's `supportingMaterial` flags entries with `generate: "nano-banana"` (images), `generate: "elevenlabs:<model>"`, or `generate: "veo"` (cinematic clips), you don't change how you write cues — the asset-fetcher and visualizer handle provider selection. Two small affordances are useful:
+
+- **Image cues are unchanged.** Generated images come through the standard `[VISUAL: image src="img-NNN"]` cue; the asset-fetcher decides between web-fetch / SVG / nano-banana based on the brief and the user's opt-in answer.
+- **Cinematic clips piggyback on `[MANIM: ...]`** with a `clip:` description prefix. When the brief recommends a hosted-model clip for a beat (or you decide a beat reads better as photoreal b-roll than as Manim geometry — typically the teaser cold-open, an atmospheric metaphor, a closing mood beat), prefix the `description=` with `clip:` and write a cinematographic brief. The visualizer reads the `clip:` prefix and routes through the provider chain (CLAUDE.md hard-rule #27): **ElevenLabs Studio (primary, broader model catalog — Seedance, Kling, Sora, Veo, Wan)** → **Veo (fallback when ElevenLabs access is denied)** → **Manim (final fallback when the user declines or both keys are unset)**. The legacy `veo:` prefix is still accepted as an alias for `clip:` — existing scripts don't need to change. Example:
+
+  ```
+  [MANIM: teaser_drone_misty_mountains description="clip: cinematic drone push-in over a misty mountain valley at sunrise, golden rim light through fog, anamorphic 35mm feel, muted teal-and-amber color grade, ending on a held wide tableau. 8s, 16:9."]
+  ```
+
+Both flows fail gracefully — if `ELEVENLABS_API_KEY` and `GEMINI_API_KEY` are both unset, or the user declines generative assets, your script still produces a valid video (the visualizer authors Manim for every clip beat). See CLAUDE.md hard-rule #27.
+
 ## What you do NOT do
 
 - **Don't generate audio.** That's the producer's job.
 - **Don't write Manim code or Remotion components.** That's the visualizer's job. You only declare `[MANIM: <name>]` cues with descriptive names.
-- **Don't fetch images.** Declare `[VISUAL: image src="img-001"]` and `[VISUAL: diagram src="diag-001"]` with semantic ids; the asset-fetcher resolves them.
+- **Don't fetch or generate images.** Declare `[VISUAL: image src="img-001"]` and `[VISUAL: diagram src="diag-001"]` with semantic ids; the asset-fetcher resolves them (web, SVG, or nano-banana per the brief + user opt-in).
+- **Don't call ElevenLabs / Veo / Nano Banana yourself.** Signal intent via the brief's `supportingMaterial` entries (for images) or a `clip:` description prefix on a `[MANIM: ...]` cue (for clips, recommended) / `veo:` (legacy alias still accepted); the asset-fetcher and visualizer call the tools, subject to the user's run-level opt-in and provider preference order (CLAUDE.md hard-rule #27).
 - **Don't fabricate equations or references.** Equation ids and citation facts come from `equations.json` and `references.json`.
 
 ## Cost & length sanity check

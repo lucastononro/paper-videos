@@ -85,7 +85,22 @@ Produce `videos/<slug>/brief.json` — a creative brief with:
       "needsToFind": "transformer architecture diagram",
       "preferredSource": "the paper itself, page 3"
     },
-    { "kind": "diagram", "needsToGenerate": "Q/K/V dimensionality block diagram" }
+    { "kind": "diagram", "needsToGenerate": "Q/K/V dimensionality block diagram" },
+    {
+      "kind": "image",
+      "needsToFind": "stylized portrait of Vaswani circa 2017",
+      "preferredSource": "web search; if no public-domain photo exists, generate via nano-banana",
+      "generate": "nano-banana",
+      "generatePrompt": "editorial portrait, mid-30s researcher at a Google whiteboard, ..."
+    },
+    {
+      "kind": "clip",
+      "needsToGenerate": "cinematic teaser b-roll — recurrence dissolving",
+      "generate": "elevenlabs:kling-2.6",
+      "fallbackProviders": ["veo:veo-3.1-generate-preview"],
+      "generatePrompt": "slow push-in on a chain of glowing nodes, one collapses, others scatter; muted teal-and-amber; 8s; ending on a held wide",
+      "beatHint": "teaser beat-001 or beat-002"
+    }
   ],
   "spotlights": [
     {
@@ -151,6 +166,7 @@ Be opinionated. The brief is not neutral — it's a position. Concretely:
    - **Manim**: derivations, transforms, geometric intuition, parameter sweeps, visual metaphors.
    - **Paper page (Ken-Burns / highlighted quote / spotlight)**: when the paper itself is the evidence — claims, results, headline numbers.
    - **Image / diagram**: architecture diagrams, flowcharts, things that already exist as pictures.
+   - **Generative escalation (opt-in, env-gated)**: when an image idea is right but no public-domain photo / diagram exists on the web, propose `generate: "nano-banana"` in the `supportingMaterial` entry with a brief `generatePrompt`. When a beat would be more powerful as a cinematic clip than as Manim (atmospheric teaser b-roll, photoreal metaphor, mood-driven cold open), propose `kind: "clip", generate: "elevenlabs:<model>", fallbackProviders: ["veo:<model>"], generatePrompt: "...", beatHint: "..."`. **Prefer ElevenLabs Studio as the primary clip provider** — it hosts Seedance, Kling, Sora, Veo, and Wan behind one API and uses the same `ELEVENLABS_API_KEY` the project already configures for TTS narration; Veo via the Gemini API is the fallback when Studio access isn't granted yet (private beta — see CLAUDE.md hard-rule #27). Pick a specific ElevenLabs model based on the beat: `kling-2.6` as a safe default, `kling-3.0` / `sora-2-pro` for hero beats, `seedance-1.5-pro` for atmospheric / slow-motion beats (avoid `seedance-2` for US-targeted videos — geo-restricted). The orchestrator surfaces a single consolidated opt-in to the user before any generation happens, and the pipeline falls back to web/SVG/Manim if declined. Propose generative entries sparingly — 1-3 per 12 minutes of video, reserved for moments where the alternative is genuinely worse, not as a default.
 4. **Which paper passages should we point at?** Mark specific quotes/equations with their **page index** and an approximate **bbox** (normalized 0-1). The visualizer will spotlight them. See `references/usage/storytelling/creative-patterns.md` section 1 for bbox conventions. Aim for 3-7 spotlight moments per 10 minutes of video.
 5. **Which assertions need to be DERIVED, not stated?** For each headline equation or claim, decide: does the paper hand-wave it (we must derive), or is it already self-evident (we can just show)? List explicit derivations in `criticisms` or `narrativeAngles`. Derivations make videos memorable.
 6. **What's a metaphor that lands?** For at least one core concept, propose a concrete external metaphor (database lookup, ball on a hill, typewriter, translation between coordinate frames). Concrete beats abstract.

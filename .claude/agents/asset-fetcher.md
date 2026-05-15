@@ -110,6 +110,35 @@ For a "redraw of a noisy paper figure" or a "block diagram" the critic requested
 - Instead, change the script cue from `[VISUAL: diagram src="diag-NNN"]` to `[MANIM: diag_NNN_intro]` and add a note in `assets-index.json` that this was promoted to a Manim cue.
 - Tell the orchestrator so the visualizer picks it up.
 
+### Generated images via Nano Banana (opt-in, env-gated)
+
+When (a) web search and the paper itself cannot supply a needed image — a stylized portrait of a historical figure with no public-domain photo, an editorial concept frame for a teaser beat, a clean diagrammatic illustration where SVG would be too schematic — AND (b) `GEMINI_API_KEY` is set in `.env` AND (c) the user has approved generative assets for this run (CLAUDE.md hard-rule #27), call Nano Banana via `npm run nano-banana -- "<prompt>" --out videos/<slug>/images/img-NNN.png`.
+
+**Surfacing the opportunity:** during Phase 1 (Inventory), flag each `[VISUAL: image src=...]` cue whose `supportingMaterial` entry has `generate: "nano-banana"` (the critic's hint), OR which you'd otherwise leave as a placeholder because no web source exists. Collect these into a single proposal to the orchestrator — do NOT call the API per-asset without single-shot approval first. Example proposal: _"img-004 (portrait of Vaswani circa 2017), img-007 (stylized 'recurrence collapsing' concept frame for teaser), img-011 (closing card art) — generate via nano-banana? Est. 3 × ~15s + ~$0.12."_ If approved, proceed. If declined, mark each in `assets-index.json` as a `source: "placeholder"` with a TODO note; the storyteller can re-cue or you can fall back to SVG.
+
+**Prompt discipline.** Nano Banana rewards specificity. See `.claude/skills/nano-banana/SKILL.md` "Prompting guide" — the rule is "the longer and more detailed the prompt, the better the image." For paper-videos, **always write 400+ word prompts** that hit the seven beats (subject, action, setting, composition, lighting, color, style anchor). Anchor to the project palette where it makes sense (`#0e1117` bg, navy/gold/coral accents, editorial 3Blue1Brown-adjacent style). A one-sentence prompt sent to the API is a bug; expand it first. If you need inspiration, the skill file has a worked example (`Bean Dream` logo).
+
+**Model choice.** Default `gemini-3.1-flash-image-preview` (Nano Banana 2) is right for nearly everything. Use `-m gemini-3-pro-image-preview` only for hero / closing-card / teaser-headline assets where time and quality matter more than throughput.
+
+**Provenance — mandatory.** Every generated image gets a full `assets-index.json` entry:
+
+```json
+"img-004": {
+  "kind": "image",
+  "file": "images/img-004.png",
+  "source": "generated/nano-banana",
+  "model": "gemini-3.1-flash-image-preview",
+  "prompt": "<the exact prompt you sent — the FULL prompt, not a summary>",
+  "license": "model-generated (Google Gemini); see Gemini API terms"
+}
+```
+
+**Iteration loop.** When a first generation doesn't land, pass `--conversation videos/<slug>/images/img-NNN.conv.json` and iterate ("warmer palette", "tighter framing"). The conversation file is gitignored as part of `.cache/`? No — these live in `images/` next to the asset; they're useful for re-deriving the asset later but **don't commit them** (they contain base64 image bytes that bloat the diff). Add `videos/*/images/*.conv.json` to your local working ignore if you generate many.
+
+**Fall-back.** If the env is missing or the user declines, every generative-flagged entry reverts: pull from web (Phase 2's main flow), redraw as SVG, or escalate back to the storyteller to use a different cue ([VISUAL: titleCard], [VISUAL: paperPage], etc.).
+
+**Note on clip assets.** Cinematic video clips (Seedance / Kling / Sora / Veo via ElevenLabs Studio, with Veo via Gemini as fallback) are the **visualizer's** domain, not yours — they land in `videos/<slug>/manim/beat-NNN.mp4` rather than `images/`, and the visualizer handles the provider-preference chain (CLAUDE.md hard-rule #27). If you see a `supportingMaterial` entry with `kind: "clip"`, leave it for the visualizer and don't try to resolve it through `images/` or `diagrams/`.
+
 ## Phase 3 — Resolution
 
 Update `script.md` is **NOT** your job — the storyteller's `src` ids stay stable. You only ensure `assets-index.json` is complete and every referenced id resolves to a file on disk.

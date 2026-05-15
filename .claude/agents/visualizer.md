@@ -223,6 +223,108 @@ If you ever modify `src/remotion/components/CaptionBar.tsx`, follow `references/
 - **CSS `transition` does not run during Remotion render.** Express any visual change with `interpolate()` or `spring()` keyed off `useCurrentFrame()`.
 - **Use `flex-wrap` with `gap`** so the per-active-word `transform: scale()` doesn't push neighbors.
 
+## Phase 2.5 — Cinematic clips (opt-in, env-gated, ElevenLabs-preferred)
+
+A small fraction of `[MANIM: ...]` cues are not actually well-served by Manim — a misty drone shot for a teaser, a slow-motion ripple for a metaphor beat, an atmospheric b-roll where photorealistic motion carries the emotional load. For those, the pipeline calls a hosted video model and writes the mp4 directly into the `manim/` slot. The composition treats the resulting mp4 exactly like a Manim mp4 (same `visual.kind === 'manimClip'`, same hold-last-frame behavior, same `BlockFade`) — you skip writing a `.py` for those beats.
+
+**Provider preference order** (CLAUDE.md hard-rule #27): **ElevenLabs Studio → Veo → Manim.**
+
+- **ElevenLabs Studio (primary)** — `npm run elevenlabs-video` — uses `ELEVENLABS_API_KEY`. Hosts Seedance 2 / 1.x Pro, Kling 2.5 / 2.6 / 3.0, Sora 2 / 2 Pro, Veo 3 / 3.1, Wan 2.5 / 2.6 behind one API. Default model `kling-2.6` is the right paper-video baseline (US-available, fast, good motion). Skill: `.claude/skills/elevenlabs-video/SKILL.md`.
+- **Veo (fallback)** — `npm run veo` — uses `GEMINI_API_KEY`. Calls Google's Gemini API directly. Always reachable when the key is set. Skill: `.claude/skills/veo/SKILL.md`.
+- **Manim (final fallback)** — author a normal Manim scene from the same `description=` text.
+
+**Three gates** (CLAUDE.md hard-rule #27):
+
+1. **Env check.** For each path, the relevant env var must be set: `ELEVENLABS_API_KEY` for ElevenLabs, `GEMINI_API_KEY` for Veo. Missing key → skip that path silently and move down the chain. Neither set → author Manim.
+2. **Access gate (ElevenLabs only).** The ElevenCreative Studio video API is private beta. If `npm run elevenlabs-video` exits with **code 2** (the tool's distinct exit for 401/403/404 from the Studio endpoint), retry with Veo for that beat — do not surface the access error to the user except to tell them once which provider ended up serving each clip ("clip beat-002 used Veo fallback — request ElevenLabs Studio access at https://elevenlabs.io/contact-sales for the broader model catalog"). Any other non-zero exit is a real failure: report and fall through to Manim.
+3. **Per-run opt-in.** The user must have approved generative assets for this run (single-shot approval surfaced by the orchestrator before you start Phase 1). If declined, fall back to Manim for every flagged beat.
+
+**Signal — how a beat gets earmarked for a clip.** The storyteller hints in the cue's `description` text with a leading prefix. Two equivalent prefixes are accepted; both mean "use the provider chain":
+
+- `clip:` — provider-agnostic (recommended for new scripts).
+- `veo:` — legacy alias (existing scripts still parse fine; treated identically to `clip:`).
+
+Example cue:
+
+```
+[MANIM: teaser_drone_misty_mountains description="clip: cinematic drone shot pushing slowly forward over a misty mountain valley at sunrise, golden rim light through fog, 35mm anamorphic feel, color grade muted teal-and-amber, 8s, 16:9. End on a held wide tableau as the camera reaches the ridge."]
+```
+
+The visualizer (you) reads the prefix, expands the description into a 400+ word cinematographic prompt, and tries the providers in order.
+
+**Concrete call shape** (run sequentially — each takes 45-180s and polls):
+
+```bash
+# Try ElevenLabs first (preferred provider, broader model catalog).
+npm run elevenlabs-video -- \
+  "<full expanded prompt — 400+ words>" \
+  -m kling-2.6 \
+  --aspect 16:9 \
+  --duration 8 \
+  --no-audio \
+  --out videos/<slug>/manim/beat-NNN.mp4
+
+# On exit code 2 (Studio access denied), fall back:
+npm run veo -- \
+  "<same full expanded prompt>" \
+  --model veo-3.1-generate-preview \
+  --aspect 16:9 \
+  --duration 8 \
+  --no-audio \
+  --out videos/<slug>/manim/beat-NNN.mp4
+
+# On any other failure (or both video providers unreachable), author a Manim scene.
+```
+
+**Always pass `--no-audio`.** The paper-videos timeline pipes the producer's narration over the visual; provider audio would clash.
+
+**Surfacing the opportunity.** Before kicking off Phase 1, grep `script.md` for `description="clip:` AND `description="veo:` cues. Build a single consolidated proposal to the orchestrator that names the chosen provider per beat:
+
+> _"3 beats are earmarked for cinematic clips (beat-002 teaser drone, beat-018 ripple metaphor, beat-127 closing b-roll). Primary provider ElevenLabs Studio (`kling-2.6`); will fall back to Veo if Studio access is denied. Approve all / approve specific / skip cinematic clips and author Manim?"_
+
+If approved, run the calls sequentially. If declined or both env vars unset, author each beat as a normal Manim scene.
+
+**Model choice within ElevenLabs.** The skill file (`.claude/skills/elevenlabs-video/SKILL.md`) has the full picking guide. For paper-videos:
+
+- **Default**: `kling-2.6` — broad style range, US-available, fast enough.
+- **Hero / closing card / teaser headline**: `kling-3.0` or `sora-2-pro`.
+- **Atmospheric / metaphor beats**: `seedance-1.5-pro` — strongest on slow motion + held tableaus.
+- **Character continuity across multiple clips**: `kling-3.0` + `--reference char.png` (up to 3 references).
+- **Avoid `seedance-2` in the US** — geo-restricted by ElevenLabs.
+
+**Prompt discipline.** All providers reward specificity. Expand the storyteller's hint with the seven cinematographic beats — subject, action, setting, camera lens & motion, lighting, palette, end-state. A one-sentence prompt is a bug. Always specify an explicit **end state** ("end on a held wide tableau as the camera reaches the ridge") — without it, the models tend to keep moving the camera through the final frame, which clashes with the composition's hold-last-frame logic.
+
+**Duration.** Keep clips at the default 8 seconds (or 4/6 if the beat is short). The composition holds the final frame for any block-time beyond the mp4's length, so a slightly-short clip that ends on a satisfying tableau is FINE — same rule as Manim (hard-rule #14: end on a held tableau, never `FadeOut`).
+
+**Provenance.** Write a sidecar file alongside the mp4 recording which provider rendered the clip, the model, the prompt, and the parameters. The filename suffix is meaningful:
+
+- ElevenLabs → `videos/<slug>/manim/beat-NNN.elevenlabs.json`
+- Veo → `videos/<slug>/manim/beat-NNN.veo.json`
+
+```json
+{
+  "kind": "elevenlabs",
+  "model": "kling-2.6",
+  "prompt": "<the FULL prompt sent — not a summary>",
+  "aspect": "16:9",
+  "duration": 8,
+  "audio": false,
+  "generatedAt": "2026-05-15T14:22:11Z"
+}
+```
+
+(Same shape, different `kind` value, for Veo's `.veo.json`.) Future re-renders read the sidecar to pick the same provider and prompt.
+
+**Pitfalls:**
+
+- All hosted video models can drift away from the prompt — verify before signing off. If it lands wrong, regenerate (different `--seed`, or tighten the prompt). Don't ship a clip whose mood contradicts the narration.
+- Content moderation: every provider silently filters prompts naming real people, brands, copyrighted characters. Rephrase generically.
+- ElevenLabs hosts Seedance 2 which is **NOT available in the US** — if your `kling-2.6` works but `seedance-2` returns a region error, that's the geo restriction, not an access issue. Switch to `seedance-1.5-pro` or `kling-2.6`.
+- Veo's `personGeneration` constraint may reject some prompts. Rephrase to scene-only (landscapes, objects, abstract motion).
+- Animation-first pacing still applies (hard-rule #15): the clip's duration is chosen for the visual content, not to fit the voice beats; the composition holds the last frame for the rest of the block.
+
+**Fall-back is invisible to the script.** The storyteller writes one `clip:` cue per beat; you decide at render time which provider serves it. Record the choice in the sidecar so it's reproducible. Don't block the pipeline on a generative-asset failure — Manim is always the safety net.
+
 ## Phase 3 — Final render
 
 **Stop here.** The final mp4 render is NOT an agent step — it's a user-driven button in the editor (▶ Render in the EditorPage header, server-side spawn of `npm run render-remotion -- <slug>`). The agent's job ends once every Manim scene is in place and the manifest's `visualBlocks` are correct. Do not run `npm run render-remotion`. Do not write `output.mp4`. Report back to the orchestrator with:

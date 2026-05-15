@@ -37,6 +37,13 @@ videos/*/qa-report.json
 # Manim caches anywhere
 media/
 
+# Veo generations (src/tools/veo.ts default output dir)
+veo-output/
+# Nano Banana generations (src/tools/nano-banana.ts default output dir)
+nano-banana-output/
+# ElevenLabs video generations (src/tools/elevenlabs-video.ts default output dir)
+elevenlabs-video-output/
+
 # OS
 .DS_Store
 Thumbs.db
