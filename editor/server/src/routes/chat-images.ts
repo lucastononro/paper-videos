@@ -30,79 +30,87 @@ export const chatImagesRouter = express.Router();
  * Filenames are `img-<ts>-<rand6>.<ext>` to dedupe across rapid uploads.
  */
 chatImagesRouter.post('/:slug/chat-images', async (req: Request, res: Response) => {
-  const slug = req.params['slug']!;
-  const root = slugDir(slug);
-  if (!fs.existsSync(root)) {
-    res.status(404).json({ error: `slug "${slug}" not found` });
-    return;
-  }
-  const dir = path.join(root, '.cache', 'chat-images');
-  fs.mkdirSync(dir, { recursive: true });
-
-  const ct = String(req.headers['content-type'] ?? '').toLowerCase();
-
-  let bytes: Buffer | null = null;
-  let ext: 'png' | 'jpg' | 'webp' = 'png';
-  // Crop-to-chat metadata travels with the JSON body. Drag-drop / paste
-  // paths use raw image/* and don't have any metadata to carry.
-  let cropMetadata: Record<string, unknown> | undefined;
-
-  if (ct.startsWith('image/')) {
-    bytes = await readRawBody(req);
-    ext = pickExt(ct);
-  } else if (ct.startsWith('application/json')) {
-    // Body is `{ dataUrl, metadata? }`. express.json was applied upstream
-    // so req.body is parsed.
-    const body = req.body as { dataUrl?: unknown; metadata?: unknown } | undefined;
-    const dataUrl = typeof body?.dataUrl === 'string' ? body.dataUrl : '';
-    const m = dataUrl.match(/^data:(image\/(png|jpeg|jpg|webp));base64,(.+)$/i);
-    if (!m) {
-      res
-        .status(400)
-        .json({ error: 'expected JSON body { dataUrl: "data:image/...;base64,..." }' });
+  try {
+    const slug = req.params['slug']!;
+    const root = slugDir(slug);
+    if (!fs.existsSync(root)) {
+      res.status(404).json({ error: `slug "${slug}" not found` });
       return;
     }
-    ext = pickExt(m[1]!.toLowerCase());
-    bytes = Buffer.from(m[3]!, 'base64');
-    if (body?.metadata && typeof body.metadata === 'object') {
-      cropMetadata = body.metadata as Record<string, unknown>;
+    const dir = path.join(root, '.cache', 'chat-images');
+    fs.mkdirSync(dir, { recursive: true });
+
+    const ct = String(req.headers['content-type'] ?? '').toLowerCase();
+
+    let bytes: Buffer | null = null;
+    let ext: 'png' | 'jpg' | 'webp' = 'png';
+    // Crop-to-chat metadata travels with the JSON body. Drag-drop / paste
+    // paths use raw image/* and don't have any metadata to carry.
+    let cropMetadata: Record<string, unknown> | undefined;
+
+    if (ct.startsWith('image/')) {
+      bytes = await readRawBody(req);
+      ext = pickExt(ct);
+    } else if (ct.startsWith('application/json')) {
+      // Body is `{ dataUrl, metadata? }`. express.json was applied upstream
+      // so req.body is parsed.
+      const body = req.body as { dataUrl?: unknown; metadata?: unknown } | undefined;
+      const dataUrl = typeof body?.dataUrl === 'string' ? body.dataUrl : '';
+      const m = dataUrl.match(/^data:(image\/(png|jpeg|jpg|webp));base64,(.+)$/i);
+      if (!m) {
+        res
+          .status(400)
+          .json({ error: 'expected JSON body { dataUrl: "data:image/...;base64,..." }' });
+        return;
+      }
+      ext = pickExt(m[1]!.toLowerCase());
+      bytes = Buffer.from(m[3]!, 'base64');
+      if (body?.metadata && typeof body.metadata === 'object') {
+        cropMetadata = body.metadata as Record<string, unknown>;
+      }
+    } else {
+      res.status(415).json({
+        error: 'unsupported content-type; expected image/* or application/json {dataUrl}',
+      });
+      return;
     }
-  } else {
-    res.status(415).json({
-      error: 'unsupported content-type; expected image/* or application/json {dataUrl}',
+
+    if (!bytes || bytes.length === 0) {
+      res.status(400).json({ error: 'empty body' });
+      return;
+    }
+    if (bytes.length > 20 * 1024 * 1024) {
+      res.status(413).json({ error: 'image > 20MB' });
+      return;
+    }
+
+    const id = `img-${Date.now()}-${randomBytes(3).toString('hex')}`;
+    const filename = `${id}.${ext}`;
+    const abs = path.join(dir, filename);
+    fs.writeFileSync(abs, bytes);
+
+    // Path the agent will see when it Reads the image. Use a path RELATIVE TO
+    // the repo root so it's consistent across machines (claude's cwd is repo
+    // root — see editor/server/src/chat/spawn.ts) and shorter to reason about.
+    const relFromVideosRoot = path.relative(slugDir(slug), abs);
+    const url = `/api/projects/${encodeURIComponent(slug)}/file?path=${encodeURIComponent(relFromVideosRoot)}`;
+
+    res.json({
+      id,
+      path: abs,
+      relPath: relFromVideosRoot,
+      url,
+      bytes: bytes.length,
+      contentType: ct.startsWith('image/') ? ct : `image/${ext === 'jpg' ? 'jpeg' : ext}`,
+      ...(cropMetadata ? { crop: cropMetadata } : {}),
     });
-    return;
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error('[chat-images] upload failed:', err);
+    if (!res.headersSent) {
+      res.status(500).json({ error: (err as Error).message });
+    }
   }
-
-  if (!bytes || bytes.length === 0) {
-    res.status(400).json({ error: 'empty body' });
-    return;
-  }
-  if (bytes.length > 20 * 1024 * 1024) {
-    res.status(413).json({ error: 'image > 20MB' });
-    return;
-  }
-
-  const id = `img-${Date.now()}-${randomBytes(3).toString('hex')}`;
-  const filename = `${id}.${ext}`;
-  const abs = path.join(dir, filename);
-  fs.writeFileSync(abs, bytes);
-
-  // Path the agent will see when it Reads the image. Use a path RELATIVE TO
-  // the repo root so it's consistent across machines (claude's cwd is repo
-  // root — see editor/server/src/chat/spawn.ts) and shorter to reason about.
-  const relFromVideosRoot = path.relative(slugDir(slug), abs);
-  const url = `/api/projects/${encodeURIComponent(slug)}/file?path=${encodeURIComponent(relFromVideosRoot)}`;
-
-  res.json({
-    id,
-    path: abs,
-    relPath: relFromVideosRoot,
-    url,
-    bytes: bytes.length,
-    contentType: ct.startsWith('image/') ? ct : `image/${ext === 'jpg' ? 'jpeg' : ext}`,
-    ...(cropMetadata ? { crop: cropMetadata } : {}),
-  });
 });
 
 function pickExt(mime: string): 'png' | 'jpg' | 'webp' {
