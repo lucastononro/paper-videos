@@ -17,13 +17,11 @@ export type ClaudeRunHandle = {
  * - First turn: pass the user text via `-p`. No `--resume`.
  * - Follow-ups: pass `--resume <sessionId>` so the agent has continuity.
  *
- * `--dangerously-skip-permissions` is intentional: the editor is a local
- * tool driving a long-running pipeline (paper extract → narrate → render)
- * where permission prompts would block every Bash / Edit / Write call and
- * the user can't see or answer them from the browser UI. Auto-mode is not
- * a substitute — it still prompts for higher-risk operations like default-
- * branch pushes. The editor process itself stays sandboxed by the local
- * filesystem and OAuth scope, which is what we actually rely on.
+ * `--allowedTools` pre-approves the tools the pipeline needs so the user
+ * isn't blocked by interactive permission prompts (which can't work from a
+ * browser UI). We avoid `--dangerously-skip-permissions` because it's
+ * restricted to sandboxed environments and is SIGKILL'd by the CLI on
+ * standard OAuth subscriptions.
  *
  * The subprocess inherits the editor's environment (so OAuth / .env carry
  * through) and runs with `cwd = REPO_ROOT` so CLAUDE.md, .claude/, and npm
@@ -37,13 +35,34 @@ export function spawnClaudeTurn(opts: {
   const args = [
     '--output-format=stream-json',
     '--verbose',
-    '--dangerously-skip-permissions',
+    '--allowedTools',
+    'Bash',
+    'Read',
+    'Write',
+    'Edit',
+    'Glob',
+    'Grep',
+    'WebSearch',
+    'WebFetch',
+    'Skill',
+    'Agent',
+    'TaskCreate',
+    'TaskUpdate',
+    'TaskGet',
+    'TaskList',
+    'TodoWrite',
+    'NotebookEdit',
     '-p',
     opts.text,
   ];
   if (opts.resumeSessionId) {
     args.push('--resume', opts.resumeSessionId);
   }
+
+  // eslint-disable-next-line no-console
+  console.log(
+    `[chat] spawning: claude ${args.map((a, i) => (i === args.indexOf('-p') + 1 ? `"<prompt ${a.length} chars>"` : a)).join(' ')}`,
+  );
 
   const child = spawn('claude', args, {
     cwd: REPO_ROOT,
@@ -55,9 +74,17 @@ export function spawnClaudeTurn(opts: {
     throw new Error('spawn(claude) did not produce stdout/stderr pipes');
   }
 
-  const onStdout = makeStreamParser(opts.onEvent);
+  let gotAnyEvent = false;
+  let stdoutTotal = 0;
+  const onStdout = makeStreamParser((e) => {
+    gotAnyEvent = true;
+    opts.onEvent(e);
+  });
   child.stdout.setEncoding('utf8');
-  child.stdout.on('data', onStdout);
+  child.stdout.on('data', (chunk: string) => {
+    stdoutTotal += chunk.length;
+    onStdout(chunk);
+  });
 
   // stderr is mostly noise (e.g., the "no stdin data received" warning we
   // already suppress with stdio:'ignore' on stdin). Forward genuine errors
@@ -82,6 +109,21 @@ export function spawnClaudeTurn(opts: {
           kind: 'error',
           message: `claude exited ${code}${stderrBuf ? `: ${stderrBuf.trim().slice(-400)}` : ''}`,
         });
+      } else if (!wasOperatorKill && !gotAnyEvent) {
+        // Claude exited (code 0 or null) without producing any stream-json
+        // output. This usually means an auth issue, a version mismatch, or
+        // the CLI silently rejected a flag. Surface it so the user doesn't
+        // stare at a dead chat.
+        const hint = stderrBuf.trim()
+          ? stderrBuf.trim().slice(-400)
+          : 'no output received — check that `claude` is authenticated (`claude /login`) and up to date';
+        // eslint-disable-next-line no-console
+        console.error(
+          `[chat] claude exited code=${code} signal=${signal} with zero events.`,
+          `\n  stdout bytes received: ${stdoutTotal}`,
+          `\n  stderr: ${stderrBuf.trim().slice(-500) || '(empty)'}`,
+        );
+        opts.onEvent({ kind: 'error', message: `claude produced no output: ${hint}` });
       }
       resolve({ code: code ?? -1, signal });
     });
