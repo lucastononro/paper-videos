@@ -13,6 +13,7 @@ import { qaRouter } from './routes/qa.js';
 import { filesRouter } from './routes/files.js';
 import { renderRouter } from './routes/render.js';
 import { chatImagesRouter } from './routes/chat-images.js';
+import { uploadPdfRouter } from './routes/upload-pdf.js';
 import { attachWs } from './ws.js';
 import { startWatcher } from './watch.js';
 
@@ -56,6 +57,8 @@ app.use('/api/projects', filesRouter);
 app.use('/api/projects', renderRouter);
 // POST /api/projects/:slug/chat-images — drag-drop / paste / player-crop uploads
 app.use('/api/projects', chatImagesRouter);
+// POST /api/projects/upload-pdf — browser PDF upload for new projects
+app.use('/api/projects', uploadPdfRouter);
 
 // Global error handler — catch any unhandled route error and return 500
 // instead of letting the request hang indefinitely.
