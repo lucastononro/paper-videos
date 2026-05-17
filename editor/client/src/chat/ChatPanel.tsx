@@ -4,6 +4,7 @@ import { MessageList } from './MessageList';
 import { ws } from '../ws/client';
 import { usePendingAttachments } from './pendingAttachments';
 import { hasImageFiles, imageFilesFrom, uploadChatImage } from './uploadImage';
+import { consumeAutoDispatch } from '../autoDispatch';
 import type { AttachedImage } from '../ws/types';
 import './chat.css';
 
@@ -35,6 +36,21 @@ export const ChatPanel: React.FC<{
   const ref = inputRef ?? localRef;
   const [dragOver, setDragOver] = React.useState(false);
   const [uploading, setUploading] = React.useState(false);
+
+  // Auto-dispatch: if the NewProjectDialog set a pending prompt (via PDF
+  // upload or source input), fire it as the first chat turn once the WS
+  // subscription is ready. We listen for `chat:replay` (server's ack of
+  // subscribe:slug) and then send the turn.
+  const hydrated = useChatStore((s) => Boolean(s.hydratedBySlug[slug]));
+  const autoDispatched = React.useRef(false);
+  React.useEffect(() => {
+    if (!hydrated || autoDispatched.current) return;
+    const prompt = consumeAutoDispatch(slug);
+    if (prompt) {
+      autoDispatched.current = true;
+      ws.send({ kind: 'chat:turn', slug, sessionId: null, text: prompt });
+    }
+  }, [slug, hydrated]);
 
   const ingestFiles = React.useCallback(
     async (files: File[], source: 'drop' | 'paste') => {
