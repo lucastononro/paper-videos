@@ -42,7 +42,7 @@
     "@remotion/media": "^4.0.0",
     "@remotion/media-utils": "^4.0.0",
     "@remotion/renderer": "^4.0.0",
-    "commander": "^12.1.0",
+    "commander": "^14.0.3",
     "dotenv": "^16.4.5",
     "pdfjs-dist": "^4.7.76",
     "react": "^18.3.1",
