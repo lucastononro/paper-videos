@@ -3,6 +3,7 @@ import cors from 'cors';
 import http from 'node:http';
 import path from 'node:path';
 import fs from 'node:fs';
+import { execSync } from 'node:child_process';
 import { REPO_ROOT, VIDEOS_DIR, slugPublicDir } from './paths.js';
 import { projectsRouter } from './routes/projects.js';
 import { thumbRouter } from './routes/thumb.js';
@@ -12,6 +13,7 @@ import { qaRouter } from './routes/qa.js';
 import { filesRouter } from './routes/files.js';
 import { renderRouter } from './routes/render.js';
 import { chatImagesRouter } from './routes/chat-images.js';
+import { uploadPdfRouter } from './routes/upload-pdf.js';
 import { attachWs } from './ws.js';
 import { startWatcher } from './watch.js';
 
@@ -55,6 +57,27 @@ app.use('/api/projects', filesRouter);
 app.use('/api/projects', renderRouter);
 // POST /api/projects/:slug/chat-images — drag-drop / paste / player-crop uploads
 app.use('/api/projects', chatImagesRouter);
+// POST /api/projects/upload-pdf — browser PDF upload for new projects
+app.use('/api/projects', uploadPdfRouter);
+
+// Global error handler — catch any unhandled route error and return 500
+// instead of letting the request hang indefinitely.
+app.use(
+  (
+    err: Error,
+    _req: express.Request,
+    res: express.Response,
+    // Express requires the 4th param for error middleware even if unused.
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _next: express.NextFunction,
+  ) => {
+    // eslint-disable-next-line no-console
+    console.error('[editor-server] route error:', err);
+    if (!res.headersSent) {
+      res.status(500).json({ error: err.message });
+    }
+  },
+);
 
 // Backwards compat for older clients still hitting /api/slugs.
 app.use('/api/slugs', projectsRouter);
@@ -104,6 +127,27 @@ server.listen(PORT, '127.0.0.1', () => {
   console.log(`[editor-server] http://127.0.0.1:${PORT}  ws://127.0.0.1:${PORT}/ws`);
   // eslint-disable-next-line no-console
   console.log(`[editor-server] serving videos from ${VIDEOS_DIR}`);
+
+  // Startup health check — non-blocking diagnostics.
+  const warnings: string[] = [];
+  try {
+    execSync('which claude', { stdio: 'ignore' });
+  } catch {
+    warnings.push('claude CLI not found on PATH — chat will fail with spawn error');
+  }
+  if (!process.env['ELEVENLABS_API_KEY']) {
+    warnings.push('ELEVENLABS_API_KEY not set — narration will fail');
+  }
+  if (!fs.existsSync(VIDEOS_DIR)) {
+    fs.mkdirSync(VIDEOS_DIR, { recursive: true });
+    warnings.push(`created missing videos/ directory at ${VIDEOS_DIR}`);
+  }
+  if (warnings.length > 0) {
+    for (const w of warnings) {
+      // eslint-disable-next-line no-console
+      console.warn(`[editor-server] ⚠ ${w}`);
+    }
+  }
 });
 
 // Last-line-of-defense: log + survive any unhandled rejection or

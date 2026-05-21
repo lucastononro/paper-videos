@@ -241,3 +241,42 @@ export function formatRelativeTime(ms: number): string {
   if (diff < 86_400_000) return `${Math.floor(diff / 3_600_000)}h ago`;
   return `${Math.floor(diff / 86_400_000)}d ago`;
 }
+
+/**
+ * Upload a local PDF from the browser to create a new project.
+ * Server derives the slug, writes `videos/<slug>/paper.pdf`, and returns
+ * a dispatch prompt the editor chat will auto-send.
+ */
+export async function uploadPdf(
+  file: File,
+): Promise<{ slug: string; paperPdf: string; dispatchPrompt: string }> {
+  const res = await fetch('/api/projects/upload-pdf', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/pdf',
+      'X-Filename': file.name,
+    },
+    body: file,
+  });
+  if (!res.ok) {
+    const text = await res.text().catch(() => '');
+    throw new Error(text || `PDF upload failed: ${res.status}`);
+  }
+  return (await res.json()) as { slug: string; paperPdf: string; dispatchPrompt: string };
+}
+
+/**
+ * Derive a slug from a source string (arxiv id, URL, or topic).
+ * Uses the existing `POST /api/projects/new` endpoint.
+ */
+export async function deriveSlug(
+  source: string,
+): Promise<{ slug: string; dispatchPrompt: string }> {
+  const res = await fetch('/api/projects/new', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ source }),
+  });
+  if (!res.ok) throw new Error(`Failed to derive slug: ${res.status}`);
+  return (await res.json()) as { slug: string; dispatchPrompt: string };
+}

@@ -84,9 +84,13 @@ async function fetchPdf(src: ReturnType<typeof classifySource>, dest: string): P
     }
     case 'local': {
       const abs = path.resolve(src.value);
-      if (!fs.existsSync(abs)) throw new Error(`Local PDF not found: ${abs}`);
-      console.log(`Copying ${abs} -> ${dest}`);
-      fs.copyFileSync(abs, dest);
+      if (!fs.existsSync(abs)) throw new Error(`Local PDF not found: ${abs} (input: ${src.value})`);
+      if (abs !== path.resolve(dest)) {
+        console.log(`Copying ${abs} -> ${dest}`);
+        fs.copyFileSync(abs, dest);
+      } else {
+        console.log(`PDF already at ${dest}, skipping copy.`);
+      }
       return;
     }
     case 'topic':

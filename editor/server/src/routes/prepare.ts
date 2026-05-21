@@ -1,5 +1,6 @@
 import express, { type Request, type Response } from 'express';
 import fs from 'node:fs';
+import path from 'node:path';
 import { slugDir } from '../paths.js';
 import { preparePreview } from '../../../../src/lib/prepare-preview.js';
 
@@ -9,7 +10,11 @@ const inFlight = new Map<string, Promise<void>>();
 
 prepareRouter.post('/:slug/prepare', async (req: Request, res: Response) => {
   const slug = req.params['slug']!;
-  if (!fs.existsSync(slugDir(slug))) {
+  const dir = slugDir(slug);
+  // Both the directory AND manifest.json must exist. A PDF upload creates the
+  // directory (with paper.pdf inside) before the pipeline writes manifest.json;
+  // treating that as "not found" lets the EditorPage enter draft mode correctly.
+  if (!fs.existsSync(dir) || !fs.existsSync(path.join(dir, 'manifest.json'))) {
     res.status(404).json({ error: `slug "${slug}" not found` });
     return;
   }

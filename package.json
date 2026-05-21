@@ -31,7 +31,7 @@
     "format:check": "prettier --check .",
     "lint": "npm run format:check && npm run typecheck",
     "editor:server": "tsx watch editor/server/src/index.ts",
-    "editor:client": "vite editor/client --port 5173",
+    "editor:client": "vite editor/client",
     "editor:dev": "concurrently -n server,client -c blue,green \"npm run editor:server\" \"npm run editor:client\""
   },
   "dependencies": {
